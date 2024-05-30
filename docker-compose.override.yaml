@@ -1,0 +1,12 @@
+# This override file should be used when running this service in isolation
+# to provide required sibling services for local testing
+
+services:
+  rpa-mit-manual-templates-api:
+    build:
+      target: development
+    ports:
+      - "3007:3007"
+    volumes:
+      - ./src/Rpa.Mit.Manual.Templates.Api.Api:/home/dotnet/src/Rpa.Mit.Manual.Templates.Api.Api
+      - ./src/Rpa.Mit.Manual.Templates.Api.Core:/home/dotnet/src/Rpa.Mit.Manual.Templates.Api.Core

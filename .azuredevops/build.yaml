@@ -1,0 +1,62 @@
+parameters:
+  - name: deployFromFeature
+    displayName: "Deploy from Feature Branch"
+    type: boolean
+    default: false
+  - name: deployConfigOnly
+    displayName: "Deploy App Config & Secrets Only"
+    type: boolean
+    default: false     
+pr:
+  branches:
+    include:
+      - main
+      - master
+  paths:
+    exclude:
+      - test-output/*
+      - bin/*
+      - obj/*
+  drafts: false
+
+trigger:
+  batch: true
+  branches:
+    include:
+      - "*"
+  paths:
+    exclude:
+      - test-output/*
+      - bin/*
+      - obj/*
+
+resources:
+  repositories:
+    - repository: DEFRA-ADPPipelineCommon
+      name: DEFRA/adp-pipeline-common
+      endpoint: DEFRA
+      type: github
+      ref: refs/heads/main
+
+extends:
+  template: /pipelines/common-app-build.yaml@DEFRA-ADPPipelineCommon
+  parameters:
+    programmeName: ""
+    teamName: "lap-mit"
+    serviceName: "rpa-mit-manual-templates-api"
+    deployFromFeature: ${{ parameters.deployFromFeature }}
+    deployConfigOnly: ${{ parameters.deployConfigOnly }}
+    appBuildConfig:
+      appFrameworkType: "dotnet"
+      frameworkVersion: "8.x"    
+      projectPath: "./src/Rpa.Mit.Manual.Templates.Api.Api/Rpa.Mit.Manual.Templates.Api.Api.csproj"
+      testProjectPath: "**/*.Tests.csproj" 
+      manifestPath: "./src/obj/Rpa.Mit.Manual.Templates.Api.Api/project.assets.json;./src/obj/Rpa.Mit.Manual.Templates.Api.Core/project.assets.json"
+      imageRepoName: "rpa-mit-manual-templates-api"
+    appTestConfig:
+      testFilePath: ""
+    appDeployConfig:
+      filepath: "./appConfig"
+      filetype: "yaml" 
+      # variableGroups: 
+      #   - rpa-mit-manual-templates-api-<environment> 

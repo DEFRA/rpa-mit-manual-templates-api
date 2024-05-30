@@ -1,0 +1,7 @@
+- key: APPINSIGHTS_CLOUDROLE
+  value: "{{serviceName}}" 
+  
+# SECRETS CAN BE ADDED THIS WAY
+# - key: TEST_SECRET
+#   value: "{{servicename}}-TEST-SECRET" 
+#   type: "keyvault"

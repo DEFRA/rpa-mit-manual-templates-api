@@ -1,0 +1,10 @@
+services:
+  rpa-mit-manual-templates-api:
+    build:
+      context: .
+      target: production
+    image: rpa-mit-manual-templates-api
+    container_name: rpa-mit-manual-templates-api
+    environment:
+      APPINSIGHTS_CONNECTIONSTRING: ${APPINSIGHTS_CONNECTIONSTRING}
+      APPINSIGHTS_CLOUDROLE: rpa-mit-manual-templates-api-local

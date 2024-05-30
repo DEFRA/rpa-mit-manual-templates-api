@@ -1,0 +1,36 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: rpa-mit-manual-templates-api
+  description: Api for rpa-mit-manual-templates reworking
+  annotations:
+    github.com/project-slug: defra/rpa-mit-manual-templates-api
+    dev.azure.com/project: DEFRA-MIT
+    dev.azure.com/build-definition: rpa-mit-manual-templates-api
+    sonarqube.org/project-key: rpa-mit-manual-templates-api
+    grafana/dashboard-selector: "folderTitle == 'Managed Prometheus'"
+    backstage.io/kubernetes-id: rpa-mit-manual-templates-api
+  links:
+    - url: https://github.com/defra/rpa-mit-manual-templates-api
+      title: GitHub Repository
+      icon: github
+    - url: https://dev.azure.com/defragovuk/DEFRA-MIT/
+      title: Azure DevOps Project
+      icon: project
+    - url: https://sonarcloud.io/project/overview?id=rpa-mit-manual-templates-api
+      title: SonarCloud Analysis
+      icon: check
+    - url: https://snyk.io/test/github/DEFRA/rpa-mit-manual-templates-api
+      title: Snyk Analysis
+      icon: policy
+    - url: https://portal.azure.com/defradev.onmicrosoft.com
+      title: Azure Portal - Defra Dev
+      icon: cloud
+    - url: https://portal.azure.com/Defra.onmicrosoft.com
+      title: Azure Portal - Defra
+      icon: cloud
+spec:
+  type: backend
+  lifecycle: discovery
+  owner: "group:default/lap-mit"
+  system: system:default/lap-mit-system

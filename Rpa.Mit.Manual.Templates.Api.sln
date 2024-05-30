@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34723.18
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rpa.Mit.Manual.Templates.Api.Api", "src\Rpa.Mit.Manual.Templates.Api.Api\Rpa.Mit.Manual.Templates.Api.Api.csproj", "{F6241AF9-0250-4085-8072-9E38EBA732D8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F4EB6FD2-D631-4D02-A34F-D7CAA33A94CA}"
+	ProjectSection(SolutionItems) = preProject
+		src\.dockerignore = src\.dockerignore
+		src\Dockerfile = src\Dockerfile
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rpa.Mit.Manual.Templates.Api.Core", "src\Rpa.Mit.Manual.Templates.Api.Core\Rpa.Mit.Manual.Templates.Api.Core.csproj", "{E766EDAF-62EA-4184-A150-1FB4799D501C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{1C7E6543-0FF0-495C-AA45-B9D7526EA6C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rpa.Mit.Manual.Templates.Api.Api.Tests", "test\Rpa.Mit.Manual.Templates.Api.Api.Tests\Rpa.Mit.Manual.Templates.Api.Api.Tests.csproj", "{CA5BF981-6908-4D18-AD15-F1284A2B1E6F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rpa.Mit.Manual.Templates.Api.Core.Tests", "test\Rpa.Mit.Manual.Templates.Api.Core.Tests\Rpa.Mit.Manual.Templates.Api.Core.Tests.csproj", "{98CE4860-F7ED-481B-BEA8-82BC64842E50}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F6241AF9-0250-4085-8072-9E38EBA732D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6241AF9-0250-4085-8072-9E38EBA732D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6241AF9-0250-4085-8072-9E38EBA732D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6241AF9-0250-4085-8072-9E38EBA732D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E766EDAF-62EA-4184-A150-1FB4799D501C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E766EDAF-62EA-4184-A150-1FB4799D501C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E766EDAF-62EA-4184-A150-1FB4799D501C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E766EDAF-62EA-4184-A150-1FB4799D501C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA5BF981-6908-4D18-AD15-F1284A2B1E6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA5BF981-6908-4D18-AD15-F1284A2B1E6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA5BF981-6908-4D18-AD15-F1284A2B1E6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA5BF981-6908-4D18-AD15-F1284A2B1E6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98CE4860-F7ED-481B-BEA8-82BC64842E50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98CE4860-F7ED-481B-BEA8-82BC64842E50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98CE4860-F7ED-481B-BEA8-82BC64842E50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98CE4860-F7ED-481B-BEA8-82BC64842E50}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F6241AF9-0250-4085-8072-9E38EBA732D8} = {F4EB6FD2-D631-4D02-A34F-D7CAA33A94CA}
+		{E766EDAF-62EA-4184-A150-1FB4799D501C} = {F4EB6FD2-D631-4D02-A34F-D7CAA33A94CA}
+		{CA5BF981-6908-4D18-AD15-F1284A2B1E6F} = {1C7E6543-0FF0-495C-AA45-B9D7526EA6C1}
+		{98CE4860-F7ED-481B-BEA8-82BC64842E50} = {1C7E6543-0FF0-495C-AA45-B9D7526EA6C1}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1D580984-7EFA-4D28-974D-80672847D84B}
+	EndGlobalSection
+EndGlobal

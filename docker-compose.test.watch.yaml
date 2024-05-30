@@ -1,0 +1,24 @@
+services:
+  rpa-mit-manual-templates-api-core-tests:
+    build:
+      target: development
+    image: rpa-mit-manual-templates-api-core-tests-development
+    container_name: rpa-mit-manual-templates-api-core-tests
+    user: root
+    entrypoint: sh -c "cd /home/dotnet && chown -R dotnet:dotnet . && su dotnet -c 'dotnet watch --project test/Rpa.Mit.Manual.Templates.Api.Core.Tests/Rpa.Mit.Manual.Templates.Api.Core.Tests.csproj test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./test-output/'"
+    volumes:
+      - ./src/Rpa.Mit.Manual.Templates.Api.Core:/home/dotnet/src/Rpa.Mit.Manual.Templates.Api.Core
+      - ./test/Rpa.Mit.Manual.Templates.Api.Core.Tests:/home/dotnet/test/Rpa.Mit.Manual.Templates.Api.Core.Tests
+      - ./test-output:/home/dotnet/Rpa.Mit.Manual.Templates.Api.Core.Tests/test-output
+
+  rpa-mit-manual-templates-api-api-tests:
+    build:
+      target: development
+    image: rpa-mit-manual-templates-api-api-tests-development
+    container_name: rpa-mit-manual-templates-api-api-tests
+    user: root
+    entrypoint: sh -c "cd /home/dotnet && chown -R dotnet:dotnet . && su dotnet -c 'dotnet watch --project test/Rpa.Mit.Manual.Templates.Api.Api.Tests/Rpa.Mit.Manual.Templates.Api.Api.Tests.csproj test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./test-output/'"
+    volumes:
+      - ./src/Rpa.Mit.Manual.Templates.Api.Api:/home/dotnet/src/Rpa.Mit.Manual.Templates.Api.Api
+      - ./test/Rpa.Mit.Manual.Templates.Api.Api.Tests:/home/dotnet/test/Rpa.Mit.Manual.Templates.Api.Api.Tests
+      - ./test-output:/home/dotnet/Rpa.Mit.Manual.Templates.Api.Api.Tests/test-output

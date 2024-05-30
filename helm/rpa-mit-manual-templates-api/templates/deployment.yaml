@@ -1,0 +1,11 @@
+{{- include "adp-helm-library.deployment" (list . "rpa-mit-manual-templates-api.deployment") -}}
+{{- define "rpa-mit-manual-templates-api.deployment" -}}
+spec:
+  template:
+    spec:
+      containers:
+      - {{ include "adp-helm-library.container" (list . "rpa-mit-manual-templates-api.container") }}
+      volumes:
+      - name: {{ .Values.volumeMounts.name }}
+        emptyDir: {}
+{{- end -}}
