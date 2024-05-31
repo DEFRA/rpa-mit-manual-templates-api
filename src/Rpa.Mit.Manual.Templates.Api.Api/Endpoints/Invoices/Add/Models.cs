@@ -1,4 +1,4 @@
-﻿namespace Add
+﻿namespace Invoices.Add
 {
     internal sealed class Request
     {

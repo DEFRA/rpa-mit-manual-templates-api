@@ -1,4 +1,4 @@
-﻿namespace Update
+﻿namespace Invoices.Update
 {
     internal sealed class Endpoint : Endpoint<Request, Response, Mapper>
     {

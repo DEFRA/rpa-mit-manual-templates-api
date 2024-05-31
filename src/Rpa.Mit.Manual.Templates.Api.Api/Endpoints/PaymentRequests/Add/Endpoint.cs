@@ -1,4 +1,4 @@
-﻿namespace Add
+﻿namespace PaymentsRequests.Add
 {
     internal sealed class Endpoint : Endpoint<Request, Response, Mapper>
     {
