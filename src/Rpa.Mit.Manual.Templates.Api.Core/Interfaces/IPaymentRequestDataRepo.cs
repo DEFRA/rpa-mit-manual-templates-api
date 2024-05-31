@@ -1,6 +1,6 @@
 ﻿namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
 {
-    public interface IPaymentRequestData
+    public interface IPaymentRequestDataRepo
     {
     }
 }

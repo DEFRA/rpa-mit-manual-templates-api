@@ -2,7 +2,7 @@
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.PaymentRequests
 {
-    public class PaymentRequestData : IPaymentRequestData
+    public class PaymentRequestData : IPaymentRequestDataRepo
     {
     }
 }

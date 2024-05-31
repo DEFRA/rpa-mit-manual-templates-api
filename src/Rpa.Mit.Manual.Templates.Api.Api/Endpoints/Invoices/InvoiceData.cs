@@ -2,7 +2,7 @@
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
 {
-    public class InvoiceData : IInvoiceData
+    public class InvoiceData : IInvoiceDataRepo
     {
     }
 }
