@@ -12,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 ConfigureServices.Configure(builder);
 
 builder.Services.Configure<AzureAd>(builder.Configuration.GetSection("AzureAd"));
+builder.Services.Configure<ConnectionStrings>(builder.Configuration.GetSection("ConnectionStrings"));
 
 
 var app = builder.Build();
