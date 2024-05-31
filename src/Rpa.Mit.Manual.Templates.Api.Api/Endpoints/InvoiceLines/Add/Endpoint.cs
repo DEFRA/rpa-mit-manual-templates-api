@@ -4,7 +4,7 @@
     {
         public override void Configure()
         {
-            Post("route-pattern");
+            Get("/invoicelines/add");
         }
 
         public override async Task HandleAsync(Request r, CancellationToken c)

@@ -4,7 +4,7 @@
     {
         public override void Configure()
         {
-            Post("route-pattern");
+            Post("/referencedata/get");
         }
 
         public override async Task HandleAsync(Request r, CancellationToken c)
