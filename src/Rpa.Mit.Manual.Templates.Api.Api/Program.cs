@@ -1,3 +1,5 @@
+global using FastEndpoints;
+
 using System.Diagnostics.CodeAnalysis;
 
 using Rpa.Mit.Manual.Templates.Api.Api.AutoMapper;
