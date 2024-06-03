@@ -1,7 +1,9 @@
-﻿namespace Get
+﻿using Rpa.Mit.Manual.Templates.Api.Core.Entities;
+
+namespace Get
 {
     internal sealed class Response
     {
-        public string Message => "This endpoint hasn't been implemented yet!";
+        public ReferenceData? ReferenceData { get; set; }
     }
 }

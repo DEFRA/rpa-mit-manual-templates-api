@@ -1,5 +1,8 @@
 ﻿
 using Dapper;
+
+using Microsoft.Extensions.Options;
+
 using Npgsql;
 
 using Rpa.Mit.Manual.Templates.Api.Api.Endpoints;
@@ -10,7 +13,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
 {
     public class ReferenceDataRepo : BaseData, IReferenceDataRepo
     {
-        public ReferenceDataRepo(ConnectionStrings options) : base(options)
+        public ReferenceDataRepo(IOptions<ConnectionStrings> options) : base(options)
         { } 
 
         public async Task<ReferenceData> GetAllReferenceData()
