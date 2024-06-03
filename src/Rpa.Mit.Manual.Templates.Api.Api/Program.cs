@@ -38,6 +38,6 @@ app.UseHealthChecks("/healthz", new HealthCheckOptions()
     Predicate = check => check.Name == "live"
 });
 
-await app.RunAsync();
+app.Run();
 
 public partial class Program { }

@@ -1,36 +1,35 @@
 ﻿using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
-namespace Get
+namespace Rpa.Mit.Manual.Templates.Api.Api.GetReferenceData;
+
+internal sealed class GetReferenceDataEndpoint : EndpointWithoutRequest<Response>
 {
-    internal sealed class Endpoint : EndpointWithoutRequest<Response>
+    private readonly IReferenceDataRepo _iReferenceDataRepo;
+
+    public GetReferenceDataEndpoint(IReferenceDataRepo iReferenceDataRepo)
     {
-        private readonly IReferenceDataRepo _iReferenceDataRepo;
+        _iReferenceDataRepo = iReferenceDataRepo;
+    }
 
-        public Endpoint(IReferenceDataRepo iReferenceDataRepo)
+    public override void Configure()
+    {
+        AllowAnonymous();
+        Get("/referencedata/get");
+    }
+
+    public override async Task HandleAsync(CancellationToken c)
+    {
+        try
         {
-            _iReferenceDataRepo = iReferenceDataRepo;
+            var response = new Response { ReferenceData = await _iReferenceDataRepo.GetAllReferenceData() };
+
+            await SendAsync(response);
         }
-
-        public override void Configure()
+        catch (Exception ex)
         {
-            AllowAnonymous();
-            Get("/referencedata/get");
-        }
+            // log this
 
-        public override async Task HandleAsync(CancellationToken c)
-        {
-            try
-            {
-                var response = new Response { ReferenceData = await _iReferenceDataRepo.GetAllReferenceData() };
-
-                await SendAsync(response);
-            }
-            catch (Exception ex)
-            {
-                // log this
-
-                await SendAsync(new Response());
-            }
+            await SendAsync(new Response());
         }
     }
 }

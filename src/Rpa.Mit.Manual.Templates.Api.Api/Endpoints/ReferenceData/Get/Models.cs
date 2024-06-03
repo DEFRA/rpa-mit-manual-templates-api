@@ -1,9 +1,10 @@
 ﻿using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 
-namespace Get
+namespace Rpa.Mit.Manual.Templates.Api.Api.GetReferenceData;
+
+internal sealed class Response
 {
-    internal sealed class Response
-    {
-        public ReferenceData? ReferenceData { get; set; }
-    }
+public string Message { get; set; } = string.Empty;
+public ReferenceData? ReferenceData { get; set; }
 }
+

@@ -1,32 +1,58 @@
-﻿using FastEndpoints.Testing;
+﻿using System.Security.Claims;
 
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Tests
 {
-    public class App : AppFixture<Program>
+    public class App : WebApplicationFactory<Program>
     {
-        protected override Task SetupAsync()
+        private readonly ServiceDescriptor[] _overrides;
+
+        public App(params ServiceDescriptor[]? overrides)
         {
-            // place one-time setup for the fixture here
-            return Task.CompletedTask;
+            _overrides = overrides ?? Array.Empty<ServiceDescriptor>();
         }
 
-        protected override void ConfigureApp(IWebHostBuilder a)
+        protected override IHost CreateHost(IHostBuilder builder)
         {
-            // do host builder configuration here
-        }
+            builder.ConfigureServices(services =>
+            {
+                foreach (var service in _overrides)
+                {
+                    services.Replace(service);
+                }
+            });
 
-        protected override void ConfigureServices(IServiceCollection s)
-        {
-            // do test service registration here
+            return base.CreateHost(builder);
         }
+    }
 
-        protected override Task TearDownAsync()
+    public static class ClaimsPrincipalExtensions
+    {
+        public static void WithIdentity(this ClaimsPrincipal user, params Claim[] claims)
+            => user.AddIdentity(new ClaimsIdentity(claims, "test_auth"));
+    }
+
+    public class TestTimeProvider
+    {
+        public DateTimeOffset UtcNow { get; set; }
+            = DateTimeOffset.UtcNow;
+
+        public void SetTime(int hour, int minutes, int seconds = 0)
         {
-            // do cleanups here
-            return Task.CompletedTask;
+            var now = DateTimeOffset.UtcNow.Date;
+            UtcNow = new DateTimeOffset(
+                now.Year,
+                now.Month,
+                now.Day,
+                hour,
+                minutes,
+                seconds,
+                TimeSpan.Zero
+            );
         }
     }
 }
