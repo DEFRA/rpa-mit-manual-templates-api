@@ -8,7 +8,7 @@ public static class ServiceExtensions
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
-        services.AddTransient<IInvoiceDataRepo, InvoiceData>();
+        services.AddTransient<IInvoiceDataRepo, InvoiceDataRepo>();
         services.AddTransient<IItemService, ItemService>();
         services.AddTransient<IPaymentRequestDataRepo, PaymentRequestData>();
         return services;

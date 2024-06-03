@@ -5,9 +5,6 @@ namespace Root;
 
 public class Root : EndpointWithoutRequest<string>
 {
-    //public TimeProvider Clock { get; set; }
-    //    = default!;
-
     private readonly TimeProvider _timeProvider;
 
     public Root(TimeProvider timeProvider)
