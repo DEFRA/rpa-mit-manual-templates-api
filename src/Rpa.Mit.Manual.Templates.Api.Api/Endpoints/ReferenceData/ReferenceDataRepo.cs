@@ -1,4 +1,6 @@
 ﻿
+using System.Data;
+
 using Dapper;
 
 using Microsoft.Extensions.Options;
@@ -20,8 +22,11 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
         {
             var referenceData = new ReferenceData();
 
-            using (var connection = new NpgsqlConnection(DbConn))
+            using (var cn = new NpgsqlConnection(DbConn))
             {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync();
+
                 var sql = @"
                         SELECT accountcode, org FROM lookup_deliverybodyinitialselections;
                         SELECT name, deliverybodycode FROM lookup_schemeinvoicetemplates;
@@ -35,7 +40,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
                         SELECT code, description FROM lookup_fundcodes;
                         ";
 
-                using (var res = await connection.QueryMultipleAsync(sql))
+                using (var res = await cn.QueryMultipleAsync(sql))
                 {
                     referenceData.InitialDeliveryBodies = await res.ReadAsync<DeliveryBodyInitial>();
                     referenceData.SchemeInvoiceTemplates = await res.ReadAsync<SchemeInvoiceTemplate>();
@@ -55,31 +60,40 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
 
         public async Task<IEnumerable<Organisation>> GetOrganisationsReferenceData()
         {
-            using (var connection = new NpgsqlConnection(DbConn))
+            using (var cn = new NpgsqlConnection(DbConn))
             {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync();
+
                 var sql = @"SELECT code, description FROM organisations;";
 
-                return await connection.QueryAsync<Organisation>(sql);
+                return await cn.QueryAsync<Organisation>(sql);
             }
         }
 
         public async Task<IEnumerable<PaymentType>> GetPaymentTypeReferenceData()
         {
-            using (var connection = new NpgsqlConnection(DbConn))
+            using (var cn = new NpgsqlConnection(DbConn))
             {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync();
+
                 var sql = @"SELECT code, description FROM lookup_paymenttypes;";
 
-                return await connection.QueryAsync<PaymentType>(sql);
+                return await cn.QueryAsync<PaymentType>(sql);
             }
         }
 
         public async Task<IEnumerable<SchemeType>> GetSchemeTypeReferenceData()
         {
-            using (var connection = new NpgsqlConnection(DbConn))
+            using (var cn = new NpgsqlConnection(DbConn))
             {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync();
+
                 var sql = @"SELECT code, description FROM lookup_schemetypes;";
 
-                return await connection.QueryAsync<SchemeType>(sql);
+                return await cn.QueryAsync<SchemeType>(sql);
             }
         }
     }

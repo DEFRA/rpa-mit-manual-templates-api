@@ -7,7 +7,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 {
     public sealed class Invoice
     {
-        [Required]
         public Guid Id { get; set; }
 
         [Required(ErrorMessage = "Payment Type is required")]
