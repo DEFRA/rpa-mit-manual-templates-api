@@ -1,7 +1,10 @@
-﻿namespace GetSchemeTypes;
+﻿using Rpa.Mit.Manual.Templates.Api.Core.Entities;
+
+namespace GetSchemeTypes;
 
 internal sealed class Response
 {
-    public string Message => "This endpoint hasn't been implemented yet!";
+    public string Message { get; set; } = string.Empty;
+    public IEnumerable<SchemeType> SchemeTypes { get; set; } = Enumerable.Empty<SchemeType>();
 }
 

@@ -31,11 +31,9 @@ namespace GetOrganisations
         {
             var response = new Response();
 
-            IEnumerable<Organisation> organisations;
-
             try
             {
-                if (!_memoryCache.TryGetValue(CacheKeys.OrganisationReferenceData, out organisations))
+                if (!_memoryCache.TryGetValue(CacheKeys.OrganisationReferenceData, out IEnumerable<Organisation> organisations))
                 {
                     organisations = await _iReferenceDataRepo.GetOrganisationsReferenceData();
 
