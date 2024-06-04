@@ -16,7 +16,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api
         public static void Configure(WebApplicationBuilder builder)
         {
             builder.Services.AddApplicationServices();
-
+            builder.Services.AddMemoryCache();
             builder.Services
                    .AddFastEndpoints()
                    .AddAuthorization()
