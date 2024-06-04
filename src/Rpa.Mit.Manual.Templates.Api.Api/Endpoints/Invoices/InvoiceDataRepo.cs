@@ -1,4 +1,5 @@
-﻿using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
+﻿using Rpa.Mit.Manual.Templates.Api.Core.Entities;
+using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
 {

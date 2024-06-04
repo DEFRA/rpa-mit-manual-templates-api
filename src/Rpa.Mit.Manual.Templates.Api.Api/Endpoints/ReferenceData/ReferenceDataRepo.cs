@@ -23,16 +23,16 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
             using (var connection = new NpgsqlConnection(DbConn))
             {
                 var sql = @"
-                        SELECT accountcode, org FROM delivery_body_initial_selections;
-                        SELECT name, deliverybodycode FROM schemeinvoicetemplates;
-                        SELECT id, name FROM schemeinvoicetemplatessecondaryrpaquestions;
-                        SELECT code, description FROM payment_types;
-                        SELECT code, description FROM scheme_types;
-                        SELECT code, description FROM scheme_codes;
-                        SELECT code, description FROM account_codes;
-                        SELECT code, description FROM delivery_body_codes;
-                        SELECT code, description FROM marketing_year_codes;
-                        SELECT code, description FROM fund_codes;
+                        SELECT accountcode, org FROM lookup_deliverybodyinitialselections;
+                        SELECT name, deliverybodycode FROM lookup_schemeinvoicetemplates;
+                        SELECT id, name FROM lookup_schemeinvoicetemplatessecondaryrpaquestions;
+                        SELECT code, description FROM lookup_paymenttypes;
+                        SELECT code, description FROM lookup_schemetypes;
+                        SELECT code, description FROM lookup_schemecodes;
+                        SELECT code, description FROM lookup_accountcodes;
+                        SELECT code, description FROM lookup_deliverybodycodes;
+                        SELECT code, description FROM lookup_marketingyearcodes;
+                        SELECT code, description FROM lookup_fundcodes;
                         ";
 
                 using (var res = await connection.QueryMultipleAsync(sql))

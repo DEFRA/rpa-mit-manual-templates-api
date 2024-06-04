@@ -50,15 +50,15 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 
         public string AccountType { get; set; } = string.Empty;
 
-        [RequiredIfAR]
+        //[RequiredIfAR]
         [DisplayName("Original Claim Reference")]
         public string OriginalInvoiceNumber { get; set; } = string.Empty;
 
-        [RequiredIfAR]
+        //[RequiredIfAR]
         [DisplayName("Original AP Invoice Settlement Date")]
         public DateTime OriginalSettlementDate { get; set; } = default!;
 
-        [RequiredIfAR]
+        //[RequiredIfAR]
         [DisplayName("Earliest date possible recovery first identified")]
         public DateTime RecoveryDate { get; set; } = default!;
 
