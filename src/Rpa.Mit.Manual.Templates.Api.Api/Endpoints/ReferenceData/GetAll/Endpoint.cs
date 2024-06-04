@@ -1,6 +1,7 @@
-﻿using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
+
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
+using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.GetReferenceData;
 

@@ -67,7 +67,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
         {
             using (var connection = new NpgsqlConnection(DbConn))
             {
-                var sql = @"SELECT code, description FROM payment_types;";
+                var sql = @"SELECT code, description FROM lookup_paymenttypes;";
 
                 return await connection.QueryAsync<PaymentType>(sql);
             }
@@ -77,7 +77,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
         {
             using (var connection = new NpgsqlConnection(DbConn))
             {
-                var sql = @"SELECT code, description FROM scheme_types;";
+                var sql = @"SELECT code, description FROM lookup_schemetypes;";
 
                 return await connection.QueryAsync<SchemeType>(sql);
             }
