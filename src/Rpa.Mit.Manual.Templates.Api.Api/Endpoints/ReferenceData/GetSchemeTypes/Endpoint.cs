@@ -1,13 +1,14 @@
 ﻿namespace GetSchemeTypes
 {
-    internal sealed class Endpoint : Endpoint<Request, Response, Mapper>
+    internal sealed class GetSchemeTypesEndpoint : EndpointWithoutRequest<Response>
     {
         public override void Configure()
         {
-            Post("route-pattern");
+            AllowAnonymous();
+            Get("/schemetypes/get");
         }
 
-        public override async Task HandleAsync(Request r, CancellationToken c)
+        public override async Task HandleAsync(CancellationToken c)
         {
             await SendAsync(new Response());
         }

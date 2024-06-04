@@ -1,15 +1,62 @@
-﻿namespace GetOrganisations
+﻿using Microsoft.Extensions.Caching.Memory;
+
+using Rpa.Mit.Manual.Templates.Api.Core.Entities;
+using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
+
+namespace GetOrganisations
 {
-    internal sealed class Endpoint : Endpoint<Request, Response, Mapper>
+    internal sealed class GetOrganisationsEndpoint : EndpointWithoutRequest<Response>
     {
-        public override void Configure()
+        private readonly IMemoryCache _memoryCache;
+        private readonly IReferenceDataRepo _iReferenceDataRepo;
+        private readonly ILogger<GetOrganisationsEndpoint> _logger;
+
+        public GetOrganisationsEndpoint(
+                       ILogger<GetOrganisationsEndpoint> logger,
+                       IMemoryCache memoryCache,
+                       IReferenceDataRepo iReferenceDataRepo)
         {
-            Post("route-pattern");
+            _logger = logger;
+            _memoryCache = memoryCache;
+            _iReferenceDataRepo = iReferenceDataRepo;
         }
 
-        public override async Task HandleAsync(Request r, CancellationToken c)
+        public override void Configure()
         {
-            await SendAsync(new Response());
+            AllowAnonymous();
+            Get("/organisations/get");
+        }
+
+        public override async Task HandleAsync(CancellationToken c)
+        {
+            var response = new Response();
+
+            IEnumerable<Organisation> organisations;
+
+            try
+            {
+                if (!_memoryCache.TryGetValue(CacheKeys.OrganisationReferenceData, out organisations))
+                {
+                    organisations = await _iReferenceDataRepo.GetOrganisationsReferenceData();
+
+                    var cacheEntryOptions = new MemoryCacheEntryOptions()
+                        .SetSlidingExpiration(TimeSpan.FromDays(1));
+
+                    _memoryCache.Set(CacheKeys.OrganisationReferenceData, organisations, cacheEntryOptions);
+                }
+
+                response.Organisations = organisations;
+
+                await SendAsync(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+
+                response.Message = ex.Message;
+
+                await SendAsync(response);
+            }
         }
     }
 }
