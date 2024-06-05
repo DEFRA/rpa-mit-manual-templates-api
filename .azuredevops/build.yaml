@@ -36,12 +36,11 @@ resources:
       name: DEFRA/adp-pipeline-common
       endpoint: DEFRA
       type: github
-      ref: refs/heads/main
+      ref: refs/tags/1.0.0-latest
 
 extends:
   template: /pipelines/common-app-build.yaml@DEFRA-ADPPipelineCommon
   parameters:
-    programmeName: ""
     teamName: "lap-mit"
     serviceName: "rpa-mit-manual-templates-api"
     deployFromFeature: ${{ parameters.deployFromFeature }}
