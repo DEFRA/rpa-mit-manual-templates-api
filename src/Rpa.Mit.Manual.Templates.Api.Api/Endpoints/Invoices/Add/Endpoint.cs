@@ -8,13 +8,13 @@ namespace Invoices.Add
     internal sealed class AddInvoiceEndpoint : Endpoint<Request, Response>
     {
         private readonly AzureAd _options;
-        private readonly IInvoiceDataRepo _iInvoiceDataRepo;
+        private readonly IInvoiceRepo _iInvoiceDataRepo;
         private readonly ILogger<AddInvoiceEndpoint> _logger;
 
         public AddInvoiceEndpoint(
             IOptions<AzureAd> options, 
             ILogger<AddInvoiceEndpoint> logger,
-            IInvoiceDataRepo iInvoiceDataRepo)
+            IInvoiceRepo iInvoiceDataRepo)
         {
             _options = options.Value;
             _logger = logger;
@@ -37,7 +37,14 @@ namespace Invoices.Add
 
             try
             {
-                response.Result = await _iInvoiceDataRepo.AddInvoice(request.Invoice);
+                if(await _iInvoiceDataRepo.AddInvoice(request.Invoice))
+                {
+                    response.Invoice = request.Invoice;
+                }
+                else
+                {
+                    response.Message = "Error adding new invoice";
+                }
 
                 await SendAsync(response);
             }

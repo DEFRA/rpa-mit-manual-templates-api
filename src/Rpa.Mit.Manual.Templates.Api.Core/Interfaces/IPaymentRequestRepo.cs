@@ -2,7 +2,7 @@
 
 namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
 {
-    public interface IPaymentRequestDataRepo
+    public interface IPaymentRequestRepo
     {
         Task<bool> AddPaymentRequest(PaymentRequest paymentRequest);
     }

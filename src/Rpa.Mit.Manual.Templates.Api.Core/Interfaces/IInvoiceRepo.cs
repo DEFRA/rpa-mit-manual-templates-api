@@ -2,7 +2,7 @@
 
 namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
 {
-    public interface IInvoiceDataRepo
+    public interface IInvoiceRepo
     {
         Task<bool> AddInvoice(Invoice invoice);
     }

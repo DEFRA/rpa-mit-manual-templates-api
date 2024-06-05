@@ -1,19 +1,20 @@
-﻿using Npgsql;
-using System.Data;
+﻿using System.Data;
+
+using Microsoft.Extensions.Options;
+
+using Npgsql;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
-using Microsoft.Extensions.Options;
-using Dapper;
 
-namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
+namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.PaymentRequests
 {
-    public class InvoiceDataRepo : BaseData, IInvoiceDataRepo
+    public class PaymentRequestRepo : BaseData, IPaymentRequestRepo
     {
-        public InvoiceDataRepo(IOptions<ConnectionStrings> options) : base(options)
+        public PaymentRequestRepo(IOptions<ConnectionStrings> options) : base(options)
         { }
 
-        public async Task<bool> AddInvoice(Invoice invoice)
+        public async Task<bool> AddPaymentRequest(PaymentRequest paymentRequest)
         {
             using (var cn = new NpgsqlConnection(DbConn))
             {

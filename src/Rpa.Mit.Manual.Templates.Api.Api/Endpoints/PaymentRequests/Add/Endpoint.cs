@@ -8,12 +8,12 @@ namespace PaymentsRequests.Add
 {
     internal sealed class AddPaymentsRequestsEndpoint : Endpoint<Request, Response>
     {
-        private readonly IPaymentRequestDataRepo _iPaymentRequestDataRepo;
+        private readonly IPaymentRequestRepo _iPaymentRequestDataRepo;
         private readonly ILogger<AddPaymentsRequestsEndpoint> _logger;
 
         public AddPaymentsRequestsEndpoint(
             ILogger<AddPaymentsRequestsEndpoint> logger,
-            IPaymentRequestDataRepo iPaymentRequestDataRepo)
+            IPaymentRequestRepo iPaymentRequestDataRepo)
         {
             _logger = logger;
             _iPaymentRequestDataRepo = iPaymentRequestDataRepo;
