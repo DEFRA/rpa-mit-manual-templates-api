@@ -3,7 +3,7 @@
 namespace Add
 {
     [ExcludeFromCodeCoverage]
-    internal sealed class Endpoint : Endpoint<Request, Response, Mapper>
+    internal sealed class Endpoint : Endpoint<Request, Response>
     {
         public override void Configure()
         {
