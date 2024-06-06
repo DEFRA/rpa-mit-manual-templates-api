@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Microsoft.Extensions.Options;
 
 using Rpa.Mit.Manual.Templates.Api;
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
@@ -6,6 +8,7 @@ using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace Invoices.Add
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class AddInvoiceEndpoint : Endpoint<Invoice, Response>
     {
         private readonly AzureAd _options;

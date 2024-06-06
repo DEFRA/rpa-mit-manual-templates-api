@@ -1,17 +1,14 @@
-﻿namespace Add
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Add
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class Request
     {
 
     }
 
-    internal sealed class Validator : Validator<Request>
-    {
-        public Validator()
-        {
-
-        }
-    }
+    [ExcludeFromCodeCoverage]
 
     internal sealed class Response
     {

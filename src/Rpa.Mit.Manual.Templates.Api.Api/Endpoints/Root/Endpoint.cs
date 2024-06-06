@@ -22,11 +22,6 @@ public class Root : EndpointWithoutRequest<string>
     {
         var message = $"Hello, World @ {_timeProvider.GetUtcNow():hh:mm:ss tt}";
 
-        if (User.Identity?.IsAuthenticated == true)
-        {
-            message += $"\n{User.Identity.Name}";
-        }
-
         await SendStringAsync(
             message,
             cancellation: ct

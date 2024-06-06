@@ -1,5 +1,8 @@
-﻿namespace Rpa.Mit.Manual.Templates.Api
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Rpa.Mit.Manual.Templates.Api
 {
+    [ExcludeFromCodeCoverage]
     public class AppSettings
     {
         public string EventQueueName { get; set; } = string.Empty;
@@ -20,6 +23,7 @@
         //public AzureAd? AzureAd { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     public class ConnectionStrings
     {
         public string PrimaryConnection { get; set; } = string.Empty;
@@ -27,7 +31,7 @@
         public string PostGresLocal { get; set; } = string.Empty;
     }
 
-
+    [ExcludeFromCodeCoverage]
     public class AzureAd
     {
         public string Instance { get; set; } = string.Empty;

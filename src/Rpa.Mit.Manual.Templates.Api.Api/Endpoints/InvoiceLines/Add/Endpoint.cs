@@ -1,5 +1,8 @@
-﻿namespace Add
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Add
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class Endpoint : Endpoint<Request, Response, Mapper>
     {
         public override void Configure()

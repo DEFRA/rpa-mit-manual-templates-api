@@ -10,13 +10,6 @@ namespace PaymentsRequests.Add
         public PaymentRequest PaymentRequest { get; set; }
     }
 
-    internal sealed class Validator : Validator<Request>
-    {
-        public Validator()
-        {
-
-        }
-    }
 
     [ExcludeFromCodeCoverage]
     internal sealed class Response
