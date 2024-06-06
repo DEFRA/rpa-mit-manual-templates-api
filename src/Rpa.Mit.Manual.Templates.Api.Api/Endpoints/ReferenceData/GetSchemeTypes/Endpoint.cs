@@ -34,7 +34,7 @@ namespace GetSchemeTypes
 
             try
             {
-                if (!_memoryCache.TryGetValue(CacheKeys.OrganisationReferenceData, out IEnumerable<SchemeType> schemeTypes!))
+                if (!_memoryCache.TryGetValue(CacheKeys.OrganisationReferenceData, out IEnumerable<SchemeType>? schemeTypes))
                 {
                     schemeTypes = await _iReferenceDataRepo.GetSchemeTypeReferenceData(ct);
 
@@ -44,7 +44,7 @@ namespace GetSchemeTypes
                     _memoryCache.Set(CacheKeys.SchemeTypesReferenceData, schemeTypes, cacheEntryOptions);
                 }
 
-                response.SchemeTypes = schemeTypes;
+                response.SchemeTypes = schemeTypes!;
 
                 await SendAsync(response, cancellation: ct);
             }

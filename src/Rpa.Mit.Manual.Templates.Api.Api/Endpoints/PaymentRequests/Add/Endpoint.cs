@@ -1,8 +1,4 @@
-﻿using Invoices.Add;
-using Microsoft.Extensions.Options;
-using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
-using Rpa.Mit.Manual.Templates.Api;
-using Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices;
+﻿using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace PaymentsRequests.Add
 {
@@ -33,7 +29,7 @@ namespace PaymentsRequests.Add
                 response.Result = await _iPaymentRequestRepo.AddPaymentRequest(r.PaymentRequest, ct);
 
                 await SendAsync(response, cancellation: ct);
-            }   
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);

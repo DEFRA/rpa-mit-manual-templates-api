@@ -2,8 +2,11 @@ global using FastEndpoints;
 using FastEndpoints.Swagger;
 
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Caching.Memory;
 
 using Rpa.Mit.Manual.Templates.Api.Api;
+using Rpa.Mit.Manual.Templates.Api.Api.GetReferenceData;
+using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,4 +44,8 @@ app.UseHealthChecks("/healthz", new HealthCheckOptions()
 
 await app.RunAsync();
 
-public partial class Program { }
+public partial class Program 
+{
+    protected Program()
+    {}
+}

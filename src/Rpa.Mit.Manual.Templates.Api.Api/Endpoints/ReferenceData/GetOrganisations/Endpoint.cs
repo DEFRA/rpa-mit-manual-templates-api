@@ -33,7 +33,7 @@ namespace GetOrganisations
 
             try
             {
-                if (!_memoryCache.TryGetValue(CacheKeys.OrganisationReferenceData, out IEnumerable<Organisation> organisations!))
+                if (!_memoryCache.TryGetValue(CacheKeys.OrganisationReferenceData, out IEnumerable<Organisation>? organisations))
                 {
                     organisations = await _iReferenceDataRepo.GetOrganisationsReferenceData(ct);
 
@@ -43,7 +43,7 @@ namespace GetOrganisations
                     _memoryCache.Set(CacheKeys.OrganisationReferenceData, organisations, cacheEntryOptions);
                 }
 
-                response.Organisations = organisations;
+                response.Organisations = organisations!;
 
                 await SendAsync(response, cancellation: ct);
             }

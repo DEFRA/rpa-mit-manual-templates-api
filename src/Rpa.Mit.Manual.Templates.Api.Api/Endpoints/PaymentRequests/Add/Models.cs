@@ -7,7 +7,7 @@ namespace PaymentsRequests.Add
     [ExcludeFromCodeCoverage]
     internal sealed class Request
     {
-        public PaymentRequest? PaymentRequest { get; set; }
+        public required PaymentRequest PaymentRequest { get; set; }
     }
 
 

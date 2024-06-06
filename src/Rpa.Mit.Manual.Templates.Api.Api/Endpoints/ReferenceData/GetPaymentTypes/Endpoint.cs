@@ -33,7 +33,9 @@ namespace GetPaymentTypes
 
             try
             {
-                if (!_memoryCache.TryGetValue(CacheKeys.OrganisationReferenceData, out IEnumerable<PaymentType> paymentTypes!))
+                IEnumerable<PaymentType>? paymentTypes;
+
+                if (!_memoryCache.TryGetValue(CacheKeys.OrganisationReferenceData, out paymentTypes))
                 {
                     paymentTypes = await _iReferenceDataRepo.GetPaymentTypeReferenceData(ct);
 
@@ -43,7 +45,7 @@ namespace GetPaymentTypes
                     _memoryCache.Set(CacheKeys.PaymentTypesReferenceData, paymentTypes, cacheEntryOptions);
                 }
 
-                response.PaymentTypes = paymentTypes;
+                response.PaymentTypes = paymentTypes!;
 
                 await SendAsync(response, cancellation: ct);
             }

@@ -30,10 +30,11 @@ internal sealed class GetReferenceDataEndpoint : EndpointWithoutRequest<Response
     public override async Task HandleAsync(CancellationToken ct)
     {
         var response = new Response();
-        var refData = new ReferenceData();
 
         try
         {
+            ReferenceData? refData;
+
             if (!_memoryCache.TryGetValue(CacheKeys.ReferenceData, out refData))
             {
                 refData = await _iReferenceDataRepo.GetAllReferenceData(ct);

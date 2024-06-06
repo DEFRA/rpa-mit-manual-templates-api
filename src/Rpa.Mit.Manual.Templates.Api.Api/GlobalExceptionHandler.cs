@@ -3,7 +3,7 @@
 using Microsoft.AspNetCore.Diagnostics;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api;
-public class GlobalExceptionHandler(IHostEnvironment hostEnvironment, ILogger<GlobalExceptionHandler> logger)
+public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger)
     : IExceptionHandler
 {
     private const string ExceptionMessage = "An unhandled exception has occurred while executing the request.";
