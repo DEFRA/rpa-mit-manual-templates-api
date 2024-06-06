@@ -22,8 +22,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync();
 
-                var sql = "INSERT INTO Invoices (Id, SchemeType, Reference, Value, Status, ApproverId, ApproverEmail, ApprovedBy, Approved, CreatedBy, Created, PaymentType, AccountType, DeliveryBody) " +
-                                "VALUES (@Id, @SchemeType, @Reference, @Value, @Status, @ApproverId, @ApproverEmail, @ApprovedBy, @Approved, @CreatedBy, @Created, @PaymentType, @AccountType, @DeliveryBody )";
+                var sql = @"INSERT INTO Invoices (Id, SchemeType, Reference, Value, Status, ApproverId, ApproverEmail, ApprovedBy, Approved, CreatedBy, Created, PaymentType, AccountType, DeliveryBody)
+                                VALUES (@Id, @SchemeType, @Reference, @Value, @Status, @ApproverId, @ApproverEmail, @ApprovedBy, @Approved, @CreatedBy, @Created, @PaymentType, @AccountType, @DeliveryBody )";
 
                 res = await cn.ExecuteAsync(sql, invoice);
 

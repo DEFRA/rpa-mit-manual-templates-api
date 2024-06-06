@@ -2,9 +2,9 @@
 
 namespace Invoices.Add
 {
-    internal sealed class Request
+    internal sealed class AddInvoiceRequest
     {
-        public Invoice Invoice { get; set; }
+        public Invoice? Invoice { get; set; }
     }
 
     internal sealed class Response

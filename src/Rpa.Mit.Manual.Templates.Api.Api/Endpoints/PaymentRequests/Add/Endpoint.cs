@@ -8,15 +8,15 @@ namespace PaymentsRequests.Add
 {
     internal sealed class AddPaymentsRequestsEndpoint : Endpoint<Request, Response>
     {
-        private readonly IPaymentRequestRepo _iPaymentRequestDataRepo;
+        private readonly IPaymentRequestRepo _iPaymentRequestRepo;
         private readonly ILogger<AddPaymentsRequestsEndpoint> _logger;
 
         public AddPaymentsRequestsEndpoint(
             ILogger<AddPaymentsRequestsEndpoint> logger,
-            IPaymentRequestRepo iPaymentRequestDataRepo)
+            IPaymentRequestRepo iPaymentRequestRepo)
         {
             _logger = logger;
-            _iPaymentRequestDataRepo = iPaymentRequestDataRepo;
+            _iPaymentRequestRepo = iPaymentRequestRepo;
         }
 
         public override void Configure()
@@ -30,7 +30,7 @@ namespace PaymentsRequests.Add
 
             try
             {
-                response.Result = await _iPaymentRequestDataRepo.(r.PaymentRequest);
+                response.Result = await _iPaymentRequestRepo.AddPaymentRequest(r.PaymentRequest);
 
                 await SendAsync(response);
             }

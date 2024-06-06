@@ -18,12 +18,12 @@ app.UseFastEndpoints()
     .UseSwaggerGen();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseDeveloperExceptionPage();
-   // app.UseOpenApi();
-    app.UseSwaggerUi(s => s.ConfigureDefaults());
-}
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseDeveloperExceptionPage();
+//    app.UseOpenApi();
+//    app.UseSwaggerUi(s => s.ConfigureDefaults());
+//}
 app.UseExceptionHandler();
 
 app.UseHttpsRedirection();

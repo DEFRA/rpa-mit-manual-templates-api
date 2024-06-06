@@ -1,11 +1,12 @@
 ﻿using Microsoft.Extensions.Options;
 
 using Rpa.Mit.Manual.Templates.Api;
+using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace Invoices.Add
 {
-    internal sealed class AddInvoiceEndpoint : Endpoint<Request, Response>
+    internal sealed class AddInvoiceEndpoint : Endpoint<Invoice, Response>
     {
         private readonly AzureAd _options;
         private readonly IInvoiceRepo _iInvoiceDataRepo;
@@ -24,12 +25,12 @@ namespace Invoices.Add
         public override void Configure()
         {
             AllowAnonymous();
-            Get("/invoices/add");
+            Post("/invoices/add");
         }
 
-        public override async Task HandleAsync(Request request, CancellationToken c)
+        public override async Task HandleAsync(Invoice invoice, CancellationToken c)
         {
-            request.Invoice.Id = Guid.NewGuid();
+            invoice.Id = Guid.NewGuid();
 
             Response response = new Response();
 
@@ -37,9 +38,9 @@ namespace Invoices.Add
 
             try
             {
-                if(await _iInvoiceDataRepo.AddInvoice(request.Invoice))
+                if(await _iInvoiceDataRepo.AddInvoice(invoice))
                 {
-                    response.Invoice = request.Invoice;
+                    response.Invoice = invoice;
                 }
                 else
                 {
