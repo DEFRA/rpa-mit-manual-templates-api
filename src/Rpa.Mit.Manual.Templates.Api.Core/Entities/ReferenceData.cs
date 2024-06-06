@@ -1,5 +1,8 @@
-﻿namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 {
+    [ExcludeFromCodeCoverage]
     public sealed class ReferenceData
     {
         public IEnumerable<DeliveryBodyInitial> InitialDeliveryBodies { get; set; } = Enumerable.Empty<DeliveryBodyInitial>();

@@ -1,5 +1,8 @@
-﻿namespace Rpa.Mit.Manual.Templates.Api.Core.Enums
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Rpa.Mit.Manual.Templates.Api.Core.Enums
 {
+    [ExcludeFromCodeCoverage]
     public static class InvoiceStatuses
     {
         public const string New = "new";

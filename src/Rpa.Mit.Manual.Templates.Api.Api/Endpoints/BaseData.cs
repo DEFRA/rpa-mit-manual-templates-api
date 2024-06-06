@@ -1,7 +1,10 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Microsoft.Extensions.Options;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints
 {
+    [ExcludeFromCodeCoverage]
     public abstract class BaseData
     {
         private readonly IOptions<ConnectionStrings> _options;

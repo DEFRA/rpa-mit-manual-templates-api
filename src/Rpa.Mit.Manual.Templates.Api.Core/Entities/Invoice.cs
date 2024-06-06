@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Enums;
 
 namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 {
+    [ExcludeFromCodeCoverage]
     public sealed class Invoice
     {
         public Guid Id { get; set; }
