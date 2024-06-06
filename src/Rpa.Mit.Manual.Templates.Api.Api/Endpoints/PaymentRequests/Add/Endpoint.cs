@@ -32,15 +32,15 @@ namespace PaymentsRequests.Add
             {
                 response.Result = await _iPaymentRequestRepo.AddPaymentRequest(r.PaymentRequest, ct);
 
-                await SendAsync(response);
-            }
+                await SendAsync(response, cancellation: ct);
+            }   
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
 
                 response.Message = ex.Message;
 
-                await SendAsync(response);
+                await SendAsync(response, 400, CancellationToken.None);
             }
         }
     }

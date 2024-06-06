@@ -45,7 +45,7 @@ namespace GetPaymentTypes
 
                 response.PaymentTypes = paymentTypes;
 
-                await SendAsync(response);
+                await SendAsync(response, cancellation: ct);
             }
             catch (Exception ex)
             {
@@ -53,7 +53,7 @@ namespace GetPaymentTypes
 
                 response.Message = ex.Message;
 
-                await SendAsync(response);
+                await SendAsync(response, 400, CancellationToken.None);
             }
         }
     }

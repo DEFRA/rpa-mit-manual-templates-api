@@ -56,7 +56,7 @@ internal sealed class GetReferenceDataEndpoint : EndpointWithoutRequest<Response
 
             response.ReferenceData = refData;
 
-            await SendAsync(response);
+            await SendAsync(response, cancellation: ct);
         }
         catch (Exception ex)
         {
@@ -64,7 +64,7 @@ internal sealed class GetReferenceDataEndpoint : EndpointWithoutRequest<Response
 
             response.Message = ex.Message;
 
-            await SendAsync(response);
+            await SendAsync(response, 400, CancellationToken.None);
         }
     }
 }

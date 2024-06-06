@@ -46,7 +46,7 @@ namespace GetSchemeTypes
 
                 response.SchemeTypes = schemeTypes;
 
-                await SendAsync(response);
+                await SendAsync(response, cancellation: ct);
             }
             catch (Exception ex)
             {
@@ -54,7 +54,7 @@ namespace GetSchemeTypes
 
                 response.Message = ex.Message;
 
-                await SendAsync(response);
+                await SendAsync(response, 400, CancellationToken.None);
             }
         }
     }

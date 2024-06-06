@@ -1,8 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-using Microsoft.Extensions.Options;
-
-using Rpa.Mit.Manual.Templates.Api;
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
@@ -11,16 +8,13 @@ namespace Invoices.Add
     [ExcludeFromCodeCoverage]
     internal sealed class AddInvoiceEndpoint : Endpoint<Invoice, Response>
     {
-        private readonly AzureAd _options;
         private readonly IInvoiceRepo _iInvoiceDataRepo;
         private readonly ILogger<AddInvoiceEndpoint> _logger;
 
         public AddInvoiceEndpoint(
-            IOptions<AzureAd> options, 
             ILogger<AddInvoiceEndpoint> logger,
             IInvoiceRepo iInvoiceDataRepo)
         {
-            _options = options.Value;
             _logger = logger;
             _iInvoiceDataRepo = iInvoiceDataRepo;
         }
@@ -48,7 +42,7 @@ namespace Invoices.Add
                     response.Message = "Error adding new invoice";
                 }
 
-                await SendAsync(response);
+                await SendAsync(response, cancellation: ct);
             }
             catch (Exception ex)
             {
@@ -56,7 +50,7 @@ namespace Invoices.Add
 
                 response.Message = ex.Message;
 
-                await SendAsync(response);
+                await SendAsync(response, 400, CancellationToken.None);
             }
         }
     }
