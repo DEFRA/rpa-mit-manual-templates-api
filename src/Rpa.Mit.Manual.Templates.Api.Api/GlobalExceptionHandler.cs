@@ -20,7 +20,7 @@ public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger)
 
     }
 
-    private ProblemDetails CreateProblemDetails(in HttpContext httpContext, in Exception exception)
+    private static ProblemDetails CreateProblemDetails(in HttpContext httpContext, in Exception exception)
     {
         httpContext.Response.ContentType = "application/json";
 
