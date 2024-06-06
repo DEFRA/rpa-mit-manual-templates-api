@@ -25,7 +25,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
             using (var cn = new NpgsqlConnection(DbConn))
             {
                 if (cn.State != ConnectionState.Open)
-                    await cn.OpenAsync();
+                    await cn.OpenAsync(ct);
 
                 var sql = @"
                         SELECT accountcode, org FROM lookup_deliverybodyinitialselections;
@@ -63,7 +63,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
             using (var cn = new NpgsqlConnection(DbConn))
             {
                 if (cn.State != ConnectionState.Open)
-                    await cn.OpenAsync();
+                    await cn.OpenAsync(ct);
 
                 var sql = @"SELECT code, description FROM organisations;";
 
@@ -76,7 +76,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
             using (var cn = new NpgsqlConnection(DbConn))
             {
                 if (cn.State != ConnectionState.Open)
-                    await cn.OpenAsync();
+                    await cn.OpenAsync(ct);
 
                 var sql = @"SELECT code, description FROM lookup_paymenttypes;";
 
@@ -89,7 +89,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
             using (var cn = new NpgsqlConnection(DbConn))
             {
                 if (cn.State != ConnectionState.Open)
-                    await cn.OpenAsync();
+                    await cn.OpenAsync(ct);
 
                 var sql = @"SELECT code, description FROM lookup_schemetypes;";
 

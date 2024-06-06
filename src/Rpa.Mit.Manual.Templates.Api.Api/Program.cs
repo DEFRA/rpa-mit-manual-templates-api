@@ -18,12 +18,13 @@ app.UseFastEndpoints()
     .UseSwaggerGen();
 
 // Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
-//    app.UseDeveloperExceptionPage();
-//    app.UseOpenApi();
-//    app.UseSwaggerUi(s => s.ConfigureDefaults());
-//}
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+    app.UseOpenApi();
+    app.UseSwaggerUi(s => s.ConfigureDefaults());
+}
+
 app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
@@ -38,6 +39,6 @@ app.UseHealthChecks("/healthz", new HealthCheckOptions()
     Predicate = check => check.Name == "live"
 });
 
-app.Run();
+await app.RunAsync();
 
 public partial class Program { }

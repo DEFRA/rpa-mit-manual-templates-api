@@ -1,5 +1,7 @@
 ﻿using System.Data;
 
+using Dapper;
+
 using Microsoft.Extensions.Options;
 
 using Npgsql;
@@ -19,18 +21,14 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.PaymentRequests
             using (var cn = new NpgsqlConnection(DbConn))
             {
                 if (cn.State != ConnectionState.Open)
-                    await cn.OpenAsync();
+                    await cn.OpenAsync(ct);
 
-                using (var trans = await cn.BeginTransactionAsync())
-                {
+                var sql = "WWW";
 
-                    //var affectedRows1 = await cn.ExecuteAsync(sql, new { CustomerName = "Mark" }, transaction: trans);
+                var res = await cn.ExecuteAsync(sql, ct);
 
-                    await trans.CommitAsync();
-                }
+                return res == 1;
             }
-
-            return true;
         }
     }
 }

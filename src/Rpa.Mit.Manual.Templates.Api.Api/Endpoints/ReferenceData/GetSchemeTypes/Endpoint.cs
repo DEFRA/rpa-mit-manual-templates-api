@@ -34,7 +34,7 @@ namespace GetSchemeTypes
 
             try
             {
-                if (!_memoryCache.TryGetValue(CacheKeys.OrganisationReferenceData, out IEnumerable<SchemeType> schemeTypes))
+                if (!_memoryCache.TryGetValue(CacheKeys.OrganisationReferenceData, out IEnumerable<SchemeType> schemeTypes!))
                 {
                     schemeTypes = await _iReferenceDataRepo.GetSchemeTypeReferenceData(ct);
 

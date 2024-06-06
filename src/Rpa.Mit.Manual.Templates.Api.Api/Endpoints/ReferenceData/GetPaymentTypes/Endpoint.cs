@@ -33,7 +33,7 @@ namespace GetPaymentTypes
 
             try
             {
-                if (!_memoryCache.TryGetValue(CacheKeys.OrganisationReferenceData, out IEnumerable<PaymentType> paymentTypes))
+                if (!_memoryCache.TryGetValue(CacheKeys.OrganisationReferenceData, out IEnumerable<PaymentType> paymentTypes!))
                 {
                     paymentTypes = await _iReferenceDataRepo.GetPaymentTypeReferenceData(ct);
 
