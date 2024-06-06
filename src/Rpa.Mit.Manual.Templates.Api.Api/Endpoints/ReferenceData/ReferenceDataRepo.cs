@@ -1,6 +1,5 @@
 ﻿
 using System.Data;
-using System.Text.Json;
 
 using Dapper;
 
@@ -19,7 +18,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
         public ReferenceDataRepo(IOptions<ConnectionStrings> options) : base(options)
         { } 
 
-        public async Task<ReferenceData> GetAllReferenceData()
+        public async Task<ReferenceData> GetAllReferenceData(CancellationToken ct)
         {
             var referenceData = new ReferenceData();
 
@@ -59,7 +58,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
             }
         }
 
-        public async Task<IEnumerable<Organisation>> GetOrganisationsReferenceData()
+        public async Task<IEnumerable<Organisation>> GetOrganisationsReferenceData(CancellationToken ct)
         {
             using (var cn = new NpgsqlConnection(DbConn))
             {
@@ -72,7 +71,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
             }
         }
 
-        public async Task<IEnumerable<PaymentType>> GetPaymentTypeReferenceData()
+        public async Task<IEnumerable<PaymentType>> GetPaymentTypeReferenceData(CancellationToken ct)
         {
             using (var cn = new NpgsqlConnection(DbConn))
             {
@@ -85,7 +84,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
             }
         }
 
-        public async Task<IEnumerable<SchemeType>> GetSchemeTypeReferenceData()
+        public async Task<IEnumerable<SchemeType>> GetSchemeTypeReferenceData(CancellationToken ct)
         {
             using (var cn = new NpgsqlConnection(DbConn))
             {

@@ -27,7 +27,7 @@ namespace GetPaymentTypes
             Get("/paymenttypes/get");
         }
 
-        public override async Task HandleAsync(CancellationToken c)
+        public override async Task HandleAsync(CancellationToken ct)
         {
             var response = new Response();
 
@@ -35,7 +35,7 @@ namespace GetPaymentTypes
             {
                 if (!_memoryCache.TryGetValue(CacheKeys.OrganisationReferenceData, out IEnumerable<PaymentType> paymentTypes))
                 {
-                    paymentTypes = await _iReferenceDataRepo.GetPaymentTypeReferenceData();
+                    paymentTypes = await _iReferenceDataRepo.GetPaymentTypeReferenceData(ct);
 
                     var cacheEntryOptions = new MemoryCacheEntryOptions()
                         .SetSlidingExpiration(TimeSpan.FromDays(1));

@@ -17,10 +17,6 @@ namespace Rpa.Mit.Manual.Templates.Api
         public string InvoiceImporterAPIBaseURI { get; set; } = string.Empty;
         public string ApplicationBaseUri { get; set; } = string.Empty;
         public string PaymentGeneratorQueueName { get; set; } = string.Empty;
-
-        //public ConnectionStrings? ConnectionStrings { get; set; }
-
-        //public AzureAd? AzureAd { get; set; }
     }
 
     [ExcludeFromCodeCoverage]

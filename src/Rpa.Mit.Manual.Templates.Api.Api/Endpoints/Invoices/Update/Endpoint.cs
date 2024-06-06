@@ -10,7 +10,7 @@ namespace Invoices.Update
             Post("/invoices/update");
         }
 
-        public override async Task HandleAsync(Request r, CancellationToken c)
+        public override async Task HandleAsync(Request r, CancellationToken ct)
         {
             await SendAsync(new Response());
         }

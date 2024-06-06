@@ -6,6 +6,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
 {
     public interface IInvoiceRepo
     {
-        Task<bool> AddInvoice(Invoice invoice);
+        Task<bool> AddInvoice(Invoice invoice, CancellationToken ct);
     }
 }

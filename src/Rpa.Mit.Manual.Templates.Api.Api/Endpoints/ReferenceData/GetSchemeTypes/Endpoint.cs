@@ -28,7 +28,7 @@ namespace GetSchemeTypes
             Get("/schemetypes/get");
         }
 
-        public override async Task HandleAsync(CancellationToken c)
+        public override async Task HandleAsync(CancellationToken ct)
         {
             var response = new Response();
 
@@ -36,7 +36,7 @@ namespace GetSchemeTypes
             {
                 if (!_memoryCache.TryGetValue(CacheKeys.OrganisationReferenceData, out IEnumerable<SchemeType> schemeTypes))
                 {
-                    schemeTypes = await _iReferenceDataRepo.GetSchemeTypeReferenceData();
+                    schemeTypes = await _iReferenceDataRepo.GetSchemeTypeReferenceData(ct);
 
                     var cacheEntryOptions = new MemoryCacheEntryOptions()
                         .SetSlidingExpiration(TimeSpan.FromDays(1));

@@ -27,7 +27,7 @@ internal sealed class GetReferenceDataEndpoint : EndpointWithoutRequest<Response
         Get("/referencedata/get");
     }
 
-    public override async Task HandleAsync(CancellationToken c)
+    public override async Task HandleAsync(CancellationToken ct)
     {
         var response = new Response();
         var refData = new ReferenceData();
@@ -36,7 +36,7 @@ internal sealed class GetReferenceDataEndpoint : EndpointWithoutRequest<Response
         {
             if (!_memoryCache.TryGetValue(CacheKeys.ReferenceData, out refData))
             {
-                refData = await _iReferenceDataRepo.GetAllReferenceData();
+                refData = await _iReferenceDataRepo.GetAllReferenceData(ct);
 
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
                     .SetSlidingExpiration(TimeSpan.FromDays(1));

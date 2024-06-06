@@ -6,6 +6,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
 {
     public interface IPaymentRequestRepo
     {
-        Task<bool> AddPaymentRequest(PaymentRequest paymentRequest);
+        Task<bool> AddPaymentRequest(PaymentRequest paymentRequest, CancellationToken ct);
     }
 }

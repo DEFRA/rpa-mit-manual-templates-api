@@ -24,13 +24,13 @@ namespace PaymentsRequests.Add
             Post("/paymentrequest/add");
         }
 
-        public override async Task HandleAsync(Request r, CancellationToken c)
+        public override async Task HandleAsync(Request r, CancellationToken ct)
         {
             Response response = new Response();
 
             try
             {
-                response.Result = await _iPaymentRequestRepo.AddPaymentRequest(r.PaymentRequest);
+                response.Result = await _iPaymentRequestRepo.AddPaymentRequest(r.PaymentRequest, ct);
 
                 await SendAsync(response);
             }

@@ -15,7 +15,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
         public InvoiceRepo(IOptions<ConnectionStrings> options) : base(options)
         { }
 
-        public async Task<bool> AddInvoice(Invoice invoice)
+        public async Task<bool> AddInvoice(Invoice invoice, CancellationToken ct)
         {
             var res = 0;
 

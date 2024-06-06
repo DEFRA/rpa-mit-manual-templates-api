@@ -14,7 +14,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.PaymentRequests
         public PaymentRequestRepo(IOptions<ConnectionStrings> options) : base(options)
         { }
 
-        public async Task<bool> AddPaymentRequest(PaymentRequest paymentRequest)
+        public async Task<bool> AddPaymentRequest(PaymentRequest paymentRequest, CancellationToken ct)
         {
             using (var cn = new NpgsqlConnection(DbConn))
             {

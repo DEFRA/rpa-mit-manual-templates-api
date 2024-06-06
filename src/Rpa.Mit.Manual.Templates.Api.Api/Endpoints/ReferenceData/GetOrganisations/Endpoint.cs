@@ -27,7 +27,7 @@ namespace GetOrganisations
             Get("/organisations/get");
         }
 
-        public override async Task HandleAsync(CancellationToken c)
+        public override async Task HandleAsync(CancellationToken ct)
         {
             var response = new Response();
 
@@ -35,7 +35,7 @@ namespace GetOrganisations
             {
                 if (!_memoryCache.TryGetValue(CacheKeys.OrganisationReferenceData, out IEnumerable<Organisation> organisations))
                 {
-                    organisations = await _iReferenceDataRepo.GetOrganisationsReferenceData();
+                    organisations = await _iReferenceDataRepo.GetOrganisationsReferenceData(ct);
 
                     var cacheEntryOptions = new MemoryCacheEntryOptions()
                         .SetSlidingExpiration(TimeSpan.FromDays(1));

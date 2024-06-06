@@ -6,12 +6,12 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
 {
     public interface IReferenceDataRepo
     {
-        public Task<ReferenceData> GetAllReferenceData();
+        public Task<ReferenceData> GetAllReferenceData(CancellationToken ct);
 
-        public Task<IEnumerable<Organisation>> GetOrganisationsReferenceData();
+        public Task<IEnumerable<Organisation>> GetOrganisationsReferenceData(CancellationToken ct);
 
-        public Task<IEnumerable<SchemeType>> GetSchemeTypeReferenceData();
+        public Task<IEnumerable<SchemeType>> GetSchemeTypeReferenceData(CancellationToken ct);
 
-        public Task<IEnumerable<PaymentType>> GetPaymentTypeReferenceData();
+        public Task<IEnumerable<PaymentType>> GetPaymentTypeReferenceData(CancellationToken ct);
     }
 }

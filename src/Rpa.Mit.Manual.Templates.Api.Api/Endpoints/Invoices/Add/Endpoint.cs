@@ -31,17 +31,15 @@ namespace Invoices.Add
             Post("/invoices/add");
         }
 
-        public override async Task HandleAsync(Invoice invoice, CancellationToken c)
+        public override async Task HandleAsync(Invoice invoice, CancellationToken ct)
         {
             invoice.Id = Guid.NewGuid();
 
             Response response = new Response();
 
-            var tenantId = _options.TenantId;
-
             try
             {
-                if(await _iInvoiceDataRepo.AddInvoice(invoice))
+                if(await _iInvoiceDataRepo.AddInvoice(invoice, ct))
                 {
                     response.Invoice = invoice;
                 }
