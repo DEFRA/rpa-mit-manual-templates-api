@@ -37,8 +37,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
             A.CallTo(() => fakeRepo.AddPaymentRequest(A<PaymentRequest>.Ignored, CancellationToken.None))
                     .Returns(Task.FromResult(true));
 
-            var ep = Factory.Create<AddPaymentsRequestEndpoint>(
-                           A.Fake<ILogger<AddPaymentsRequestEndpoint>>(),
+            var ep = Factory.Create<AddPaymentRequestEndpoint>(
+                           A.Fake<ILogger<AddPaymentRequestEndpoint>>(),
                            fakeRepo);
 
             await ep.HandleAsync(paymentRequest, default);
@@ -73,14 +73,48 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
             A.CallTo(() => fakeRepo.AddPaymentRequest(A<PaymentRequest>.Ignored, CancellationToken.None))
                     .Returns(Task.FromResult(false));
 
-            var ep = Factory.Create<AddPaymentsRequestEndpoint>(
-                           A.Fake<ILogger<AddPaymentsRequestEndpoint>>(),
+            var ep = Factory.Create<AddPaymentRequestEndpoint>(
+                           A.Fake<ILogger<AddPaymentRequestEndpoint>>(),
                            fakeRepo);
 
             await ep.HandleAsync(paymentRequest, default);
             var response = ep.Response;
 
             Assert.Equal("Error adding new payment request", response.Message);
+            Assert.Null(response.PaymentRequest);
+        }
+
+
+        [Fact]
+        public async Task PaymentRequest_Save_Returns_Exception()
+        {
+            AddPaymentRequest paymentRequest = new AddPaymentRequest
+            {
+                FRN = "EU (2014 - 2020 Program)",
+                SBI = "GBP",
+                Description = "AP",
+                DueDate = "EA",
+                PaymentRequestId = "Any question",
+                AccountType = "QQ",
+                Currency = "DDD",
+                AgreementNumber = "1",
+                MarketingYear = "2024",
+                InvoiceId = Guid.NewGuid(),
+                Vendor = "Q"
+            };
+
+            var fakeRepo = A.Fake<IPaymentRequestRepo>();
+            A.CallTo(() => fakeRepo.AddPaymentRequest(A<PaymentRequest>.Ignored, CancellationToken.None))
+                    .Throws<NullReferenceException>();
+
+            var ep = Factory.Create<AddPaymentRequestEndpoint>(
+                           A.Fake<ILogger<AddPaymentRequestEndpoint>>(),
+                           fakeRepo);
+
+            await ep.HandleAsync(paymentRequest, default);
+            var response = ep.Response;
+
+            Assert.Equal("Object reference not set to an instance of an object.", response.Message);
             Assert.Null(response.PaymentRequest);
         }
     }

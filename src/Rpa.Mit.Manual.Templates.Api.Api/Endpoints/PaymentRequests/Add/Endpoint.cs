@@ -1,17 +1,16 @@
 ﻿
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
-using Rpa.Mit.Manual.Templates.Api.Core.Enums;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace PaymentsRequests.Add
 {
-    internal sealed class AddPaymentsRequestEndpoint : EndpointWithMapping<AddPaymentRequest, PaymentRequestResponse, PaymentRequest>
+    internal sealed class AddPaymentRequestEndpoint : EndpointWithMapping<AddPaymentRequest, PaymentRequestResponse, PaymentRequest>
     {
         private readonly IPaymentRequestRepo _iPaymentRequestRepo;
-        private readonly ILogger<AddPaymentsRequestEndpoint> _logger;
+        private readonly ILogger<AddPaymentRequestEndpoint> _logger;
 
-        public AddPaymentsRequestEndpoint(
-            ILogger<AddPaymentsRequestEndpoint> logger,
+        public AddPaymentRequestEndpoint(
+            ILogger<AddPaymentRequestEndpoint> logger,
             IPaymentRequestRepo iPaymentRequestRepo)
         {
             _logger = logger;
