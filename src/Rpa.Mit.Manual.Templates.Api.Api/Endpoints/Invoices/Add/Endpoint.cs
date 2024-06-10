@@ -36,7 +36,7 @@ namespace Invoices.Add
 
             try
             {
-                Invoice invoice = await MapToEntityAsync(invoiceRequest, ct);
+                Invoice invoice = await Task.Run(() => MapToEntityAsync(invoiceRequest, ct));
 
                 invoice.Id = Guid.NewGuid();
                 invoice.Created = DateTime.UtcNow;
@@ -64,7 +64,7 @@ namespace Invoices.Add
         }
 
 
-        public override async Task<Invoice> MapToEntityAsync(AddInvoiceRequest r, CancellationToken ct)
+        public override async Task<Invoice> MapToEntityAsync(AddInvoiceRequest r, CancellationToken ct = default)
         {
             var invoice = new Invoice();
 
