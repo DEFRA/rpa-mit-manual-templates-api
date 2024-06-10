@@ -36,7 +36,7 @@ namespace Invoices.Add
 
             try
             {
-                Invoice invoice = Map.ToEntity(invoiceRequest);
+                Invoice invoice = await Map.ToEntityAsync(invoiceRequest, CancellationToken.None);
 
                 invoice.Id = Guid.NewGuid();
                 invoice.Created = DateTime.UtcNow;

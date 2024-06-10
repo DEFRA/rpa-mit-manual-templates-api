@@ -13,7 +13,7 @@ using Xunit;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
 {
-    public class InvoiceTests()// : TestBase<MyApp>
+    public class InvoiceTests()
     {
         [Fact]
         public async Task Invoice_Save_Success()
@@ -40,9 +40,9 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
 
             response.Should().NotBeNull();
             response.Invoice.Should().NotBeNull();
-            response.Invoice.AccountType.Should().Match("AP");
+            response.Invoice?.AccountType.Should().Match("AP");
 
-            Assert.IsType<Guid>(response.Invoice.Id);
+            Assert.IsType<Guid>(response.Invoice?.Id);
         }
 
         [Fact]
