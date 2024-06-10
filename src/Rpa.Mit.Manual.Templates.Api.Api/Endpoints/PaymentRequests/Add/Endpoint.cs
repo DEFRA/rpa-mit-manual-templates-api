@@ -1,14 +1,17 @@
-﻿using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
+﻿
+using Rpa.Mit.Manual.Templates.Api.Core.Entities;
+using Rpa.Mit.Manual.Templates.Api.Core.Enums;
+using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace PaymentsRequests.Add
 {
-    internal sealed class AddPaymentsRequestsEndpoint : Endpoint<Request, Response>
+    internal sealed class AddPaymentsRequestEndpoint : EndpointWithMapping<AddPaymentRequest, PaymentRequestResponse, PaymentRequest>
     {
         private readonly IPaymentRequestRepo _iPaymentRequestRepo;
-        private readonly ILogger<AddPaymentsRequestsEndpoint> _logger;
+        private readonly ILogger<AddPaymentsRequestEndpoint> _logger;
 
-        public AddPaymentsRequestsEndpoint(
-            ILogger<AddPaymentsRequestsEndpoint> logger,
+        public AddPaymentsRequestEndpoint(
+            ILogger<AddPaymentsRequestEndpoint> logger,
             IPaymentRequestRepo iPaymentRequestRepo)
         {
             _logger = logger;
@@ -20,13 +23,22 @@ namespace PaymentsRequests.Add
             Post("/paymentrequest/add");
         }
 
-        public override async Task HandleAsync(Request r, CancellationToken ct)
+        public override async Task HandleAsync(AddPaymentRequest r, CancellationToken ct)
         {
-            Response response = new Response();
+            PaymentRequestResponse response = new PaymentRequestResponse();
 
             try
             {
-                response.Result = await _iPaymentRequestRepo.AddPaymentRequest(r.PaymentRequest, ct);
+                PaymentRequest paymentRequest = await MapToEntityAsync(r, ct);
+
+                if(await _iPaymentRequestRepo.AddPaymentRequest(paymentRequest, ct))
+                {
+                    response.PaymentRequest = paymentRequest;
+                }
+                else
+                {
+                    response.Message = "Error adding new payment request";
+                }
 
                 await SendAsync(response, cancellation: ct);
             }
@@ -38,6 +50,24 @@ namespace PaymentsRequests.Add
 
                 await SendAsync(response, 400, CancellationToken.None);
             }
+        }
+
+        public override async Task<PaymentRequest> MapToEntityAsync(AddPaymentRequest r, CancellationToken ct = default)
+        {
+            var paymentRequest = await Task.FromResult(new PaymentRequest());
+
+            paymentRequest.AccountType = r.AccountType;
+            paymentRequest.FRN = r.FRN;
+            paymentRequest.SBI = r.SBI;
+            paymentRequest.Currency = r.Currency;
+            paymentRequest.Vendor = r.Vendor;
+            paymentRequest.AgreementNumber = r.AgreementNumber;
+            paymentRequest.PaymentRequestNumber = r.PaymentRequestNumber;
+            paymentRequest.MarketingYear = r.MarketingYear;
+            paymentRequest.Description = r.Description;
+            paymentRequest.DueDate = r.DueDate;
+
+            return paymentRequest;
         }
     }
 }
