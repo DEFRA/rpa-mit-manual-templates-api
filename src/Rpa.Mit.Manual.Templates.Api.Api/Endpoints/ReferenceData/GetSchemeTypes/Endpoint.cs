@@ -1,24 +1,17 @@
-﻿using GetPaymentTypes;
-using Microsoft.Extensions.Caching.Memory;
-
-using Rpa.Mit.Manual.Templates.Api.Core.Entities;
-using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
+﻿using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace GetSchemeTypes
 {
     internal sealed class GetSchemeTypesEndpoint : EndpointWithoutRequest<Response>
     {
-        private readonly IMemoryCache _memoryCache;
         private readonly IReferenceDataRepo _iReferenceDataRepo;
         private readonly ILogger<GetSchemeTypesEndpoint> _logger;
 
         public GetSchemeTypesEndpoint(
                        ILogger<GetSchemeTypesEndpoint> logger,
-                       IMemoryCache memoryCache,
                        IReferenceDataRepo iReferenceDataRepo)
         {
             _logger = logger;
-            _memoryCache = memoryCache;
             _iReferenceDataRepo = iReferenceDataRepo;
         }
 

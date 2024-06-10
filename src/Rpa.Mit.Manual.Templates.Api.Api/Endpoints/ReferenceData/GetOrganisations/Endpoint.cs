@@ -1,23 +1,17 @@
-﻿using Microsoft.Extensions.Caching.Memory;
-
-using Rpa.Mit.Manual.Templates.Api.Core.Entities;
-using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
+﻿using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace GetOrganisations
 {
     internal sealed class GetOrganisationsEndpoint : EndpointWithoutRequest<Response>
     {
-        private readonly IMemoryCache _memoryCache;
         private readonly IReferenceDataRepo _iReferenceDataRepo;
         private readonly ILogger<GetOrganisationsEndpoint> _logger;
 
         public GetOrganisationsEndpoint(
                        ILogger<GetOrganisationsEndpoint> logger,
-                       IMemoryCache memoryCache,
                        IReferenceDataRepo iReferenceDataRepo)
         {
             _logger = logger;
-            _memoryCache = memoryCache;
             _iReferenceDataRepo = iReferenceDataRepo;
         }
 
