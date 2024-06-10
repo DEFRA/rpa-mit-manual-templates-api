@@ -1,11 +1,11 @@
-﻿using Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices.Add;
+﻿
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
+using Rpa.Mit.Manual.Templates.Api.Core.Enums;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace Invoices.Add
 {
-    // [ExcludeFromCodeCoverage]
-    internal sealed class AddInvoiceEndpoint : Endpoint<AddInvoiceRequest, AddInvoiceResponse, InvoiceMapper>
+    internal sealed class AddInvoiceEndpoint : EndpointWithMapping<AddInvoiceRequest, AddInvoiceResponse, Invoice>
     {
         private readonly IInvoiceRepo _iInvoiceDataRepo;
         private readonly ILogger<AddInvoiceEndpoint> _logger;
@@ -36,7 +36,7 @@ namespace Invoices.Add
 
             try
             {
-                Invoice invoice = await Map.ToEntityAsync(invoiceRequest, CancellationToken.None);
+                Invoice invoice = await MapToEntityAsync(invoiceRequest, ct);
 
                 invoice.Id = Guid.NewGuid();
                 invoice.Created = DateTime.UtcNow;
@@ -61,6 +61,21 @@ namespace Invoices.Add
 
                 await SendAsync(response, 400, CancellationToken.None);
             }
+        }
+
+
+        public override async Task<Invoice> MapToEntityAsync(AddInvoiceRequest r, CancellationToken ct)
+        {
+            var invoice = new Invoice();
+
+            invoice.AccountType = r.AccountType;
+            invoice.DeliveryBody = r.DeliveryBody;
+            invoice.SecondaryQuestion = r.SecondaryQuestion;
+            invoice.SchemeType = r.SchemeType;
+            invoice.Value = 0.00M;
+            invoice.Status = InvoiceStatuses.New;
+
+            return invoice;
         }
     }
 }
