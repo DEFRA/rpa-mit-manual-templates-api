@@ -1,12 +1,11 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
+﻿using Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices.Add;
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace Invoices.Add
 {
-    [ExcludeFromCodeCoverage]
-    internal sealed class AddInvoiceEndpoint : Endpoint<Invoice, Response>
+    // [ExcludeFromCodeCoverage]
+    internal sealed class AddInvoiceEndpoint : Endpoint<AddInvoiceRequest, AddInvoiceResponse, InvoiceMapper>
     {
         private readonly IInvoiceRepo _iInvoiceDataRepo;
         private readonly ILogger<AddInvoiceEndpoint> _logger;
@@ -25,11 +24,21 @@ namespace Invoices.Add
             Post("/invoices/add");
         }
 
-        public override async Task HandleAsync(Invoice invoice, CancellationToken ct)
+        /// <summary>
+        /// saves a new invoice header
+        /// </summary>
+        /// <param name="invoiceRequest"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        public override async Task HandleAsync(AddInvoiceRequest invoiceRequest, CancellationToken ct)
         {
-            invoice.Id = Guid.NewGuid();
+            Invoice invoice = Map.ToEntity(invoiceRequest); 
 
-            Response response = new Response();
+            invoice.Id = Guid.NewGuid();
+            invoice.Created = DateTime.UtcNow;
+            invoice.CreatedBy = "aylmer.carson";
+
+            AddInvoiceResponse response = new ();
 
             try
             {

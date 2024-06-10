@@ -32,11 +32,11 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
         /// </summary>
         public decimal Value { get; set; } = 0.0M;
 
-        public string Status { get; private set; } = InvoiceStatuses.New;
+        public string Status { get; set; } = InvoiceStatuses.New;
 
         public string Reference { get; set; } = default!;
 
-        public DateTimeOffset Created { get; private set; } = DateTimeOffset.UtcNow;
+        public DateTimeOffset Created { get; set; }
 
         public string CreatedBy { get; set; } = default!;
 
