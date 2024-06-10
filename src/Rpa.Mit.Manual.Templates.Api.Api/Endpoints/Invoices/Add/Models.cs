@@ -1,27 +1,27 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿//using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 
 namespace Invoices.Add
 {
-    [ExcludeFromCodeCoverage]
+   // [ExcludeFromCodeCoverage]
     internal sealed class AddInvoiceRequest
     {
         public Guid Id { get; set; }
 
-        [Required(ErrorMessage = "Payment Type is required")]
+        //[Required(ErrorMessage = "Payment Type is required")]
         public string PaymentType { get; set; } = default!;
 
-        [Required(ErrorMessage = "Account Type is required")]
+        //[Required(ErrorMessage = "Account Type is required")]
         public string AccountType { get; set; } = default!;
 
-        [Required(ErrorMessage = "DeliveryBody is required")]
-        public string DeliveryBody { get; set; } = default!;
+        public string? DeliveryBody { get; set; }
 
         public string SecondaryQuestion { get; set; } = default!;
 
-        [Required(ErrorMessage = "Scheme Type is required")]
+        //[Required(ErrorMessage = "Scheme Type is required")]
         public string SchemeType { get; set; } = default!;
 
         //public IEnumerable<PaymentRequest> PaymentRequests { get; set; } = Enumerable.Empty<PaymentRequest>();
@@ -54,6 +54,18 @@ namespace Invoices.Add
         //        return DeliveryBody;
         //    }
         //}
+    }
+
+    internal sealed class InvoiceValidator : Validator<AddInvoiceRequest>
+    {
+        public InvoiceValidator()
+        {
+            RuleFor(x => x.DeliveryBody)
+                .NotNull()
+                     .WithMessage("Delivery Body is required")
+                .NotEmpty()
+                    .WithMessage("Delivery Body is required");
+        }
     }
 
     [ExcludeFromCodeCoverage]

@@ -32,17 +32,17 @@ namespace Invoices.Add
         /// <returns></returns>
         public override async Task HandleAsync(AddInvoiceRequest invoiceRequest, CancellationToken ct)
         {
-            Invoice invoice = Map.ToEntity(invoiceRequest); 
-
-            invoice.Id = Guid.NewGuid();
-            invoice.Created = DateTime.UtcNow;
-            invoice.CreatedBy = "aylmer.carson";
-
-            AddInvoiceResponse response = new ();
+            AddInvoiceResponse response = new();
 
             try
             {
-                if(await _iInvoiceDataRepo.AddInvoice(invoice, ct))
+                Invoice invoice = Map.ToEntity(invoiceRequest);
+
+                invoice.Id = Guid.NewGuid();
+                invoice.Created = DateTime.UtcNow;
+                invoice.CreatedBy = "aylmer.carson";
+
+                if (await _iInvoiceDataRepo.AddInvoice(invoice, ct))
                 {
                     response.Invoice = invoice;
                 }

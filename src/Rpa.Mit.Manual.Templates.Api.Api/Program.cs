@@ -1,4 +1,7 @@
 global using FastEndpoints;
+
+global using FluentValidation;
+
 using FastEndpoints.Swagger;
 
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;

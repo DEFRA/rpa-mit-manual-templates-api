@@ -46,7 +46,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
         }
 
         [Fact]
-        public async Task Invoice_Save_Validation_Fail_Missing_DeliveryBody()
+        public async Task Invoice_Save_Fail()
         {
             AddInvoiceRequest invoiceRequest = new AddInvoiceRequest
             {
@@ -56,22 +56,19 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
                 SecondaryQuestion = "Any question"
             };
 
-            Invoice invoice = new Invoice();
-
-            var fakeConfig = A.Fake<IInvoiceRepo>();
-            A.CallTo(() => fakeConfig.AddInvoice(invoice, CancellationToken.None)).Returns(true);
+            var fakeRepo = A.Fake<IInvoiceRepo>();
+            A.CallTo(() => fakeRepo.AddInvoice(A<Invoice>.Ignored, CancellationToken.None))
+                    .Returns(Task.FromResult(false));
 
             var ep = Factory.Create<AddInvoiceEndpoint>(
                            A.Fake<ILogger<AddInvoiceEndpoint>>(),
-                           A.Fake<IInvoiceRepo>());
+                           fakeRepo);
 
             await ep.HandleAsync(invoiceRequest, default);
             var response = ep.Response;
 
-            Assert.Equal(string.Empty, response.Message);
-            Assert.IsType<Invoice>(response);
-            Assert.NotNull(response.Invoice);
-            Assert.IsType<Guid>(response.Invoice.Id);
+            Assert.Equal("Error adding new invoice", response.Message);
+            Assert.Null(response.Invoice);
         }
     }
 }
