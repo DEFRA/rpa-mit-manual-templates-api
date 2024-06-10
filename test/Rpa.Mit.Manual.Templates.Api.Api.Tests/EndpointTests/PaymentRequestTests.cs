@@ -48,7 +48,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
             response.PaymentRequest.Should().NotBeNull();
             response.PaymentRequest?.AccountType.Should().Match("QQ");
 
-            Assert.IsType<Guid>(response.PaymentRequest?.PaymentRequestId);
+            Assert.IsType<string>(response.PaymentRequest?.PaymentRequestId);
         }
 
         [Fact]
