@@ -19,6 +19,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api
             builder.Services.AddMemoryCache();
             builder.Services
                    .AddFastEndpoints()
+                   .AddResponseCaching()
                    .AddAuthorization()
                    .SwaggerDocument();
 

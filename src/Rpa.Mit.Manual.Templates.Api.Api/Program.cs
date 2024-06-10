@@ -17,7 +17,8 @@ var app = builder.Build();
 
 app.UseAuthentication();
 
-app.UseFastEndpoints()
+app.UseResponseCaching()
+    .UseFastEndpoints()
     .UseSwaggerGen();
 
 // Configure the HTTP request pipeline.
