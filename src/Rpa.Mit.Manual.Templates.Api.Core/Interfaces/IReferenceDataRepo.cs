@@ -8,8 +8,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
     {
         public Task<ReferenceData> GetAllReferenceData(CancellationToken ct);
 
-        public Task<IEnumerable<Organisation>> GetOrganisationsReferenceData(CancellationToken ct);
-
         public Task<IEnumerable<SchemeType>> GetSchemeTypeReferenceData(CancellationToken ct);
 
         public Task<IEnumerable<PaymentType>> GetPaymentTypeReferenceData(CancellationToken ct);

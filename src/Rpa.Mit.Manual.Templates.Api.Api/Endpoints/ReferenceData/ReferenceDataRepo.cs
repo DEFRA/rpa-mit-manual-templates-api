@@ -58,19 +58,6 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
             }
         }
 
-        public async Task<IEnumerable<Organisation>> GetOrganisationsReferenceData(CancellationToken ct)
-        {
-            using (var cn = new NpgsqlConnection(DbConn))
-            {
-                if (cn.State != ConnectionState.Open)
-                    await cn.OpenAsync(ct);
-
-                var sql = @"SELECT code, description FROM organisations;";
-
-                return await cn.QueryAsync<Organisation>(sql);
-            }
-        }
-
         public async Task<IEnumerable<PaymentType>> GetPaymentTypeReferenceData(CancellationToken ct)
         {
             using (var cn = new NpgsqlConnection(DbConn))

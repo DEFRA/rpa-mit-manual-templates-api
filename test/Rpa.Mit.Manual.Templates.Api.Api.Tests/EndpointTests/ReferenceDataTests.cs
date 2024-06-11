@@ -7,9 +7,13 @@ using FluentAssertions.Execution;
 
 using Microsoft.Extensions.Logging;
 
+using OpenTelemetry.Trace;
+
 using Rpa.Mit.Manual.Templates.Api.Api.GetReferenceData;
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
+
+using Xunit.Sdk;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests;
 
@@ -38,37 +42,20 @@ public class ReferenceDataTests// : TestBase<App>
         await ep.HandleAsync(default);
         var response = ep.Response;
 
-        using (new AssertionScope())
-        {
-            response.Should().NotBeNull();
+        response.Should().NotBeNull();
 
-            response.ReferenceData.Should().NotBeNull();
+        response.ReferenceData.Should().NotBeNull();
 
-            response.ReferenceData?.PaymentTypes.Should().NotBeNull();
-            response.ReferenceData?.PaymentTypes.Should().AllBeOfType<PaymentType>();
-                              
-            response.ReferenceData?.Organisations.Should().NotBeNull();
-            response.ReferenceData?.Organisations.Should().AllBeOfType<Organisation>();
-                              
-            response.ReferenceData?.SchemeCodes.Should().NotBeNull();
-            response.ReferenceData?.SchemeCodes.Should().AllBeOfType<SchemeCode>();
-                              
-            response.ReferenceData?.PaymentTypes.Should().NotBeNull();
-            response.ReferenceData?.PaymentTypes.Should().AllBeOfType<PaymentType>();
-        }
-    }
+        response.ReferenceData.PaymentTypes.Should().NotBeNull();
+        response.ReferenceData.PaymentTypes.Should().AllBeOfType<PaymentType>();
+        response.ReferenceData.PaymentTypes.Should().HaveCount(0);
 
+        response.ReferenceData.Organisations.Should().NotBeNull();
+        response.ReferenceData.Organisations.Should().AllBeOfType<Organisation>();
+        response.ReferenceData.Organisations.Should().HaveCount(0);
 
-    [Fact]
-    public async Task CanGetOrganisationReferenceDataEndpoint()
-    {
-        // Act
-        var client = App!.CreateClient();
-
-        var result = await client.GetAsync("/organisations/get");
-
-        // Assert
-        Assert.NotNull(result);
+        response.ReferenceData.SchemeCodes.Should().NotBeNull();
+        response.ReferenceData.SchemeCodes.Should().HaveCount(0);
     }
 
     [Fact]
@@ -81,6 +68,7 @@ public class ReferenceDataTests// : TestBase<App>
 
         // Assert
         Assert.NotNull(result);
+        Assert.Equal("OK", result.StatusCode.ToString());
     }
 
     [Fact]
@@ -93,5 +81,6 @@ public class ReferenceDataTests// : TestBase<App>
 
         // Assert
         Assert.NotNull(result);
+        Assert.Equal("OK", result.StatusCode.ToString());
     }
 }
