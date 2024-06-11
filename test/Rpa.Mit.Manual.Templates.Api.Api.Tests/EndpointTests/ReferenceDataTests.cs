@@ -5,6 +5,10 @@ using FastEndpoints.Testing;
 
 using FluentAssertions.Execution;
 
+using GetPaymentTypes;
+
+using GetSchemeTypes;
+
 using Microsoft.Extensions.Logging;
 
 using OpenTelemetry.Trace;
@@ -61,26 +65,50 @@ public class ReferenceDataTests// : TestBase<App>
     [Fact]
     public async Task CanGetPaymentTypesReferenceDataEndpoint()
     {
-        // Act
-        var client = App!.CreateClient();
+        List<PaymentType> paymentTypes = new List<PaymentType>
+        {
+            new PaymentType{ Code = "code1", Description="qwer" },
+            new PaymentType{ Code = "code2", Description="asdf"  },
+            new PaymentType{ Code = "code3", Description="zxcv" }
+        };
 
-        var result = await client.GetAsync("/paymenttypes/get");
+        var fakeRepo = A.Fake<IReferenceDataRepo>();
+        A.CallTo(() => fakeRepo.GetPaymentTypeReferenceData(CancellationToken.None))
+                .Returns(Task.FromResult(paymentTypes.AsEnumerable()));
 
-        // Assert
-        Assert.NotNull(result);
-        Assert.Equal("OK", result.StatusCode.ToString());
+        var ep = Factory.Create<GetPaymentTypesEndpoint>(
+                       A.Fake<ILogger<GetPaymentTypesEndpoint>>(),
+                       fakeRepo);
+
+        await ep.HandleAsync(default);
+        var response = ep.Response;
+
+        response.Should().NotBeNull();
+        response.PaymentTypes.Should().HaveCount(3);
     }
 
     [Fact]
     public async Task CanGetSchemeTypesReferenceDataEndpoint()
     {
-        // Act
-        var client = App!.CreateClient();
+        List<SchemeType> paymentTypes = new List<SchemeType>
+        {
+            new SchemeType{ Code = "code1", Description="qwer" },
+            new SchemeType{ Code = "code2", Description="asdf"  },
+            new SchemeType{ Code = "code3", Description="zxcv" }
+        };
 
-        var result = await client.GetAsync("/schemetypes/get");
+        var fakeRepo = A.Fake<IReferenceDataRepo>();
+        A.CallTo(() => fakeRepo.GetSchemeTypeReferenceData(CancellationToken.None))
+                .Returns(Task.FromResult(paymentTypes.AsEnumerable()));
 
-        // Assert
-        Assert.NotNull(result);
-        Assert.Equal("OK", result.StatusCode.ToString());
+        var ep = Factory.Create<GetSchemeTypesEndpoint>(
+                       A.Fake<ILogger<GetSchemeTypesEndpoint>>(),
+                       fakeRepo);
+
+        await ep.HandleAsync(default);
+        var response = ep.Response;
+
+        response.Should().NotBeNull();
+        response.SchemeTypes.Should().HaveCount(3);
     }
 }
