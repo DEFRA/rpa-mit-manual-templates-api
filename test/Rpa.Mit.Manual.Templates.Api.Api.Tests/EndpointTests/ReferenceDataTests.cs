@@ -23,13 +23,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests;
 
 public class ReferenceDataTests// : TestBase<App>
 {
-    private App? App { get; }
-
-    public ReferenceDataTests()
-    {
-        App = new();
-    }
-
     [Fact]
     public async Task ReferenceData_GetAll()
     {
@@ -50,27 +43,27 @@ public class ReferenceDataTests// : TestBase<App>
 
         response.ReferenceData.Should().NotBeNull();
 
-        response.ReferenceData.PaymentTypes.Should().NotBeNull();
-        response.ReferenceData.PaymentTypes.Should().AllBeOfType<PaymentType>();
-        response.ReferenceData.PaymentTypes.Should().HaveCount(0);
+        response.ReferenceData?.PaymentTypes.Should().NotBeNull();
+        response.ReferenceData?.PaymentTypes.Should().AllBeOfType<PaymentType>();
+        response.ReferenceData?.PaymentTypes.Should().HaveCount(0);
 
-        response.ReferenceData.Organisations.Should().NotBeNull();
-        response.ReferenceData.Organisations.Should().AllBeOfType<Organisation>();
-        response.ReferenceData.Organisations.Should().HaveCount(0);
+        response.ReferenceData?.Organisations.Should().NotBeNull();
+        response.ReferenceData?.Organisations.Should().AllBeOfType<Organisation>();
+        response.ReferenceData?.Organisations.Should().HaveCount(0);
 
-        response.ReferenceData.SchemeCodes.Should().NotBeNull();
-        response.ReferenceData.SchemeCodes.Should().HaveCount(0);
+        response.ReferenceData?.SchemeCodes.Should().NotBeNull();
+        response.ReferenceData?.SchemeCodes.Should().HaveCount(0);
     }
 
     [Fact]
     public async Task CanGetPaymentTypesReferenceDataEndpoint()
     {
-        List<PaymentType> paymentTypes = new List<PaymentType>
-        {
+        List<PaymentType> paymentTypes =
+        [
             new PaymentType{ Code = "code1", Description="qwer" },
             new PaymentType{ Code = "code2", Description="asdf"  },
             new PaymentType{ Code = "code3", Description="zxcv" }
-        };
+        ];
 
         var fakeRepo = A.Fake<IReferenceDataRepo>();
         A.CallTo(() => fakeRepo.GetPaymentTypeReferenceData(CancellationToken.None))
@@ -90,12 +83,12 @@ public class ReferenceDataTests// : TestBase<App>
     [Fact]
     public async Task CanGetSchemeTypesReferenceDataEndpoint()
     {
-        List<SchemeType> paymentTypes = new List<SchemeType>
-        {
+        List<SchemeType> paymentTypes =
+        [
             new SchemeType{ Code = "code1", Description="qwer" },
             new SchemeType{ Code = "code2", Description="asdf"  },
             new SchemeType{ Code = "code3", Description="zxcv" }
-        };
+        ];
 
         var fakeRepo = A.Fake<IReferenceDataRepo>();
         A.CallTo(() => fakeRepo.GetSchemeTypeReferenceData(CancellationToken.None))
