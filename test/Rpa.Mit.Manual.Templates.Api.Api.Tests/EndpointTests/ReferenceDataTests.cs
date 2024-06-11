@@ -1,4 +1,15 @@
-﻿using Xunit.Priority;
+﻿using FakeItEasy;
+
+using FastEndpoints;
+using FastEndpoints.Testing;
+
+using FluentAssertions.Execution;
+
+using Microsoft.Extensions.Logging;
+
+using Rpa.Mit.Manual.Templates.Api.Api.GetReferenceData;
+using Rpa.Mit.Manual.Templates.Api.Core.Entities;
+using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests;
 
@@ -12,16 +23,41 @@ public class ReferenceDataTests// : TestBase<App>
     }
 
     [Fact]
-    public async Task CanGetReferenceDataEndpoint()
+    public async Task ReferenceData_GetAll()
     {
-        // Act
-        var client = App!.CreateClient();
+        ReferenceData referenceData = new ReferenceData();
 
-        var result = await client.GetAsync("/referencedata/get");
+        var fakeRepo = A.Fake<IReferenceDataRepo>();
+        A.CallTo(() => fakeRepo.GetAllReferenceData(CancellationToken.None))
+                .Returns(Task.FromResult(referenceData));
 
-        // Assert
-        Assert.NotNull(result);
+        var ep = Factory.Create<GetReferenceDataEndpoint>(
+                       A.Fake<ILogger<GetReferenceDataEndpoint>>(),
+                       fakeRepo);
+
+        await ep.HandleAsync(default);
+        var response = ep.Response;
+
+        using (new AssertionScope())
+        {
+            response.Should().NotBeNull();
+
+            response.ReferenceData.Should().NotBeNull();
+
+            response.ReferenceData?.PaymentTypes.Should().NotBeNull();
+            response.ReferenceData?.PaymentTypes.Should().AllBeOfType<PaymentType>();
+                              
+            response.ReferenceData?.Organisations.Should().NotBeNull();
+            response.ReferenceData?.Organisations.Should().AllBeOfType<Organisation>();
+                              
+            response.ReferenceData?.SchemeCodes.Should().NotBeNull();
+            response.ReferenceData?.SchemeCodes.Should().AllBeOfType<SchemeCode>();
+                              
+            response.ReferenceData?.PaymentTypes.Should().NotBeNull();
+            response.ReferenceData?.PaymentTypes.Should().AllBeOfType<PaymentType>();
+        }
     }
+
 
     [Fact]
     public async Task CanGetOrganisationReferenceDataEndpoint()
