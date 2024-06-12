@@ -1,11 +1,23 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-using Rpa.Mit.Manual.Templates.Api.Core.Entities;
+﻿using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 
 namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
 {
     public interface IInvoiceRepo
     {
+        /// <summary>
+        /// adds an invoice 'header' to the db
+        /// </summary>
+        /// <param name="invoice"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
         Task<bool> AddInvoice(Invoice invoice, CancellationToken ct);
+
+        /// <summary>
+        /// get an entire invoice, with all children, for publishing to azure servicebus
+        /// </summary>
+        /// <param name="invoice"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        Task<Invoice> GetInvoiceForAzure(Guid invoiceId, CancellationToken ct);
     }
 }

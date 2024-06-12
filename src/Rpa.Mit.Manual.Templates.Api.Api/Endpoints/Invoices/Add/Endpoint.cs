@@ -20,6 +20,7 @@ namespace Invoices.Add
 
         public override void Configure()
         {
+            // temp allow anon
             AllowAnonymous();
             Post("/invoices/add");
         }

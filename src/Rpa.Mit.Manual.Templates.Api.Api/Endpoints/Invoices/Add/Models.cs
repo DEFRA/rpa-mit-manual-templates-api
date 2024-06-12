@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
+using Rpa.Mit.Manual.Templates.Api.Core.Enums;
 
 namespace Invoices.Add
 {
@@ -21,16 +22,11 @@ namespace Invoices.Add
 
         public string SchemeType { get; set; } = default!;
 
-        //public IEnumerable<PaymentRequest> PaymentRequests { get; set; } = Enumerable.Empty<PaymentRequest>();
+        public decimal Value { get; set; } = 0.0M;
 
-        /// <summary>
-        /// the sum total of any or all of payment requests
-        /// </summary>
-        //public decimal Value { get; set; } = 0.0M;
+        public string Status { get; private set; } = InvoiceStatuses.New;
 
-        //public string Status { get; private set; } = InvoiceStatuses.New;
-
-        //public string Reference { get; set; } = default!;
+        public string Reference { get; set; } = default!;
 
 
         //[JsonIgnore]
