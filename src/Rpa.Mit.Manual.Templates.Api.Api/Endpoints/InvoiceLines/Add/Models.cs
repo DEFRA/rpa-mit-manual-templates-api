@@ -29,7 +29,6 @@ namespace Add
     }
 
     [ExcludeFromCodeCoverage]
-
     internal sealed class AddInvoiceLineResponse
     {
         public string Message { get; set; } = string.Empty;

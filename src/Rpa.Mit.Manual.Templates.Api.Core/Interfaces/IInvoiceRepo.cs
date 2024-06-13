@@ -12,10 +12,11 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <returns></returns>
         Task<bool> AddInvoice(Invoice invoice, CancellationToken ct);
 
+
         /// <summary>
         /// get an entire invoice, with all children, for publishing to azure servicebus
         /// </summary>
-        /// <param name="invoice"></param>
+        /// <param name="invoiceId"></param>
         /// <param name="ct"></param>
         /// <returns></returns>
         Task<Invoice> GetInvoiceForAzure(Guid invoiceId, CancellationToken ct);
