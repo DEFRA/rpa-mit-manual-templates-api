@@ -2,8 +2,6 @@ global using FastEndpoints;
 
 global using FluentValidation;
 
-using FastEndpoints.Swagger;
-
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 using Rpa.Mit.Manual.Templates.Api.Api;

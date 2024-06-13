@@ -1,6 +1,7 @@
 ﻿using Asp.Versioning;
 
 using Rpa.Mit.Manual.Templates.Api.Api.Config;
+using Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices;
 using Rpa.Mit.Manual.Templates.Api.Api.Extensions;
 using Rpa.Mit.Manual.Templates.Api.Api.HealthChecks;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
@@ -30,8 +31,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api
 
             builder.Services.Configure<AzureAd>(builder.Configuration.GetSection("AzureAd"));
             builder.Services.Configure<ConnectionStrings>(builder.Configuration.GetSection("ConnectionStrings"));
-
-            builder.Services.AddTransient<IReferenceDataRepo, ReferenceDataRepo>();
 
             var appInsightsConfig = new AppInsightsConfig
             {

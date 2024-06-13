@@ -23,6 +23,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
             {
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
+
                 var sql = "INSERT INTO invoicelines (id, value, description, fundcode, mainaccount, schemecode, marketingyear, deliverybody, paymentrequestid )" +
                      " VALUES (@Id, @Value, @Description, @Fundcode, @mainaccount, @schemecode,  @marketingyear, @deliverybody, @paymentrequestid)";
 

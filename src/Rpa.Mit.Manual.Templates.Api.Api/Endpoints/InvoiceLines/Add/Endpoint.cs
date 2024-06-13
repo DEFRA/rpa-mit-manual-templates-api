@@ -23,7 +23,7 @@ namespace Add
         {
             // temp allow anon
             AllowAnonymous();
-            Get("/invoicelines/add");
+            Post("/invoicelines/add");
         }
 
         public override async Task HandleAsync(AddInvoiceLineRequest r, CancellationToken ct)
