@@ -19,6 +19,8 @@ namespace PaymentsRequests.Add
 
         public override void Configure()
         {
+            // temp allow anon
+            AllowAnonymous();
             Post("/paymentrequest/add");
         }
 
@@ -55,6 +57,7 @@ namespace PaymentsRequests.Add
         {
             var paymentRequest = await Task.FromResult(new PaymentRequest());
 
+            paymentRequest.PaymentRequestId = r.PaymentRequestId;
             paymentRequest.AccountType = r.AccountType;
             paymentRequest.FRN = r.FRN;
             paymentRequest.SBI = r.SBI;

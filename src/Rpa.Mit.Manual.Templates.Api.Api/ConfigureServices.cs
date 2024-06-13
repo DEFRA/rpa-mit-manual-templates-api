@@ -1,7 +1,4 @@
 ﻿using Asp.Versioning;
-using FastEndpoints.Swagger;
-
-using Microsoft.AspNetCore.Authentication;
 
 using Rpa.Mit.Manual.Templates.Api.Api.Config;
 using Rpa.Mit.Manual.Templates.Api.Api.Extensions;

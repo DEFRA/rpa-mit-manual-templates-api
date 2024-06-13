@@ -12,9 +12,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <_ContentIncludedByDefault Remove="local.settings.json" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
 		<PackageReference Include="AutoMapper" Version="13.0.1" />
-		<PackageReference Include="Azure.Identity" Version="1.11.3" />
+		<PackageReference Include="Azure.Identity" Version="1.11.4" />
 		<PackageReference Include="Azure.Messaging.ServiceBus" Version="7.17.5" />
 		<PackageReference Include="Azure.Monitor.OpenTelemetry.AspNetCore" Version="1.1.1" />
 		<PackageReference Include="Dapper" Version="2.1.35" />

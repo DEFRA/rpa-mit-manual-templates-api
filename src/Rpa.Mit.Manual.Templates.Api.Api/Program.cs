@@ -12,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 ConfigureServices.Configure(builder);
+builder.Services.ConfigureAzure(builder.Configuration);
 
 var app = builder.Build();
 

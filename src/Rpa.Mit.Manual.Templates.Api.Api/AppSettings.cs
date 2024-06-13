@@ -10,7 +10,7 @@ namespace Rpa.Mit.Manual.Templates.Api
         public string BlobContainerName { get; set; } = string.Empty;
         public string BlobConnectionString { get; set; } = string.Empty;
         public string NotificationQueueName { get; set; } = string.Empty;
-        public string QueueConnectionString { get; set; } = string.Empty;
+        public string ServiceBusConnectionString { get; set; } = string.Empty;
         public string InvoiceAPIBaseURI { get; set; } = string.Empty;
         public string ApprovalAPIBAseURI { get; set; } = string.Empty;
         public string ReferenceDataAPIBaseURI { get; set; } = string.Empty;

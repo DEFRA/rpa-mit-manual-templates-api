@@ -1,4 +1,6 @@
-﻿using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
+﻿using Azure.Messaging.ServiceBus;
+
+using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices.InvoiceToAzure
@@ -45,6 +47,14 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices.InvoiceToAzure
                 }
 
                 await SendAsync(new InvoiceToAzureResponse());
+            }
+            catch (ServiceBusException ex)
+            {
+                _logger.LogError(ex, "{Message}", ex.Message);
+
+                response.Message = ex.Message;
+
+                await SendAsync(response, 400, CancellationToken.None);
             }
             catch (Exception ex)
             {

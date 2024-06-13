@@ -65,7 +65,7 @@ namespace Invoices.Add
         }
 
 
-        public override async Task<Invoice> MapToEntityAsync(AddInvoiceRequest r, CancellationToken ct = default)
+        public sealed override async Task<Invoice> MapToEntityAsync(AddInvoiceRequest r, CancellationToken ct = default)
         {
             var invoice = await Task.FromResult(new Invoice());
 

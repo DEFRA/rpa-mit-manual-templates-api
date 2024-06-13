@@ -2,8 +2,6 @@
 
 using Azure.Messaging.ServiceBus;
 
-using Microsoft.Extensions.Options;
-
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
@@ -12,14 +10,14 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
 {
     public class EventQueueService : IEventQueueService
     {
-        private readonly IOptions<AppSettings> _options;
+        private readonly IConfiguration _configuration;
         private readonly IServiceBusProvider _iServiceBusProvider;
 
         public EventQueueService(
-            IOptions<AppSettings> options, 
-            IServiceBusProvider iServiceBusProvider)
+            IServiceBusProvider iServiceBusProvider,
+            IConfiguration configuration )
         {
-            _options = options;
+            _configuration = configuration;
             _iServiceBusProvider = iServiceBusProvider;
         }
 
@@ -43,7 +41,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
                 }
             };
 
-            await _iServiceBusProvider.SendMessageAsync(_options.Value.EventQueueName, JsonSerializer.Serialize(eventRequest));
+            await _iServiceBusProvider.SendMessageAsync(_configuration.GetSection("EventQueueName").Value, JsonSerializer.Serialize(eventRequest));
 
             return true;
         }
@@ -70,7 +68,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
 
             try
             {
-                await _iServiceBusProvider.SendMessageAsync(_options.Value.EventQueueName, JsonSerializer.Serialize(eventRequest));
+                await _iServiceBusProvider.SendMessageAsync(_configuration.GetSection("EventQueueName").Value, JsonSerializer.Serialize(eventRequest));
                 return true;
 
             }
