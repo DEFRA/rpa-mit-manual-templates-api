@@ -58,16 +58,16 @@ namespace PaymentsRequests.Add
             var paymentRequest = await Task.FromResult(new PaymentRequest());
 
             paymentRequest.PaymentRequestId = r.PaymentRequestId;
-            paymentRequest.AccountType = r.AccountType;
             paymentRequest.FRN = r.FRN;
             paymentRequest.SBI = r.SBI;
             paymentRequest.Currency = r.Currency;
             paymentRequest.Vendor = r.Vendor;
             paymentRequest.AgreementNumber = r.AgreementNumber;
-            paymentRequest.PaymentRequestNumber = r.PaymentRequestNumber;
             paymentRequest.MarketingYear = r.MarketingYear;
             paymentRequest.Description = r.Description;
-            paymentRequest.DueDate = r.DueDate;
+            paymentRequest.InvoiceId = r.InvoiceId;
+            paymentRequest.PaymentRequestNumber = 1;  //TODO: this needs investigation
+            paymentRequest.Value = 0.00M;
 
             return paymentRequest;
         }

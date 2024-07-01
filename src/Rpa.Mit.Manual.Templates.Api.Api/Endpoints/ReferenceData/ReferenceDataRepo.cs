@@ -28,7 +28,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
                     await cn.OpenAsync(ct);
 
                 var sql = @"
-                        SELECT accountcode, org FROM lookup_deliverybodyinitialselections;
+                        SELECT deliverybodydescription, code, accountcode, org FROM lookup_deliverybodyinitialselections;
                         SELECT name, deliverybodycode FROM lookup_schemeinvoicetemplates;
                         SELECT id, name FROM lookup_schemeinvoicetemplatessecondaryrpaquestions;
                         SELECT code, description FROM lookup_paymenttypes;

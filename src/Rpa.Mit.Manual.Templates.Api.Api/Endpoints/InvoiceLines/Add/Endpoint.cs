@@ -65,6 +65,9 @@ namespace Add
             invoiceLine.DeliveryBody = r.DeliveryBody;
             invoiceLine.Value = r.Value;
             invoiceLine.Description = r.Description;
+            invoiceLine.FundCode = r.FundCode;
+            invoiceLine.SchemeCode = r.SchemeCode;
+            invoiceLine.MainAccount = r.MainAccount;
             invoiceLine.PaymentRequestId = r.PaymentRequestId;
 
             return invoiceLine;
