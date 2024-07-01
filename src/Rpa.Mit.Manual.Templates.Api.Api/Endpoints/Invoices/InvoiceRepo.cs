@@ -32,6 +32,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
             }
         }
 
+
         public async Task<Invoice> GetInvoiceForAzure(Guid invoiceId, CancellationToken ct)
         {
             using (var cn = new NpgsqlConnection(DbConn))
