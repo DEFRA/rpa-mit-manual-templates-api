@@ -23,8 +23,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.PaymentRequests
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
 
-                var sql = "INSERT INTO paymentrequests (paymentrequestid, invoiceid, frn, sbi, vendor, marketingyear, agreementnumber, currency, description, duedate, value )" +
-                     " VALUES (@PaymentRequestId, @InvoiceId, @Frn, @Sbi, @Vendor, @MarketingYear,  @AgreementNumber, @Currency, @Description, @DueDate, @Value)";
+                var sql = "INSERT INTO paymentrequests (paymentrequestid, invoiceid, frn, sbi, vendor, marketingyear, agreementnumber, currency, description, duedate, value, claimreferencenumber, claimreference )" +
+                     " VALUES (@PaymentRequestId, @InvoiceId, @Frn, @Sbi, @Vendor, @MarketingYear,  @AgreementNumber, @Currency, @Description, @DueDate, @Value, @claimreferencenumber, @claimreference)";
 
                 var res = await cn.ExecuteAsync(sql, paymentRequest);
 

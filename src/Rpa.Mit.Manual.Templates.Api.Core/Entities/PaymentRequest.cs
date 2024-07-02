@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
@@ -16,7 +11,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 
         public Guid InvoiceId { get; set; }
 
-        [Required]
         public string SourceSystem { get; set; } = "Manual";
 
         [DisplayName("FRN")]
@@ -74,5 +68,10 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
         [Required]
         [DisplayName("Description")]
         public string Description { get; set; } = string.Empty;
+
+
+        public string ClaimReferenceNumber { get; set; } = string.Empty;
+
+        public string ClaimReference { get; set; } = string.Empty;
     }
 }

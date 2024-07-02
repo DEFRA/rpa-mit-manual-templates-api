@@ -68,6 +68,8 @@ namespace PaymentsRequests.Add
             paymentRequest.InvoiceId = r.InvoiceId;
             paymentRequest.PaymentRequestNumber = 1;  //TODO: this needs investigation
             paymentRequest.Value = 0.00M;
+            paymentRequest.ClaimReference = r.ClaimReference;
+            paymentRequest.ClaimReferenceNumber = r.ClaimReferenceNumber;
 
             return paymentRequest;
         }

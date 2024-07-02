@@ -58,5 +58,10 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
                 return invoice;
             }
         }
+
+        public async Task<bool> DeleteInvoice(Guid invoiceId, CancellationToken ct)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

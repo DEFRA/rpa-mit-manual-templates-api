@@ -20,5 +20,13 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <param name="ct"></param>
         /// <returns></returns>
         Task<Invoice> GetInvoiceForAzure(Guid invoiceId, CancellationToken ct);
+
+        /// <summary>
+        /// deletes an invoice and all its children
+        /// </summary>
+        /// <param name="invoiceId"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        Task<bool> DeleteInvoice(Guid invoiceId, CancellationToken ct);
     }
 }
