@@ -1,8 +1,10 @@
-﻿namespace DeleteInvoice
+﻿using Rpa.Mit.Manual.Templates.Api.Core.Entities;
+
+namespace DeleteInvoice
 {
     internal sealed class DeleteInvoiceRequest
     {
-
+        public Guid InvoiceId { get; set; }
 
         internal sealed class Validator : Validator<DeleteInvoiceRequest>
         {
@@ -15,6 +17,8 @@
 
     internal sealed class DeleteInvoiceResponse
     {
-        public string Message => "This endpoint hasn't been implemented yet!";
+        public string Message { get; set; } = string.Empty;
+
+        public bool Result { get; set; }
     }
 }
