@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Transactions;
 
 using Dapper;
 
@@ -29,6 +30,21 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.PaymentRequests
                 var res = await cn.ExecuteAsync(sql, paymentRequest);
 
                 return res == 1;
+            }
+        }
+
+        public async Task<decimal> GetInvoiceRequestValue(string invoiceRequestId, CancellationToken ct)
+        {
+            using (var cn = new NpgsqlConnection(DbConn))
+            {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
+                var invoiceLineValues = await cn.QueryAsync<decimal>(
+                            "SELECT value FROM invoicelines WHERE paymentrequestid = @invoiceRequestId",
+                            new { InvoiceRequestId = invoiceRequestId });
+
+                return invoiceLineValues.Sum();
             }
         }
     }
