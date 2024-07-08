@@ -90,5 +90,38 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
                 }
             }
         }
+
+
+        public async Task<decimal> UpdateInvoiceLine(InvoiceLine invoiceLine, CancellationToken ct)
+        {
+            using (var cn = new NpgsqlConnection(DbConn))
+            {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
+                using (var transaction = await cn.BeginTransactionAsync(ct))
+                {
+                    try
+                    {
+                        var sql = "UPDATE invoicelines SET value = @Value, description = @Description, fundcode = @Fundcode, mainaccount = @mainaccount, schemecode = @schemecode, marketingyear = @marketingyear, deliverybody = @deliverybody WHERE id = @id";
+
+                        await cn.ExecuteAsync(sql, invoiceLine);
+
+                        var invoiceLineValues = await cn.QueryAsync<decimal>(
+                                    "SELECT value FROM invoicelines WHERE paymentrequestid = @invoiceRequestId",
+                                    new { InvoiceRequestId = invoiceLine.PaymentRequestId });
+
+                        await transaction.CommitAsync(ct);
+
+                        return invoiceLineValues.Sum();
+                    }
+                    catch
+                    {
+                        await transaction.RollbackAsync(ct);
+                        throw;
+                    }
+                }
+            }
+        }
     }
 }
