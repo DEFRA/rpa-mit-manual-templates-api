@@ -21,5 +21,13 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <param name="ct"></param>
         /// <returns></returns>
         Task<decimal> GetInvoiceRequestValue(string invoiceRequestId, CancellationToken ct);
+
+        /// <summary>
+        /// updates a single invoice request
+        /// </summary>
+        /// <param name="paymentRequest"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        Task<bool> UpdateInvoiceRequest(PaymentRequest paymentRequest, CancellationToken ct);
     }
 }

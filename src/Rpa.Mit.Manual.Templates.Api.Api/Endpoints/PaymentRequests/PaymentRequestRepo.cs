@@ -46,5 +46,21 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.PaymentRequests
                 return invoiceLineValues.Sum();
             }
         }
+
+        public async Task<bool> UpdateInvoiceRequest(PaymentRequest paymentRequest, CancellationToken ct)
+        {
+            using (var cn = new NpgsqlConnection(DbConn))
+            {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
+
+                var sql = "UPDATE paymentrequests frn=?, sbi=?, vendor=?, agreementnumber=?, currency=?, description=?, value=?, paymentrequestid=?, marketingyear=?, duedate=?, claimreferencenumber=?, claimreference=? WHERE paymentrequestid = @id";
+
+                var res = await cn.ExecuteAsync(sql, paymentRequest);
+
+                return res == 1;
+            }
+        }
     }
 }
