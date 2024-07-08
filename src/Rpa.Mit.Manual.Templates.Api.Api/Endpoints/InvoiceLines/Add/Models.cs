@@ -34,5 +34,7 @@ namespace Add
         public string Message { get; set; } = string.Empty;
 
         public InvoiceLine? InvoiceLine { get; set; }
+
+        public decimal InvoiceRequestValue { get; set; }
     }
 }

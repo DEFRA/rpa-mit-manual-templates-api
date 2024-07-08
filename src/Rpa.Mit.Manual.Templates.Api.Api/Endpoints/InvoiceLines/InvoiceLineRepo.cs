@@ -17,19 +17,39 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
         public InvoiceLineRepo(IOptions<ConnectionStrings> options) : base(options)
         { }
 
-        public async Task<bool> AddInvoiceLine(InvoiceLine invoiceLine, CancellationToken ct)
+        public async Task<decimal> AddInvoiceLine(InvoiceLine invoiceLine, CancellationToken ct)
         {
             using (var cn = new NpgsqlConnection(DbConn))
             {
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
 
-                var sql = "INSERT INTO invoicelines (id, value, description, fundcode, mainaccount, schemecode, marketingyear, deliverybody, paymentrequestid )" +
-                     " VALUES (@Id, @Value, @Description, @Fundcode, @mainaccount, @schemecode,  @marketingyear, @deliverybody, @paymentrequestid)";
+                using (var transaction = await cn.BeginTransactionAsync(ct))
+                {
 
-                var res = await cn.ExecuteAsync(sql, invoiceLine);
+                    try
+                    {
+                        var sql = "INSERT INTO invoicelines (id, value, description, fundcode, mainaccount, schemecode, marketingyear, deliverybody, paymentrequestid )" +
+                            " VALUES (@Id, @Value, @Description, @Fundcode, @mainaccount, @schemecode,  @marketingyear, @deliverybody, @paymentrequestid)";
 
-                return res == 1;
+                        await cn.ExecuteAsync(sql, invoiceLine);
+
+                        var invoiceLineValues = await cn.QueryAsync<decimal>(
+                                    "SELECT value FROM invoicelines WHERE paymentrequestid = @invoiceRequestId",
+                                    new { InvoiceRequestId = invoiceLine.PaymentRequestId });
+
+                        await transaction.CommitAsync(ct);
+
+                        return invoiceLineValues.Sum();
+                    }
+                    catch
+                    {
+                        await transaction.RollbackAsync(ct);
+                        throw;
+                    }
+
+
+                }
             }
         }
     }

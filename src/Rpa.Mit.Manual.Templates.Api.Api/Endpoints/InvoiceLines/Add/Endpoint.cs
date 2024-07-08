@@ -36,13 +36,16 @@ namespace Add
 
                 invoiceLIne.Id = Guid.NewGuid();
 
-                if (await _iInvoiceLineRepo.AddInvoiceLine(invoiceLIne, ct))
+                var res = await _iInvoiceLineRepo.AddInvoiceLine(invoiceLIne, ct))
+                
+                if(res != 0)
                 {
+                    response.InvoiceRequestValue = res;
                     response.InvoiceLine = invoiceLIne;
                 }
                 else
                 {
-                    response.Message = "Error adding new payment request";
+                    response.Message = "Error adding new invoice line";
                 }
 
                 await SendAsync(response, cancellation: ct);
