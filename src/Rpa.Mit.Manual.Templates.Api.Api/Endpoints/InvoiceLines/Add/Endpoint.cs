@@ -32,16 +32,16 @@ namespace Add
 
             try
             {
-                InvoiceLine invoiceLIne = await MapToEntityAsync(r, ct);
+                InvoiceLine invoiceLine = await MapToEntityAsync(r, ct);
 
-                invoiceLIne.Id = Guid.NewGuid();
+                invoiceLine.Id = Guid.NewGuid();
 
-                var res = await _iInvoiceLineRepo.AddInvoiceLine(invoiceLIne, ct))
+                var res = await _iInvoiceLineRepo.AddInvoiceLine(invoiceLine, ct);
                 
                 if(res != 0)
                 {
                     response.InvoiceRequestValue = res;
-                    response.InvoiceLine = invoiceLIne;
+                    response.InvoiceLine = invoiceLine;
                 }
                 else
                 {

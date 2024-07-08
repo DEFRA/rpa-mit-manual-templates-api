@@ -26,7 +26,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
 
                 using (var transaction = await cn.BeginTransactionAsync(ct))
                 {
-
                     try
                     {
                         var sql = "INSERT INTO invoicelines (id, value, description, fundcode, mainaccount, schemecode, marketingyear, deliverybody, paymentrequestid )" +
@@ -45,10 +44,47 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
                     catch
                     {
                         await transaction.RollbackAsync(ct);
+                        throw; 
+                    }
+                }
+            }
+        }
+
+        public async Task<decimal> DeleteInvoiceLine(Guid invoiceLineId, CancellationToken ct)
+        {
+            using (var cn = new NpgsqlConnection(DbConn))
+            {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
+                using (var transaction = await cn.BeginTransactionAsync(ct))
+                {
+                    try
+                    {
+                        // get parent payment request id
+                        var prId = await cn.QueryAsync<string>(
+                            "SELECT paymentrequestid FROM invoicelines WHERE id = @invoiceLineId",
+                            new { invoiceLineId },
+                            transaction: transaction);
+
+                        await cn.ExecuteAsync(
+                                "DELETE FROM invoicelines WHERE id = @invoiceLineId",
+                                new { invoiceLineId },
+                                transaction: transaction);
+
+                        var invoiceLineValues = await cn.QueryAsync<decimal>(
+                                    "SELECT value FROM invoicelines WHERE paymentrequestid = @invoiceRequestId",
+                                    new { InvoiceRequestId = prId });
+
+                        await transaction.CommitAsync(ct);
+
+                        return invoiceLineValues.Sum();
+                    }
+                    catch
+                    {
+                        await transaction.RollbackAsync(ct);
                         throw;
                     }
-
-
                 }
             }
         }
