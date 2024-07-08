@@ -4,17 +4,17 @@ using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace UpdateInvoiceRequest
 {
-    internal sealed class UpdateInvoiceRequestEndpoint : EndpointWithMapping<UpdateInvoiceRequestRequest, UpdateInvoiceRequestResponse, PaymentRequest>
+    internal sealed class UpdateInvoiceRequestEndpoint : EndpointWithMapping<UpdateInvoiceRequestRequest, UpdateInvoiceRequestResponse, InvoiceRequest>
     {
-        private readonly IInvoiceLineRepo _iInvoiceLineRepo;
+        private readonly IInvoiceRequestRepo _iInvoiceRequestRepo;
         private readonly ILogger<UpdateInvoiceRequestEndpoint> _logger;
 
         public UpdateInvoiceRequestEndpoint(
             ILogger<UpdateInvoiceRequestEndpoint> logger,
-            IInvoiceLineRepo iInvoiceLineRepo)
+            IInvoiceRequestRepo iInvoiceRequestRepo)
         {
             _logger = logger;
-            _iInvoiceLineRepo = iInvoiceLineRepo;
+            _iInvoiceRequestRepo = iInvoiceRequestRepo;
         }
 
         public override void Configure()
@@ -29,11 +29,11 @@ namespace UpdateInvoiceRequest
             await SendAsync(new UpdateInvoiceRequestResponse());
         }
 
-        public sealed override async Task<PaymentRequest> MapToEntityAsync(UpdateInvoiceRequestRequest r, CancellationToken ct = default)
+        public sealed override async Task<InvoiceRequest> MapToEntityAsync(UpdateInvoiceRequestRequest r, CancellationToken ct = default)
         {
-            var paymentRequest = await Task.FromResult(new PaymentRequest());
+            var paymentRequest = await Task.FromResult(new InvoiceRequest());
 
-            paymentRequest.PaymentRequestId = r.InvoiceRequestId;
+            paymentRequest.InvoiceRequestId = r.InvoiceRequestId;
             paymentRequest.MarketingYear = r.MarketingYear;
             paymentRequest.InvoiceCorrectionReference = r.InvoiceCorrectionReference;
             paymentRequest.Description = r.Description;

@@ -11,7 +11,7 @@ public static class ServiceExtensions
         services.AddTransient<IInvoiceLineRepo, InvoiceLineRepo>();
         services.AddTransient<IReferenceDataRepo, ReferenceDataRepo>();
         services.AddTransient<IInvoiceRepo, InvoiceRepo>();
-        services.AddTransient<IPaymentRequestRepo, PaymentRequestRepo>();
+        services.AddTransient<IInvoiceRequestRepo, InvoiceRequestRepo>();
         return services;
     }
 }

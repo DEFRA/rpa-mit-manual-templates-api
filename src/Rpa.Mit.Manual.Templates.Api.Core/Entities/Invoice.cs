@@ -25,7 +25,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
         [Required(ErrorMessage = "Scheme Type is required")]
         public string SchemeType { get; set; } = default!;
 
-        public IEnumerable<PaymentRequest> PaymentRequests { get; set; } = Enumerable.Empty<PaymentRequest>();
+        public IEnumerable<InvoiceRequest> PaymentRequests { get; set; } = Enumerable.Empty<InvoiceRequest>();
 
         /// <summary>
         /// the sum total of any or all of payment requests

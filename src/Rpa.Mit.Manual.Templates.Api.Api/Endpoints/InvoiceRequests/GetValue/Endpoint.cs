@@ -5,15 +5,15 @@ namespace GetInvoiceRequest
 {
     internal sealed class GetInvoiceRequestValueEndpoint : Endpoint<GetInvoiceRequestValueRequest, GetInvoiceRequestValueResponse>
     {
-        private readonly IPaymentRequestRepo _iPaymentRequestRepo;
+        private readonly IInvoiceRequestRepo _iInvoiceRequestRepo;
         private readonly ILogger<GetInvoiceRequestValueEndpoint> _logger;
 
         public GetInvoiceRequestValueEndpoint(
             ILogger<GetInvoiceRequestValueEndpoint> logger,
-            IPaymentRequestRepo iPaymentRequestRepo)
+            IInvoiceRequestRepo iInvoiceRequestRepo)
         {
             _logger = logger;
-            _iPaymentRequestRepo = iPaymentRequestRepo;
+            _iInvoiceRequestRepo = iInvoiceRequestRepo;
         }
 
         public override void Configure()
@@ -29,7 +29,7 @@ namespace GetInvoiceRequest
 
             try
             {
-                response.InvoiceRequestValue = await _iPaymentRequestRepo.GetInvoiceRequestValue(r.InvoiceRequestId, ct);
+                response.InvoiceRequestValue = await _iInvoiceRequestRepo.GetInvoiceRequestValue(r.InvoiceRequestId, ct);
 
                 await SendAsync(response, cancellation: ct);
             }

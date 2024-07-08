@@ -18,7 +18,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
         [Fact]
         public async Task PaymentRequest_Save_Success()
         {
-            AddPaymentRequest paymentRequest = new AddPaymentRequest
+            PaymentsRequests.Add.AddInvoiceRequest paymentRequest = new PaymentsRequests.Add.AddInvoiceRequest
             {
                 FRN = "EU (2014 - 2020 Program)",
                 SBI = "GBP",
@@ -33,12 +33,12 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
                 Vendor = "Q"
             };
 
-            var fakeRepo = A.Fake<IPaymentRequestRepo>();
-            A.CallTo(() => fakeRepo.AddPaymentRequest(A<PaymentRequest>.Ignored, CancellationToken.None))
+            var fakeRepo = A.Fake<IInvoiceRequestRepo>();
+            A.CallTo(() => fakeRepo.AddInvoiceRequest(A<InvoiceRequest>.Ignored, CancellationToken.None))
                     .Returns(Task.FromResult(true));
 
-            var ep = Factory.Create<AddPaymentRequestEndpoint>(
-                           A.Fake<ILogger<AddPaymentRequestEndpoint>>(),
+            var ep = Factory.Create<AddInvoiceRequestEndpoint>(
+                           A.Fake<ILogger<AddInvoiceRequestEndpoint>>(),
                            fakeRepo);
 
             await ep.HandleAsync(paymentRequest, default);
@@ -48,13 +48,13 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
             response.PaymentRequest.Should().NotBeNull();
             response.PaymentRequest?.AccountType.Should().Match("QQ");
 
-            Assert.IsType<string>(response.PaymentRequest?.PaymentRequestId);
+            Assert.IsType<string>(response.PaymentRequest?.InvoiceRequestId);
         }
 
         [Fact]
         public async Task PaymentRequest_Save_Fail()
         {
-            AddPaymentRequest paymentRequest = new AddPaymentRequest
+            PaymentsRequests.Add.AddInvoiceRequest paymentRequest = new PaymentsRequests.Add.AddInvoiceRequest
             {
                 FRN = "EU (2014 - 2020 Program)",
                 SBI = "GBP",
@@ -69,12 +69,12 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
                 Vendor = "Q"
             };
 
-            var fakeRepo = A.Fake<IPaymentRequestRepo>();
-            A.CallTo(() => fakeRepo.AddPaymentRequest(A<PaymentRequest>.Ignored, CancellationToken.None))
+            var fakeRepo = A.Fake<IInvoiceRequestRepo>();
+            A.CallTo(() => fakeRepo.AddInvoiceRequest(A<InvoiceRequest>.Ignored, CancellationToken.None))
                     .Returns(Task.FromResult(false));
 
-            var ep = Factory.Create<AddPaymentRequestEndpoint>(
-                           A.Fake<ILogger<AddPaymentRequestEndpoint>>(),
+            var ep = Factory.Create<AddInvoiceRequestEndpoint>(
+                           A.Fake<ILogger<AddInvoiceRequestEndpoint>>(),
                            fakeRepo);
 
             await ep.HandleAsync(paymentRequest, default);
@@ -88,7 +88,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
         [Fact]
         public async Task PaymentRequest_Save_Returns_Exception()
         {
-            AddPaymentRequest paymentRequest = new AddPaymentRequest
+            PaymentsRequests.Add.AddInvoiceRequest paymentRequest = new PaymentsRequests.Add.AddInvoiceRequest
             {
                 FRN = "EU (2014 - 2020 Program)",
                 SBI = "GBP",
@@ -103,12 +103,12 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
                 Vendor = "Q"
             };
 
-            var fakeRepo = A.Fake<IPaymentRequestRepo>();
-            A.CallTo(() => fakeRepo.AddPaymentRequest(A<PaymentRequest>.Ignored, CancellationToken.None))
+            var fakeRepo = A.Fake<IInvoiceRequestRepo>();
+            A.CallTo(() => fakeRepo.AddInvoiceRequest(A<InvoiceRequest>.Ignored, CancellationToken.None))
                     .Throws<NullReferenceException>();
 
-            var ep = Factory.Create<AddPaymentRequestEndpoint>(
-                           A.Fake<ILogger<AddPaymentRequestEndpoint>>(),
+            var ep = Factory.Create<AddInvoiceRequestEndpoint>(
+                           A.Fake<ILogger<AddInvoiceRequestEndpoint>>(),
                            fakeRepo);
 
             await ep.HandleAsync(paymentRequest, default);

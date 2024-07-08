@@ -4,17 +4,17 @@ using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace PaymentsRequests.Add
 {
-    internal sealed class AddPaymentRequestEndpoint : EndpointWithMapping<AddPaymentRequest, PaymentRequestResponse, PaymentRequest>
+    internal sealed class AddInvoiceRequestEndpoint : EndpointWithMapping<AddInvoiceRequest, AddInvoiceRequestResponse, InvoiceRequest>
     {
-        private readonly IPaymentRequestRepo _iPaymentRequestRepo;
-        private readonly ILogger<AddPaymentRequestEndpoint> _logger;
+        private readonly IInvoiceRequestRepo _iInvoiceRequestRepo;
+        private readonly ILogger<AddInvoiceRequestEndpoint> _logger;
 
-        public AddPaymentRequestEndpoint(
-            ILogger<AddPaymentRequestEndpoint> logger,
-            IPaymentRequestRepo iPaymentRequestRepo)
+        public AddInvoiceRequestEndpoint(
+            ILogger<AddInvoiceRequestEndpoint> logger,
+            IInvoiceRequestRepo iInvoiceRequestRepo)
         {
             _logger = logger;
-            _iPaymentRequestRepo = iPaymentRequestRepo;
+            _iInvoiceRequestRepo = iInvoiceRequestRepo;
         }
 
         public override void Configure()
@@ -24,15 +24,15 @@ namespace PaymentsRequests.Add
             Post("/paymentrequest/add");
         }
 
-        public override async Task HandleAsync(AddPaymentRequest r, CancellationToken ct)
+        public override async Task HandleAsync(AddInvoiceRequest r, CancellationToken ct)
         {
-            PaymentRequestResponse response = new PaymentRequestResponse();
+            AddInvoiceRequestResponse response = new AddInvoiceRequestResponse();
 
             try
             {
-                PaymentRequest paymentRequest = await MapToEntityAsync(r, ct);
+                InvoiceRequest paymentRequest = await MapToEntityAsync(r, ct);
 
-                if(await _iPaymentRequestRepo.AddPaymentRequest(paymentRequest, ct))
+                if(await _iInvoiceRequestRepo.AddInvoiceRequest(paymentRequest, ct))
                 {
                     response.PaymentRequest = paymentRequest;
                 }
@@ -53,11 +53,11 @@ namespace PaymentsRequests.Add
             }
         }
 
-        public override async Task<PaymentRequest> MapToEntityAsync(AddPaymentRequest r, CancellationToken ct = default)
+        public override async Task<InvoiceRequest> MapToEntityAsync(AddInvoiceRequest r, CancellationToken ct = default)
         {
-            var paymentRequest = await Task.FromResult(new PaymentRequest());
+            var paymentRequest = await Task.FromResult(new InvoiceRequest());
 
-            paymentRequest.PaymentRequestId = r.PaymentRequestId;
+            paymentRequest.InvoiceRequestId = r.PaymentRequestId;
             paymentRequest.FRN = r.FRN;
             paymentRequest.SBI = r.SBI;
             paymentRequest.Currency = r.Currency;

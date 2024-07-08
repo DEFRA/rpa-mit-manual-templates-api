@@ -6,7 +6,7 @@ using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 namespace PaymentsRequests.Add
 {
     [ExcludeFromCodeCoverage]
-    internal sealed class AddPaymentRequest
+    internal sealed class AddInvoiceRequest
     {
         public string PaymentRequestId { get; set; } = string.Empty;
 
@@ -59,10 +59,10 @@ namespace PaymentsRequests.Add
 
 
     [ExcludeFromCodeCoverage]
-    internal sealed class PaymentRequestResponse
+    internal sealed class AddInvoiceRequestResponse
     {
         public string Message { get; set; } = string.Empty;
 
-        public PaymentRequest? PaymentRequest { get; set; }
+        public InvoiceRequest? PaymentRequest { get; set; }
     }
 }

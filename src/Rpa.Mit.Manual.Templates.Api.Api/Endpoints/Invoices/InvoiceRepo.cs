@@ -48,13 +48,13 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
 
                 var prSql = "SELECT invoiceid, paymentrequestid, frn, sbi, vendor, agreementnumber, currency, description, value, marketingyear, duedate FROM paymentrequests WHERE invoiceid = @Id";
                 var prParameters = new { Id = invoice.Id };
-                invoice.PaymentRequests = await cn.QueryAsync<PaymentRequest>(prSql, prParameters);
+                invoice.PaymentRequests = await cn.QueryAsync<InvoiceRequest>(prSql, prParameters);
 
-                foreach (PaymentRequest pr in invoice.PaymentRequests)
+                foreach (InvoiceRequest pr in invoice.PaymentRequests)
                 {
                     // get the invoice lines
                     var invSql = "SELECT id, value, description, fundcode, mainaccount, schemecode, marketingyear, deliverybody, paymentrequestid FROM invoicelines WHERE paymentrequestid = @paymentrequestid";
-                    var invParameters = new { paymentrequestid = pr.PaymentRequestId };
+                    var invParameters = new { paymentrequestid = pr.InvoiceRequestId };
                     pr.InvoiceLines = await cn.QueryAsync<InvoiceLine>(invSql, invParameters);
                 }
 

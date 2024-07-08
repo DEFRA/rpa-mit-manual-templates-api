@@ -5,9 +5,9 @@ using System.Diagnostics.CodeAnalysis;
 namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 {
     [ExcludeFromCodeCoverage]
-    public sealed class PaymentRequest
+    public sealed class InvoiceRequest
     {
-        public string PaymentRequestId { get; set; } = string.Empty;
+        public string InvoiceRequestId { get; set; } = string.Empty;
 
         public Guid InvoiceId { get; set; }
 
