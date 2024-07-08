@@ -20,7 +20,7 @@ namespace GetInvoiceRequest
         {
             // temp allow anon
             AllowAnonymous();
-            Post("/invoicerequest/getvalue");
+            Post("/invoicerequests/getvalue");
         }
 
         public override async Task HandleAsync(GetInvoiceRequestValueRequest r, CancellationToken ct)

@@ -4,7 +4,7 @@
     {
         public override void Configure()
         {
-            Post("route");
+            Post("invoicerequests/delete");
         }
 
         public override async Task HandleAsync(DeleteInvoiceRequestRequest r, CancellationToken c)

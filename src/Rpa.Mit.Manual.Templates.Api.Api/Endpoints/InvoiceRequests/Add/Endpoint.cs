@@ -21,7 +21,7 @@ namespace PaymentsRequests.Add
         {
             // temp allow anon
             AllowAnonymous();
-            Post("/paymentrequest/add");
+            Post("/invoicerequests/add");
         }
 
         public override async Task HandleAsync(AddInvoiceRequest r, CancellationToken ct)
