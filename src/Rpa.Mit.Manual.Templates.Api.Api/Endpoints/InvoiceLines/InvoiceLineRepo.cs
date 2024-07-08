@@ -61,20 +61,22 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
                 {
                     try
                     {
-                        // get parent payment request id
-                        var prId = await cn.QueryAsync<string>(
+                        // get parent invoice/payment request id
+                        var prId = await cn.QuerySingleAsync<string>(
                             "SELECT paymentrequestid FROM invoicelines WHERE id = @invoiceLineId",
                             new { invoiceLineId },
                             transaction: transaction);
 
+                        // delete our invoice line
                         await cn.ExecuteAsync(
                                 "DELETE FROM invoicelines WHERE id = @invoiceLineId",
                                 new { invoiceLineId },
                                 transaction: transaction);
 
+                        // get the new total value and return
                         var invoiceLineValues = await cn.QueryAsync<decimal>(
-                                    "SELECT value FROM invoicelines WHERE paymentrequestid = @invoiceRequestId",
-                                    new { InvoiceRequestId = prId });
+                                    "SELECT value FROM invoicelines WHERE paymentrequestid = @prId",
+                                    new { prId });
 
                         await transaction.CommitAsync(ct);
 

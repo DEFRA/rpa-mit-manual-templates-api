@@ -24,7 +24,7 @@ namespace DeleteInvoiceLine
 
         public override async Task HandleAsync(DeleteInvoiceLineRequest r, CancellationToken ct)
         {
-            DeleteInvoiceLineResponse response = new DeleteInvoiceLineResponse();
+            DeleteInvoiceLineResponse response = new();
 
             try
             {
