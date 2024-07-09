@@ -31,21 +31,21 @@ namespace UpdateInvoiceRequest
 
         public sealed override async Task<InvoiceRequest> MapToEntityAsync(UpdateInvoiceRequestRequest r, CancellationToken ct = default)
         {
-            var paymentRequest = await Task.FromResult(new InvoiceRequest());
+            var invoiceRequest = await Task.FromResult(new InvoiceRequest());
 
-            paymentRequest.InvoiceRequestId = r.InvoiceRequestId;
-            paymentRequest.MarketingYear = r.MarketingYear;
-            paymentRequest.InvoiceCorrectionReference = r.InvoiceCorrectionReference;
-            paymentRequest.Description = r.Description;
-            paymentRequest.FRN = r.FRN;
-            paymentRequest.Currency = r.Currency;
-            paymentRequest.Vendor = r.Vendor;
-            paymentRequest.AgreementNumber = r.AgreementNumber;
-            paymentRequest.ClaimReference = r.ClaimReference;
-            paymentRequest.ClaimReferenceNumber = r.ClaimReferenceNumber;
-            paymentRequest.AgreementNumber = r.AgreementNumber.ToString();
+            invoiceRequest.InvoiceRequestId = r.InvoiceRequestId;
+            invoiceRequest.MarketingYear = r.MarketingYear;
+            invoiceRequest.InvoiceCorrectionReference = r.InvoiceCorrectionReference;
+            invoiceRequest.Description = r.Description;
+            invoiceRequest.FRN = r.FRN;
+            invoiceRequest.Currency = r.Currency;
+            invoiceRequest.Vendor = r.Vendor;
+            invoiceRequest.AgreementNumber = r.AgreementNumber;
+            invoiceRequest.ClaimReference = r.ClaimReference;
+            invoiceRequest.ClaimReferenceNumber = r.ClaimReferenceNumber;
+            invoiceRequest.AgreementNumber = r.AgreementNumber.ToString();
 
-            return paymentRequest;
+            return invoiceRequest;
         }
     }
 }

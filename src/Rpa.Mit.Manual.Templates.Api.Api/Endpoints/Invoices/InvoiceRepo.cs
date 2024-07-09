@@ -46,15 +46,15 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
 
                 var invoice = await cn.QuerySingleAsync<Invoice>(sql, parameters);
 
-                var prSql = "SELECT invoiceid, paymentrequestid, frn, sbi, vendor, agreementnumber, currency, description, value, marketingyear, duedate FROM paymentrequests WHERE invoiceid = @Id";
+                var prSql = "SELECT invoiceid, invoicerequestid, frn, sbi, vendor, agreementnumber, currency, description, value, marketingyear, duedate FROM invoicerequests WHERE invoiceid = @Id";
                 var prParameters = new { Id = invoice.Id };
-                invoice.PaymentRequests = await cn.QueryAsync<InvoiceRequest>(prSql, prParameters);
+                invoice.InvoiceRequests = await cn.QueryAsync<InvoiceRequest>(prSql, prParameters);
 
-                foreach (InvoiceRequest pr in invoice.PaymentRequests)
+                foreach (InvoiceRequest pr in invoice.InvoiceRequests)
                 {
                     // get the invoice lines
-                    var invSql = "SELECT id, value, description, fundcode, mainaccount, schemecode, marketingyear, deliverybody, paymentrequestid FROM invoicelines WHERE paymentrequestid = @paymentrequestid";
-                    var invParameters = new { paymentrequestid = pr.InvoiceRequestId };
+                    var invSql = "SELECT id, value, description, fundcode, mainaccount, schemecode, marketingyear, deliverybody, invoicerequestid FROM invoicelines WHERE invoicerequestid = @invoicerequestid";
+                    var invParameters = new { invoicerequestid = pr.InvoiceRequestId };
                     pr.InvoiceLines = await cn.QueryAsync<InvoiceLine>(invSql, invParameters);
                 }
 
@@ -69,31 +69,31 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
 
-                using (var transaction = await cn.BeginTransactionAsync())
+                using (var transaction = await cn.BeginTransactionAsync(ct))
                 {
                     try
                     {
-                        // get all payment request ids
-                        var prIds = await cn.QueryAsync<string>(
-                            "SELECT paymentrequestid FROM paymentrequests WHERE invoiceid = @InvoiceId",
+                        // get all invoicerequest ids
+                        var invoiceRequestIds = await cn.QueryAsync<string>(
+                            "SELECT invoicerequestid FROM invoicerequests WHERE invoiceid = @InvoiceId",
                             new { InvoiceId = invoiceId },
                             transaction: transaction);
 
-                        // for each pr id, delete all invoice lines
-                        foreach (string prId in prIds)
+                        // for each invoiceRequestId, delete all invoice lines
+                        foreach (string invoiceRequestId in invoiceRequestIds)
                         {
                             await cn.ExecuteAsync(
-                                    "DELETE FROM invoicelines WHERE paymentrequestid = @prId",
-                                    new { prId = prId},
+                                    "DELETE FROM invoicelines WHERE invoicerequestid = @invoiceRequestId",
+                                    new { invoiceRequestId = invoiceRequestId},
                                     transaction: transaction);
                         }
 
-                        // for each pr id, delete the payment request
-                        foreach (string prId in prIds)
+                        // for each invoiceRequestId, delete the invoice request
+                        foreach (string invoiceRequestId in invoiceRequestIds)
                         {
                             await cn.ExecuteAsync(
-                                    "DELETE FROM paymentrequests WHERE paymentrequestid = @prId",
-                                    new { prId = prId },
+                                    "DELETE FROM invoicerequests WHERE invoicerequestid = @invoiceRequestId",
+                                    new { invoiceRequestId = invoiceRequestId },
                                     transaction: transaction);
                         }
 

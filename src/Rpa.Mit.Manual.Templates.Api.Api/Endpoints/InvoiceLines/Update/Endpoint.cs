@@ -68,7 +68,7 @@ namespace UpdateInvoiceLine
             invoiceLine.FundCode = r.FundCode;
             invoiceLine.SchemeCode = r.SchemeCode;
             invoiceLine.MainAccount = r.MainAccount;
-            invoiceLine.PaymentRequestId = r.InvoiceRequestId;
+            invoiceLine.InvoiceRequestId = r.InvoiceRequestId;
             return invoiceLine;
         }
     }

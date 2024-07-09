@@ -25,7 +25,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
         [Required(ErrorMessage = "Scheme Type is required")]
         public string SchemeType { get; set; } = default!;
 
-        public IEnumerable<InvoiceRequest> PaymentRequests { get; set; } = Enumerable.Empty<InvoiceRequest>();
+        public IEnumerable<InvoiceRequest> InvoiceRequests { get; set; } = Enumerable.Empty<InvoiceRequest>();
 
         /// <summary>
         /// the sum total of any or all of payment requests
@@ -41,11 +41,11 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
         public string CreatedBy { get; set; } = default!;
 
         [JsonIgnore]
-        public decimal TotalValueOfPaymentsGBP => PaymentRequests.Where(x => x.Currency == "GBP").Sum(x => x.Value);
+        public decimal TotalValueOfPaymentsGBP => InvoiceRequests.Where(x => x.Currency == "GBP").Sum(x => x.Value);
         [JsonIgnore]
-        public decimal TotalValueOfPaymentsEUR => PaymentRequests.Where(x => x.Currency == "EUR").Sum(x => x.Value);
+        public decimal TotalValueOfPaymentsEUR => InvoiceRequests.Where(x => x.Currency == "EUR").Sum(x => x.Value);
         [JsonIgnore]
-        public bool CanBeSentForApproval => Status == InvoiceStatuses.New && PaymentRequests.All(x => x.Value != 0 && x.InvoiceLines.Any());
+        public bool CanBeSentForApproval => Status == InvoiceStatuses.New && InvoiceRequests.All(x => x.Value != 0 && x.InvoiceLines.Any());
 
         public string ApprovalGroup
         {

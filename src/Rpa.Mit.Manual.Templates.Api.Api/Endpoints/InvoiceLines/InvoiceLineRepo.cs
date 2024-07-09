@@ -28,14 +28,14 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
                 {
                     try
                     {
-                        var sql = "INSERT INTO invoicelines (id, value, description, fundcode, mainaccount, schemecode, marketingyear, deliverybody, paymentrequestid )" +
-                            " VALUES (@Id, @Value, @Description, @Fundcode, @mainaccount, @schemecode,  @marketingyear, @deliverybody, @paymentrequestid)";
+                        var sql = "INSERT INTO invoicelines (id, value, description, fundcode, mainaccount, schemecode, marketingyear, deliverybody, invoicerequestid )" +
+                            " VALUES (@Id, @Value, @Description, @Fundcode, @mainaccount, @schemecode,  @marketingyear, @deliverybody, @invoicerequestid)";
 
                         await cn.ExecuteAsync(sql, invoiceLine);
 
                         var invoiceLineValues = await cn.QueryAsync<decimal>(
-                                    "SELECT value FROM invoicelines WHERE paymentrequestid = @invoiceRequestId",
-                                    new { InvoiceRequestId = invoiceLine.PaymentRequestId });
+                                    "SELECT value FROM invoicelines WHERE invoicerequestid = @invoiceRequestId",
+                                    new { InvoiceRequestId = invoiceLine.InvoiceRequestId });
 
                         await transaction.CommitAsync(ct);
 
@@ -61,9 +61,9 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
                 {
                     try
                     {
-                        // get parent invoice/payment request id
-                        var prId = await cn.QuerySingleAsync<string>(
-                            "SELECT paymentrequestid FROM invoicelines WHERE id = @invoiceLineId",
+                        // get parent invoicerequest id
+                        var invoiceRequestId = await cn.QuerySingleAsync<string>(
+                            "SELECT invoicerequestid FROM invoicelines WHERE id = @invoiceLineId",
                             new { invoiceLineId },
                             transaction: transaction);
 
@@ -75,8 +75,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
 
                         // get the new total value and return
                         var invoiceLineValues = await cn.QueryAsync<decimal>(
-                                    "SELECT value FROM invoicelines WHERE paymentrequestid = @prId",
-                                    new { prId });
+                                    "SELECT value FROM invoicelines WHERE invoicerequestid = @invoicerequestid",
+                                    new { invoiceRequestId });
 
                         await transaction.CommitAsync(ct);
 
@@ -108,8 +108,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
                         await cn.ExecuteAsync(sql, invoiceLine);
 
                         var invoiceLineValues = await cn.QueryAsync<decimal>(
-                                    "SELECT value FROM invoicelines WHERE paymentrequestid = @invoiceRequestId",
-                                    new { InvoiceRequestId = invoiceLine.PaymentRequestId });
+                                    "SELECT value FROM invoicelines WHERE invoicerequestid = @invoiceRequestId",
+                                    new { InvoiceRequestId = invoiceLine.InvoiceRequestId });
 
                         await transaction.CommitAsync(ct);
 

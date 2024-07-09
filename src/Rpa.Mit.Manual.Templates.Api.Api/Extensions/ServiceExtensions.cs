@@ -1,5 +1,5 @@
 ﻿using Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices;
-using Rpa.Mit.Manual.Templates.Api.Api.Endpoints.PaymentRequests;
+using Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 using Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint;
 

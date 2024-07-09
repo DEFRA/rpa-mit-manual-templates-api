@@ -9,7 +9,7 @@ using Npgsql;
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
-namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.PaymentRequests
+namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests
 {
     public class InvoiceRequestRepo : BaseData, IInvoiceRequestRepo
     {
@@ -23,8 +23,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.PaymentRequests
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
 
-                var sql = "INSERT INTO paymentrequests (paymentrequestid, invoiceid, frn, sbi, vendor, marketingyear, agreementnumber, currency, description, duedate, value, claimreferencenumber, claimreference )" +
-                     " VALUES (@PaymentRequestId, @InvoiceId, @Frn, @Sbi, @Vendor, @MarketingYear,  @AgreementNumber, @Currency, @Description, @DueDate, @Value, @claimreferencenumber, @claimreference)";
+                var sql = "INSERT INTO invoicerequests (invoicerequestid, invoiceid, frn, sbi, vendor, marketingyear, agreementnumber, currency, description, duedate, value, claimreferencenumber, claimreference )" +
+                     " VALUES (@InvoiceRequestId, @InvoiceId, @Frn, @Sbi, @Vendor, @MarketingYear,  @AgreementNumber, @Currency, @Description, @DueDate, @Value, @claimreferencenumber, @claimreference)";
 
                 var res = await cn.ExecuteAsync(sql, invoiceRequest);
 
@@ -40,7 +40,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.PaymentRequests
                     await cn.OpenAsync(ct);
 
                 var invoiceLineValues = await cn.QueryAsync<decimal>(
-                            "SELECT value FROM invoicelines WHERE paymentrequestid = @invoiceRequestId",
+                            "SELECT value FROM invoicelines WHERE invoicerequestid = @invoiceRequestId",
                             new { InvoiceRequestId = invoiceRequestId });
 
                 return invoiceLineValues.Sum();
@@ -54,7 +54,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.PaymentRequests
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
 
-                var sql = "UPDATE paymentrequests frn=@Frn, sbi=@Sbi, vendor=@VEndor, agreementnumber=@AgreementNnmber, currency=@Currency, description=@Description, marketingyear=@MarketingYerar, duedate=@DueDate, claimreferencenumber=@ClaimReferenceNumber, claimreference=@ClaimReference WHERE paymentrequestid = @InvoiceRequestId";
+                var sql = "UPDATE invoicerequests SET frn=@Frn, sbi=@Sbi, vendor=@Vendor, agreementnumber=@AgreementNnmber, currency=@Currency, description=@Description, marketingyear=@MarketingYerar, duedate=@DueDate, claimreferencenumber=@ClaimReferenceNumber, claimreference=@ClaimReference WHERE invoicerequestid = @InvoiceRequestId";
 
                 var res = await cn.ExecuteAsync(sql, invoiceRequest);
 

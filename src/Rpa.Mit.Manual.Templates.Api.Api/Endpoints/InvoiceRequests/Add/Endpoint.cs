@@ -2,7 +2,7 @@
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
-namespace PaymentsRequests.Add
+namespace InvoiceRequests.Add
 {
     internal sealed class AddInvoiceRequestEndpoint : EndpointWithMapping<AddInvoiceRequest, AddInvoiceRequestResponse, InvoiceRequest>
     {
@@ -30,11 +30,11 @@ namespace PaymentsRequests.Add
 
             try
             {
-                InvoiceRequest paymentRequest = await MapToEntityAsync(r, ct);
+                InvoiceRequest invoiceRequest = await MapToEntityAsync(r, ct);
 
-                if(await _iInvoiceRequestRepo.AddInvoiceRequest(paymentRequest, ct))
+                if(await _iInvoiceRequestRepo.AddInvoiceRequest(invoiceRequest, ct))
                 {
-                    response.PaymentRequest = paymentRequest;
+                    response.InvoiceRequest = invoiceRequest;
                 }
                 else
                 {
@@ -55,23 +55,23 @@ namespace PaymentsRequests.Add
 
         public override async Task<InvoiceRequest> MapToEntityAsync(AddInvoiceRequest r, CancellationToken ct = default)
         {
-            var paymentRequest = await Task.FromResult(new InvoiceRequest());
+            var invoiceRequest = await Task.FromResult(new InvoiceRequest());
 
-            paymentRequest.InvoiceRequestId = r.PaymentRequestId;
-            paymentRequest.FRN = r.FRN;
-            paymentRequest.SBI = r.SBI;
-            paymentRequest.Currency = r.Currency;
-            paymentRequest.Vendor = r.Vendor;
-            paymentRequest.AgreementNumber = r.AgreementNumber;
-            paymentRequest.MarketingYear = r.MarketingYear;
-            paymentRequest.Description = r.Description;
-            paymentRequest.InvoiceId = r.InvoiceId;
-            paymentRequest.PaymentRequestNumber = 1;  //TODO: this needs investigation
-            paymentRequest.Value = 0.00M;
-            paymentRequest.ClaimReference = r.ClaimReference;
-            paymentRequest.ClaimReferenceNumber = r.ClaimReferenceNumber;
+            invoiceRequest.InvoiceRequestId = r.InvoiceRequestId;
+            invoiceRequest.FRN = r.FRN;
+            invoiceRequest.SBI = r.SBI;
+            invoiceRequest.Currency = r.Currency;
+            invoiceRequest.Vendor = r.Vendor;
+            invoiceRequest.AgreementNumber = r.AgreementNumber;
+            invoiceRequest.MarketingYear = r.MarketingYear;
+            invoiceRequest.Description = r.Description;
+            invoiceRequest.InvoiceId = r.InvoiceId;
+            invoiceRequest.InvoiceRequestNumber = 1;  //TODO: this needs investigation
+            invoiceRequest.Value = 0.00M;
+            invoiceRequest.ClaimReference = r.ClaimReference;
+            invoiceRequest.ClaimReferenceNumber = r.ClaimReferenceNumber;
 
-            return paymentRequest;
+            return invoiceRequest;
         }
     }
 }

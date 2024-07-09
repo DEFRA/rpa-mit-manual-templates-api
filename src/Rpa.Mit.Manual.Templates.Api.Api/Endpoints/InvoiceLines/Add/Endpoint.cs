@@ -71,7 +71,7 @@ namespace Add
             invoiceLine.FundCode = r.FundCode;
             invoiceLine.SchemeCode = r.SchemeCode;
             invoiceLine.MainAccount = r.MainAccount;
-            invoiceLine.PaymentRequestId = r.PaymentRequestId;
+            invoiceLine.InvoiceRequestId = r.InvoiceRequestId;
 
             return invoiceLine;
         }

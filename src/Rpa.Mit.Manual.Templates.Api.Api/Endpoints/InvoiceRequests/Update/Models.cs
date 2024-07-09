@@ -13,7 +13,7 @@ namespace UpdateInvoiceRequest
 
         public string MarketingYear { get; set; } = string.Empty;
 
-        public int PaymentRequestNumber { get; set; }
+        public int InvoiceRequestNumber { get; set; }
 
         public string AgreementNumber { get; set; } = string.Empty;
 

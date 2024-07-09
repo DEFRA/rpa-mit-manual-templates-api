@@ -3,12 +3,12 @@ using System.Diagnostics.CodeAnalysis;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 
-namespace PaymentsRequests.Add
+namespace InvoiceRequests.Add
 {
     [ExcludeFromCodeCoverage]
     internal sealed class AddInvoiceRequest
     {
-        public string PaymentRequestId { get; set; } = string.Empty;
+        public string InvoiceRequestId { get; set; } = string.Empty;
 
         public Guid InvoiceId { get; set; }
 
@@ -24,7 +24,7 @@ namespace PaymentsRequests.Add
         public string MarketingYear { get; set; } = string.Empty;
 
         [Range(1, int.MaxValue, ErrorMessage = "The Payment Request Number must be greater than 0")]
-        public int PaymentRequestNumber { get; set; }
+        public int InvoiceRequestNumber { get; set; }
 
         [Required(ErrorMessage = "The Agreement Number is required")]
         public string AgreementNumber { get; set; } = string.Empty;
@@ -63,6 +63,6 @@ namespace PaymentsRequests.Add
     {
         public string Message { get; set; } = string.Empty;
 
-        public InvoiceRequest? PaymentRequest { get; set; }
+        public InvoiceRequest? InvoiceRequest { get; set; }
     }
 }

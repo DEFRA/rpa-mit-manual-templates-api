@@ -6,25 +6,25 @@ using Invoices.Add;
 
 using Microsoft.Extensions.Logging;
 
-using PaymentsRequests.Add;
+using InvoiceRequests.Add;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
 {
-    public class PaymentRequestTests
+    public class InvoiceRequestTests
     {
         [Fact]
-        public async Task PaymentRequest_Save_Success()
+        public async Task InvoiceRequest_Save_Success()
         {
-            PaymentsRequests.Add.AddInvoiceRequest paymentRequest = new PaymentsRequests.Add.AddInvoiceRequest
+            InvoiceRequests.Add.AddInvoiceRequest invoiceRequest = new InvoiceRequests.Add.AddInvoiceRequest
             {
                 FRN = "EU (2014 - 2020 Program)",
                 SBI = "GBP",
                 Description = "AP",
                 DueDate = "EA",
-                PaymentRequestId = "Any question",
+                InvoiceRequestId = "Any question",
                 AccountType = "QQ",
                 Currency = "DDD",
                 AgreementNumber = "1",
@@ -41,26 +41,26 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
                            A.Fake<ILogger<AddInvoiceRequestEndpoint>>(),
                            fakeRepo);
 
-            await ep.HandleAsync(paymentRequest, default);
+            await ep.HandleAsync(invoiceRequest, default);
             var response = ep.Response;
 
             response.Should().NotBeNull();
-            response.PaymentRequest.Should().NotBeNull();
-            response.PaymentRequest?.AccountType.Should().Match("QQ");
+            response.InvoiceRequest.Should().NotBeNull();
+            response.InvoiceRequest?.AccountType.Should().Match("QQ");
 
-            Assert.IsType<string>(response.PaymentRequest?.InvoiceRequestId);
+            Assert.IsType<string>(response.InvoiceRequest?.InvoiceRequestId);
         }
 
         [Fact]
-        public async Task PaymentRequest_Save_Fail()
+        public async Task InvoiceRequest_Save_Fail()
         {
-            PaymentsRequests.Add.AddInvoiceRequest paymentRequest = new PaymentsRequests.Add.AddInvoiceRequest
+            InvoiceRequests.Add.AddInvoiceRequest invoiceRequest = new InvoiceRequests.Add.AddInvoiceRequest
             {
                 FRN = "EU (2014 - 2020 Program)",
                 SBI = "GBP",
                 Description = "AP",
                 DueDate = "EA",
-                PaymentRequestId = "Any question",
+                InvoiceRequestId = "Any question",
                 AccountType = "QQ",
                 Currency = "DDD",
                 AgreementNumber = "1",
@@ -77,24 +77,24 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
                            A.Fake<ILogger<AddInvoiceRequestEndpoint>>(),
                            fakeRepo);
 
-            await ep.HandleAsync(paymentRequest, default);
+            await ep.HandleAsync(invoiceRequest, default);
             var response = ep.Response;
 
             Assert.Equal("Error adding new payment request", response.Message);
-            Assert.Null(response.PaymentRequest);
+            Assert.Null(response.InvoiceRequest);
         }
 
 
         [Fact]
-        public async Task PaymentRequest_Save_Returns_Exception()
+        public async Task InvoiceRequest_Save_Returns_Exception()
         {
-            PaymentsRequests.Add.AddInvoiceRequest paymentRequest = new PaymentsRequests.Add.AddInvoiceRequest
+            InvoiceRequests.Add.AddInvoiceRequest invoiceRequest = new InvoiceRequests.Add.AddInvoiceRequest
             {
                 FRN = "EU (2014 - 2020 Program)",
                 SBI = "GBP",
                 Description = "AP",
                 DueDate = "EA",
-                PaymentRequestId = "Any question",
+                InvoiceRequestId = "Any question",
                 AccountType = "QQ",
                 Currency = "DDD",
                 AgreementNumber = "1",
@@ -111,11 +111,11 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
                            A.Fake<ILogger<AddInvoiceRequestEndpoint>>(),
                            fakeRepo);
 
-            await ep.HandleAsync(paymentRequest, default);
+            await ep.HandleAsync(invoiceRequest, default);
             var response = ep.Response;
 
             Assert.Equal("Object reference not set to an instance of an object.", response.Message);
-            Assert.Null(response.PaymentRequest);
+            Assert.Null(response.InvoiceRequest);
         }
     }
 }

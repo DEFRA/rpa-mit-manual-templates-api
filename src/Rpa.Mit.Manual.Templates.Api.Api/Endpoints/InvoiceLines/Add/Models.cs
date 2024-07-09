@@ -10,7 +10,7 @@ namespace Add
     {
         public Guid Id { get; set; }
 
-        public string PaymentRequestId { get; set; } = string.Empty;
+        public string InvoiceRequestId { get; set; } = string.Empty;
 
         public decimal Value { get; set; }
 

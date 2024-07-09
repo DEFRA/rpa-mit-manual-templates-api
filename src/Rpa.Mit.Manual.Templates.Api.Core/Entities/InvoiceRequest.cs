@@ -27,7 +27,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "The Payment Request Number must be greater than 0")]
-        public int PaymentRequestNumber { get; set; }
+        public int InvoiceRequestNumber { get; set; }
 
         [Required(ErrorMessage = "The Agreement Number is required")]
         public string AgreementNumber { get; set; } = string.Empty;
