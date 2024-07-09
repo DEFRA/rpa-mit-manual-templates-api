@@ -2,7 +2,6 @@ global using FastEndpoints;
 
 global using FluentValidation;
 
-using FastEndpoints.Swagger;
 
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
@@ -12,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
    .AddFastEndpoints()
-   .SwaggerDocument(); //define a swagger document
+   .SwaggerDocument();
 
 // Add services to the container.
 ConfigureServices.Configure(builder);
@@ -32,8 +31,6 @@ app.UseResponseCaching();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    //app.UseOpenApi();
-    //app.UseSwaggerUi(s => s.ConfigureDefaults());
 }
 
 app.UseExceptionHandler();
