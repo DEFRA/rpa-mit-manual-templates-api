@@ -1,5 +1,4 @@
-﻿using Rpa.Mit.Manual.Templates.Api.Core.Entities;
-
+﻿
 namespace DeleteInvoice
 {
     internal sealed class DeleteInvoiceRequest

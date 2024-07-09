@@ -1,11 +1,8 @@
 ﻿using Asp.Versioning;
 
 using Rpa.Mit.Manual.Templates.Api.Api.Config;
-using Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices;
 using Rpa.Mit.Manual.Templates.Api.Api.Extensions;
 using Rpa.Mit.Manual.Templates.Api.Api.HealthChecks;
-using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
-using Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api
 {
@@ -16,10 +13,10 @@ namespace Rpa.Mit.Manual.Templates.Api.Api
             builder.Services.AddApplicationServices();
             builder.Services.AddMemoryCache();
             builder.Services
-                   .AddFastEndpoints()
+                   //.AddFastEndpoints()
                    .AddResponseCaching()
-                   .AddAuthorization()
-                   .SwaggerDocument();
+                   .AddAuthorization();
+                   //.SwaggerDocument();
 
             builder.Services.AddLogging();
             builder.Services.AddExceptionHandler<GlobalExceptionHandler>();

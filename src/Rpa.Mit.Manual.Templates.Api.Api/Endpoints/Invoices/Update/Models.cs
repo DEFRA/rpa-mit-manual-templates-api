@@ -5,7 +5,7 @@ namespace Invoices.Update
     [ExcludeFromCodeCoverage]
     internal sealed class Request
     {
-
+        public string Message { get; set; } = string.Empty;
     }
 
     [ExcludeFromCodeCoverage]

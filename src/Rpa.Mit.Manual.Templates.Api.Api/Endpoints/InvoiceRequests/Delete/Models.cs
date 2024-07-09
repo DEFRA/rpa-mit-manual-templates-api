@@ -2,7 +2,7 @@
 {
     internal sealed class DeleteInvoiceRequestRequest
     {
-
+        public string Message { get; set; } = string.Empty;
 
         internal sealed class Validator : Validator<DeleteInvoiceRequestRequest>
         {
