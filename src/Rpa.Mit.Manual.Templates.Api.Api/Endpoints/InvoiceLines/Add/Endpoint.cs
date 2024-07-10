@@ -3,10 +3,10 @@
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
-namespace Add
+namespace InvoiceLinesAdd
 {
     [ExcludeFromCodeCoverage]
-    internal sealed class AddInvoiceIineEndpoint : EndpointWithMapping<AddInvoiceLineRequest, AddInvoiceLineResponse, InvoiceLine>
+    public sealed class AddInvoiceIineEndpoint : EndpointWithMapping<AddInvoiceLineRequest, AddInvoiceLineResponse, InvoiceLine>
     {
         private readonly IInvoiceLineRepo _iInvoiceLineRepo;
         private readonly ILogger<AddInvoiceIineEndpoint> _logger;

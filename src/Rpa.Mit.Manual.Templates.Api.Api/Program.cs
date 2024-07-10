@@ -1,7 +1,3 @@
-global using FastEndpoints;
-
-global using FluentValidation;
-
 
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 

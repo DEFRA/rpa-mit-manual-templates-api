@@ -13,10 +13,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Api
             builder.Services.AddApplicationServices();
             builder.Services.AddMemoryCache();
             builder.Services
-                   //.AddFastEndpoints()
                    .AddResponseCaching()
                    .AddAuthorization();
-                   //.SwaggerDocument();
 
             builder.Services.AddLogging();
             builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
