@@ -1,4 +1,6 @@
-﻿using Asp.Versioning;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Asp.Versioning;
 
 using Rpa.Mit.Manual.Templates.Api.Api.Config;
 using Rpa.Mit.Manual.Templates.Api.Api.Extensions;
@@ -6,6 +8,7 @@ using Rpa.Mit.Manual.Templates.Api.Api.HealthChecks;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api
 {
+    [ExcludeFromCodeCoverage]
     public static class ConfigureServices
     {
         public static void Configure(WebApplicationBuilder builder)

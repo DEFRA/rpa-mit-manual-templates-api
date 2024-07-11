@@ -1,5 +1,8 @@
-﻿namespace DeleteInvoiceLine
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace DeleteInvoiceLine
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class DeleteInvoiceLineRequest
     {
         public Guid InvoiceLineId { get; set; }
@@ -13,6 +16,7 @@
         }
     }
 
+    [ExcludeFromCodeCoverage]
     internal sealed class DeleteInvoiceLineResponse
     {
         public string Message { get; set; } = string.Empty;

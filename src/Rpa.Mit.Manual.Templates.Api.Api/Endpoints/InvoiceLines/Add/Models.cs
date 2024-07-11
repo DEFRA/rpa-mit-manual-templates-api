@@ -28,6 +28,7 @@ namespace InvoiceLinesAdd
 
     }
 
+    [ExcludeFromCodeCoverage]
     public class Validator : Validator<AddInvoiceLineRequest>
     {
         public Validator()

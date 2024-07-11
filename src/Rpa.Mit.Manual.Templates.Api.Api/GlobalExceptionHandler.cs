@@ -1,8 +1,11 @@
-﻿using System.Net;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Net;
 
 using Microsoft.AspNetCore.Diagnostics;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api;
+
+[ExcludeFromCodeCoverage]
 public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger)
     : IExceptionHandler
 {

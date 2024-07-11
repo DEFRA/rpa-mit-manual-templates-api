@@ -1,5 +1,8 @@
-﻿namespace GetInvoiceRequest
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace GetInvoiceRequest
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class GetInvoiceRequestValueRequest
     {
         public string InvoiceRequestId { get; set; } = string.Empty;
@@ -13,6 +16,7 @@
         }
     }
 
+    [ExcludeFromCodeCoverage]
     internal sealed class GetInvoiceRequestValueResponse
     {
         public decimal InvoiceRequestValue { get; set; } = 0.0M;

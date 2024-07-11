@@ -1,6 +1,9 @@
 ﻿
+using System.Diagnostics.CodeAnalysis;
+
 namespace DeleteInvoice
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class DeleteInvoiceRequest
     {
         public Guid InvoiceId { get; set; }
@@ -14,6 +17,7 @@ namespace DeleteInvoice
         }
     }
 
+    [ExcludeFromCodeCoverage]
     internal sealed class DeleteInvoiceResponse
     {
         public string Message { get; set; } = string.Empty;

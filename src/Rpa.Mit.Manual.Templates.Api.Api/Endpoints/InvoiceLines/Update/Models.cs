@@ -1,7 +1,10 @@
-﻿using Rpa.Mit.Manual.Templates.Api.Core.Entities;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 
 namespace UpdateInvoiceLine
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class UpdateInvoiceLineRequest
     {
 
@@ -32,6 +35,7 @@ namespace UpdateInvoiceLine
         }
     }
 
+    [ExcludeFromCodeCoverage]
     internal sealed class UpdateInvoiceLineResponse
     {
         public string Message { get; set; } = string.Empty;

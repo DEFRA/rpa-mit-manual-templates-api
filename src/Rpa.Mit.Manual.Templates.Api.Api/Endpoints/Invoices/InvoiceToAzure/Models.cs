@@ -1,7 +1,8 @@
-﻿using Rpa.Mit.Manual.Templates.Api.Core.Entities;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices.InvoiceToAzure
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class InvoiceToAzureRequest
     {
 
@@ -16,6 +17,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices.InvoiceToAzure
         }
     }
 
+    [ExcludeFromCodeCoverage]
     internal sealed class InvoiceToAzureResponse
     {
         public string Message { get; set; } = string.Empty;

@@ -5,7 +5,6 @@ using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace InvoiceLinesAdd
 {
-    [ExcludeFromCodeCoverage]
     public sealed class AddInvoiceIineEndpoint : EndpointWithMapping<AddInvoiceLineRequest, AddInvoiceLineResponse, InvoiceLine>
     {
         private readonly IInvoiceLineRepo _iInvoiceLineRepo;
