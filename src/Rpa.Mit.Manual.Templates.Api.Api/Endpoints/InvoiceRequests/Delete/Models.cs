@@ -2,7 +2,7 @@
 {
     internal sealed class DeleteInvoiceRequestRequest
     {
-        public string Message { get; set; } = string.Empty;
+        public string InvoiceRequestId { get; set; } = string.Empty;
 
         internal sealed class Validator : Validator<DeleteInvoiceRequestRequest>
         {
@@ -15,6 +15,8 @@
 
     internal sealed class DeleteInvoiceRequestResponse
     {
-        public string Message => "This endpoint hasn't been implemented yet!";
+        public string Message { get; set; } = string.Empty;
+
+        public bool Result { get; set; }
     }
 }

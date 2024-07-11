@@ -10,7 +10,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.Integration.InvoiceLineTests
 {
     public class Sut : AppFixture<Program>
     {
-        public AddInvoiceLineRequest AddInvoiceLineRequest { get; set; } = new();
+        public AddInvoiceLineRequest AddInvoiceLineRequest = new();
 
 
         protected override async Task SetupAsync()
@@ -19,12 +19,12 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.Integration.InvoiceLineTests
             {
                 Value = 12.12M,
                 Description = "G00 - Gross value of claim",
-	            FundCode = "FUND1",
-	            MainAccount = "AR",
-	            SchemeCode = "code1",
-	            MarketingYear = "2020",
-	            DeliveryBody = "DB1",
-	            InvoiceRequestId = "333_YMALXCHG"
+                FundCode = "FUND1",
+                MainAccount = "AR",
+                SchemeCode = "code1",
+                MarketingYear = "2020",
+                DeliveryBody = "DB1",
+                InvoiceRequestId = "333_YMALXCHG"
             };
         }
 
@@ -51,6 +51,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.Integration.InvoiceLineTests
         protected override async Task TearDownAsync()
         {
             Client.Dispose();
+            AddInvoiceLineRequest = null;
         }
     }
 }

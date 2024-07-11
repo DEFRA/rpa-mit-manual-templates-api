@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Transactions;
 
 using Dapper;
 
@@ -59,6 +60,44 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests
                 var res = await cn.ExecuteAsync(sql, invoiceRequest);
 
                 return res == 1;
+            }
+        }
+
+        public async Task<bool> DeleteInvoiceRequest(string invoiceRequestId, CancellationToken ct)
+        {
+            using (var cn = new NpgsqlConnection(DbConn))
+            {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
+                using (var transaction = await cn.BeginTransactionAsync(ct))
+                {
+                    try
+                    {
+                        // first delete all children
+                        await cn.ExecuteAsync(
+                                "DELETE FROM invoicelines WHERE invoicerequestid = @invoiceRequestId",
+                                new { invoiceRequestId },
+                                transaction: transaction);
+
+                        // now delete the parent invoice request
+                        await cn.ExecuteAsync(
+                                "DELETE FROM invoicerequests WHERE invoicerequestid = @invoiceRequestId",
+                                new { invoiceRequestId },
+                                transaction: transaction);
+
+                        await transaction.CommitAsync(ct);
+
+                        return true;
+                    }
+                    catch
+                    {
+                        await transaction.RollbackAsync(ct);
+                        throw;
+                    }
+
+
+                }
             }
         }
     }

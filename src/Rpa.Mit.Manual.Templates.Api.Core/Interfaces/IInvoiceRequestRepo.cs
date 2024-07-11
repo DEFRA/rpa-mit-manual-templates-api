@@ -27,5 +27,13 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <param name="ct"></param>
         /// <returns></returns>
         Task<bool> UpdateInvoiceRequest(InvoiceRequest invoiceRequest, CancellationToken ct);
+
+        /// <summary>
+        /// deletes an invoice request and all invoiceline children
+        /// </summary>
+        /// <param name="invoiceRequestId"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        Task<bool> DeleteInvoiceRequest(string invoiceRequestId, CancellationToken ct);
     }
 }

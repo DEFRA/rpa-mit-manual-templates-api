@@ -1,9 +1,4 @@
-﻿using Invoices.Add;
-
-using Microsoft.AspNetCore.Mvc.Formatters;
-
-using Rpa.Mit.Manual.Templates.Api.Core.Entities;
-using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
+﻿using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace DeleteInvoice
 {

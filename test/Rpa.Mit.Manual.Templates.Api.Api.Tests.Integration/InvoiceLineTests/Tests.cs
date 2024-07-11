@@ -1,4 +1,6 @@
 
+using FastEndpoints;
+
 using InvoiceLinesAdd;
 using Rpa.Mit.Manual.Templates.Api.Api.Tests.Integration.InvoiceLineTests;
 
@@ -6,66 +8,117 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Integration.Tests;
 
 public class Tests(Sut sut) : TestBase<Sut>
 {
-    [Fact, Priority(0)]
+    [Fact]
     public async Task Valid_InvoiceLine_Input()
     {
+        var addInvoiceLineRequest = new AddInvoiceLineRequest
+        {
+            Value = 12.12M,
+            Description = "G00 - Gross value of claim",
+            FundCode = "FUND1",
+            MainAccount = "AR",
+            SchemeCode = "code1",
+            MarketingYear = "2020",
+            DeliveryBody = "DB1",
+            InvoiceRequestId = "333_YMALXCHG"
+        };
+
         var (rsp, res) = await sut.Client.POSTAsync<AddInvoiceIineEndpoint, AddInvoiceLineRequest, ErrorResponse>(
-            sut.AddInvoiceLineRequest);
+            addInvoiceLineRequest);
 
         rsp.StatusCode.Should().Be(HttpStatusCode.OK);
         res.Errors.Count.Should().Be(0);
     }
 
-    [Fact, Priority(1)]
-    public async Task Invalid_InvoiceLine_Input_Missing_Value()
-    {
-        sut.AddInvoiceLineRequest.Value = 0M;
-
-        var (rsp, res) = await sut.Client.POSTAsync<AddInvoiceIineEndpoint, AddInvoiceLineRequest, ErrorResponse>(
-            sut.AddInvoiceLineRequest);
-
-        rsp.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        res.Errors.Count.Should().Be(2);
-        res.Errors.Keys.Should().Equal("value", "fundCode");
-    }
-
-    [Fact, Priority(2)]
+    [Fact]
     public async Task Invalid_InvoiceLine_Input_Missing_Fundcode()
     {
-        sut.AddInvoiceLineRequest.FundCode = string.Empty;
+        var addInvoiceLineRequest = new AddInvoiceLineRequest
+        {
+            Value = 12.12M,
+            Description = "G00 - Gross value of claim",
+            FundCode = string.Empty,
+            MainAccount = "AR",
+            SchemeCode = "code1",
+            MarketingYear = "2020",
+            DeliveryBody = "DB1",
+            InvoiceRequestId = "333_YMALXCHG"
+        };
 
         var (rsp, res) = await sut.Client.POSTAsync<AddInvoiceIineEndpoint, AddInvoiceLineRequest, ErrorResponse>(
-            sut.AddInvoiceLineRequest);
+            addInvoiceLineRequest);
 
         rsp.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        res.Errors.Count.Should().Be(3);
-        res.Errors.Keys.Should().Equal("invoiceRequestId", "value", "fundCode");
+        res.Errors.Count.Should().Be(1);
+        res.Errors.Keys.Should().Equal("fundCode");
     }
 
-    [Fact, Priority(3)]
+    [Fact]
+    public async Task Invalid_InvoiceLine_Input_Missing_Value()
+    {
+        var addInvoiceLineRequest = new AddInvoiceLineRequest
+        {
+            Description = "G00 - Gross value of claim",
+            FundCode = "FUND1",
+            MainAccount = "AR",
+            SchemeCode = "code1",
+            MarketingYear = "2020",
+            DeliveryBody = "DB1",
+            InvoiceRequestId = "333_YMALXCHG"
+        };
+
+        var (rsp, res) = await sut.Client.POSTAsync<AddInvoiceIineEndpoint, AddInvoiceLineRequest, ErrorResponse>(
+            addInvoiceLineRequest);
+
+        rsp.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        res.Errors.Count.Should().Be(1);
+        res.Errors.Keys.Should().Equal("value");
+    }
+
+    [Fact]
     public async Task Invalid_InvoiceLine_Input_Missing_SchemeCode()
     {
-        sut.AddInvoiceLineRequest.SchemeCode = string.Empty;
+        var addInvoiceLineRequest = new AddInvoiceLineRequest
+        {
+            Value = 12.12M,
+            Description = "G00 - Gross value of claim",
+            FundCode = "FUND1",
+            MainAccount = "AR",
+            SchemeCode = string.Empty,
+            MarketingYear = "2020",
+            DeliveryBody = "DB1",
+            InvoiceRequestId = "333_YMALXCHG"
+        };
 
         var (rsp, res) = await sut.Client.POSTAsync<AddInvoiceIineEndpoint, AddInvoiceLineRequest, ErrorResponse>(
-            sut.AddInvoiceLineRequest);
+            addInvoiceLineRequest);
 
         rsp.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        res.Errors.Count.Should().Be(2);
-        res.Errors.Keys.Should().Equal("value", "schemeCode");
+        res.Errors.Count.Should().Be(1);
+        res.Errors.Keys.Should().Equal("schemeCode");
     }
 
-    //[Fact, Priority(2)]
-    //public async Task Valid_User_Input()
-    //{
-    //    var (rsp, res) = await App.Client.POSTAsync<AddInvoiceLineRequest, AddInvoiceLineResponse>(
-    //                         new()
-    //                         {
-    //                             FirstName = "Mike",
-    //                             LastName = "Kelso"
-    //                         });
 
-    //    rsp.StatusCode.Should().Be(HttpStatusCode.OK);
-    //    res.Message.Should().Be("Hello Mike Kelso...");
-    //}
+    [Fact]
+    public async Task Invalid_InvoiceLine_Input_Missing_InvoiceRequestId()
+    {
+        var addInvoiceLineRequest = new AddInvoiceLineRequest
+        {
+            Value = 12.12M,
+            Description = "G00 - Gross value of claim",
+            FundCode = "FUND1",
+            MainAccount = "AR",
+            SchemeCode = "code1",
+            MarketingYear = "2020",
+            DeliveryBody = "DB1",
+            InvoiceRequestId = string.Empty
+        };
+
+        var (rsp, res) = await sut.Client.POSTAsync<AddInvoiceIineEndpoint, AddInvoiceLineRequest, ErrorResponse>(
+            addInvoiceLineRequest);
+
+        rsp.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        res.Errors.Count.Should().Be(1);
+        res.Errors.Keys.Should().Equal("invoiceRequestId");
+    }
 }

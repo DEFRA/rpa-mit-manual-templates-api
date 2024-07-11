@@ -62,6 +62,7 @@ namespace InvoiceRequests.Add
             invoiceRequest.SBI = r.SBI;
             invoiceRequest.Currency = r.Currency;
             invoiceRequest.Vendor = r.Vendor;
+            invoiceRequest.AccountType = r.AccountType;
             invoiceRequest.AgreementNumber = r.AgreementNumber;
             invoiceRequest.MarketingYear = r.MarketingYear;
             invoiceRequest.Description = r.Description;
