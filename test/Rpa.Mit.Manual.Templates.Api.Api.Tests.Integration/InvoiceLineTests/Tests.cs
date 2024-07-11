@@ -33,6 +33,8 @@ public class Tests(Sut sut) : TestBase<Sut>
         res.InvoiceLine.MarketingYear.Should().Be("2020");
         res.InvoiceLine.DeliveryBody.Should().Be("DB1");
         res.InvoiceLine.InvoiceRequestId.Should().Be("333_YMALXCHG");
+
+        res.InvoiceLine.Id.Should().NotBe("00000000-0000-0000-0000-000000000001");
     }
 
     [Fact]
