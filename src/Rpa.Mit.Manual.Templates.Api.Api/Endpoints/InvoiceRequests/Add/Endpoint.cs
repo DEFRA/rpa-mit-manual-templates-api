@@ -4,7 +4,7 @@ using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace InvoiceRequests.Add
 {
-    internal sealed class AddInvoiceRequestEndpoint : EndpointWithMapping<AddInvoiceRequest, AddInvoiceRequestResponse, InvoiceRequest>
+    internal sealed class AddInvoiceRequestEndpoint : EndpointWithMapping<AddInvoiceRequestRequest, AddInvoiceRequestResponse, InvoiceRequest>
     {
         private readonly IInvoiceRequestRepo _iInvoiceRequestRepo;
         private readonly ILogger<AddInvoiceRequestEndpoint> _logger;
@@ -24,7 +24,7 @@ namespace InvoiceRequests.Add
             Post("/invoicerequests/add");
         }
 
-        public override async Task HandleAsync(AddInvoiceRequest r, CancellationToken ct)
+        public override async Task HandleAsync(AddInvoiceRequestRequest r, CancellationToken ct)
         {
             AddInvoiceRequestResponse response = new AddInvoiceRequestResponse();
 
@@ -53,7 +53,7 @@ namespace InvoiceRequests.Add
             }
         }
 
-        public override async Task<InvoiceRequest> MapToEntityAsync(AddInvoiceRequest r, CancellationToken ct = default)
+        public override async Task<InvoiceRequest> MapToEntityAsync(AddInvoiceRequestRequest r, CancellationToken ct = default)
         {
             var invoiceRequest = await Task.FromResult(new InvoiceRequest());
 

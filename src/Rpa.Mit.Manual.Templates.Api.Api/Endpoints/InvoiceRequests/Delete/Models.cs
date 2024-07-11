@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace DeleteInvoiceRequest
+namespace InvoiceRequests.Delete
 {
     [ExcludeFromCodeCoverage]
     internal sealed class DeleteInvoiceRequestRequest

@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace GetInvoiceRequest
+namespace InvoiceRequests.GetValue
 {
     [ExcludeFromCodeCoverage]
     internal sealed class GetInvoiceRequestValueRequest

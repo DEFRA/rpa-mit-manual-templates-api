@@ -2,7 +2,7 @@
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 
-namespace UpdateInvoiceRequest
+namespace InvoiceRequests.Update
 {
     internal sealed class UpdateInvoiceRequestEndpoint : EndpointWithMapping<UpdateInvoiceRequestRequest, UpdateInvoiceRequestResponse, InvoiceRequest>
     {

@@ -1,6 +1,6 @@
 ﻿using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
-namespace DeleteInvoice
+namespace Invoices.Delete
 {
     internal sealed class DeleteInvoiceEndpoint : Endpoint<DeleteInvoiceRequest, DeleteInvoiceResponse>
     {

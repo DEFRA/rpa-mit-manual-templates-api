@@ -1,6 +1,9 @@
 ﻿
-namespace UpdateInvoiceRequest
+using System.Diagnostics.CodeAnalysis;
+
+namespace InvoiceRequests.Update
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class UpdateInvoiceRequestRequest
     {
         public string InvoiceRequestId { get; set; } = string.Empty;

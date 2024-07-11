@@ -18,7 +18,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
         [Fact]
         public async Task InvoiceRequest_Save_Success()
         {
-            InvoiceRequests.Add.AddInvoiceRequest invoiceRequest = new InvoiceRequests.Add.AddInvoiceRequest
+            InvoiceRequests.Add.AddInvoiceRequestRequest invoiceRequest = new AddInvoiceRequestRequest
             {
                 FRN = "EU (2014 - 2020 Program)",
                 SBI = "GBP",
@@ -54,7 +54,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
         [Fact]
         public async Task InvoiceRequest_Save_Fail()
         {
-            InvoiceRequests.Add.AddInvoiceRequest invoiceRequest = new InvoiceRequests.Add.AddInvoiceRequest
+            AddInvoiceRequestRequest invoiceRequest = new AddInvoiceRequestRequest
             {
                 FRN = "EU (2014 - 2020 Program)",
                 SBI = "GBP",
@@ -88,7 +88,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
         [Fact]
         public async Task InvoiceRequest_Save_Returns_Exception()
         {
-            InvoiceRequests.Add.AddInvoiceRequest invoiceRequest = new InvoiceRequests.Add.AddInvoiceRequest
+            AddInvoiceRequestRequest invoiceRequest = new AddInvoiceRequestRequest
             {
                 FRN = "EU (2014 - 2020 Program)",
                 SBI = "GBP",

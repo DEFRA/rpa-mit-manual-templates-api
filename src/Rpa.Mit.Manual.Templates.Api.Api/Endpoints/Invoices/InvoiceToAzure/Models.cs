@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices.InvoiceToAzure
+namespace Invoices.ToAzure
 {
     [ExcludeFromCodeCoverage]
     internal sealed class InvoiceToAzureRequest

@@ -3,7 +3,7 @@
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
 
-namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices.InvoiceToAzure
+namespace Invoices.ToAzure
 {
     internal sealed class InvoiceToAzureEndpoint : Endpoint<InvoiceToAzureRequest, InvoiceToAzureResponse>
     {

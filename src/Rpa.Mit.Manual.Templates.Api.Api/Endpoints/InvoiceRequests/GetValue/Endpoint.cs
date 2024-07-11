@@ -1,7 +1,7 @@
 ﻿
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
-namespace GetInvoiceRequest
+namespace InvoiceRequests.GetValue
 {
     internal sealed class GetInvoiceRequestValueEndpoint : Endpoint<GetInvoiceRequestValueRequest, GetInvoiceRequestValueResponse>
     {

@@ -2,14 +2,15 @@
 
 using FastEndpoints;
 
+using InvoiceRequests.Delete;
+
 using Invoices.Add;
+using Invoices.Delete;
 
 using Microsoft.Extensions.Logging;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
-
-using Xunit;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
 {
@@ -95,6 +96,29 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
 
             Assert.Equal("Object reference not set to an instance of an object.", response.Message);
             Assert.Null(response.Invoice);
+        }
+
+        [Fact]
+        public async Task Invoice_Delete_Success()
+        {
+            DeleteInvoiceRequest invoiceRequest = new DeleteInvoiceRequest
+            {
+                InvoiceId = Guid.NewGuid(),
+            };
+
+            var fakeRepo = A.Fake<IInvoiceRepo>();
+            A.CallTo(() => fakeRepo.DeleteInvoice(invoiceRequest.InvoiceId, CancellationToken.None))
+                    .Returns(Task.FromResult(true));
+
+            var ep = Factory.Create<DeleteInvoiceEndpoint>(
+                           A.Fake<ILogger<DeleteInvoiceEndpoint>>(),
+                           fakeRepo);
+
+            await ep.HandleAsync(invoiceRequest, default);
+            var response = ep.Response;
+
+            response.Should().NotBeNull();
+            response.Result.Should().BeTrue();
         }
     }
 }

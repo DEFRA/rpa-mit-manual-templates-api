@@ -6,7 +6,7 @@ using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 namespace InvoiceRequests.Add
 {
     [ExcludeFromCodeCoverage]
-    internal sealed class AddInvoiceRequest
+    internal sealed class AddInvoiceRequestRequest
     {
         public string InvoiceRequestId { get; set; } = string.Empty;
 
