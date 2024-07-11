@@ -22,7 +22,7 @@ namespace UpdateInvoiceLine
         {
             // temp allow anon
             AllowAnonymous();
-            Post("/invoicelines/update");
+            Put("/invoicelines/update");
         }
 
         public override async Task HandleAsync(UpdateInvoiceLineRequest r, CancellationToken ct)

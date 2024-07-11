@@ -19,7 +19,7 @@ namespace DeleteInvoiceLine
         {
             // temp allow anon
             AllowAnonymous();
-            Post("/invoicelines/delete");
+            Delete("/invoicelines/delete");
         }
 
         public override async Task HandleAsync(DeleteInvoiceLineRequest r, CancellationToken ct)

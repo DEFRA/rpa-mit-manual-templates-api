@@ -19,7 +19,7 @@ namespace DeleteInvoice
         {
             // temp allow anon
             AllowAnonymous();
-            Post("/invoices/delete");
+            Delete("/invoices/delete");
         }
 
         public override async Task HandleAsync(DeleteInvoiceRequest r, CancellationToken ct)

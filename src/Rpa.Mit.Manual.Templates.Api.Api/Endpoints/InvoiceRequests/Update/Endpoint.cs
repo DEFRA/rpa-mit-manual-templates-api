@@ -21,7 +21,7 @@ namespace UpdateInvoiceRequest
         {
             // temp allow anon
             AllowAnonymous();
-            Post("/invoicerequests/update");
+            Put("/invoicerequests/update");
         }
 
         public override async Task HandleAsync(UpdateInvoiceRequestRequest r, CancellationToken ct)

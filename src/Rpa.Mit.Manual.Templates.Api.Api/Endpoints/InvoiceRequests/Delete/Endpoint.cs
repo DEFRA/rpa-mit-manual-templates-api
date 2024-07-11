@@ -17,7 +17,7 @@ namespace DeleteInvoiceRequest
 
         public override void Configure()
         {
-            Post("invoicerequests/delete");
+            Delete("invoicerequests/delete");
         }
 
         public override async Task HandleAsync(DeleteInvoiceRequestRequest r, CancellationToken ct)
