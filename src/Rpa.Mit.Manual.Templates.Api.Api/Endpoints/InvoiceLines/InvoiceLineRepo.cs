@@ -35,7 +35,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
 
                         var invoiceLineValues = await cn.QueryAsync<decimal>(
                                     "SELECT value FROM invoicelines WHERE invoicerequestid = @invoiceRequestId",
-                                    new { InvoiceRequestId = invoiceLine.InvoiceRequestId });
+                                    new { invoiceLine.InvoiceRequestId });
 
                         await transaction.CommitAsync(ct);
 
@@ -109,7 +109,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
 
                         var invoiceLineValues = await cn.QueryAsync<decimal>(
                                     "SELECT value FROM invoicelines WHERE invoicerequestid = @invoiceRequestId",
-                                    new { InvoiceRequestId = invoiceLine.InvoiceRequestId });
+                                    new { invoiceLine.InvoiceRequestId });
 
                         await transaction.CommitAsync(ct);
 

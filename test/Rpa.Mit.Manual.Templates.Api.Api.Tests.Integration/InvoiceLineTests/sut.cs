@@ -51,7 +51,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.Integration.InvoiceLineTests
         protected override async Task TearDownAsync()
         {
             Client.Dispose();
-            AddInvoiceLineRequest = null;
         }
     }
 }

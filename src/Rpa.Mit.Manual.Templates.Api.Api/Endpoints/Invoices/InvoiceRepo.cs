@@ -47,7 +47,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
                 var invoice = await cn.QuerySingleAsync<Invoice>(sql, parameters);
 
                 var prSql = "SELECT invoiceid, invoicerequestid, frn, sbi, vendor, agreementnumber, currency, description, value, marketingyear, duedate FROM invoicerequests WHERE invoiceid = @Id";
-                var prParameters = new { Id = invoice.Id };
+                var prParameters = new { invoice.Id };
                 invoice.InvoiceRequests = await cn.QueryAsync<InvoiceRequest>(prSql, prParameters);
 
                 foreach (InvoiceRequest pr in invoice.InvoiceRequests)
@@ -84,7 +84,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
                         {
                             await cn.ExecuteAsync(
                                     "DELETE FROM invoicelines WHERE invoicerequestid = @invoiceRequestId",
-                                    new { invoiceRequestId = invoiceRequestId},
+                                    new { invoiceRequestId},
                                     transaction: transaction);
                         }
 
@@ -93,14 +93,14 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
                         {
                             await cn.ExecuteAsync(
                                     "DELETE FROM invoicerequests WHERE invoicerequestid = @invoiceRequestId",
-                                    new { invoiceRequestId = invoiceRequestId },
+                                    new { invoiceRequestId },
                                     transaction: transaction);
                         }
 
                         // finally, delete the invoice header
                         await cn.ExecuteAsync(
-                                "DELETE FROM invoices WHERE id = @InvoiceId",
-                                new { InvoiceId = invoiceId },
+                                "DELETE FROM invoices WHERE id = @invoiceId",
+                                new { invoiceId },
                                 transaction: transaction);
 
                         await transaction.CommitAsync(ct);

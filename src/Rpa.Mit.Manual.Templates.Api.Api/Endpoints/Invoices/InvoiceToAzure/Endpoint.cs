@@ -46,7 +46,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices.InvoiceToAzure
                     await _iEventQueueService.CreateMessage(invoice, "Invoice created");
                 }
 
-                await SendAsync(new InvoiceToAzureResponse());
+                await SendAsync(new InvoiceToAzureResponse(), cancellation: ct);
             }
             catch (ServiceBusException ex)
             {
