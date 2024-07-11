@@ -23,11 +23,18 @@ public class Tests(Sut sut) : TestBase<Sut>
             InvoiceRequestId = "333_YMALXCHG"
         };
 
-        var (rsp, res) = await sut.Client.POSTAsync<AddInvoiceIineEndpoint, AddInvoiceLineRequest, ErrorResponse>(
+        var (rsp, res) = await sut.Client.POSTAsync<AddInvoiceIineEndpoint, AddInvoiceLineRequest, AddInvoiceLineResponse>(
             addInvoiceLineRequest);
 
         rsp.StatusCode.Should().Be(HttpStatusCode.OK);
-        res.Errors.Count.Should().Be(0);
+        res.InvoiceRequestValue.Should().Be(12.12M);
+        res.InvoiceLine.Description.Should().Be("G00 - Gross value of claim");
+        res.InvoiceLine.FundCode.Should().Be("FUND1");
+        res.InvoiceLine.MainAccount.Should().Be("AR");
+        res.InvoiceLine.SchemeCode.Should().Be("code1");
+        res.InvoiceLine.MarketingYear.Should().Be("2020");
+        res.InvoiceLine.DeliveryBody.Should().Be("DB1");
+        res.InvoiceLine.InvoiceRequestId.Should().Be("333_YMALXCHG");
     }
 
     [Fact]
