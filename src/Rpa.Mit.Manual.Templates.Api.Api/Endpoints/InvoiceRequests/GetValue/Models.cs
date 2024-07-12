@@ -11,7 +11,8 @@ namespace InvoiceRequests.GetValue
         {
             public Validator()
             {
-
+                RuleFor(x => x.InvoiceRequestId)
+                    .NotEmpty().WithMessage("InvoiceRequestId is required!");
             }
         }
     }

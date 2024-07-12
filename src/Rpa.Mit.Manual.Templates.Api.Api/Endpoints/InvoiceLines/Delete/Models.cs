@@ -11,7 +11,8 @@ namespace DeleteInvoiceLine
         {
             public Validator()
             {
-
+                RuleFor(x => x.InvoiceLineId)
+                    .NotEmpty().WithMessage("InvoiceLineId is required!");
             }
         }
     }
