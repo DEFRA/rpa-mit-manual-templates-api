@@ -1,4 +1,4 @@
-﻿using InvoiceLinesAdd;
+﻿using InvoiceLines.Add;
 
 using Microsoft.AspNetCore.Hosting;
 using Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests;

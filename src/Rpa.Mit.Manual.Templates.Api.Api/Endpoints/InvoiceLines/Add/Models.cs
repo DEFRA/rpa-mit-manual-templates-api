@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 
-namespace InvoiceLinesAdd
+namespace InvoiceLines.Add
 {
     [ExcludeFromCodeCoverage]
     public sealed class AddInvoiceLineRequest

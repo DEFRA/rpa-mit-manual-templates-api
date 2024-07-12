@@ -1,4 +1,4 @@
-using InvoiceLinesAdd;
+using InvoiceLines.Add;
 
 using Rpa.Mit.Manual.Templates.Api.Api.Tests.Integration.InvoiceLineTests;
 

@@ -1,7 +1,7 @@
 ﻿using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
-namespace InvoiceLinesAdd
+namespace InvoiceLines.Add
 {
     public sealed class AddInvoiceIineEndpoint : EndpointWithMapping<AddInvoiceLineRequest, AddInvoiceLineResponse, InvoiceLine>
     {
