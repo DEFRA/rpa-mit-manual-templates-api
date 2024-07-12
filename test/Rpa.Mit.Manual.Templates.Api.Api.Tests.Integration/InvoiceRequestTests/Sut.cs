@@ -30,6 +30,5 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Integration.Tests.InvoiceRequestTests
         {
             Client.Dispose();
         }
-    {
     }
 }

@@ -1,4 +1,8 @@
 ﻿
+using System.Data;
+
+using ExcelDataReader;
+
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace BulkUploads
@@ -25,20 +29,47 @@ namespace BulkUploads
 
         public override async Task HandleAsync(Request r, CancellationToken c)
         {
-            if (r.File.Length > 0)
+            try
             {
-                var filename = r.File.FileName.ToLower();
-                var file = Files[0];
+                if (r.File.Length > 0)
+                {
+                    using (var stream = r.File.OpenReadStream())
+                    {
 
-                await SendStreamAsync(
-                    stream: file.OpenReadStream(),
-                    fileName: @"c:\test.xlsm",
-                    fileLengthBytes: file.Length,
-                    contentType: "application/octet-stream");
+                        using (var reader = ExcelReaderFactory.CreateReader(stream))
+                        {
+                            var result = reader.AsDataSet(new ExcelDataSetConfiguration()
+                            {
+                                ConfigureDataTable = (data) => new ExcelDataTableConfiguration()
+                                {
+                                    UseHeaderRow = true
+                                }
+                            });
 
-                return;
+                            DataTableCollection table = result.Tables;
+                            DataTable resultTable = table["Coa"];
+                        }
+                    }
+
+                    //var filename = r.File.FileName.ToLower();
+
+                    //await SendStreamAsync(
+                    //    stream: r.File.OpenReadStream(),
+                    //    fileName: @"c:\temp\test.xlsm",
+                    //    fileLengthBytes: r.File.Length,
+                    //    contentType: "application/octet-stream");
+
+                    return;
+                }
             }
-            await SendNoContentAsync();
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "{Message}", ex.Message);
+
+
+                await SendNoContentAsync();
+            }
+
         }
     }
 }

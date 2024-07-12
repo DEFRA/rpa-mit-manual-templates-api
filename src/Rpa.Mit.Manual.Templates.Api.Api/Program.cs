@@ -1,4 +1,6 @@
 
+using System.Text;
+
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 using Rpa.Mit.Manual.Templates.Api.Api;
@@ -13,6 +15,9 @@ builder.Services
 ConfigureServices.Configure(builder);
 
 builder.Services.ConfigureAzure(builder.Configuration);
+
+// add this to support excel reader
+Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
 var app = builder.Build();
 
