@@ -45,6 +45,9 @@ namespace InvoiceLines.Add
                 .MinimumLength(3).WithMessage("FundCode is too short!")
                 .MaximumLength(5).WithMessage("FundCode is too long!");
 
+            RuleFor(x => x.MainAccount)
+                .NotEmpty().WithMessage("MainAccount is required!");
+
             RuleFor(x => x.SchemeCode)
                 .NotEmpty().WithMessage("SchemeCode is required!")
                 .MinimumLength(3).WithMessage("SchemeCode is too short!");
@@ -53,6 +56,9 @@ namespace InvoiceLines.Add
                 .NotEmpty().WithMessage("MarketingYear is required!")
                 .Must(x => int.TryParse(x, out _))
                 .Length(4).WithMessage("MarketingYear requires 4 digits!");
+
+            RuleFor(x => x.DeliveryBody)
+                .NotEmpty().WithMessage("DeliveryBody is required!");
         }
     }
 
