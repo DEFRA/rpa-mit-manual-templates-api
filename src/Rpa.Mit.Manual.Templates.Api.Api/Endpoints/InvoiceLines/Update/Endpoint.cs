@@ -3,7 +3,7 @@
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
-namespace UpdateInvoiceLine
+namespace InvoiceLines.Update
 {
     internal sealed class UpdateInvoiceLineEndpoint : EndpointWithMapping<UpdateInvoiceLineRequest, UpdateInvoiceLineResponse, InvoiceLine>
     {

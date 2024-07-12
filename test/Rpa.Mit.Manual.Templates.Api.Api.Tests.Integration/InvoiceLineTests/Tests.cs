@@ -3,6 +3,7 @@ using FastEndpoints;
 
 using InvoiceLines.Add;
 using InvoiceLines.Delete;
+using InvoiceLines.Update;
 
 using Rpa.Mit.Manual.Templates.Api.Api.Tests.Integration.InvoiceLineTests;
 
@@ -133,7 +134,6 @@ public class Tests(Sut sut) : TestBase<Sut>
         res.Errors.Keys.Should().Equal("invoiceRequestId");
     }
 
-
     [Fact]
     public async Task InvoiceLine_Delete_Success()
     {
@@ -147,6 +147,49 @@ public class Tests(Sut sut) : TestBase<Sut>
 
         rsp.StatusCode.Should().Be(HttpStatusCode.OK);
         res.InvoiceRequestValue.Should().Be(34.55M);
+    }
 
+    [Fact]
+    public async Task InvoiceLine_Update_Success()
+    {
+        var updateInvoiceLineRequest = new UpdateInvoiceLineRequest
+        {
+            Id = Guid.NewGuid(),
+            Value = 12.12M,
+            Description = "G00 - Gross value of claim",
+            FundCode = "FUND1",
+            MainAccount = "AR",
+            SchemeCode = "code1",
+            MarketingYear = "2020",
+            DeliveryBody = "DB1"
+        };
+
+        var (rsp, res) = await sut.Client.PUTAsync<UpdateInvoiceLineEndpoint, UpdateInvoiceLineRequest, UpdateInvoiceLineResponse>(
+            updateInvoiceLineRequest);
+
+        rsp.StatusCode.Should().Be(HttpStatusCode.OK);
+        res.InvoiceRequestValue.Should().Be(55.55M);
+    }
+
+    [Fact]
+    public async Task InvoiceLine_Update_Fail_Missing_InvoiceLine_id()
+    {
+        var updateInvoiceLineRequest = new UpdateInvoiceLineRequest
+        {
+            Value = 12.12M,
+            Description = "G00 - Gross value of claim",
+            FundCode = "FUND1",
+            MainAccount = "AR",
+            SchemeCode = "code1",
+            MarketingYear = "2020",
+            DeliveryBody = "DB1"
+        };
+
+        var (rsp, res) = await sut.Client.PUTAsync<UpdateInvoiceLineEndpoint, UpdateInvoiceLineRequest, ErrorResponse>(
+            updateInvoiceLineRequest);
+
+        rsp.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        res.Errors.Count.Should().Be(1);
+        res.Errors.Keys.Should().Equal("id");
     }
 }

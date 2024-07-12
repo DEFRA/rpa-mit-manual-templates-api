@@ -12,6 +12,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.Integration.InvoiceLineTests
             => Task.FromResult(34.55M);
 
         public Task<decimal> UpdateInvoiceLine(InvoiceLine invoiceLine, CancellationToken ct)
-            => Task.FromResult(34.55M);
+            => Task.FromResult(55.55M);
     }
 }
