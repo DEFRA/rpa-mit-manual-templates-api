@@ -57,6 +57,24 @@ namespace InvoiceRequests.Add
         public string Description { get; set; } = string.Empty;
     }
 
+    [ExcludeFromCodeCoverage]
+    internal class AddInvoiceRequestValidator : Validator<AddInvoiceRequestRequest>
+    {
+        public AddInvoiceRequestValidator()
+        {
+            RuleFor(x => x.InvoiceRequestId)
+                .Cascade(CascadeMode.Stop)
+                .NotEmpty().WithMessage("InvoiceRequest Id is required!")
+                .MinimumLength(10).WithMessage("InvoiceRequestId is too short");
+
+            RuleFor(x => x.InvoiceId)
+                .NotEmpty().WithMessage("InvoiceId is required");
+
+            RuleFor(x => x.FRN)
+                .NotEmpty().WithMessage("The FRN must be a 10-digit number or be empty.")
+                .Matches("^([0-9]{10})?$");
+        }
+    }
 
     [ExcludeFromCodeCoverage]
     internal sealed class AddInvoiceRequestResponse
