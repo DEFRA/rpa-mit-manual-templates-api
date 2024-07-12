@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace DeleteInvoiceLine
+namespace InvoiceLines.Delete
 {
     [ExcludeFromCodeCoverage]
-    internal sealed class DeleteInvoiceLineRequest
+    public sealed class DeleteInvoiceLineRequest
     {
         public Guid InvoiceLineId { get; set; }
 

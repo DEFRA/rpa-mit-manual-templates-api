@@ -29,11 +29,12 @@ namespace InvoiceLines.Add
     }
 
     [ExcludeFromCodeCoverage]
-    public class Validator : Validator<AddInvoiceLineRequest>
+    public class AddInvoiceLineValidator : Validator<AddInvoiceLineRequest>
     {
-        public Validator()
+        public AddInvoiceLineValidator()
         {
             RuleFor(x => x.InvoiceRequestId)
+                .Cascade(CascadeMode.Stop)
                 .NotEmpty().WithMessage("InvoiceRequest Id is required!")
                 .MinimumLength(10).WithMessage("InvoiceRequestId is too short!");
 
@@ -58,6 +59,8 @@ namespace InvoiceLines.Add
                 .Length(4).WithMessage("MarketingYear requires 4 digits!");
 
             RuleFor(x => x.DeliveryBody)
+                .Cascade(CascadeMode.Stop)
+                .NotNull().WithMessage("DeliveryBody is required!")
                 .NotEmpty().WithMessage("DeliveryBody is required!");
         }
     }

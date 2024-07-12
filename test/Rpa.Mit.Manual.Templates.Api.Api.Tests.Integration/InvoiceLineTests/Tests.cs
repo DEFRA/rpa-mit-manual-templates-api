@@ -1,4 +1,8 @@
+
+using FastEndpoints;
+
 using InvoiceLines.Add;
+using InvoiceLines.Delete;
 
 using Rpa.Mit.Manual.Templates.Api.Api.Tests.Integration.InvoiceLineTests;
 
@@ -127,5 +131,22 @@ public class Tests(Sut sut) : TestBase<Sut>
         rsp.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         res.Errors.Count.Should().Be(1);
         res.Errors.Keys.Should().Equal("invoiceRequestId");
+    }
+
+
+    [Fact]
+    public async Task InvoiceLine_Delete_Success()
+    {
+        var deleteInvoiceLineRequest = new DeleteInvoiceLineRequest
+        {
+            InvoiceLineId = Guid.NewGuid()
+        };
+
+        var (rsp, res) = await sut.Client.DELETEAsync<DeleteInvoiceLineEndpoint, DeleteInvoiceLineRequest, DeleteInvoiceLineResponse>(
+            deleteInvoiceLineRequest);
+
+        rsp.StatusCode.Should().Be(HttpStatusCode.OK);
+        res.InvoiceRequestValue.Should().Be(34.55M);
+
     }
 }
