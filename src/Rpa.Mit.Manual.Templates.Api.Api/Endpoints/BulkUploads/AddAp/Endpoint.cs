@@ -3,6 +3,9 @@ using System.Data;
 
 using ExcelDataReader;
 
+using Microsoft.AspNetCore.Identity;
+
+using Rpa.Mit.Manual.Templates.Api.Api.Extensions;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace BulkUploads.AddAp
@@ -32,10 +35,31 @@ namespace BulkUploads.AddAp
 
         public override async Task HandleAsync(Request r, CancellationToken ct)
         {
+            Response response = new Response();
+
+            if (r.File is null || r.File.Length == 0)
+            {
+                response.Message = "Invalid file. Please upload a valid Excel file.";
+
+                await SendAsync(response, 400, CancellationToken.None);
+            }
+
+            if (!r.File.IsFileExtensionAllowed([".pdf", ".doc", ".docx"]))
+            {
+                response.Message = "Invalid file type. Please upload a valid Excel file.";
+
+                await SendAsync(response, 400, CancellationToken.None);
+            }
+
+            if (!r.File.IsFileSizeWithinLimit(1e+7))
+            {
+                response.Message = "File is too largee. Please upload a valid Excel file.";
+
+                await SendAsync(response, 400, CancellationToken.None);
+            }
+
             try
             {
-                if (r.File.Length > 0)
-                {
                     using (var stream = r.File.OpenReadStream())
                     {
 
@@ -83,7 +107,7 @@ namespace BulkUploads.AddAp
                     //    contentType: "application/octet-stream");
 
                     return;
-                }
+
             }
             catch (Exception ex)
             {
