@@ -1,4 +1,4 @@
-﻿namespace BulkUploads
+﻿namespace BulkUploads.AddAp
 {
     internal sealed class Request
     {

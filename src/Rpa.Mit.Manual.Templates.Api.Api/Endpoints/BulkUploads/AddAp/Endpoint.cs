@@ -3,10 +3,9 @@ using System.Data;
 
 using ExcelDataReader;
 
-using Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
-namespace BulkUploads
+namespace BulkUploads.AddAp
 {
     internal sealed class AddBulkUploadsEndpoint : Endpoint<Request, Response>
     {
