@@ -47,7 +47,27 @@ namespace BulkUploads
                             });
 
                             DataTableCollection tables = result.Tables;
-                            DataTable resultTable = tables["AP"];
+
+                            if (null == tables)
+                            {
+                                // No data, return
+                                await SendNoContentAsync();
+                            }
+
+                            if (tables?["AP"]?.Rows.Count > 4)
+                            {
+                                // dealing with AP data
+                                DataTable resultTable = tables["AP"];
+                            }
+                            else if (tables?["AR"]?.Rows.Count > 4)
+                            {
+                                // dealing with AR data
+                            }
+                            else
+                            {
+                                // No data, return
+                                await SendNoContentAsync();
+                            }
 
                             // row 0, col 1 and row 0, col 16 have the 2 titles
                             // row 1 is placeholder/empty
