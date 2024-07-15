@@ -3,7 +3,7 @@
 namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 {
     [ExcludeFromCodeCoverage]
-    public sealed class BulkUploadDetailLine
+    public sealed class BulkUploadDetailLine : BulkUploadBaseClass
     {
         public string Amount { get; set; } = string.Empty;
 

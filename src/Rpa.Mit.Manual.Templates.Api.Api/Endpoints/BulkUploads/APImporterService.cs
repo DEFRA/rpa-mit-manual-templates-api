@@ -27,6 +27,21 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     Description = row[7].ToString()
                 };
 
+                var bulkUploadDetailLine = new BulkUploadDetailLine
+                {
+                    InvoiceId = row[16].ToString(),
+                    ClaimReferenceNumber = row[17].ToString(),
+                    ClaimReference = row[18].ToString(),
+                    Amount = row[19].ToString(),
+                    PreferredCurrency = row[20].ToString(),
+                    Fund = row[21].ToString(),
+                    MainAccount = row[22].ToString(),
+                    Scheme = row[23].ToString(),
+                    MarketingYear = row[24].ToString(),
+                    DeliveryBodyCode = row[25].ToString(),
+                    Description = row[26].ToString()
+                };
+
             }
 
             return true;
