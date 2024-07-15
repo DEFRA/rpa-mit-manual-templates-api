@@ -38,6 +38,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Integration.Tests.InvoiceRequestTests
             var (rsp, res) = await sut.Client.POSTAsync<AddInvoiceRequestEndpoint, AddInvoiceRequestRequest, AddInvoiceRequestResponse>(
                 addInvoiceRequestRequest);
 
+            //TODO: needs fixing
             rsp.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             //res.InvoiceRequestValue.Should().Be(12.12M);
             //res.InvoiceLine.Description.Should().Be("G00 - Gross value of claim");

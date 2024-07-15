@@ -46,8 +46,19 @@ namespace BulkUploads
                                 }
                             });
 
-                            DataTableCollection table = result.Tables;
-                            DataTable resultTable = table["Coa"];
+                            DataTableCollection tables = result.Tables;
+                            DataTable resultTable = tables["AP"];
+
+                            // row 0, col 1 and row 0, col 16 have the 2 titles
+                            // row 1 is placeholder/empty
+                            // row 2, cols 1-8 and row 2, col 16-28 have the data headers
+                            // row 3 = start of data
+
+                            foreach (DataRow row in resultTable.Rows)
+                            {
+                                Console.Write($"{row[1]}, {row[2]}, {row[3]} ");
+                                Console.WriteLine();
+                            }
                         }
                     }
 
