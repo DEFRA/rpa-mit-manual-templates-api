@@ -1,5 +1,4 @@
 ﻿using System.Data;
-using System.Transactions;
 
 using Dapper;
 
@@ -98,6 +97,19 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests
 
 
                 }
+            }
+        }
+
+        public async Task<IEnumerable<InvoiceRequest>> GetInvoiceRequestsByInvoiceId(Guid invoiceId, CancellationToken ct)
+        {
+            using (var cn = new NpgsqlConnection(DbConn))
+            {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
+                return await cn.QueryAsync<InvoiceRequest>(
+                            "SELECT id, schemetype, data, reference, value, status, approverid, approveremail, approvedby, approved, createdby, updatedby, created, updated, paymenttype, accounttype, deliverybody, secondaryquestion FROM invoices WHERE id = @invoiceId",
+                            new { invoiceId });
             }
         }
     }

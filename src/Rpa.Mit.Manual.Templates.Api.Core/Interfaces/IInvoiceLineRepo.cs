@@ -29,7 +29,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         Task<decimal> UpdateInvoiceLine(InvoiceLine invoiceLine, CancellationToken ct);
 
         /// <summary>
-        /// get a single invoice line
+        /// get all invoice lines for an invoice request
         /// </summary>
         /// <param name="invoiceRequestId"></param>
         /// <param name="ct"></param>

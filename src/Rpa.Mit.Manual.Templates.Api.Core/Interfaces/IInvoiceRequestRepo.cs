@@ -35,5 +35,13 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <param name="ct"></param>
         /// <returns></returns>
         Task<bool> DeleteInvoiceRequest(string invoiceRequestId, CancellationToken ct);
+
+        /// <summary>
+        /// get all invoice requests for a parent invoice
+        /// </summary>
+        /// <param name="invoiceId"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        Task<IEnumerable<InvoiceRequest>> GetInvoiceRequestsByInvoiceId(Guid invoiceId, CancellationToken ct);
     }
 }

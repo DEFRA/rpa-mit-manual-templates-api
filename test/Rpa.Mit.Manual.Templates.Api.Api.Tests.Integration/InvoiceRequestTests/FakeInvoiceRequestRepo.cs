@@ -6,15 +6,18 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Integration.Tests.InvoiceRequestTests
     internal class FakeInvoiceRequestRepo : IInvoiceRequestRepo
     {
         public Task<bool> AddInvoiceRequest(InvoiceRequest invoiceRequest, CancellationToken ct)
-         => Task.FromResult(true);
+            => Task.FromResult(true);
 
         public Task<bool> DeleteInvoiceRequest(string invoiceRequestId, CancellationToken ct)
-         => Task.FromResult(true);
+            => Task.FromResult(true);
 
         public Task<decimal> GetInvoiceRequestValue(string invoiceRequestId, CancellationToken ct)
             => Task.FromResult(55.55M);
 
         public Task<bool> UpdateInvoiceRequest(InvoiceRequest invoiceRequest, CancellationToken ct)
-         => Task.FromResult(true);
+            => Task.FromResult(true);
+
+        public Task<IEnumerable<InvoiceRequest>> GetInvoiceRequestsByInvoiceId(Guid invoiceId, CancellationToken ct)
+            => Task.FromResult(Enumerable.Empty<InvoiceRequest>());
     }
 }
