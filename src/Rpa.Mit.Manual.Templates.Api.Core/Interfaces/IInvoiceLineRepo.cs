@@ -27,5 +27,13 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <param name="ct"></param>
         /// <returns></returns>
         Task<decimal> UpdateInvoiceLine(InvoiceLine invoiceLine, CancellationToken ct);
+
+        /// <summary>
+        /// get a single invoice line
+        /// </summary>
+        /// <param name="invoiceRequestId"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        Task<IEnumerable<InvoiceLine>> GetInvoiceLinesByInvoiceRequestId(string invoiceRequestId, CancellationToken ct);
     }
 }

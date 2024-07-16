@@ -1,4 +1,4 @@
-﻿using InvoiceLines.Update;
+﻿
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace InvoiceLines.GetByInvoiceRequestId
@@ -23,9 +23,24 @@ namespace InvoiceLines.GetByInvoiceRequestId
             Get("/invoicelines/getbyinvoicerequestid");
         }
 
-        public override async Task HandleAsync(InvoiceLinesGetByInvoiceRequestIdRequest r, CancellationToken c)
+        public override async Task HandleAsync(InvoiceLinesGetByInvoiceRequestIdRequest r, CancellationToken ct)
         {
-            await SendAsync(new InvoiceLinesGetByInvoiceRequestIdResponse());
+            var response = new InvoiceLinesGetByInvoiceRequestIdResponse();
+
+            try
+            {
+                response.InvoiceLines = await _iInvoiceLineRepo.GetInvoiceLinesByInvoiceRequestId(r.InvoiceRequestId, ct);
+
+                await SendAsync(response, cancellation: ct);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "{Message}", ex.Message);
+
+                response.Message = ex.Message;
+
+                await SendAsync(response, 400, CancellationToken.None);
+            }
         }
     }
 }

@@ -17,8 +17,8 @@ namespace InvoiceLines.GetByInvoiceRequestId
 
     internal sealed class InvoiceLinesGetByInvoiceRequestIdResponse
     {
-        public InvoiceRequest? InvoiceRequest { get; set}
+        public IEnumerable<InvoiceLine> InvoiceLines { get; set; } = Enumerable.Empty<InvoiceLine>();
 
-        public string Message { get; set} = string.Empty;
+        public string Message { get; set; } = string.Empty;
     }
 }
