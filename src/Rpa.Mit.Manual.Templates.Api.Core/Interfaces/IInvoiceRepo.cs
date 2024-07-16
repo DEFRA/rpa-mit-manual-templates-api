@@ -21,6 +21,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <returns></returns>
         Task<Invoice> GetInvoiceForAzure(Guid invoiceId, CancellationToken ct);
 
+        Task<IEnumerable<Invoice>> GetAllInvoices( CancellationToken ct);
+
         /// <summary>
         /// deletes an invoice and all its children
         /// </summary>

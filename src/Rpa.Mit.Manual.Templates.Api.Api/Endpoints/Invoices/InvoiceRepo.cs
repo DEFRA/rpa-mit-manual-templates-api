@@ -6,7 +6,7 @@ using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 using Microsoft.Extensions.Options;
 using Dapper;
 using System.Diagnostics.CodeAnalysis;
-
+using System.Collections.Generic;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
 {
@@ -113,6 +113,20 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
                         throw;
                     }
                 }
+            }
+        }
+
+        public async Task<IEnumerable<Invoice>> GetAllInvoices(CancellationToken ct)
+        {
+            using (var cn = new NpgsqlConnection(DbConn))
+            {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
+                var sql = "SELECT id,schemetype,data,reference,value,status,approverid,approveremail,approvedby,approved,createdby, updatedby, created, updated,paymenttype,accounttype,deliverybody FROM invoices";
+
+
+                return await cn.QueryAsync<Invoice>(sql);
             }
         }
     }
