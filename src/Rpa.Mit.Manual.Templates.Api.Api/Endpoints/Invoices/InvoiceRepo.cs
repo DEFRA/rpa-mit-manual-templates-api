@@ -1,12 +1,14 @@
-﻿using Npgsql;
-using System.Data;
+﻿using System.Data;
+using System.Diagnostics.CodeAnalysis;
+
+using Dapper;
+
+using Microsoft.Extensions.Options;
+
+using Npgsql;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
-using Microsoft.Extensions.Options;
-using Dapper;
-using System.Diagnostics.CodeAnalysis;
-using System.Collections.Generic;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
 {

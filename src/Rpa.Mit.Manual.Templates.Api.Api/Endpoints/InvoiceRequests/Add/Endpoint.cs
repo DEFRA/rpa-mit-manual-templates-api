@@ -1,4 +1,5 @@
 ﻿
+using Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests.Add;
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
@@ -57,7 +58,7 @@ namespace InvoiceRequests.Add
         {
             var invoiceRequest = await Task.FromResult(new InvoiceRequest());
 
-            invoiceRequest.InvoiceRequestId = r.InvoiceRequestId;
+            invoiceRequest.InvoiceRequestId = IdGeneratorHelper.IdGenerator(r.AgreementNumber);
             invoiceRequest.FRN = r.FRN;
             invoiceRequest.SBI = r.SBI;
             invoiceRequest.Currency = r.Currency;

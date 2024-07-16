@@ -14,10 +14,8 @@ namespace InvoiceRequests.Add
 
         public string SourceSystem { get; set; } = "Manual";
 
-        [RegularExpression(@"^([0-9]{10})?$", ErrorMessage = "The FRN must be a 10-digit number or be empty.")]
         public string FRN { get; set; } = string.Empty;
 
-        [RegularExpression(@"^(1050{5}|10[5-9]\d{6}|1[1-9]\d{7}|[2-9]\d{8})?$", ErrorMessage = "The SBI is not in valid range (105000000 .. 999999999) or should be empty.")]
         public string SBI { get; set; } = string.Empty;
 
         [RegularExpression(@"^(201[5-9]|20[2-9]\d|[2-9]\d{3})$", ErrorMessage = "The Marketing Year must be after 2014")]
@@ -62,17 +60,34 @@ namespace InvoiceRequests.Add
     {
         public AddInvoiceRequestValidator()
         {
-            RuleFor(x => x.InvoiceRequestId)
-                .Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("InvoiceRequest Id is required!")
-                .MinimumLength(10).WithMessage("InvoiceRequestId is too short");
-
             RuleFor(x => x.InvoiceId)
                 .NotEmpty().WithMessage("InvoiceId is required");
 
-            RuleFor(x => x.FRN)
-                .NotEmpty().WithMessage("The FRN must be a 10-digit number or be empty.")
-                .Matches("^([0-9]{10})?$");
+            RuleFor(x => x)
+                .Cascade(CascadeMode.Stop)
+                .Must(x => (!string.IsNullOrEmpty(x.FRN) ^ !string.IsNullOrEmpty(x.SBI)) ^ !string.IsNullOrEmpty(x.Vendor))
+                .WithMessage("Select only one of FRN, SBI and Vendor");
+
+            When(x => !string.IsNullOrEmpty(x.FRN), () => {
+                RuleFor(x => x.FRN).NotEmpty()
+                .Matches("^([0-9]{10})?$")
+                .WithMessage("The FRN must be a 10-digit number or be empty.");
+            });
+
+            When(x => !string.IsNullOrEmpty(x.SBI), () => {
+                RuleFor(x => x.SBI)
+                .NotEmpty()
+                .Matches("^(1050{5}|10[5-9]\\d{6}|1[1-9]\\d{7}|[2-9]\\d{8})?$")
+                .WithMessage("The SBI is not in valid range (105000000 .. 999999999) or should be empty.");
+            });
+
+            When(x => !string.IsNullOrEmpty(x.Vendor), () => {
+                RuleFor(x => x.Vendor)
+                .NotEmpty()
+                .WithMessage("Vendor must be longer than 3 characters.");
+            });
+
+
         }
     }
 
