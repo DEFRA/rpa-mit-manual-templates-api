@@ -19,7 +19,7 @@ namespace Invoices.GetAll
         {
             // temp allow anon
             AllowAnonymous();
-            Post("/invoices/getall");
+            Get("/invoices/getall");
         }
 
         public override async Task HandleAsync(CancellationToken ct)
