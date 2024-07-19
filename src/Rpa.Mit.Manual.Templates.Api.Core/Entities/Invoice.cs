@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
-using System.Text.Json.Serialization;
+﻿using System.Diagnostics.CodeAnalysis;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Enums;
 
@@ -9,7 +7,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
     [ExcludeFromCodeCoverage]
     public sealed class Invoice
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; } = default!;
 
         public string PaymentType { get; set; } = default!;
 
@@ -43,6 +41,10 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
                 return DeliveryBody == "RPA" ? SchemeType : DeliveryBody;
             }
         }
+
+        public string ClaimReferenceNumber { get; set; } = default!;
+
+        public string ClaimReference { get; set; } = default!;
 
         //[JsonIgnore]
         //public decimal TotalValueOfPaymentsGBP => InvoiceRequests.Where(x => x.Currency == "GBP").Sum(x => x.Value);

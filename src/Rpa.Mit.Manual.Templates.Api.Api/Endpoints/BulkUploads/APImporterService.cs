@@ -35,7 +35,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 {
                     var bulkUploadHeaderLine = new BulkUploadApHeaderLine
                     {
-                        InvoiceId = row[1].ToString(),
+                        InvoiceId = row[2].ToString() + "_" + row[3].ToString(),
                         ClaimReferenceNumber = row[2].ToString(),
                         ClaimReference = row[3].ToString(),
                         PreferredCurrency = row[6].ToString(),
@@ -47,12 +47,11 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
                     bulkUploadApDataset.BulkuploadHeaderLines.Add(bulkUploadHeaderLine);
 
-
                     var descriptionQuery = row[22].ToString() + "/" + row[23].ToString() + "/" + row[25].ToString();
 
                     var bulkUploadDetailLine = new BulkUploadApDetailLine
                     {
-                        InvoiceId = row[16].ToString(),
+                        InvoiceId = row[2].ToString() + "_" + row[3].ToString(),
                         ClaimReferenceNumber = row[17].ToString(),
                         ClaimReference = row[18].ToString(),
                         PreferredCurrency = row[20].ToString(),

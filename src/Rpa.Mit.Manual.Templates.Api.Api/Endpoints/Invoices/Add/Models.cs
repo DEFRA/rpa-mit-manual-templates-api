@@ -28,6 +28,10 @@ namespace Invoices.Add
 
         public string Reference { get; set; } = default!;
 
+        public string ClaimReferenceNumber { get; set; } = default!;
+
+        public string ClaimReference { get; set; } = default!;
+
         //public string ApprovalGroup
         //{
         //    get
