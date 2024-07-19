@@ -17,6 +17,10 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 
         public string DeliveryBodyCode { get; set; } = string.Empty;
 
+        /// <summary>
+        /// calculated field = Main Account AP / 
+        ///  strDES = strACC & " / " & strSCH & " / " & strDB 
+        /// </summary>
         public string Description { get; set; } = string.Empty;
     }
 }

@@ -39,7 +39,9 @@ namespace Invoices.Add
             {
                 Invoice invoice = await MapToEntityAsync(invoiceRequest, ct);
 
+                // TODO: this needs to be in the format S0987851_C1508581VIC ( = ClaimNumber_ClaimRef)
                 invoice.Id = Guid.NewGuid();
+
                 invoice.Created = DateTime.UtcNow;
                 invoice.CreatedBy = "aylmer.carson";
 

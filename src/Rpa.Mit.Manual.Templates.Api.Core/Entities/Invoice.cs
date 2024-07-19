@@ -11,18 +11,14 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
     {
         public Guid Id { get; set; }
 
-        [Required(ErrorMessage = "Payment Type is required")]
         public string PaymentType { get; set; } = default!;
 
-        [Required(ErrorMessage = "Account Type is required")]
         public string AccountType { get; set; } = default!;
 
-        [Required(ErrorMessage = "DeliveryBody is required")]
         public string DeliveryBody { get; set; } = default!;
 
         public string SecondaryQuestion { get; set; } = default!;
 
-        [Required(ErrorMessage = "Scheme Type is required")]
         public string SchemeType { get; set; } = default!;
 
         public IEnumerable<InvoiceRequest> InvoiceRequests { get; set; } = Enumerable.Empty<InvoiceRequest>();
@@ -40,23 +36,19 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 
         public string CreatedBy { get; set; } = default!;
 
-        [JsonIgnore]
-        public decimal TotalValueOfPaymentsGBP => InvoiceRequests.Where(x => x.Currency == "GBP").Sum(x => x.Value);
-        [JsonIgnore]
-        public decimal TotalValueOfPaymentsEUR => InvoiceRequests.Where(x => x.Currency == "EUR").Sum(x => x.Value);
-        [JsonIgnore]
-        public bool CanBeSentForApproval => Status == InvoiceStatuses.New && InvoiceRequests.All(x => x.Value != 0 && x.InvoiceLines.Any());
-
         public string ApprovalGroup
         {
             get
             {
-                if (DeliveryBody == "RPA")
-                {
-                    return SchemeType;
-                }
-                return DeliveryBody;
+                return DeliveryBody == "RPA" ? SchemeType : DeliveryBody;
             }
         }
+
+        //[JsonIgnore]
+        //public decimal TotalValueOfPaymentsGBP => InvoiceRequests.Where(x => x.Currency == "GBP").Sum(x => x.Value);
+        //[JsonIgnore]
+        //public decimal TotalValueOfPaymentsEUR => InvoiceRequests.Where(x => x.Currency == "EUR").Sum(x => x.Value);
+        //[JsonIgnore]
+        //public bool CanBeSentForApproval => Status == InvoiceStatuses.New && InvoiceRequests.All(x => x.Value != 0 && x.InvoiceLines.Any());
     }
 }

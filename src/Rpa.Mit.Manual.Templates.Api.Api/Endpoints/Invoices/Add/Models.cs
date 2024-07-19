@@ -28,6 +28,14 @@ namespace Invoices.Add
 
         public string Reference { get; set; } = default!;
 
+        //public string ApprovalGroup
+        //{
+        //    get
+        //    {
+        //        return DeliveryBody == "RPA" ? SchemeType : DeliveryBody;
+        //    }
+        //}
+
 
         //[JsonIgnore]
         //public decimal TotalValueOfPaymentsGBP => PaymentRequests.Where(x => x.Currency == "GBP").Sum(x => x.Value);
@@ -35,18 +43,6 @@ namespace Invoices.Add
         //public decimal TotalValueOfPaymentsEUR => PaymentRequests.Where(x => x.Currency == "EUR").Sum(x => x.Value);
         //[JsonIgnore]
         //public bool CanBeSentForApproval => Status == InvoiceStatuses.New && PaymentRequests.All(x => x.Value != 0 && x.InvoiceLines.Any());
-
-        //public string ApprovalGroup
-        //{
-        //    get
-        //    {
-        //        if (DeliveryBody == "RPA")
-        //        {
-        //            return SchemeType;
-        //        }
-        //        return DeliveryBody;
-        //    }
-        //}
     }
 
     [ExcludeFromCodeCoverage]
@@ -54,6 +50,18 @@ namespace Invoices.Add
     {
         public InvoiceValidator()
         {
+            RuleFor(x => x.PaymentType)
+                .NotNull()
+                     .WithMessage("PaymentType is required")
+                .NotEmpty()
+                    .WithMessage("PaymentType is required");
+
+            RuleFor(x => x.AccountType)
+                .NotNull()
+                     .WithMessage("AccountTypeis required")
+                .NotEmpty()
+                    .WithMessage("AccountType is required");
+
             RuleFor(x => x.DeliveryBody)
                 .NotNull()
                      .WithMessage("Delivery Body is required")

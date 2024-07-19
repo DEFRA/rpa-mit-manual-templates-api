@@ -1,4 +1,6 @@
-﻿namespace BulkUploads.AddAp
+﻿using Rpa.Mit.Manual.Templates.Api.Core.Entities;
+
+namespace BulkUploads.AddAp
 {
     internal sealed class BulkUploadsRequest
     {
@@ -11,24 +13,26 @@
                 RuleFor(x => x.File)
                     .NotNull();
 
-                RuleFor(x => Path.GetExtension(x.File.FileName))
-                    .Equal("xlsm")
-                    .WithMessage("File type is wrong. Please upload a .xslm file.");
+                //RuleFor(x => Path.GetExtension(x.File.FileName))
+                //    .Equal("xlsm")
+                //    .WithMessage("File type is wrong. Please upload a .xslm file.");
 
-                RuleFor(x => x.File.Length)
-                    .LessThanOrEqualTo((long)1e+7)
-                    .WithMessage("File size is larger than allowed");
+                //RuleFor(x => x.File.Length)
+                //    .LessThanOrEqualTo((long)1e+7)
+                //    .WithMessage("File size is larger than allowed");
 
-                RuleFor(x => x.File.ContentType)
-                    .NotNull()
-                    .Must(x => x.Equals("application/octet-stream"))
-                    .WithMessage("Invalid file type. Please upload a valid Excel file.");
+                //RuleFor(x => x.File.ContentType)
+                //    .NotNull()
+                //    .Must(x => x.Equals("application/octet-stream"))
+                //    .WithMessage("Invalid file type. Please upload a valid Excel file.");
             }
         }
     }
 
     internal sealed class Response
     {
+        public BulkUploadApDataset? BulkUploadApDataset { get; set; }
+
         public string Message { get; set; } = string.Empty;
     }
 }

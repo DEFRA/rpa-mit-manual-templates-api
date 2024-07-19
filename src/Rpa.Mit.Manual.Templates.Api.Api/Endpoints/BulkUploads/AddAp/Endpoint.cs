@@ -9,18 +9,15 @@ namespace BulkUploads.AddAp
 {
     internal sealed class AddBulkUploadsEndpoint : Endpoint<BulkUploadsRequest, Response>
     {
-        private readonly IInvoiceLineRepo _iInvoiceLineRepo;
         private readonly IApImporterService _iApImporterService;
         private readonly ILogger<AddBulkUploadsEndpoint> _logger;
 
         public AddBulkUploadsEndpoint(
             ILogger<AddBulkUploadsEndpoint> logger,
-            IApImporterService iApImporterService,
-            IInvoiceLineRepo iInvoiceLineRepo)
+            IApImporterService iApImporterService)
         {
             _logger = logger;
             _iApImporterService = iApImporterService;
-            _iInvoiceLineRepo = iInvoiceLineRepo;
         }
 
         public override void Configure()
@@ -60,29 +57,30 @@ namespace BulkUploads.AddAp
                         if (tables?["AP"]?.Rows.Count > 4)
                         {
                             // dealing with AP data
-                            await _iApImporterService.ImportAPData(tables["AP"], ct);
+                            response.BulkUploadApDataset = await _iApImporterService.ImportAPData(tables["AP"], ct);
                         }
                         else if (tables?["AR"]?.Rows.Count > 4)
                         {
                             // dealing with AR data
+                            response.Message = "Currently not able to handle AR data";
                         }
                         else
                         {
-                            // No data, return
-                            await SendNoContentAsync();
+                            // No data
+                            response.Message = "No recognisable requirement";
                         }
+
+                        await SendAsync(response, cancellation: ct);
                     }
                 }
-
-                return;
-
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "{Message}", ex.Message);
 
+                response.Message = ex.Message;
 
-                await SendNoContentAsync();
+                await SendAsync(response, 400, CancellationToken.None);
             }
 
         }

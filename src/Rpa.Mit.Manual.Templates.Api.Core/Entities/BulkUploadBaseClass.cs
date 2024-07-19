@@ -2,6 +2,9 @@
 {
     public class BulkUploadBaseClass
     {
+        /// <summary>
+        /// calculated field = ClaimReferenceNumber-ClaimReference
+        /// </summary>
         public string InvoiceId { get; set; } = string.Empty;
 
         public string ClaimReferenceNumber { get; set; } = string.Empty;

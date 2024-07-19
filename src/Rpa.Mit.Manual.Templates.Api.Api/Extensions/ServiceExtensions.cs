@@ -9,6 +9,7 @@ public static class ServiceExtensions
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
+        services.AddTransient<IBulkUploadRepo, BulkUploadRepo>();
         services.AddTransient<IInvoiceLineRepo, InvoiceLineRepo>();
         services.AddTransient<IReferenceDataRepo, ReferenceDataRepo>();
         services.AddTransient<IInvoiceRepo, InvoiceRepo>();
