@@ -37,7 +37,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                         var sql1 = "INSERT INTO invoicerequests (invoicerequestid, invoiceid, frn, sbi, vendor, marketingyear, agreementnumber, currency, description, duedate, claimreferencenumber, claimreference )" +
                              " VALUES (@InvoiceRequestId, @InvoiceId, @Frn, @Sbi, @Vendor, @MarketingYear,  @AgreementNumber, @Currency, @Description, @DueDate, @claimreferencenumber, @claimreference)";
 
-                        var res = await cn.ExecuteAsync(sql1, bulkUploadApDataset.BulkuploadHeaderLines);
+                        await cn.ExecuteAsync(sql1, bulkUploadApDataset.BulkuploadHeaderLines);
 
                         var sql2 = "INSERT INTO invoicelines (id, value, description, fundcode, mainaccount, schemecode, marketingyear, deliverybodycode, invoicerequestid )" +
                             " VALUES (@Id, @Value, @Description, @Fundcode, @mainaccount, @schemecode,  @marketingyear, @deliverybodycode, @invoicerequestid)";

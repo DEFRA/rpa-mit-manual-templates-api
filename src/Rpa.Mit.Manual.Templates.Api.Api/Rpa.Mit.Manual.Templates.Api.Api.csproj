@@ -38,8 +38,4 @@
 		<ProjectReference Include="..\Rpa.Mit.Manual.Templates.Api.Core\Rpa.Mit.Manual.Templates.Api.Core.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="changelog\" />
-	</ItemGroup>
-
 </Project>
