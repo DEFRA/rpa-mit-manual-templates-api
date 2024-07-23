@@ -72,6 +72,25 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
                     bulkUploadApDataset.BulkUploadDetailLines.Add(bulkUploadDetailLine);
                 }
+                else if (!string.IsNullOrEmpty(row[19].ToString()))
+                {
+                    var descriptionQuery = row[22].ToString() + "/" + row[23].ToString() + "/" + row[25].ToString();
+
+                    var bulkUploadDetailLine = new BulkUploadApDetailLine
+                    {
+                        Id = Guid.NewGuid(),
+                        InvoiceRequestId = row[16].ToString(),
+                        Value = decimal.Parse(row[19].ToString()),
+                        FundCode = row[21].ToString(),
+                        MainAccount = row[22].ToString(),
+                        SchemeCode = row[23].ToString(),
+                        MarketingYear = row[24].ToString(),
+                        DeliveryBodyCode = row[25].ToString(),
+                        Description = await _iBulkUploadRepo.GetDetailLineDescripion(descriptionQuery, ct)
+                    };
+
+                    bulkUploadApDataset.BulkUploadDetailLines.Add(bulkUploadDetailLine);
+                }
             }
 
             return bulkUploadApDataset;
