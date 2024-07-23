@@ -10,8 +10,6 @@ namespace Invoices.Add
     [ExcludeFromCodeCoverage]
     internal sealed class AddInvoiceRequest
     {
-        public Guid Id { get; set; }
-
         public string PaymentType { get; set; } = default!;
 
         public string AccountType { get; set; } = default!;
@@ -27,10 +25,6 @@ namespace Invoices.Add
         public string Status { get; private set; } = InvoiceStatuses.New;
 
         public string Reference { get; set; } = default!;
-
-        public string ClaimReferenceNumber { get; set; } = default!;
-
-        public string ClaimReference { get; set; } = default!;
 
         //public string ApprovalGroup
         //{

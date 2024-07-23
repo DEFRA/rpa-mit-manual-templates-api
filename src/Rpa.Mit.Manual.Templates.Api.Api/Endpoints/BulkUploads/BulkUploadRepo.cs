@@ -27,14 +27,22 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 {
                     try
                     {
-                        var sql = "INSERT INTO invoicelines (id, value, description, fundcode, mainaccount, schemecode, marketingyear, deliverybody, invoicerequestid )" +
-                            " VALUES (@Id, @Value, @Description, @Fundcode, @mainaccount, @schemecode,  @marketingyear, @deliverybody, @invoicerequestid)";
 
-                        await cn.ExecuteAsync(sql, bulkUploadApDataset);
+                        var sql = @"INSERT INTO Invoices (Id, SchemeType, Reference, Value, Status, CreatedBy, Created, PaymentType, AccountType, DeliveryBody, SecondaryQuestion, ApprovalGroup)
+                                VALUES (@Id, @SchemeType, @Reference, @Value, @Status, @CreatedBy, @Created, @PaymentType, @AccountType, @DeliveryBody, @SecondaryQuestion, @ApprovalGroup)";
 
-                        //var invoiceLineValues = await cn.QueryAsync<decimal>(
-                        //            "SELECT value FROM invoicelines WHERE invoicerequestid = @invoiceRequestId",
-                        //            new { invoiceLine.InvoiceRequestId });
+                        await cn.ExecuteAsync(sql, bulkUploadApDataset.Invoice);
+
+
+                        var sql1 = "INSERT INTO invoicerequests (invoicerequestid, invoiceid, frn, sbi, vendor, marketingyear, agreementnumber, currency, description, duedate, claimreferencenumber, claimreference )" +
+                             " VALUES (@InvoiceRequestId, @InvoiceId, @Frn, @Sbi, @Vendor, @MarketingYear,  @AgreementNumber, @Currency, @Description, @DueDate, @claimreferencenumber, @claimreference)";
+
+                        var res = await cn.ExecuteAsync(sql1, bulkUploadApDataset.BulkuploadHeaderLines);
+
+                        var sql2 = "INSERT INTO invoicelines (id, value, description, fundcode, mainaccount, schemecode, marketingyear, deliverybodycode, invoicerequestid )" +
+                            " VALUES (@Id, @Value, @Description, @Fundcode, @mainaccount, @schemecode,  @marketingyear, @deliverybodycode, @invoicerequestid)";
+
+                        await cn.ExecuteAsync(sql2, bulkUploadApDataset.BulkUploadDetailLines);
 
                         await transaction.CommitAsync(ct);
 
@@ -49,7 +57,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             }
         }
 
-        public async Task<string> GetDetailLineDescripions(string query, CancellationToken ct)
+        public async Task<string> GetDetailLineDescripion(string query, CancellationToken ct)
         {
             using (var cn = new NpgsqlConnection(DbConn))
             {
@@ -60,13 +68,16 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 {
                     try
                     {
-                        var mainAccount = await cn.QuerySingleAsync<string>(
+                        // should only be one of these.
+                        // but this query "SELECT * FROM public.lookup_ap_chartofaccounts where code='SOS710/5604C/NE99'"
+                        // returns 2 ???
+                        var description = await cn.QuerySingleAsync<string>(
                                     "SELECT description FROM lookup_ap_chartofaccounts WHERE code = @query",
                                     new { query });
 
                         await transaction.CommitAsync(ct);
 
-                        return mainAccount;
+                        return description;
                     }
                     catch
                     {

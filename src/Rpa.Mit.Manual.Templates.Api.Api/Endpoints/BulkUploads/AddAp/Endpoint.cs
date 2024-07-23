@@ -9,14 +9,17 @@ namespace BulkUploads.AddAp
 {
     internal sealed class AddBulkUploadsEndpoint : Endpoint<BulkUploadsRequest, Response>
     {
+        private readonly IBulkUploadRepo _iBulkUploadRepo;
         private readonly IApImporterService _iApImporterService;
         private readonly ILogger<AddBulkUploadsEndpoint> _logger;
 
         public AddBulkUploadsEndpoint(
+            IBulkUploadRepo iBulkUploadRepo,
             ILogger<AddBulkUploadsEndpoint> logger,
             IApImporterService iApImporterService)
         {
             _logger = logger;
+            _iBulkUploadRepo = iBulkUploadRepo;
             _iApImporterService = iApImporterService;
         }
 
@@ -57,7 +60,12 @@ namespace BulkUploads.AddAp
                         if (tables?["AP"]?.Rows.Count > 4)
                         {
                             // dealing with AP data
-                            response.BulkUploadApDataset = await _iApImporterService.ImportAPData(tables["AP"], ct);
+                            var bulkUploadApDataset = await _iApImporterService.ImportAPData(tables["AP"], ct);
+
+                            if(await _iBulkUploadRepo.AddApBulkUpload(bulkUploadApDataset, ct))
+                            {
+                                response.BulkUploadApDataset = bulkUploadApDataset;
+                            }
                         }
                         else if (tables?["AR"]?.Rows.Count > 4)
                         {
@@ -84,5 +92,7 @@ namespace BulkUploads.AddAp
             }
 
         }
+
+
     }
 }

@@ -3,9 +3,29 @@
 namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 {
     [ExcludeFromCodeCoverage]
-    public sealed class BulkUploadApHeaderLine : BulkUploadBaseClass
+    public sealed class BulkUploadApHeaderLine //: BulkUploadBaseClass
     {
-        public string CustomerId { get; set; } = string.Empty;
+        public Guid InvoiceId { get; set; }
+
+        public string InvoiceRequestId { get; set; } = string.Empty;
+
+        public string ClaimReferenceNumber { get; set; } = string.Empty;
+
+        public string ClaimReference { get; set; } = string.Empty;
+
+        public string Frn { get; set; } = string.Empty;
+
+        public string Sbi { get; set; } = string.Empty;
+
+        public string Vendor { get; set; } = string.Empty;
+
+        public string MarketingYear { get; set; } = string.Empty;
+
+        public string AgreementNumber { get; set; } = string.Empty;
+
+        public string Currency { get; set; } = string.Empty;
+
+        public string DueDate { get; set; } = string.Empty;
 
         /// <summary>
         /// Calulated field

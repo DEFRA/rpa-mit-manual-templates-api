@@ -6,6 +6,12 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
     {
         Task<bool> AddApBulkUpload(BulkUploadApDataset bulkUploadApDataset, CancellationToken ct);
 
-        Task<string> GetDetailLineDescripions(string query, CancellationToken ct);
+        /// <summary>
+        /// gets the concatened detail line description when we do a bulk upload
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        Task<string> GetDetailLineDescripion(string query, CancellationToken ct);
     }
 }

@@ -3,15 +3,19 @@
 namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 {
     [ExcludeFromCodeCoverage]
-    public sealed class BulkUploadApDetailLine : BulkUploadBaseClass
+    public sealed class BulkUploadApDetailLine
     {
-        public string Amount { get; set; } = string.Empty;
+        public Guid Id { get; set; }
 
-        public string Fund { get; set; } = string.Empty;
+        public string InvoiceRequestId { get; set; } = string.Empty;
+
+        public decimal Value { get; set; } = 0.0M;
+
+        public string FundCode { get; set; } = string.Empty;
 
         public string MainAccount { get; set; } = string.Empty;
 
-        public string Scheme { get; set; } = string.Empty;
+        public string SchemeCode { get; set; } = string.Empty;
 
         public string MarketingYear { get; set; } = string.Empty;
 

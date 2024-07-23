@@ -7,7 +7,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
     [ExcludeFromCodeCoverage]
     public sealed class Invoice
     {
-        public string Id { get; set; } = default!;
+        public Guid Id { get; set; }
 
         public string PaymentType { get; set; } = default!;
 
@@ -41,10 +41,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
                 return DeliveryBody == "RPA" ? SchemeType : DeliveryBody;
             }
         }
-
-        public string ClaimReferenceNumber { get; set; } = default!;
-
-        public string ClaimReference { get; set; } = default!;
 
         //[JsonIgnore]
         //public decimal TotalValueOfPaymentsGBP => InvoiceRequests.Where(x => x.Currency == "GBP").Sum(x => x.Value);

@@ -1,5 +1,7 @@
 ﻿using System.Data;
 
+using BulkUploads.AddAp;
+
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
@@ -31,17 +33,23 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 if (i < 4)
                     continue;
 
+                if (i == 4)
+                {
+                    // build the invoice
+                    bulkUploadApDataset.Invoice = await CreateNewInvoice(row);
+                }
+
                 if (!string.IsNullOrEmpty(row[2].ToString()))
                 {
                     var bulkUploadHeaderLine = new BulkUploadApHeaderLine
                     {
-                        InvoiceId = row[2].ToString() + "_" + row[3].ToString(),
+                        InvoiceId = bulkUploadApDataset.Invoice.Id,
+                        InvoiceRequestId = row[2].ToString() + "_" + row[3].ToString(),
                         ClaimReferenceNumber = row[2].ToString(),
                         ClaimReference = row[3].ToString(),
-                        PreferredCurrency = row[6].ToString(),
-
-                        CustomerId = row[4].ToString(),
-                        //TotalAmount = row[5].ToString(),
+                        Currency = row[6].ToString(),
+                        MarketingYear = row[24].ToString(),
+                        Frn = row[4].ToString(),
                         Description = row[7].ToString()
                     };
 
@@ -51,18 +59,15 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
                     var bulkUploadDetailLine = new BulkUploadApDetailLine
                     {
-                        InvoiceId = row[2].ToString() + "_" + row[3].ToString(),
-                        ClaimReferenceNumber = row[17].ToString(),
-                        ClaimReference = row[18].ToString(),
-                        PreferredCurrency = row[20].ToString(),
-
-                        Amount = row[19].ToString(),
-                        Fund = row[21].ToString(),
+                        Id = Guid.NewGuid(),
+                        InvoiceRequestId = row[2].ToString() + "_" + row[3].ToString(),
+                        Value = decimal.Parse(row[19].ToString()),
+                        FundCode = row[21].ToString(),
                         MainAccount = row[22].ToString(),
-                        Scheme = row[23].ToString(),
+                        SchemeCode = row[23].ToString(),
                         MarketingYear = row[24].ToString(),
                         DeliveryBodyCode = row[25].ToString(),
-                        Description = await _iBulkUploadRepo.GetDetailLineDescripions(descriptionQuery, ct)
+                        Description = await _iBulkUploadRepo.GetDetailLineDescripion(descriptionQuery, ct)
                     };
 
                     bulkUploadApDataset.BulkUploadDetailLines.Add(bulkUploadDetailLine);
@@ -70,6 +75,19 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             }
 
             return bulkUploadApDataset;
+        }
+
+        private async Task<Invoice> CreateNewInvoice(DataRow row)
+        {
+            return new Invoice
+            {
+                Id = Guid.NewGuid(),
+                Created = DateTime.UtcNow,
+                CreatedBy = "aylmer.carson",
+                AccountType = "AP",
+                SchemeType = row[23].ToString(),
+                DeliveryBody = row[25].ToString()
+            };
         }
     }
 }
