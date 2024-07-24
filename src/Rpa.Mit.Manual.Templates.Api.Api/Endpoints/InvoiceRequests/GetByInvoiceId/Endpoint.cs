@@ -1,7 +1,10 @@
-﻿using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace InvoiceRequests.GetByInvoiceId
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class InvoiceRequestsByInvoiceIdEndpoint : Endpoint<InvoiceRequestsGetByInvoiceIdRequest, InvoiceRequestsGetByInvoiceIdResponse>
     {
         private readonly IInvoiceRequestRepo _iInvoiceRequestRepo;

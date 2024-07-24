@@ -1,8 +1,11 @@
 ﻿
+using System.Diagnostics.CodeAnalysis;
+
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace InvoiceRequests.GetValue
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class GetInvoiceRequestValueEndpoint : Endpoint<GetInvoiceRequestValueRequest, GetInvoiceRequestValueResponse>
     {
         private readonly IInvoiceRequestRepo _iInvoiceRequestRepo;

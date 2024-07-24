@@ -1,9 +1,12 @@
-﻿using Rpa.Mit.Manual.Templates.Api.Core.Entities;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 
 namespace InvoiceRequests.Update
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class UpdateInvoiceRequestEndpoint : EndpointWithMapping<UpdateInvoiceRequestRequest, UpdateInvoiceRequestResponse, InvoiceRequest>
     {
         private readonly IInvoiceRequestRepo _iInvoiceRequestRepo;

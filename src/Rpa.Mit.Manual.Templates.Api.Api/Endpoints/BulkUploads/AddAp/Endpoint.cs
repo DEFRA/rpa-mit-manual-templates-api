@@ -1,5 +1,6 @@
 ﻿
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
 
 using ExcelDataReader;
 
@@ -7,6 +8,7 @@ using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace BulkUploads.AddAp
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class AddBulkUploadsEndpoint : Endpoint<BulkUploadsRequest, Response>
     {
         private readonly IBulkUploadRepo _iBulkUploadRepo;
