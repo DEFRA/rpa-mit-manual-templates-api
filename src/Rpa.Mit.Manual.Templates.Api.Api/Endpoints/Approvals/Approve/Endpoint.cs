@@ -22,7 +22,7 @@ namespace ApproveInvoice
             Post("/approvals/approve");
         }
 
-        public override async Task HandleAsync(Request r, CancellationToken c)
+        public override async Task HandleAsync(Request r, CancellationToken ct)
         {
             await SendAsync(new Response());
         }
