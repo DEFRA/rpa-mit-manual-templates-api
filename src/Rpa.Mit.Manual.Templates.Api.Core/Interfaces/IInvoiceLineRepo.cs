@@ -4,7 +4,6 @@ using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 
 namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
 {
-    [ExcludeFromCodeCoverage]
     public interface IInvoiceLineRepo
     {
         /// <summary>
