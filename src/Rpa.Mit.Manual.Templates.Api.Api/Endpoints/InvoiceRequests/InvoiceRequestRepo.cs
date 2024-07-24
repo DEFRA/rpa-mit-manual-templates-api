@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Diagnostics.CodeAnalysis;
 
 using Dapper;
 
@@ -11,6 +12,7 @@ using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests
 {
+    [ExcludeFromCodeCoverage]
     public class InvoiceRequestRepo : BaseData, IInvoiceRequestRepo
     {
         public InvoiceRequestRepo(IOptions<ConnectionStrings> options) : base(options)

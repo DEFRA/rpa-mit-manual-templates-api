@@ -1,5 +1,6 @@
 ﻿
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
 
 using Dapper;
 
@@ -13,6 +14,7 @@ using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
 {
+    [ExcludeFromCodeCoverage]
     public class ReferenceDataRepo : BaseData, IReferenceDataRepo
     {
         public ReferenceDataRepo(IOptions<ConnectionStrings> options) : base(options)
