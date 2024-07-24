@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Diagnostics.CodeAnalysis;
 
 using BulkUploads.AddAp;
 
@@ -7,6 +8,7 @@ using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 {
+    [ExcludeFromCodeCoverage]
     public class ApImporterService : IApImporterService
     {
         private readonly IBulkUploadRepo _iBulkUploadRepo;

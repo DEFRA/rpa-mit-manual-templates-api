@@ -1,7 +1,10 @@
-﻿using Rpa.Mit.Manual.Templates.Api.Core.Entities;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 
 namespace InvoiceRequests.GetByInvoiceId
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class InvoiceRequestsGetByInvoiceIdRequest
     {
         public Guid InvoiceId { get; set; }

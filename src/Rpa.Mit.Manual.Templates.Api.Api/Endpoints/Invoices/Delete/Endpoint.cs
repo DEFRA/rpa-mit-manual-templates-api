@@ -1,7 +1,10 @@
-﻿using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace Invoices.Delete
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class DeleteInvoiceEndpoint : Endpoint<DeleteInvoiceRequest, DeleteInvoiceResponse>
     {
         private readonly IInvoiceRepo _iInvoiceDataRepo;

@@ -1,7 +1,10 @@
-﻿using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace GetPaymentTypes
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class GetPaymentTypesEndpoint : EndpointWithoutRequest<Response>
     {
         private readonly IReferenceDataRepo _iReferenceDataRepo;

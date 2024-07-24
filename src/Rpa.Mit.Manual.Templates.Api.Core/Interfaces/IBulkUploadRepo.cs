@@ -1,7 +1,10 @@
-﻿using Rpa.Mit.Manual.Templates.Api.Core.Entities;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 
 namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
 {
+    [ExcludeFromCodeCoverage]
     public interface IBulkUploadRepo
     {
         Task<bool> AddApBulkUpload(BulkUploadApDataset bulkUploadApDataset, CancellationToken ct);

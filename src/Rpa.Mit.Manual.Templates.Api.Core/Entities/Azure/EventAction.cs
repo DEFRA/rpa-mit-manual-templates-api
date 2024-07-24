@@ -1,5 +1,8 @@
-﻿namespace Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure
 {
+    [ExcludeFromCodeCoverage]
     public class EventAction
     {
         public string Type { get; init; } = default!;

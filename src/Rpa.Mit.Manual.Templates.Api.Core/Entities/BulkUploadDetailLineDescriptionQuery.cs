@@ -1,8 +1,11 @@
-﻿namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 {
     /// <summary>
     /// used to get the text values for the detail line description during a bulk import
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class BulkUploadDetailLineDescriptionQuery
     {
         public string MainAccount { get; set; } = string.Empty;

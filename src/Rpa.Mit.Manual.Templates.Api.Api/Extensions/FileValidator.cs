@@ -1,5 +1,8 @@
-﻿namespace Rpa.Mit.Manual.Templates.Api.Api.Extensions
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Rpa.Mit.Manual.Templates.Api.Api.Extensions
 {
+    [ExcludeFromCodeCoverage]
     public static class FileValidator
     {
         public static bool IsFileExtensionAllowed(this IFormFile file, string[] allowedExtensions)

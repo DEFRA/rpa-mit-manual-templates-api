@@ -1,7 +1,10 @@
 ﻿
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace Root;
 
+[ExcludeFromCodeCoverage]
 public class Root : EndpointWithoutRequest<string>
 {
     private readonly TimeProvider _timeProvider;

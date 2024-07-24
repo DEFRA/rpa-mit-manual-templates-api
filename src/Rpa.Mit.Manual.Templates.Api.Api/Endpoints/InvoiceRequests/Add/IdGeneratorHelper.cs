@@ -1,7 +1,9 @@
-﻿using System.Security.Cryptography;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Security.Cryptography;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests.Add
 {
+    [ExcludeFromCodeCoverage]
     public static class IdGeneratorHelper
     {
         public static string IdGenerator(string agreementNumber)

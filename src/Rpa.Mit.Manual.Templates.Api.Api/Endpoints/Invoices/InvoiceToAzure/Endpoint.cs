@@ -1,10 +1,13 @@
-﻿using Azure.Messaging.ServiceBus;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Azure.Messaging.ServiceBus;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
 
 namespace Invoices.ToAzure
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class InvoiceToAzureEndpoint : Endpoint<InvoiceToAzureRequest, InvoiceToAzureResponse>
     {
         private readonly IInvoiceRepo _iInvoiceDataRepo;

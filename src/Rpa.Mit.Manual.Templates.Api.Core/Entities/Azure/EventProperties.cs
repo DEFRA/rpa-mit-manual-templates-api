@@ -1,5 +1,8 @@
-﻿namespace Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure
 {
+    [ExcludeFromCodeCoverage]
     public class EventProperties
     {
         public string Id { get; init; } = default!;

@@ -1,7 +1,10 @@
-﻿using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace GetSchemeTypes
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class GetSchemeTypesEndpoint : EndpointWithoutRequest<Response>
     {
         private readonly IReferenceDataRepo _iReferenceDataRepo;
