@@ -1,5 +1,8 @@
-﻿namespace ApproveInvoice
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace ApproveInvoice
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class Request
     {
 
@@ -15,6 +18,6 @@
 
     internal sealed class Response
     {
-        public string Message => "This endpoint hasn't been implemented yet!";
+        public string Message { get; set; } = string.Empty;
     }
 }
