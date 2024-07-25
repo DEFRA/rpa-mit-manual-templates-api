@@ -19,6 +19,7 @@ namespace BulkUploads.AddAp
         }
     }
 
+    [ExcludeFromCodeCoverage]
     internal sealed class Response
     {
         public BulkUploadApDataset? BulkUploadApDataset { get; set; }

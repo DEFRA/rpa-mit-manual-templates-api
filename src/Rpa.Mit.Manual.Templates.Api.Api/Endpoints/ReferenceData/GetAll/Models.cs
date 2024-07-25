@@ -7,7 +7,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.GetReferenceData;
 [ExcludeFromCodeCoverage]
 internal sealed class Response
 {
-public string Message { get; set; } = string.Empty;
-public ReferenceData? ReferenceData { get; set; }
+    public string Message { get; set; } = string.Empty;
+
+    public ReferenceData? ReferenceData { get; set; }
 }
 
