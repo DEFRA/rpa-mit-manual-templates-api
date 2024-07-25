@@ -47,7 +47,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 {
                     var bulkUploadHeaderLine = new BulkUploadApHeaderLine
                     {
-                        InvoiceId = bulkUploadApDataset.Invoice.Id,
+                        InvoiceId = bulkUploadApDataset.Invoice!.Id,
                         InvoiceRequestId = row[2].ToString() + "_" + row[3].ToString(),
                         ClaimReferenceNumber = row[2].ToString()!,
                         ClaimReference = row[3].ToString()!,

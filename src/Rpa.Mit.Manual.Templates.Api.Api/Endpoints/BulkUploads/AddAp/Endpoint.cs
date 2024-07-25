@@ -62,7 +62,7 @@ namespace BulkUploads.AddAp
                         if (tables?["AP"]?.Rows.Count > 4)
                         {
                             // dealing with AP data
-                            var bulkUploadApDataset = await _iApImporterService.ImportAPData(tables["AP"], ct);
+                            var bulkUploadApDataset = await _iApImporterService.ImportAPData(tables["AP"]!, ct);
 
                             if(await _iBulkUploadRepo.AddApBulkUpload(bulkUploadApDataset, ct))
                             {
