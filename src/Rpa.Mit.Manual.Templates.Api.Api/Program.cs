@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 using Rpa.Mit.Manual.Templates.Api.Api;
 
-namespace GetSchemeTypes
+namespace Program
 {
     [ExcludeFromCodeCoverage]
     public partial class Program

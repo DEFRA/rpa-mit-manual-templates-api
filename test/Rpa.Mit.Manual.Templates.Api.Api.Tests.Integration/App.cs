@@ -2,7 +2,7 @@
 
 namespace Rpa.Mit.Manual.Templates.Api.Core.Integration.Tests;
 
-public class App : AppFixture<Program>
+public class App : AppFixture<Program.Program>
 {
     protected override Task SetupAsync()
     {

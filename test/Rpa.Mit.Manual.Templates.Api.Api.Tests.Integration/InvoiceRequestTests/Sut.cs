@@ -8,7 +8,7 @@ using Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Integration.Tests.InvoiceRequestTests
 {
-    public class Sut : AppFixture<Program>
+    public class Sut : AppFixture<Program.Program>
     {
         protected override void ConfigureApp(IWebHostBuilder a)
         {

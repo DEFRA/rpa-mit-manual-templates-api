@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Tests
 {
-    public class MyApp : AppFixture<Program>
+    public class MyApp : AppFixture<Program.Program>
     {
         public int Id { get; set; } //some state
 

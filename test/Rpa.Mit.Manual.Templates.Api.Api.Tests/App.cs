@@ -7,7 +7,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Tests
 {
-    public class App : WebApplicationFactory<Program>
+    public class App : WebApplicationFactory<Program.Program>
     {
         private readonly ServiceDescriptor[] _overrides;
 
