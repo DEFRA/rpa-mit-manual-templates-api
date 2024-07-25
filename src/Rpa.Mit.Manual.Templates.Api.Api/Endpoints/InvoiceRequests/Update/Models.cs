@@ -51,6 +51,7 @@ namespace InvoiceRequests.Update
         }
     }
 
+    [ExcludeFromCodeCoverage]
     internal sealed class UpdateInvoiceRequestResponse
     {
         public bool Result { get; set; }
