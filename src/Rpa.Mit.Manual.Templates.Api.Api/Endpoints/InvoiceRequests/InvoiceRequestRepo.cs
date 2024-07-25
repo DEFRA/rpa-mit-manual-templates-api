@@ -110,8 +110,21 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests
                     await cn.OpenAsync(ct);
 
                 return await cn.QueryAsync<InvoiceRequest>(
-                            "SELECT id, schemetype, data, reference, value, status, approverid, approveremail, approvedby, approved, createdby, updatedby, created, updated, paymenttype, accounttype, deliverybody, secondaryquestion FROM invoices WHERE id = @invoiceId",
+                            "SELECT frn, sbi, vendor, agreementnumber, currency, description, value, invoicerequestid, marketingyear, duedate, claimreferencenumber, claimreference, invoiceid FROM invoicerequests WHERE invoiceid = @invoiceId",
                             new { invoiceId });
+            }
+        }
+
+        public async Task<InvoiceRequest> GetInvoiceRequestByInvoiceRequestId(string invoiceRequestId, CancellationToken ct)
+        {
+            using (var cn = new NpgsqlConnection(DbConn))
+            {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
+                return await cn.QuerySingleAsync<InvoiceRequest>(
+                            "SELECT frn, sbi, vendor, agreementnumber, currency, description, value, invoicerequestid, marketingyear, duedate, claimreferencenumber, claimreference, invoiceid FROM invoicerequests WHERE invoicerequestid = @invoiceRequestId",
+                            new { invoiceRequestId });
             }
         }
     }
