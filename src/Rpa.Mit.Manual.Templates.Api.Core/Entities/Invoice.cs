@@ -41,12 +41,5 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
                 return DeliveryBody == "RPA" ? SchemeType : DeliveryBody;
             }
         }
-
-        //[JsonIgnore]
-        //public decimal TotalValueOfPaymentsGBP => InvoiceRequests.Where(x => x.Currency == "GBP").Sum(x => x.Value);
-        //[JsonIgnore]
-        //public decimal TotalValueOfPaymentsEUR => InvoiceRequests.Where(x => x.Currency == "EUR").Sum(x => x.Value);
-        //[JsonIgnore]
-        //public bool CanBeSentForApproval => Status == InvoiceStatuses.New && InvoiceRequests.All(x => x.Value != 0 && x.InvoiceLines.Any());
     }
 }

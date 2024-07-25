@@ -10,25 +10,13 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Integration.Tests.InvoiceRequestTests
 {
     public class Sut : AppFixture<Program>
     {
-        protected override async Task SetupAsync()
-        {
-        }
-
         protected override void ConfigureApp(IWebHostBuilder a)
         {
         }
 
         protected override void ConfigureServices(IServiceCollection services)
         {
-            //services.AddTransient<IInvoiceLineRepo, FakeInvoicelineRepo>();
-            //services.AddTransient<IReferenceDataRepo, ReferenceDataRepo>();
-            //services.AddTransient<IInvoiceRepo, InvoiceRepo>();
             services.AddTransient<IInvoiceRequestRepo, InvoiceRequestRepo>();
-        }
-
-        protected override async Task TearDownAsync()
-        {
-            Client.Dispose();
         }
     }
 }

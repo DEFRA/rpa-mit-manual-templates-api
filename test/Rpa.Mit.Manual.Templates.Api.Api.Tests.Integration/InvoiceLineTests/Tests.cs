@@ -31,15 +31,15 @@ public class Tests(Sut sut) : TestBase<Sut>
 
         rsp.StatusCode.Should().Be(HttpStatusCode.OK);
         res.InvoiceRequestValue.Should().Be(12.12M);
-        res.InvoiceLine.Description.Should().Be("G00 - Gross value of claim");
-        res.InvoiceLine.FundCode.Should().Be("FUND1");
-        res.InvoiceLine.MainAccount.Should().Be("AR");
-        res.InvoiceLine.SchemeCode.Should().Be("code1");
-        res.InvoiceLine.MarketingYear.Should().Be("2020");
-        res.InvoiceLine.DeliveryBody.Should().Be("DB1");
-        res.InvoiceLine.InvoiceRequestId.Should().Be("333_YMALXCHG");
-
-        res.InvoiceLine.Id.Should().NotBe("00000000-0000-0000-0000-000000000001");
+        res.InvoiceLine?.Description.Should().Be("G00 - Gross value of claim");
+        res.InvoiceLine?.FundCode.Should().Be("FUND1");
+        res.InvoiceLine?.MainAccount.Should().Be("AR");
+        res.InvoiceLine?.SchemeCode.Should().Be("code1");
+        res.InvoiceLine?.MarketingYear.Should().Be("2020");
+        res.InvoiceLine?.DeliveryBody.Should().Be("DB1");
+        res.InvoiceLine?.InvoiceRequestId.Should().Be("333_YMALXCHG");
+                       
+        res.InvoiceLine?.Id.Should().NotBe("00000000-0000-0000-0000-000000000001");
     }
 
     [Fact]
