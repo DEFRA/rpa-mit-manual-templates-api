@@ -1,8 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
-
-using Azure.Messaging.ServiceBus;
-
+!
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
@@ -43,7 +41,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
                 }
             };
 
-            await _iServiceBusProvider.SendMessageAsync(_configuration.GetSection("EventQueueName").Value, JsonSerializer.Serialize(eventRequest));
+            await _iServiceBusProvider.SendMessageAsync(_configuration.GetSection("EventQueueName").Value!, JsonSerializer.Serialize(eventRequest));
 
             return true;
         }
@@ -68,22 +66,10 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
                 }
             };
 
-            try
-            {
-                await _iServiceBusProvider.SendMessageAsync(_configuration.GetSection("EventQueueName").Value, JsonSerializer.Serialize(eventRequest));
-                return true;
 
-            }
-            catch (ServiceBusException ex) when (ex.Reason == ServiceBusFailureReason.MessagingEntityAlreadyExists)
-            {
-                // Ignore any errors if the queue already exists
-                return false;
-            }
-            catch (Exception ex)
-            {
-                //_logger.LogError($"Error {ex.Message} sending \"{message}\" message to Event Queue.");
-                return false;
-            }
+            await _iServiceBusProvider.SendMessageAsync(_configuration.GetSection("EventQueueName").Value!, JsonSerializer.Serialize(eventRequest));
+                
+            return true;
         }
     }
 }
