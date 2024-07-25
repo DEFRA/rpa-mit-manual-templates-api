@@ -16,5 +16,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.Integration.InvoiceLineTests
 
         public Task<IEnumerable<InvoiceLine>> GetInvoiceLinesByInvoiceRequestId(string invoiceRequestId, CancellationToken ct)
             => Task.FromResult(Enumerable.Empty<InvoiceLine>());
+
+        Task<InvoiceLine> IInvoiceLineRepo.GetInvoiceLineByInvoiceLineId(Guid invoiceLineId, CancellationToken ct)
+            => Task.FromResult(new InvoiceLine());
     }
 }
