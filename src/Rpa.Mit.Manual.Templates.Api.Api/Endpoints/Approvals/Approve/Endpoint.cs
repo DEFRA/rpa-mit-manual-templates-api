@@ -1,5 +1,8 @@
-﻿namespace ApproveInvoice
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace ApproveInvoice
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class ApproveInvoiceEndpoint : Endpoint<Request, Response>
     {
 

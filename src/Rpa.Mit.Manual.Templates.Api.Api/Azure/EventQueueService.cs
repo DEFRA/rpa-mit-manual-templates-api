@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.Json;
 
 using Azure.Messaging.ServiceBus;
 
@@ -8,6 +9,7 @@ using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
 {
+    [ExcludeFromCodeCoverage]
     public class EventQueueService : IEventQueueService
     {
         private readonly IConfiguration _configuration;
