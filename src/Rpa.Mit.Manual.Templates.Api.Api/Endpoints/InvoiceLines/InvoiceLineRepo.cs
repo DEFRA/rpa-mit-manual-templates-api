@@ -134,8 +134,21 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
                     await cn.OpenAsync(ct);
 
                 return  await cn.QueryAsync<InvoiceLine>(
-                            "SELECT id, value, description, fundcode, mainaccount, schemecode, marketingyear, deliverybody, invoicerequestid FROM invoicelines WHERE invoiceRequestId = @invoiceRequestId",
+                            "SELECT id, value, description, fundcode, mainaccount, schemecode, marketingyear, deliverybodycode, invoicerequestid FROM invoicelines WHERE invoiceRequestId = @invoiceRequestId",
                             new { invoiceRequestId });
+            }
+        }
+
+        public async Task<InvoiceLine> GetInvoiceLineByInvoiceLineId(Guid invoiceLineId, CancellationToken ct)
+        {
+            using (var cn = new NpgsqlConnection(DbConn))
+            {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
+                return await cn.QuerySingleAsync<InvoiceLine>(
+                            "SELECT id, value, description, fundcode, mainaccount, schemecode, marketingyear, deliverybodycode, invoicerequestid FROM invoicelines WHERE id = @invoiceLineId",
+                            new { invoiceLineId });
             }
         }
     }
