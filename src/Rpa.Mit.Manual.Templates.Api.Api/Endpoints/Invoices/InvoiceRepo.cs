@@ -131,5 +131,20 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
                 return await cn.QueryAsync<Invoice>(sql);
             }
         }
+
+        public async Task<Invoice> GetInvoiceByInvoiceId(Guid invoiceId, CancellationToken ct)
+        {
+            using (var cn = new NpgsqlConnection(DbConn))
+            {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
+                var sql = "SELECT id,schemetype,data,reference,value,status,approverid,approveremail,approvedby,approved,createdby, updatedby, created, updated,paymenttype,accounttype,deliverybody FROM invoices WHERE Id = @invoiceid";
+
+                var parameters = new { invoiceId };
+
+                return await cn.QuerySingleAsync<Invoice>(sql, parameters);
+            }
+        }
     }
 }
