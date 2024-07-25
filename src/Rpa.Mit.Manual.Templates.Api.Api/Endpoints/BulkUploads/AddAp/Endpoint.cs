@@ -56,7 +56,7 @@ namespace BulkUploads.AddAp
                         if (null == tables)
                         {
                             // No data, return
-                            await SendNoContentAsync();
+                            await SendNoContentAsync(cancellation: ct);
                         }
 
                         if (tables?["AP"]?.Rows.Count > 4)

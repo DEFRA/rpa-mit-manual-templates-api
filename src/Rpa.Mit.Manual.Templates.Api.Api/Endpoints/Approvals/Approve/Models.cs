@@ -16,6 +16,7 @@ namespace ApproveInvoice
         }
     }
 
+    [ExcludeFromCodeCoverage]
     internal sealed class Response
     {
         public string Message { get; set; } = string.Empty;

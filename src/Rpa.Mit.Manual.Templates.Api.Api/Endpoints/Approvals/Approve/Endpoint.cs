@@ -19,7 +19,7 @@ namespace ApproveInvoice
 
         public override async Task HandleAsync(Request r, CancellationToken ct)
         {
-            await SendAsync(new Response());
+            await SendAsync(new Response(), cancellation: ct);
         }
     }
 }
