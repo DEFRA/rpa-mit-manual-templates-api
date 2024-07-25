@@ -29,6 +29,11 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <returns></returns>
         Task<Invoice> GetInvoiceByInvoiceId(Guid invoiceId, CancellationToken ct);
 
+        /// <summary>
+        /// gets all invoices
+        /// </summary>
+        /// <param name="ct"></param>
+        /// <returns></returns>
         Task<IEnumerable<Invoice>> GetAllInvoices( CancellationToken ct);
 
         /// <summary>
