@@ -14,7 +14,12 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
 
         public async Task<bool> ApproveInvoice(Guid invoiceId, CancellationToken ct)
         {
-            throw new NotImplementedException();
+            await Task.Run(() =>
+            {
+                return true;
+            });
+
+            return true;
         }
     }
 }

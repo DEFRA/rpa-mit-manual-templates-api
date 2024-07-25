@@ -3,6 +3,8 @@ using System.Diagnostics.CodeAnalysis;
 
 using BulkUploads.AddAp;
 
+using Microsoft.AspNetCore.Http.HttpResults;
+
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
@@ -47,12 +49,12 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     {
                         InvoiceId = bulkUploadApDataset.Invoice.Id,
                         InvoiceRequestId = row[2].ToString() + "_" + row[3].ToString(),
-                        ClaimReferenceNumber = row[2].ToString(),
-                        ClaimReference = row[3].ToString(),
-                        Currency = row[6].ToString(),
-                        MarketingYear = row[24].ToString(),
-                        Frn = row[4].ToString(),
-                        Description = row[7].ToString()
+                        ClaimReferenceNumber = row[2].ToString()!,
+                        ClaimReference = row[3].ToString()!,
+                        Currency = row[6].ToString()!,
+                        MarketingYear = row[24].ToString()!,
+                        Frn = row[4].ToString()!,
+                        Description = row[7].ToString()!
                     };
 
                     bulkUploadApDataset.BulkuploadHeaderLines.Add(bulkUploadHeaderLine);
@@ -63,12 +65,12 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     {
                         Id = Guid.NewGuid(),
                         InvoiceRequestId = row[2].ToString() + "_" + row[3].ToString(),
-                        Value = decimal.Parse(row[19].ToString()),
-                        FundCode = row[21].ToString(),
-                        MainAccount = row[22].ToString(),
-                        SchemeCode = row[23].ToString(),
-                        MarketingYear = row[24].ToString(),
-                        DeliveryBodyCode = row[25].ToString(),
+                        Value = decimal.Parse(row[19].ToString()!),
+                        FundCode = row[21].ToString()!,
+                        MainAccount = row[22].ToString()!,
+                        SchemeCode = row[23].ToString()!,
+                        MarketingYear = row[24].ToString()!,
+                        DeliveryBodyCode = row[25].ToString()!,
                         Description = await _iBulkUploadRepo.GetDetailLineDescripion(descriptionQuery, ct)
                     };
 
@@ -81,13 +83,13 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     var bulkUploadDetailLine = new BulkUploadApDetailLine
                     {
                         Id = Guid.NewGuid(),
-                        InvoiceRequestId = row[16].ToString(),
-                        Value = decimal.Parse(row[19].ToString()),
-                        FundCode = row[21].ToString(),
-                        MainAccount = row[22].ToString(),
-                        SchemeCode = row[23].ToString(),
-                        MarketingYear = row[24].ToString(),
-                        DeliveryBodyCode = row[25].ToString(),
+                        InvoiceRequestId = row[16].ToString()!,
+                        Value = decimal.Parse(row[19].ToString()!),
+                        FundCode = row[21].ToString()!,
+                        MainAccount = row[22].ToString()!,
+                        SchemeCode = row[23].ToString()!,
+                        MarketingYear = row[24].ToString()!,
+                        DeliveryBodyCode = row[25].ToString()!,
                         Description = await _iBulkUploadRepo.GetDetailLineDescripion(descriptionQuery, ct)
                     };
 
@@ -98,17 +100,18 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             return bulkUploadApDataset;
         }
 
-        private async Task<Invoice> CreateNewInvoice(DataRow row)
+        private static async Task<Invoice> CreateNewInvoice(DataRow row)
         {
-            return new Invoice
-            {
-                Id = Guid.NewGuid(),
-                Created = DateTime.UtcNow,
-                CreatedBy = "aylmer.carson",
-                AccountType = "AP",
-                SchemeType = row[23].ToString(),
-                DeliveryBody = row[25].ToString()
-            };
+            var invoice = await Task.FromResult(new Invoice());
+
+            invoice.Id = Guid.NewGuid();
+            invoice.Created = DateTime.UtcNow;
+            invoice.CreatedBy = "aylmer.carson";
+            invoice.AccountType = "AP";
+            invoice.SchemeType = row[23].ToString()!;
+            invoice.DeliveryBody = row[25].ToString()!;
+
+            return invoice;
         }
     }
 }
