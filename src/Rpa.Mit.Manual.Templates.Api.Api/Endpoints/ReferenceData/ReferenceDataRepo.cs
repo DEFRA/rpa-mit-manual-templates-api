@@ -37,7 +37,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
                         SELECT code, description FROM lookup_schemetypes;
                         SELECT code, description FROM lookup_schemecodes;
                         SELECT code, description FROM lookup_accountcodes;
-                        SELECT code, description FROM lookup_deliverybodycodes;
+                        SELECT code, description, org FROM lookup_deliverybodycodes;
                         SELECT code, description FROM lookup_marketingyearcodes;
                         SELECT code, description FROM lookup_fundcodes;
                         ";
