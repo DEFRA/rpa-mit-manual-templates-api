@@ -6,7 +6,7 @@
   value: "Server=127.0.0.1;Database=rpa_mit_invoices;Username=postgres;Password=ghjiUIbfds345;" 
   type: "keyvault"
 - key: AzureAd:Instance
-  value: "Server=127.0.0.1;Database=rpa_mit_invoices;Username=postgres;Password=ghjiUIbfds345;" 
+  value: "https://login.microsoftonline.com/" 
   type: "keyvault"
 - key: AzureAd:TenantId
   value: "6f504113-6b64-43f2-ade9-242e057800" 
@@ -19,13 +19,13 @@
   type: "keyvault"
 - key: AzureAd:CallbackPath
   value: "/signin-oidc" 
-  type: "keyvault
+  type: "keyvault"
 - key: EventQueueName
   value: "rpa-mit-events" 
   type: "keyvault"
 - key: ImporterQueueName
   value: "rpa-mit-invoice-importer" 
-  type: "keyvault
+  type: "keyvault"
 - key: BlobContainerName
   value: "invoices" 
   type: "keyvault"
@@ -34,7 +34,7 @@
   type: "keyvault"
 - key: NotificationQueueName
   value: "rpa-mit-invoice-notification" 
-  type: "keyvault
+  type: "keyvault"
 - key: ServiceBusNamespace
   value: "sb://stablemitsb.servicebus.windows.net" 
   type: "keyvault"
@@ -43,7 +43,7 @@
   type: "keyvault"
 - key: ApprovalAPIBAseURI
   value: "https://localhost:7012/" 
-  type: "keyvault
+  type: "keyvault"
 - key: ReferenceDataAPIBaseURI
   value: "https://localhost:7012/" 
   type: "keyvault"
