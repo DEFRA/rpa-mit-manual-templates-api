@@ -2,22 +2,22 @@
   value: "{{serviceName}}" 
   
 # SECRETS CAN BE ADDED THIS WAY
-- key: ConnectionStrings:PostGres
+- key: ConnectionStrings_PostGres
   value: "Server=127.0.0.1;Database=rpa_mit_invoices;Username=postgres;Password=ghjiUIbfds345;" 
   type: "keyvault"
-- key: AzureAd:Instance
+- key: AzureAd_Instance
   value: "https://login.microsoftonline.com/" 
   type: "keyvault"
-- key: AzureAd:TenantId
+- key: AzureAd_TenantId
   value: "6f504113-6b64-43f2-ade9-242e057800" 
   type: "keyvault"
-- key: AzureAd:Domain
+- key: AzureAd_Domain
   value: "defra.onmicrosoft.com/" 
   type: "keyvault"
-- key: AzureAd:ClientId
+- key: AzureAd_ClientId
   value: "f2d4ac8e-632a-41ff-b83a-e5d39e7d095a" 
   type: "keyvault"
-- key: AzureAd:CallbackPath
+- key: AzureAd_CallbackPath
   value: "/signin-oidc" 
   type: "keyvault"
 - key: EventQueueName
