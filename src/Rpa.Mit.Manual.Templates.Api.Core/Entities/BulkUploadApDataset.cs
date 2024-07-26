@@ -8,8 +8,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
     [ExcludeFromCodeCoverage]
     public sealed class BulkUploadApDataset
     {
-        public Invoice? Invoice { get; set; }
-        public List<BulkUploadApHeaderLine> BulkuploadHeaderLines { get; set; } = [];
+        public BulkUploadInvoice? BulkUploadInvoice { get; set; }
         public List<BulkUploadApDetailLine> BulkUploadDetailLines { get; set; } = [];
     }
 }

@@ -23,7 +23,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 
         public string AgreementNumber { get; set; } = string.Empty;
 
-        public string Currency { get; set; } = string.Empty;
+        public string PaymentType { get; set; } = string.Empty;
 
         public string DueDate { get; set; } = string.Empty;
 
@@ -33,5 +33,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
         public decimal TotalAmount { get; set; } = 0.0M;
 
         public string Description { get; set; } = string.Empty;
+
+        public List<BulkUploadApDetailLine>? BulkUploadApDetailLines { get; set; }
     }
 }

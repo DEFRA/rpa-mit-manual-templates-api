@@ -1,10 +1,6 @@
 ﻿using System.Data;
 using System.Diagnostics.CodeAnalysis;
 
-using BulkUploads.AddAp;
-
-using Microsoft.AspNetCore.Http.HttpResults;
-
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
@@ -27,7 +23,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             // row 2, cols 1-8 and row 2, col 16-28 have the data headers
             // row 3 = start of data
 
-            BulkUploadApDataset bulkUploadApDataset = new BulkUploadApDataset();
+            BulkUploadApDataset bulkUploadApDataset = new();
+            BulkUploadInvoice bulkUploadInvoice = new();
 
             var i = 0;
 
@@ -40,24 +37,24 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 if (i == 4)
                 {
                     // build the invoice
-                    bulkUploadApDataset.Invoice = await CreateNewInvoice(row);
+                    bulkUploadInvoice = await CreateNewInvoice(row);
                 }
 
                 if (!string.IsNullOrEmpty(row[2].ToString()))
                 {
                     var bulkUploadHeaderLine = new BulkUploadApHeaderLine
                     {
-                        InvoiceId = bulkUploadApDataset.Invoice!.Id,
+                        InvoiceId = bulkUploadInvoice!.Id,
                         InvoiceRequestId = row[2].ToString() + "_" + row[3].ToString(),
                         ClaimReferenceNumber = row[2].ToString()!,
                         ClaimReference = row[3].ToString()!,
-                        Currency = row[6].ToString()!,
+                        PaymentType = row[6].ToString()!,
                         MarketingYear = row[24].ToString()!,
                         Frn = row[4].ToString()!,
                         Description = row[7].ToString()!
                     };
 
-                    bulkUploadApDataset.BulkuploadHeaderLines.Add(bulkUploadHeaderLine);
+                    bulkUploadInvoice.BulkUploadApHeaderLines!.Add(bulkUploadHeaderLine);
 
                     var descriptionQuery = row[22].ToString() + "/" + row[23].ToString() + "/" + row[25].ToString();
 
@@ -74,7 +71,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                         Description = await _iBulkUploadRepo.GetDetailLineDescripion(descriptionQuery, ct)
                     };
 
-                    bulkUploadApDataset.BulkUploadDetailLines.Add(bulkUploadDetailLine);
+                    // for the database
+                    bulkUploadApDataset.BulkUploadDetailLines!.Add(bulkUploadDetailLine);
                 }
                 else if (!string.IsNullOrEmpty(row[19].ToString()))
                 {
@@ -93,16 +91,27 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                         Description = await _iBulkUploadRepo.GetDetailLineDescripion(descriptionQuery, ct)
                     };
 
-                    bulkUploadApDataset.BulkUploadDetailLines.Add(bulkUploadDetailLine);
+                    // this for the database
+                    bulkUploadApDataset.BulkUploadDetailLines!.Add(bulkUploadDetailLine);
                 }
             }
+
+            // nest the data for returning json
+            foreach (var parent in bulkUploadInvoice.BulkUploadApHeaderLines!)
+            {
+                parent.BulkUploadApDetailLines = bulkUploadApDataset.BulkUploadDetailLines
+                    .Where(c => c.InvoiceRequestId == parent.InvoiceRequestId)
+                    .ToList();
+            }
+
+            bulkUploadApDataset.BulkUploadInvoice = bulkUploadInvoice;
 
             return bulkUploadApDataset;
         }
 
-        private static async Task<Invoice> CreateNewInvoice(DataRow row)
+        private static async Task<BulkUploadInvoice> CreateNewInvoice(DataRow row)
         {
-            var invoice = await Task.FromResult(new Invoice());
+            var invoice = await Task.FromResult(new BulkUploadInvoice());
 
             invoice.Id = Guid.NewGuid();
             invoice.Created = DateTime.UtcNow;
