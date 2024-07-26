@@ -10,8 +10,7 @@ parameters:
 pr:
   branches:
     include:
-      - main
-      - master
+      - initial
   paths:
     exclude:
       - test-output/*
