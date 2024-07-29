@@ -5,6 +5,15 @@ services:
       target: production
     image: rpa-mit-manual-templates-api
     container_name: rpa-mit-manual-templates-api
+    depends_on:
+      - rpa_mit_invoices
     environment:
       APPINSIGHTS_CONNECTIONSTRING: ${APPINSIGHTS_CONNECTIONSTRING}
       APPINSIGHTS_CLOUDROLE: rpa-mit-manual-templates-api-local
+
+  rpa_mit_invoices:
+    image: postgres:15.6-alpine
+    environment:
+      POSTGRES_DB:   rpa_mit_invoices:
+      POSTGRES_PASSWORD: ghjiUIbfds345
+      POSTGRES_USERNAME: postgres
