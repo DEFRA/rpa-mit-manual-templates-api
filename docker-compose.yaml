@@ -6,7 +6,7 @@ services:
     image: rpa-mit-manual-templates-api
     container_name: rpa-mit-manual-templates-api
     depends_on:
-      - rpa_mit_invoices
+      - rpa_mit_invoices-postgres
     environment:
       APPINSIGHTS_CONNECTIONSTRING: ${APPINSIGHTS_CONNECTIONSTRING}
       APPINSIGHTS_CLOUDROLE: rpa-mit-manual-templates-api-local
