@@ -1,4 +1,4 @@
-{{- include "adp-aso-helm-library.flexible-servers-db" (list . "ffc-demo.flexible-servers-db") -}}
+{{- include "adp-aso-helm-library.flexible-servers-db" (list . "lap-mit.flexible-servers-db") -}}
 
-{{- define "ffc-demo.flexible-servers-db" }}
+{{- define "lap-mit.flexible-servers-db" }}
 {{ end -}}

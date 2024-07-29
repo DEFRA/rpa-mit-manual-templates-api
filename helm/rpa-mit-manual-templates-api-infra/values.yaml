@@ -1,4 +1,4 @@
-namespace: rpa-mit
+namespace: lap-mit
 
 postgres:
   db:
