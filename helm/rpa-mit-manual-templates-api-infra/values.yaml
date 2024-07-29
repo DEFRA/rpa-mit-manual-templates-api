@@ -1,7 +1,8 @@
+namespace: rpa-mit
 
 postgres:
   db:
-    name: rpa_mit_invoices 
+    name: invoices 
     charset: UTF8
     collation: en_US.utf8
 
