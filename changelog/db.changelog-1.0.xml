@@ -1,6 +1,12 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
-    <changeSet author="a925368 (generated)" id="1721747346063-1">
+    <changeSet author="Aylmer Carson" id="1596009647200-0">
+      <tagDatabase tag="v0.0.0" />
+    </changeSet>
+    <changeSet author="Aylmer Carson" id="1596009647200-1">
+      <tagDatabase tag="v1.0.0" />
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1721747346063-1">
         <createTable tableName="invoicelines">
             <column name="id" type="UUID">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="invoicelines_pkey"/>
@@ -15,7 +21,7 @@
             <column name="invoicerequestid" type="VARCHAR"/>
         </createTable>
     </changeSet>
-    <changeSet author="a925368 (generated)" id="1721747346063-2">
+    <changeSet author="liquibase (generated)" id="1721747346063-2">
         <createTable tableName="invoicerequests">
             <column name="frn" type="VARCHAR"/>
             <column name="sbi" type="VARCHAR"/>
@@ -36,7 +42,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="a925368 (generated)" id="1721747346063-3">
+    <changeSet author="liquibase (generated)" id="1721747346063-3">
         <createTable tableName="invoices">
             <column name="schemetype" type="VARCHAR">
                 <constraints nullable="false"/>
@@ -63,7 +69,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="a925368 (generated)" id="1721747346063-4">
+    <changeSet author="liquibase (generated)" id="1721747346063-4">
         <createTable tableName="lookup_accountcodes">
             <column autoIncrement="true" name="code_id" type="INTEGER">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_account_codes"/>
@@ -78,7 +84,7 @@
             <column name="org" type="VARCHAR"/>
         </createTable>
     </changeSet>
-    <changeSet author="a925368 (generated)" id="1721747346063-5">
+    <changeSet author="liquibase (generated)" id="1721747346063-5">
         <createTable tableName="lookup_accounts_ap">
             <column name="description" type="VARCHAR(123)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="lookup_accounts_ap_pkey"/>
@@ -91,21 +97,21 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="a925368 (generated)" id="1721747346063-6">
+    <changeSet author="liquibase (generated)" id="1721747346063-6">
         <createTable tableName="lookup_ap_chartofaccounts">
             <column name="code" type="VARCHAR"/>
             <column name="description" type="VARCHAR"/>
             <column name="org" type="VARCHAR"/>
         </createTable>
     </changeSet>
-    <changeSet author="a925368 (generated)" id="1721747346063-7">
+    <changeSet author="liquibase (generated)" id="1721747346063-7">
         <createTable tableName="lookup_deliverybodycodes">
             <column name="code" type="VARCHAR"/>
             <column name="org" type="VARCHAR"/>
             <column name="description" type="VARCHAR"/>
         </createTable>
     </changeSet>
-    <changeSet author="a925368 (generated)" id="1721747346063-8">
+    <changeSet author="liquibase (generated)" id="1721747346063-8">
         <createTable tableName="lookup_deliverybodyinitialselections">
             <column name="id" type="UUID">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="delivery_body_initial_selections_pkey"/>
@@ -124,7 +130,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="a925368 (generated)" id="1721747346063-9">
+    <changeSet author="liquibase (generated)" id="1721747346063-9">
         <createTable tableName="lookup_fundcodes">
             <column name="code" type="TEXT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="lookup_fundcodes_pkey"/>
@@ -133,7 +139,7 @@
             <column name="org" type="VARCHAR"/>
         </createTable>
     </changeSet>
-    <changeSet author="a925368 (generated)" id="1721747346063-10">
+    <changeSet author="liquibase (generated)" id="1721747346063-10">
         <createTable tableName="lookup_marketingyearcodes">
             <column autoIncrement="true" name="code_id" type="INTEGER">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_marketing_year_codes"/>
@@ -146,7 +152,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="a925368 (generated)" id="1721747346063-11">
+    <changeSet author="liquibase (generated)" id="1721747346063-11">
         <createTable tableName="lookup_paymenttypes">
             <column autoIncrement="true" name="component_id" type="INTEGER">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_payment_types"/>
@@ -159,14 +165,14 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="a925368 (generated)" id="1721747346063-12">
+    <changeSet author="liquibase (generated)" id="1721747346063-12">
         <createTable tableName="lookup_schemecodes">
             <column name="description" type="VARCHAR"/>
             <column name="code" type="VARCHAR"/>
             <column name="org" type="VARCHAR"/>
         </createTable>
     </changeSet>
-    <changeSet author="a925368 (generated)" id="1721747346063-13">
+    <changeSet author="liquibase (generated)" id="1721747346063-13">
         <createTable tableName="lookup_schemeinvoicetemplates">
             <column name="id" type="UUID">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="schemeinvoicetemplates_pkey"/>
@@ -180,7 +186,7 @@
             <column name="deliverybodycode" type="VARCHAR"/>
         </createTable>
     </changeSet>
-    <changeSet author="a925368 (generated)" id="1721747346063-14">
+    <changeSet author="liquibase (generated)" id="1721747346063-14">
         <createTable tableName="lookup_schemeinvoicetemplatessecondaryrpaquestions">
             <column name="name" type="VARCHAR">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="schemeinvoicetemplatessecondaryrpaquestions_pkey"/>
@@ -190,14 +196,14 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="a925368 (generated)" id="1721747346063-15">
+    <changeSet author="liquibase (generated)" id="1721747346063-15">
         <createTable tableName="lookup_schemes">
             <column name="description" type="VARCHAR"/>
             <column name="code" type="VARCHAR"/>
             <column name="org" type="VARCHAR"/>
         </createTable>
     </changeSet>
-    <changeSet author="a925368 (generated)" id="1721747346063-16">
+    <changeSet author="liquibase (generated)" id="1721747346063-16">
         <createTable tableName="lookup_schemetypes">
             <column autoIncrement="true" name="component_id" type="INTEGER">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_scheme_types"/>
