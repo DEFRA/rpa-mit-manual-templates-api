@@ -81,7 +81,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     var bulkUploadDetailLine = new BulkUploadApDetailLine
                     {
                         Id = Guid.NewGuid(),
-                        InvoiceRequestId = row[16].ToString()!,
+                        InvoiceRequestId = row[17].ToString() + "_" + row[18].ToString(),
                         Value = decimal.Parse(row[19].ToString()!),
                         FundCode = row[21].ToString()!,
                         MainAccount = row[22].ToString()!,
