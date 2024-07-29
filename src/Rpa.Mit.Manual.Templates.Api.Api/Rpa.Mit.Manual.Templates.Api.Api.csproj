@@ -12,6 +12,16 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="db.changelog.xml" />
+	  <None Remove="liquibase.advanced.flowfile.yaml" />
+	  <None Remove="liquibase.checks-package.yaml" />
+	  <None Remove="liquibase.endstage.flow" />
+	  <None Remove="liquibase.flowfile.yaml" />
+	  <None Remove="liquibase.flowvariables.yaml" />
+	  <None Remove="liquibase.properties" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <_ContentIncludedByDefault Remove="local.settings.json" />
 	</ItemGroup>
 
