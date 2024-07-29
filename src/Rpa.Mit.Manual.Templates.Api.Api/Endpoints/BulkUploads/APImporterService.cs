@@ -71,7 +71,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                         Description = await _iBulkUploadRepo.GetDetailLineDescripion(descriptionQuery, ct)
                     };
 
-                    // for the database
+                    // for the databasee
                     bulkUploadApDataset.BulkUploadDetailLines!.Add(bulkUploadDetailLine);
                 }
                 else if (!string.IsNullOrEmpty(row[19].ToString()))
