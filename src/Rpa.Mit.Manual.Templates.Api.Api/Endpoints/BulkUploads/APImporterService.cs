@@ -77,11 +77,12 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 else if (!string.IsNullOrEmpty(row[19].ToString()))
                 {
                     var descriptionQuery = row[22].ToString() + "/" + row[23].ToString() + "/" + row[25].ToString();
+                    var invReqId = row[17].ToString() + "_" + row[18].ToString();
 
                     var bulkUploadDetailLine = new BulkUploadApDetailLine
                     {
                         Id = Guid.NewGuid(),
-                        InvoiceRequestId = row[17].ToString() + "_" + row[18].ToString(),
+                        InvoiceRequestId = invReqId,
                         Value = decimal.Parse(row[19].ToString()!),
                         FundCode = row[21].ToString()!,
                         MainAccount = row[22].ToString()!,
