@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-using Rpa.Mit.Manual.Templates.Api.Api.Azure;
+using Rpa.Mit.Manual.Templates.Api.Api.MitAzure;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api

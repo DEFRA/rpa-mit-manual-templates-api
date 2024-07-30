@@ -5,7 +5,7 @@ using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
 
-namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
+namespace Rpa.Mit.Manual.Templates.Api.Api.MitAzure
 {
     [ExcludeFromCodeCoverage]
     public class EventQueueService : IEventQueueService

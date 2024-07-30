@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-using Azure.Core;
 using Azure.Identity;
 using Azure.Messaging.ServiceBus;
 
@@ -8,7 +7,7 @@ using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Services;
 
-namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
+namespace Rpa.Mit.Manual.Templates.Api.Api.MitAzure
 {
     [ExcludeFromCodeCoverage]
     public class ServiceBusProvider : IServiceBusProvider

@@ -6,6 +6,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Enums
     public static class InvoiceStatuses
     {
         public const string New = "new";
+        public const string BulkUploadConfirmed = "BULKUPLOAD_CONFIRMED";
         public const string AwaitingApproval = "AWAITING_APPROVAL";
         public const string Approved = "APPROVED";
         public const string Rejected = "REJECTED";
@@ -16,6 +17,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Enums
             {
                 case New:
                     return "New";
+                case BulkUploadConfirmed:
+                    return "BulkUpload Confirmed";
                 case AwaitingApproval:
                     return "Awaiting Approval";
                 case Approved:
