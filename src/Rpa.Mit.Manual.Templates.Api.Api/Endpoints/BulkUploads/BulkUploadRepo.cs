@@ -1,6 +1,8 @@
 ﻿using System.Data;
 using System.Diagnostics.CodeAnalysis;
 
+using BulkUploadConfirm;
+
 using Dapper;
 
 using Microsoft.Extensions.Options;
@@ -84,6 +86,72 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     {
                         await transaction.RollbackAsync(ct);
                         throw;
+                    }
+                }
+            }
+        }
+
+        public async Task<bool> Confirm(BulkUploadConfirmation request, CancellationToken ct)
+        {
+            using (var cn = new NpgsqlConnection(DbConn))
+            {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
+                if (request.Confirm) 
+                {
+                    var sql = "UPDATE invoices SET bulkuploadconfirmed = @Confirm, status = @Status WHERE id = @InvoiceId";
+
+                    var res = await cn.ExecuteAsync(sql, request);
+
+                    return res == 1;
+                }
+                else
+                {
+                    // delete everything...
+                    using (var transaction = await cn.BeginTransactionAsync(ct))
+                    {
+                        try
+                        {
+                            // get all invoicerequest ids
+                            var invoiceRequestIds = await cn.QueryAsync<string>(
+                                "SELECT invoicerequestid FROM invoicerequests WHERE invoiceid = @InvoiceId",
+                                new { InvoiceId = request.InvoiceId },
+                                transaction: transaction);
+
+                            // for each invoiceRequestId, delete all invoice lines
+                            foreach (string invoiceRequestId in invoiceRequestIds)
+                            {
+                                await cn.ExecuteAsync(
+                                        "DELETE FROM invoicelines WHERE invoicerequestid = @invoiceRequestId",
+                                        new { invoiceRequestId },
+                                        transaction: transaction);
+                            }
+
+                            // for each invoiceRequestId, delete the invoice request
+                            foreach (string invoiceRequestId in invoiceRequestIds)
+                            {
+                                await cn.ExecuteAsync(
+                                        "DELETE FROM invoicerequests WHERE invoicerequestid = @invoiceRequestId",
+                                        new { invoiceRequestId },
+                                        transaction: transaction);
+                            }
+
+                            // finally, delete the invoice header
+                            await cn.ExecuteAsync(
+                                    "DELETE FROM invoices WHERE id = @invoiceId",
+                                    new { request.InvoiceId },
+                                    transaction: transaction);
+
+                            await transaction.CommitAsync(ct);
+
+                            return true;
+                        }
+                        catch
+                        {
+                            await transaction.RollbackAsync(ct);
+                            throw;
+                        }
                     }
                 }
             }

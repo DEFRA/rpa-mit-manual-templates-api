@@ -96,8 +96,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests
                         await transaction.RollbackAsync(ct);
                         throw;
                     }
-
-
                 }
             }
         }

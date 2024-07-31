@@ -15,5 +15,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <param name="ct"></param>
         /// <returns></returns>
         Task<string> GetDetailLineDescripion(string query, CancellationToken ct);
+
+        Task<bool> Confirm(BulkUploadConfirmation request, CancellationToken ct);
     }
 }
