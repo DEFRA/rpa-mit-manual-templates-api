@@ -22,11 +22,11 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
 
         public async Task<ReferenceData> GetAllReferenceData(CancellationToken ct)
         {
-            var azConn = await GetConnectionStringUsingManagedIdentity();
+            //var azConn = await GetConnectionStringUsingManagedIdentity();
 
             var referenceData = new ReferenceData();
 
-            using (var cn = new NpgsqlConnection(azConn))
+            using (var cn = new NpgsqlConnection(DbConn))
             {
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
