@@ -70,8 +70,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                         FundCode = row[21].ToString()!,
                         MainAccount = row[22].ToString()!,
                         SchemeCode = row[23].ToString()!,
-                        MarketingYear = row[24].ToString()!,
                         DeliveryBodyCode = row[25].ToString()!,
+                        MarketingYear = row[24].ToString()!,
                         Description = chartOfAccounts.First(c => c.Code == descriptionQuery).Description
                     };
 
