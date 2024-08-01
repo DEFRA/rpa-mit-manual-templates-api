@@ -112,7 +112,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                             // get all invoicerequest ids
                             var invoiceRequestIds = await cn.QueryAsync<string>(
                                 "SELECT invoicerequestid FROM invoicerequests WHERE invoiceid = @InvoiceId",
-                                new { InvoiceId = request.InvoiceId },
+                                new { request.InvoiceId },
                                 transaction: transaction);
 
                             // for each invoiceRequestId, delete all invoice lines
