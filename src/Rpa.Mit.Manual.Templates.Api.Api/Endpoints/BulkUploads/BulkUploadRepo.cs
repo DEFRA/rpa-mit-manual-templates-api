@@ -1,11 +1,7 @@
 ﻿using System.Data;
 using System.Diagnostics.CodeAnalysis;
 
-using BulkUploadConfirm;
-
 using Dapper;
-
-using Microsoft.Extensions.Options;
 
 using Npgsql;
 
@@ -17,12 +13,12 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
     [ExcludeFromCodeCoverage]
     public class BulkUploadRepo : BaseData, IBulkUploadRepo
     {
-        public BulkUploadRepo(IOptions<ConnectionStrings> options) : base(options)
+        public BulkUploadRepo() : base()
         { }
 
         public async Task<bool> AddApBulkUpload(BulkUploadApDataset bulkUploadApDataset, CancellationToken ct)
         {
-            using (var cn = new NpgsqlConnection(DbConn))
+            using (var cn = new NpgsqlConnection(await DbConn()))
             {
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
@@ -62,7 +58,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
         public async Task<string> GetDetailLineDescripion(string query, CancellationToken ct)
         {
-            using (var cn = new NpgsqlConnection(DbConn))
+            using (var cn = new NpgsqlConnection(await DbConn()))
             {
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
@@ -93,7 +89,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
         public async Task<bool> Confirm(BulkUploadConfirmation request, CancellationToken ct)
         {
-            using (var cn = new NpgsqlConnection(DbConn))
+            using (var cn = new NpgsqlConnection(await DbConn()))
             {
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);

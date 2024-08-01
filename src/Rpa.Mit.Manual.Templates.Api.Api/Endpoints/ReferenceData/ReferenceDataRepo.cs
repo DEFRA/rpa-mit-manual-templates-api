@@ -4,8 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 
 using Dapper;
 
-using Microsoft.Extensions.Options;
-
 using Npgsql;
 
 using Rpa.Mit.Manual.Templates.Api.Api.Endpoints;
@@ -17,17 +15,14 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
     [ExcludeFromCodeCoverage]
     public class ReferenceDataRepo : BaseData, IReferenceDataRepo
     {
-        public ReferenceDataRepo(IOptions<ConnectionStrings> options) : base(options)
+        public ReferenceDataRepo() : base()
         { } 
 
         public async Task<ReferenceData> GetAllReferenceData(CancellationToken ct)
         {
-            // use this once confirmed that shabaz has access
-            var azConn = await GetConnectionStringUsingManagedIdentity();
-
             var referenceData = new ReferenceData();
 
-            using (var cn = new NpgsqlConnection(azConn))
+            using (var cn = new NpgsqlConnection(await DbConn()))
             {
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
@@ -43,6 +38,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
                         SELECT code, description, org FROM lookup_deliverybodycodes;
                         SELECT code, description FROM lookup_marketingyearcodes;
                         SELECT code, description FROM lookup_fundcodes;
+                        SELECT code, description,org FROM lookup_ap_chartofaccounts;
                         ";
 
                 using (var res = await cn.QueryMultipleAsync(sql))
@@ -57,6 +53,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
                     referenceData.DeliveryBodies = await res.ReadAsync<DeliveryBody>();
                     referenceData.MarketingYears = await res.ReadAsync<MarketingYear>();
                     referenceData.FundCodes = await res.ReadAsync<FundCode>();
+                    referenceData.ChartOfAccounts = await res.ReadAsync<ChartOfAccounts>();
 
                     return referenceData;
                 }
@@ -65,7 +62,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
 
         public async Task<IEnumerable<PaymentType>> GetPaymentTypeReferenceData(CancellationToken ct)
         {
-            using (var cn = new NpgsqlConnection(DbConn))
+            using (var cn = new NpgsqlConnection(await DbConn()))
             {
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
@@ -78,7 +75,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
 
         public async Task<IEnumerable<SchemeType>> GetSchemeTypeReferenceData(CancellationToken ct)
         {
-            using (var cn = new NpgsqlConnection(DbConn))
+            using (var cn = new NpgsqlConnection(await DbConn()))
             {
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
@@ -86,6 +83,19 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
                 var sql = @"SELECT code, description FROM lookup_schemetypes;";
 
                 return await cn.QueryAsync<SchemeType>(sql);
+            }
+        }
+
+        public async Task<IEnumerable<ChartOfAccounts>> GetChartOfAccountsReferenceData(CancellationToken ct)
+        {
+            using (var cn = new NpgsqlConnection(await DbConn()))
+            {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
+                var sql = @"SELECT code, description org FROM lookup_ap_chartofaccounts;";
+
+                return await cn.QueryAsync<ChartOfAccounts>(sql);
             }
         }
     }

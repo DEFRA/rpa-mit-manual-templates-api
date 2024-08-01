@@ -9,7 +9,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
     [ExcludeFromCodeCoverage]
     public class ApprovalsRepo : BaseData, IApprovalsRepo
     {
-        public ApprovalsRepo(IOptions<ConnectionStrings> options) : base(options)
+        public ApprovalsRepo() : base()
         { }
 
         public async Task<bool> ApproveInvoice(Guid invoiceId, CancellationToken ct)

@@ -4,16 +4,19 @@ using System.Diagnostics.CodeAnalysis;
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
+
 namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 {
     [ExcludeFromCodeCoverage]
     public class ApImporterService : IApImporterService
     {
         private readonly IBulkUploadRepo _iBulkUploadRepo;
+        private readonly IReferenceDataRepo _iReferenceDataRepo;
 
-        public ApImporterService(IBulkUploadRepo iBulkUploadRepo)
+        public ApImporterService(IBulkUploadRepo iBulkUploadRepo, IReferenceDataRepo iReferenceDataRepo)
         {
             _iBulkUploadRepo = iBulkUploadRepo;
+            _iReferenceDataRepo = iReferenceDataRepo;
         }
 
         public async Task<BulkUploadApDataset> ImportAPData(DataTable data, CancellationToken ct)
@@ -27,6 +30,9 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             BulkUploadInvoice bulkUploadInvoice = new();
 
             var i = 0;
+
+            // get all out chartofacounts before we enter the loop
+            var chartOfAccounts = await _iReferenceDataRepo.GetChartOfAccountsReferenceData(ct);
 
             foreach (DataRow row in data.Rows)
             {
@@ -68,7 +74,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                         SchemeCode = row[23].ToString()!,
                         MarketingYear = row[24].ToString()!,
                         DeliveryBodyCode = row[25].ToString()!,
-                        Description = await _iBulkUploadRepo.GetDetailLineDescripion(descriptionQuery, ct)
+                        Description = chartOfAccounts.First(c => c.Code == descriptionQuery).Description
                     };
 
                     // for the databasee
@@ -89,7 +95,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                         SchemeCode = row[23].ToString()!,
                         MarketingYear = row[24].ToString()!,
                         DeliveryBodyCode = row[25].ToString()!,
-                        Description = await _iBulkUploadRepo.GetDetailLineDescripion(descriptionQuery, ct)
+                        Description = chartOfAccounts.First(c => c.Code == descriptionQuery).Description
                     };
 
                     // this for the database

@@ -50,6 +50,7 @@
 
 	<ItemGroup>
 	  <Folder Include="Endpoints\Approvals\GetMyApprovals\" />
+	  <Folder Include="Endpoints\ReferenceData\GetChartOfAccounts\" />
 	</ItemGroup>
 
 </Project>

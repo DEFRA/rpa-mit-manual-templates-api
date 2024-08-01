@@ -3,8 +3,6 @@ using System.Diagnostics.CodeAnalysis;
 
 using Dapper;
 
-using Microsoft.Extensions.Options;
-
 using Npgsql;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
@@ -16,12 +14,12 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
     [ExcludeFromCodeCoverage]
     internal sealed class InvoiceLineRepo : BaseData, IInvoiceLineRepo
     {
-        public InvoiceLineRepo(IOptions<ConnectionStrings> options) : base(options)
+        public InvoiceLineRepo() : base()
         { }
 
         public async Task<decimal> AddInvoiceLine(InvoiceLine invoiceLine, CancellationToken ct)
         {
-            using (var cn = new NpgsqlConnection(DbConn))
+            using (var cn = new NpgsqlConnection(await DbConn()))
             {
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
@@ -54,7 +52,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
 
         public async Task<decimal> DeleteInvoiceLine(Guid invoiceLineId, CancellationToken ct)
         {
-            using (var cn = new NpgsqlConnection(DbConn))
+            using (var cn = new NpgsqlConnection(await DbConn()))
             {
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
@@ -96,7 +94,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
 
         public async Task<decimal> UpdateInvoiceLine(InvoiceLine invoiceLine, CancellationToken ct)
         {
-            using (var cn = new NpgsqlConnection(DbConn))
+            using (var cn = new NpgsqlConnection(await DbConn()))
             {
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
@@ -128,7 +126,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
 
         public async Task<IEnumerable<InvoiceLine>> GetInvoiceLinesByInvoiceRequestId(string invoiceRequestId, CancellationToken ct)
         {
-            using (var cn = new NpgsqlConnection(DbConn))
+            using (var cn = new NpgsqlConnection(await DbConn()))
             {
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
@@ -141,7 +139,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
 
         public async Task<InvoiceLine> GetInvoiceLineByInvoiceLineId(Guid invoiceLineId, CancellationToken ct)
         {
-            using (var cn = new NpgsqlConnection(DbConn))
+            using (var cn = new NpgsqlConnection(await DbConn()))
             {
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
