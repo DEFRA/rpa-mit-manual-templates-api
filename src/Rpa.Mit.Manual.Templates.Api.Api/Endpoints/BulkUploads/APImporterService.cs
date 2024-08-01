@@ -10,12 +10,10 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
     [ExcludeFromCodeCoverage]
     public class ApImporterService : IApImporterService
     {
-        private readonly IBulkUploadRepo _iBulkUploadRepo;
         private readonly IReferenceDataRepo _iReferenceDataRepo;
 
-        public ApImporterService(IBulkUploadRepo iBulkUploadRepo, IReferenceDataRepo iReferenceDataRepo)
+        public ApImporterService(IReferenceDataRepo iReferenceDataRepo)
         {
-            _iBulkUploadRepo = iBulkUploadRepo;
             _iReferenceDataRepo = iReferenceDataRepo;
         }
 
