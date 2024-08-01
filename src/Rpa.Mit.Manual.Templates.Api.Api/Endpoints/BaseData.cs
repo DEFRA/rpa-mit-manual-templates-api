@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
+using Azure.Core;
 using Azure.Identity;
 
 using Microsoft.Extensions.Options;
@@ -25,36 +26,27 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints
 
         public virtual async Task<string> GetConnectionStringUsingManagedIdentity()
         {
-            string accessToken = string.Empty;
+            // For user-assigned identity.
+            var tokenProvider = new DefaultAzureCredential(
+                new DefaultAzureCredentialOptions
+                {
+                    ManagedIdentityClientId = "cdc04155-34c7-44f9-b657-b6e4f084be15"
+                });
 
-            try
-            {
-                // Call managed identities for Azure resources endpoint.
-                var tokenProvider = new DefaultAzureCredential();
+            AccessToken accessToken = await tokenProvider.GetTokenAsync(
+                new TokenRequestContext(scopes: new string[]
+                {
+                    "https://ossrdbms-aad.database.windows.net/.default"
+                }));
 
-                accessToken = (await tokenProvider.GetTokenAsync(
-                    new Azure.Core.TokenRequestContext(
-                        scopes: new string[] { "https://ossrdbms-aad.database.windows.net/.default" }) { }))
-                        .Token;
-
-            }
-            catch (Exception e)
-            {
-                Console.Out.WriteLine("{0} \n\n{1}", e.Message, e.InnerException != null ? e.InnerException.Message : "Acquire token failed");
-                System.Environment.Exit(1);
-            }
-
-            //
-            // Open a connection to the PostgreSQL server using the access token.
-            //
             string connString =
                 String.Format(
-                    "Server={0}; User Id={1}; Database={2}; Port={3}; Password={4}; SSLMode=Prefer",
+                    "Server={0}; User Id={1}; Database={2}; Port={3}; Password={4}; SSLMode=Require",
                     Host,
                     User,
                     Database,
                     5432,
-                    accessToken);
+                    accessToken.Token);
 
             return connString;
         }
