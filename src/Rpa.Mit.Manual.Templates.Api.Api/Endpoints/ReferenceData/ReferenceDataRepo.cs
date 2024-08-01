@@ -2,8 +2,6 @@
 using System.Data;
 using System.Diagnostics.CodeAnalysis;
 
-using Azure.Core;
-
 using Dapper;
 
 using Microsoft.Extensions.Options;
@@ -25,11 +23,11 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
         public async Task<ReferenceData> GetAllReferenceData(CancellationToken ct)
         {
             // use this once confirmed that shabaz has access
-            var azConn = await GetConnectionStringUsingManagedIdentity();
+            //var azConn = await GetConnectionStringUsingManagedIdentity();
 
             var referenceData = new ReferenceData();
 
-            using (var cn = new NpgsqlConnection(azConn))
+            using (var cn = new NpgsqlConnection(DbConn))
             {
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
