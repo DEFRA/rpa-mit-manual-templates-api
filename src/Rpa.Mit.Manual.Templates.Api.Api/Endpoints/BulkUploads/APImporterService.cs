@@ -65,7 +65,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     var bulkUploadDetailLine = new BulkUploadApDetailLine
                     {
                         Id = Guid.NewGuid(),
-                        InvoiceRequestId = row[2].ToString() + "_" + row[3].ToString(),
+                        InvoiceRequestId = row[17].ToString() + "_" + row[18].ToString(),
                         Value = decimal.Parse(row[19].ToString()!),
                         FundCode = row[21].ToString()!,
                         MainAccount = row[22].ToString()!,
@@ -107,6 +107,9 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 parent.BulkUploadApDetailLines = bulkUploadApDataset.BulkUploadDetailLines
                     .Where(c => c.InvoiceRequestId == parent.InvoiceRequestId)
                     .ToList();
+
+                // total up the value of the detail lines for the parent invoice request
+                parent.TotalAmount = parent.BulkUploadApDetailLines.Select(c => c.Value).Sum();
             }
 
             bulkUploadApDataset.BulkUploadInvoice = bulkUploadInvoice;
