@@ -22,13 +22,9 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
 
-                var sql = "UPDATE invoices SET approverid = @approverid, approveremail = @approveremail, approved = true, approvedby = @approvedby, dateapproved = @dateapproved WHERE id = @id";
+                var sql = "UPDATE invoices SET approverid=@ApproverId,approveremail=@ApproverEmail,approved=TRUE,approvedby=@ApprovedBy,dateapproved=@DateApproved WHERE id = @id";
 
-                await cn.ExecuteAsync(sql, invoiceApproval);
-
-                var res = await cn.ExecuteAsync(
-                            "SELECT value FROM invoicelines WHERE invoicerequestid = @invoiceRequestId",
-                            new { invoiceApproval });
+                var res = await cn.ExecuteAsync(sql, invoiceApproval);
 
                 return res == 1;
             }

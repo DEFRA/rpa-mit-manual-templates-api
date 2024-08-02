@@ -62,7 +62,7 @@ namespace ApproveInvoice
         {
             var invoiceApproval = await Task.FromResult(new InvoiceApproval());
 
-            invoiceApproval.ApproverId = "e1ec801e-e0f3-44bd-8c46-4a2108adc5d7";
+            invoiceApproval.ApproverId = Guid.NewGuid();
             invoiceApproval.ApproverEmail = "aylmer.carson@nowhere.com";
             invoiceApproval.ApprovedBy = "aylmer.carson";
             invoiceApproval.DateApproved = DateTime.UtcNow;

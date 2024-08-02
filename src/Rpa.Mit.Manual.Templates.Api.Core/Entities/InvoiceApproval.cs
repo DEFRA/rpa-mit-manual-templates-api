@@ -11,7 +11,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 
         public string ApprovedBy { get; set; } = default!;
 
-        public string ApproverId { get; set; } = default!;
+        public Guid ApproverId { get; set; }
 
         public string ApproverEmail { get; set; } = default!;
     }
