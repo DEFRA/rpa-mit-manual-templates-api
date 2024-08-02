@@ -7,7 +7,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
     {
         /// <summary>
         /// clears an invoice for sending to the payment hub.
-        /// An invoice will be sent there once this approval happens.
+        /// An invoice will be sent there immediately once this approval happens.
         /// </summary>
         /// <param name="invoiceApproval"></param>
         /// <param name="ct"></param>
