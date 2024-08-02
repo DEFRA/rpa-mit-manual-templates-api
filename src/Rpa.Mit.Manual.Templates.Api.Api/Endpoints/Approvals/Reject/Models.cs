@@ -1,13 +1,16 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace ApproveInvoice
+namespace RejectInvoice
 {
     [ExcludeFromCodeCoverage]
-    internal sealed class ApproveInvoiceRequest
+    internal sealed class RejectInvoiceRequest
     {
+
         public Guid Id { get; set; }
 
-        internal sealed class Validator : Validator<ApproveInvoiceRequest>
+        public string Reason { get; set; } = string.Empty;
+
+        internal sealed class Validator : Validator<RejectInvoiceRequest>
         {
             public Validator()
             {
@@ -17,10 +20,8 @@ namespace ApproveInvoice
     }
 
     [ExcludeFromCodeCoverage]
-    internal sealed class ApproveInvoiceResponse
+    internal sealed class RejectInvoiceResponse
     {
-        public bool Result { get; set; }
-
         public string Message { get; set; } = string.Empty;
     }
 }
