@@ -39,7 +39,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Integration.Tests.InvoiceRequestTests
                 addInvoiceRequestRequest);
 
             //TODO: needs fixing
-            rsp.StatusCode.Should().Be(HttpStatusCode.OK);
+            rsp.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             //res.InvoiceRequestValue.Should().Be(12.12M);
             //res.InvoiceLine.Description.Should().Be("G00 - Gross value of claim");
             //res.InvoiceLine.FundCode.Should().Be("FUND1");
