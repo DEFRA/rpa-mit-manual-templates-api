@@ -20,6 +20,8 @@ public static class ServiceExtensions
         services.AddTransient<IInvoiceRequestRepo, InvoiceRequestRepo>();
 
         services.AddTransient<IApImporterService, ApImporterService>();
+        services.AddTransient<IEmailService, EmailService>();
+
         return services;
     }
 }

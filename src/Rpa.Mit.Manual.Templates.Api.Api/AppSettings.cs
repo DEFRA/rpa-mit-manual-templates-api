@@ -5,6 +5,7 @@ namespace Rpa.Mit.Manual.Templates.Api
     [ExcludeFromCodeCoverage]
     public class AppSettings
     {
+        public string GovNotifyApiKey { get; set; } = string.Empty;
         public string EventQueueName { get; set; } = string.Empty;
         public string ImporterQueueName { get; set; } = string.Empty;
         public string BlobContainerName { get; set; } = string.Empty;
@@ -25,6 +26,11 @@ namespace Rpa.Mit.Manual.Templates.Api
         public string PrimaryConnection { get; set; } = string.Empty;
         public string PostGres { get; set; } = string.Empty;
         public string PostGresLocal { get; set; } = string.Empty;
+    }
+
+    public class GovNotify
+    {
+        public string ApiKey { get; set; } = string.Empty;
     }
 
     [ExcludeFromCodeCoverage]

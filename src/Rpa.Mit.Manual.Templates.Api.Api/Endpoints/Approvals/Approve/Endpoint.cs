@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
+using Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals;
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
@@ -8,15 +9,17 @@ namespace ApproveInvoice
     [ExcludeFromCodeCoverage]
     internal sealed class ApproveInvoiceEndpoint : EndpointWithMapping<ApproveInvoiceRequest, ApproveInvoiceResponse, InvoiceApproval>
     {
-
+        private readonly IEmailService _iEmailService;
         private readonly IApprovalsRepo _iApprovalsRepo;
         private readonly ILogger<ApproveInvoiceEndpoint> _logger;
 
         public ApproveInvoiceEndpoint(
             ILogger<ApproveInvoiceEndpoint> logger,
+            IEmailService iEmailService,        
             IApprovalsRepo iApprovalsRepo)
         {
             _logger = logger;
+            _iEmailService = iEmailService;
             _iApprovalsRepo = iApprovalsRepo;
         }
 
@@ -34,10 +37,14 @@ namespace ApproveInvoice
 
             try
             {
+                var ar = await _iEmailService.EmailApprovers(null, ct);
+
                 InvoiceApproval approval = await MapToEntityAsync(r, ct);
 
                 if (await _iApprovalsRepo.ApproveInvoice(approval, ct))
                 {
+
+
                     response.Result = true;
                     response.Message = "Invoice approved.";
                 }

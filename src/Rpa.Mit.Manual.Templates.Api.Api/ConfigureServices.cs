@@ -29,6 +29,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api
 
             builder.Services.Configure<AzureAd>(builder.Configuration.GetSection("AzureAd"));
             builder.Services.Configure<ConnectionStrings>(builder.Configuration.GetSection("ConnectionStrings"));
+            builder.Services.Configure<GovNotify>(builder.Configuration.GetSection("GovNotify"));
 
             var appInsightsConfig = new AppInsightsConfig
             {
