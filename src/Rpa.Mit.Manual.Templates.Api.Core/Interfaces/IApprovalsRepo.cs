@@ -13,5 +13,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <param name="ct"></param>
         /// <returns></returns>
         Task<bool> ApproveInvoice(InvoiceApproval invoiceApproval, CancellationToken ct);
+
+        Task<IEnumerable<Invoice>> GetMyApprovals(string approverEmail, CancellationToken ct);
     }
 }
