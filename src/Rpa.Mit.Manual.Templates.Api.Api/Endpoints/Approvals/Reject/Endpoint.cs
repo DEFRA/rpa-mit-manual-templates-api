@@ -16,7 +16,7 @@ namespace RejectInvoice
 
         public override async Task HandleAsync(RejectInvoiceRequest r, CancellationToken ct)
         {
-            await SendAsync(new RejectInvoiceResponse());
+            await SendAsync(new RejectInvoiceResponse(), 200, CancellationToken.None);
         }
 
         public sealed override async Task<InvoiceRejection> MapToEntityAsync(RejectInvoiceRequest r, CancellationToken ct = default)

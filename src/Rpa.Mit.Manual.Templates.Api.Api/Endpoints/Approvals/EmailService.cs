@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Microsoft.Extensions.Options;
 
 using Notify.Client;
 using Notify.Models.Responses;
@@ -7,6 +9,7 @@ using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
 {
+    [ExcludeFromCodeCoverage]
     public class EmailService : IEmailService
     {
         private readonly GovNotify _options;
@@ -26,8 +29,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
                                                         emailAddress: "sender@something.com",
                                                         templateId: approverEmailTemplateId
                                                     );
-            //if (response.) { }
-            return true;
+            return response.content != null;
         }
     }
 }

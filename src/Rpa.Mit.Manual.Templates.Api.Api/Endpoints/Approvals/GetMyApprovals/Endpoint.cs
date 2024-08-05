@@ -1,7 +1,10 @@
-﻿using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace GetMyApprovals
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class GetMyApprovalsEndpoint : EndpointWithoutRequest<GetMyApprovalsResponse>
     {
         private readonly IApprovalsRepo _iApprovalsRepo;
