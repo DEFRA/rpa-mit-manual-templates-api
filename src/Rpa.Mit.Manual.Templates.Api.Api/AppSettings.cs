@@ -28,6 +28,7 @@ namespace Rpa.Mit.Manual.Templates.Api
         public string PostGresLocal { get; set; } = string.Empty;
     }
 
+    [ExcludeFromCodeCoverage]
     public class GovNotify
     {
         public string ApiKey { get; set; } = string.Empty;
