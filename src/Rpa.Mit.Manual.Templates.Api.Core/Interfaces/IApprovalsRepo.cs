@@ -34,7 +34,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         Task<Invoice> GetInvoiceForApproval(Guid invoiceId, string approverEmail, CancellationToken ct);
 
         /// <summary>
-        /// get an entire invoice, with all children, for publishing to azure servicebus
+        /// get a list of invoice requests for a given invoice header, with all children, for publishing to azure servicebus
         /// </summary>
         /// <param name="invoiceId"></param>
         /// <param name="ct"></param>

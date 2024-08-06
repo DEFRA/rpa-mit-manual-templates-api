@@ -99,12 +99,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
 
-                //var sql = "SELECT id,schemetype,data,reference,value,status,approverid,approveremail,approvedby,approved,createdby, updatedby, created, updated,paymenttype,accounttype,deliverybody FROM invoices WHERE Id = @Id";
-
-                //var parameters = new { Id = invoiceId };
-
-                //var invoice = new Invoice();// await cn.QuerySingleAsync<Invoice>(sql, parameters);
-
                 var prSql = "SELECT invoicerequestid, frn, sbi, vendor, agreementnumber, currency, value, marketingyear FROM invoicerequests WHERE invoiceid = @invoiceId";
                 var prParameters = new { invoiceId };
                 var invoiceRequests = await cn.QueryAsync<InvoiceRequestForAzure>(prSql, prParameters);
@@ -115,6 +109,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
                     var invSql = "SELECT value, description, fundcode, mainaccount, schemecode, marketingyear, deliverybodycode FROM invoicelines WHERE invoicerequestid = @invoicerequestid";
                     var invParameters = new { invoicerequestid = pr.InvoiceRequestId };
                     pr.InvoiceLines = await cn.QueryAsync<InvoiceLineForAzure>(invSql, invParameters);
+
+                    pr.Value = pr.InvoiceLines.Sum(x => x.Value);
                 }
 
                 return invoiceRequests;
