@@ -2,7 +2,6 @@
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
-using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
 
 namespace ApproveInvoice
 {
@@ -10,22 +9,16 @@ namespace ApproveInvoice
     internal sealed class ApproveInvoiceEndpoint : EndpointWithMapping<ApproveInvoiceRequest, ApproveInvoiceResponse, InvoiceApproval>
     {
         private readonly IApprovalsRepo _iApprovalsRepo;
-        private readonly IInvoiceRepo _iInvoiceDataRepo;
         private readonly IPaymentHubJsonGenerator _iPaymentHubJsonGenerator;
-        private readonly IEventQueueService _iEventQueueService;
         private readonly ILogger<ApproveInvoiceEndpoint> _logger;
 
         public ApproveInvoiceEndpoint(
             ILogger<ApproveInvoiceEndpoint> logger, 
-            IEventQueueService iEventQueueService,
             IApprovalsRepo iApprovalsRepo,
-            IInvoiceRepo iInvoiceDataRepo,
             IPaymentHubJsonGenerator iPaymentHubJsonGenerator)
         {
             _logger = logger;
-            _iEventQueueService = iEventQueueService;
             _iApprovalsRepo = iApprovalsRepo;
-            _iInvoiceDataRepo = iInvoiceDataRepo;
             _iPaymentHubJsonGenerator = iPaymentHubJsonGenerator;
         }
 
@@ -50,10 +43,17 @@ namespace ApproveInvoice
                     //TODO: send to paymnent hub
                     var invoiceRequests = await _iApprovalsRepo.GetInvoiceRequestsForAzure(r.Id,  ct);
 
-                    var ttt = await _iPaymentHubJsonGenerator.GenerateInvoiceRequestJson(invoiceRequests.First(), ct);
+                    var ttt = _iPaymentHubJsonGenerator.GenerateInvoiceRequestJson(invoiceRequests.First(), ct);
 
-
-                    response.Result = true;
+                    if ( ttt.Length > 0 ) 
+                    {
+                        response.Result = true;
+                    }
+                    else
+                    {
+                        response.Result = false;
+                    }
+            
                     response.Message = "Invoice approved.";
                 }
                 else
