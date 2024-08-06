@@ -18,6 +18,17 @@ namespace Rpa.Mit.Manual.Templates.Api
         public string InvoiceImporterAPIBaseURI { get; set; } = string.Empty;
         public string ApplicationBaseUri { get; set; } = string.Empty;
         public string PaymentGeneratorQueueName { get; set; } = string.Empty;
+        public string PaymentHubTopicConnectionString { get; set; } = string.Empty;
+    }
+
+    [ExcludeFromCodeCoverage]
+    public class PostGres
+    {
+        public string Host { get; set; } = string.Empty;
+        public string User { get; set; } = string.Empty;
+        public string Database { get; set; } = string.Empty;
+        public string TokenScopes { get; set; } = string.Empty;
+        public string ManagedIdentityClientId { get; set; } = string.Empty;
     }
 
     [ExcludeFromCodeCoverage]
@@ -26,6 +37,12 @@ namespace Rpa.Mit.Manual.Templates.Api
         public string PrimaryConnection { get; set; } = string.Empty;
         public string PostGres { get; set; } = string.Empty;
         public string PostGresLocal { get; set; } = string.Empty;
+    }
+
+    [ExcludeFromCodeCoverage]
+    public class PaymentHub
+    {
+        public string TopicConnectionString { get; set; } = string.Empty;
     }
 
     [ExcludeFromCodeCoverage]

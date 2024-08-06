@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 using Dapper;
 
+using Microsoft.Extensions.Options;
 
 using Npgsql;
 
@@ -14,7 +15,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
     [ExcludeFromCodeCoverage]
     internal sealed class InvoiceRepo : BaseData, IInvoiceRepo
     {
-        public InvoiceRepo() : base()
+        public InvoiceRepo(IOptions<PostGres> options) : base(options)
         { }
 
         public async Task<bool> AddInvoice(Invoice invoice, CancellationToken ct)

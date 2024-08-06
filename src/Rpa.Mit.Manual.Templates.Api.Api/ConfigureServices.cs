@@ -28,8 +28,10 @@ namespace Rpa.Mit.Manual.Templates.Api.Api
                    .AddCheck<ReadinessCheck>("ready");
 
             builder.Services.Configure<AzureAd>(builder.Configuration.GetSection("AzureAd"));
-            builder.Services.Configure<ConnectionStrings>(builder.Configuration.GetSection("ConnectionStrings"));
+            //builder.Services.Configure<ConnectionStrings>(builder.Configuration.GetSection("ConnectionStrings"));
             builder.Services.Configure<GovNotify>(builder.Configuration.GetSection("GovNotify"));
+            builder.Services.Configure<PaymentHub>(builder.Configuration.GetSection("PaymentHub"));
+            builder.Services.Configure<PostGres>(builder.Configuration.GetSection("PostGres"));
 
             var appInsightsConfig = new AppInsightsConfig
             {

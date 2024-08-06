@@ -2,6 +2,7 @@
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
+using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
 
 namespace ApproveInvoice
 {
@@ -9,14 +10,20 @@ namespace ApproveInvoice
     internal sealed class ApproveInvoiceEndpoint : EndpointWithMapping<ApproveInvoiceRequest, ApproveInvoiceResponse, InvoiceApproval>
     {
         private readonly IApprovalsRepo _iApprovalsRepo;
+        private readonly IInvoiceRepo _iInvoiceDataRepo;
+        private readonly IEventQueueService _iEventQueueService;
         private readonly ILogger<ApproveInvoiceEndpoint> _logger;
 
         public ApproveInvoiceEndpoint(
-            ILogger<ApproveInvoiceEndpoint> logger,     
-            IApprovalsRepo iApprovalsRepo)
+            ILogger<ApproveInvoiceEndpoint> logger, 
+            IEventQueueService iEventQueueService,
+            IApprovalsRepo iApprovalsRepo,
+            IInvoiceRepo iInvoiceDataRepo)
         {
             _logger = logger;
+            _iEventQueueService = iEventQueueService;
             _iApprovalsRepo = iApprovalsRepo;
+            _iInvoiceDataRepo = iInvoiceDataRepo;
         }
 
         public override void Configure()
@@ -37,6 +44,10 @@ namespace ApproveInvoice
 
                 if (await _iApprovalsRepo.ApproveInvoice(approval, ct))
                 {
+                    //TODO: send to paymnent hub
+                    var invoice = await _iInvoiceDataRepo.GetInvoiceForAzure(r.Id,  ct);
+
+                    await _iEventQueueService.CreateMessage(invoice, "test2");
 
 
                     response.Result = true;

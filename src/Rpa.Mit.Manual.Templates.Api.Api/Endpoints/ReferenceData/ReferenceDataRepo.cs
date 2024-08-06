@@ -4,6 +4,8 @@ using System.Diagnostics.CodeAnalysis;
 
 using Dapper;
 
+using Microsoft.Extensions.Options;
+
 using Npgsql;
 
 using Rpa.Mit.Manual.Templates.Api.Api.Endpoints;
@@ -15,8 +17,8 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
     [ExcludeFromCodeCoverage]
     public class ReferenceDataRepo : BaseData, IReferenceDataRepo
     {
-        public ReferenceDataRepo() : base()
-        { } 
+        public ReferenceDataRepo(IOptions<PostGres> options) : base(options)
+        { }     
 
         public async Task<ReferenceData> GetAllReferenceData(CancellationToken ct)
         {

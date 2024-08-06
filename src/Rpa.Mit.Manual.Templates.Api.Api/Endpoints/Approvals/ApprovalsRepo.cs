@@ -2,6 +2,8 @@
 using System.Diagnostics.CodeAnalysis;
 using Dapper;
 
+using Microsoft.Extensions.Options;
+
 using Npgsql;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
@@ -12,7 +14,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
     [ExcludeFromCodeCoverage]
     public class ApprovalsRepo : BaseData, IApprovalsRepo
     {
-        public ApprovalsRepo() : base()
+        public ApprovalsRepo(IOptions<PostGres> options) : base(options)
         { }
 
         public async Task<bool> ApproveInvoice(InvoiceApproval invoiceApproval, CancellationToken ct)
