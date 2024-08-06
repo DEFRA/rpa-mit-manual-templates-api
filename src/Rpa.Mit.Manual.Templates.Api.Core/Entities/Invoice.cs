@@ -19,8 +19,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 
         public string SchemeType { get; set; } = default!;
 
-        public IEnumerable<InvoiceRequest> InvoiceRequests { get; set; } = Enumerable.Empty<InvoiceRequest>();
-
         /// <summary>
         /// the sum total of any or all of payment requests
         /// </summary>
@@ -41,5 +39,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
                 return DeliveryBody == "RPA" ? SchemeType : DeliveryBody;
             }
         }
+
+        public IEnumerable<InvoiceRequest> InvoiceRequests { get; set; } = Enumerable.Empty<InvoiceRequest>();
     }
 }

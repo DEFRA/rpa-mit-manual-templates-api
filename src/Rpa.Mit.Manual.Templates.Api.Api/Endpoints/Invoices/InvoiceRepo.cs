@@ -54,7 +54,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
                 foreach (InvoiceRequest pr in invoice.InvoiceRequests)
                 {
                     // get the invoice lines
-                    var invSql = "SELECT id, value, description, fundcode, mainaccount, schemecode, marketingyear, deliverybody, invoicerequestid FROM invoicelines WHERE invoicerequestid = @invoicerequestid";
+                    var invSql = "SELECT id, value, description, fundcode, mainaccount, schemecode, marketingyear, deliverybodycode, invoicerequestid FROM invoicelines WHERE invoicerequestid = @invoicerequestid";
                     var invParameters = new { invoicerequestid = pr.InvoiceRequestId };
                     pr.InvoiceLines = await cn.QueryAsync<InvoiceLine>(invSql, invParameters);
                 }
