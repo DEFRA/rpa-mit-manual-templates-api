@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using Npgsql;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
+using Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
@@ -88,6 +89,35 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
                 }
 
                 return invoice;
+            }
+        }
+
+        public async Task<IEnumerable<InvoiceRequestForAzure>> GetInvoiceRequestsForAzure(Guid invoiceId, CancellationToken ct)
+        {
+            using (var cn = new NpgsqlConnection(await DbConn()))
+            {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
+                //var sql = "SELECT id,schemetype,data,reference,value,status,approverid,approveremail,approvedby,approved,createdby, updatedby, created, updated,paymenttype,accounttype,deliverybody FROM invoices WHERE Id = @Id";
+
+                //var parameters = new { Id = invoiceId };
+
+                //var invoice = new Invoice();// await cn.QuerySingleAsync<Invoice>(sql, parameters);
+
+                var prSql = "SELECT invoicerequestid, frn, sbi, vendor, agreementnumber, currency, value, marketingyear FROM invoicerequests WHERE invoiceid = @invoiceId";
+                var prParameters = new { invoiceId };
+                var invoiceRequests = await cn.QueryAsync<InvoiceRequestForAzure>(prSql, prParameters);
+
+                foreach (InvoiceRequestForAzure pr in invoiceRequests)
+                {
+                    // get the invoice lines
+                    var invSql = "SELECT value, description, fundcode, mainaccount, schemecode, marketingyear, deliverybodycode FROM invoicelines WHERE invoicerequestid = @invoicerequestid";
+                    var invParameters = new { invoicerequestid = pr.InvoiceRequestId };
+                    pr.InvoiceLines = await cn.QueryAsync<InvoiceLineForAzure>(invSql, invParameters);
+                }
+
+                return invoiceRequests;
             }
         }
     }

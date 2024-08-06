@@ -11,6 +11,7 @@ namespace ApproveInvoice
     {
         private readonly IApprovalsRepo _iApprovalsRepo;
         private readonly IInvoiceRepo _iInvoiceDataRepo;
+        private readonly IPaymentHubJsonGenerator _iPaymentHubJsonGenerator;
         private readonly IEventQueueService _iEventQueueService;
         private readonly ILogger<ApproveInvoiceEndpoint> _logger;
 
@@ -18,12 +19,14 @@ namespace ApproveInvoice
             ILogger<ApproveInvoiceEndpoint> logger, 
             IEventQueueService iEventQueueService,
             IApprovalsRepo iApprovalsRepo,
-            IInvoiceRepo iInvoiceDataRepo)
+            IInvoiceRepo iInvoiceDataRepo,
+            IPaymentHubJsonGenerator iPaymentHubJsonGenerator)
         {
             _logger = logger;
             _iEventQueueService = iEventQueueService;
             _iApprovalsRepo = iApprovalsRepo;
             _iInvoiceDataRepo = iInvoiceDataRepo;
+            _iPaymentHubJsonGenerator = iPaymentHubJsonGenerator;
         }
 
         public override void Configure()
@@ -45,9 +48,9 @@ namespace ApproveInvoice
                 if (await _iApprovalsRepo.ApproveInvoice(approval, ct))
                 {
                     //TODO: send to paymnent hub
-                    var invoice = await _iInvoiceDataRepo.GetInvoiceForAzure(r.Id,  ct);
+                    var invoiceRequests = await _iApprovalsRepo.GetInvoiceRequestsForAzure(r.Id,  ct);
 
-                    await _iEventQueueService.CreateMessage(invoice, "test2");
+                    var ttt = await _iPaymentHubJsonGenerator.GenerateInvoiceRequestJson(invoiceRequests.First(), ct);
 
 
                     response.Result = true;

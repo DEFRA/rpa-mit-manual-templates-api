@@ -72,7 +72,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                         SchemeCode = row[23].ToString()!,
                         DeliveryBodyCode = row[25].ToString()!,
                         MarketingYear = row[24].ToString()!,
-                        Description = chartOfAccounts.First(c => c.Code == descriptionQuery).Description
+                        Description = chartOfAccounts.First(c => c.Code == descriptionQuery).Org
                     };
 
                     // for the databasee
@@ -93,7 +93,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                         SchemeCode = row[23].ToString()!,
                         MarketingYear = row[24].ToString()!,
                         DeliveryBodyCode = row[25].ToString()!,
-                        Description = chartOfAccounts.First(c => c.Code == descriptionQuery).Description
+                        Description = chartOfAccounts.First(c => c.Code == descriptionQuery).Org
                     };
 
                     // this for the database

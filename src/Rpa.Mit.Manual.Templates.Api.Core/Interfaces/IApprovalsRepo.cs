@@ -1,5 +1,6 @@
 ﻿
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
+using Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure;
 
 namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
 {
@@ -31,5 +32,13 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <param name="ct"></param>
         /// <returns></returns>
         Task<Invoice> GetInvoiceForApproval(Guid invoiceId, string approverEmail, CancellationToken ct);
+
+        /// <summary>
+        /// get an entire invoice, with all children, for publishing to azure servicebus
+        /// </summary>
+        /// <param name="invoiceId"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        Task<IEnumerable<InvoiceRequestForAzure>> GetInvoiceRequestsForAzure(Guid invoiceId, CancellationToken ct);
     }
 }
