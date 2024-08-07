@@ -10,5 +10,5 @@
   value: ""
 - key: GOVNOTYIFY:API_KEY
   value: ""
-- key: PAYMENTHUB:rpa-mit-manual-templates-api_CONN_PAYMENTHUB
+- key: PAYMENTHUB:PAYMENTHUB_CONNECTION
   value: ""
