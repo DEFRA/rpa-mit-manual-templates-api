@@ -2,6 +2,6 @@
 {
     public interface IServiceBusProvider
     {
-        Task SendMessageAsync(string msg);
+        Task SendInvoiceRequestJson(string msg);
     }
 }

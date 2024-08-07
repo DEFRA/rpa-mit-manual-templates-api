@@ -46,7 +46,7 @@ namespace ApproveInvoice
 
                 if (await _iApprovalsRepo.ApproveInvoice(approval, ct))
                 {
-                    //TODO: send to paymnent hub
+                    // send correctly structured json to paymnent hub
                     var invoiceRequests = await _iApprovalsRepo.GetInvoiceRequestsForAzure(r.Id,  ct);
 
                     foreach (InvoiceRequestForAzure request in invoiceRequests)
@@ -55,7 +55,7 @@ namespace ApproveInvoice
 
                         if (invoiceRequestJson.Length > 0)
                         {
-                            await _iServiceBusProvider.SendMessageAsync(invoiceRequestJson);
+                            await _iServiceBusProvider.SendInvoiceRequestJson(invoiceRequestJson);
                             response.Result = true;
                         }
                         else

@@ -20,7 +20,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.MitAzure
             _options = options.Value;
         }
 
-        public async Task SendMessageAsync(string msg)
+        public async Task SendInvoiceRequestJson(string msg)
         {
             if (string.IsNullOrEmpty(_options.PAYMENTHUB_CONNECTION) 
                 || string.IsNullOrEmpty(_options.PAYMENTHUB_TOPIC)) return;
