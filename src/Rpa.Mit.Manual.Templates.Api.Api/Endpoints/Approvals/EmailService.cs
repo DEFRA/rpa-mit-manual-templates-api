@@ -23,7 +23,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
         
         public async Task<bool> EmailApprovers(IEnumerable<string> approvers, CancellationToken ct)
         {
-            var client = new NotificationClient(_options.ApiKey);
+            var client = new NotificationClient(_options.API_KEY);
 
             EmailNotificationResponse response = await client.SendEmailAsync(
                                                         emailAddress: "sender@something.com",

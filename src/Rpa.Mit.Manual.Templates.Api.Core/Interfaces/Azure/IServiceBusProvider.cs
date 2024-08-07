@@ -2,6 +2,6 @@
 {
     public interface IServiceBusProvider
     {
-        Task SendMessageAsync(string queue, string msg);
+        Task SendMessageAsync(string msg);
     }
 }

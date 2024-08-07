@@ -1,7 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-using Azure.Identity;
 using Azure.Messaging.ServiceBus;
+
+using Microsoft.Extensions.Options;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
 
@@ -12,24 +13,20 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.MitAzure
     [ExcludeFromCodeCoverage]
     public class ServiceBusProvider : IServiceBusProvider
     {
-        private readonly IConfiguration _configuration;
+        private readonly PaymentHub _options;
 
-        public ServiceBusProvider(IConfiguration configuration)
+        public ServiceBusProvider(IOptions<PaymentHub> options)
         {
-            _configuration = configuration;
+            _options = options.Value;
         }
 
-        public async Task SendMessageAsync(string queue, string msg)
+        public async Task SendMessageAsync(string msg)
         {
-            //TODO: need to get the correct client id here
-            //var credential = new DefaultAzureCredentialOptions { ManagedIdentityClientId = "ae56873c-ba5d-4a68-9730-f39f77e3dd69" });
-            //Guid tenantId = Guid.Parse("6f504113-6b64-43f2-ade9-242e057800");
-            //TokenCredential tokenCredential = new VisualStudioCredential(new VisualStudioCredentialOptions { TenantId = "f2d4ac8e-632a-41ff-b83a-e5d39e7d095a" });
+            if (string.IsNullOrEmpty(_options.PAYMENTHUB_CONNECTION) 
+                || string.IsNullOrEmpty(_options.PAYMENTHUB_TOPIC)) return;
 
-            if (string.IsNullOrEmpty(queue)) return;
-
-            await using var client = new ServiceBusClient(_configuration.GetSection("ServiceBusNamespace").Value, new DefaultAzureCredential(new DefaultAzureCredentialOptions { ManagedIdentityClientId = "ae56873c-ba5d-4a68-9730-f39f77e3dd69" }));
-            ServiceBusSender sender = client.CreateSender(queue);
+            await using var client = new ServiceBusClient(_options.PAYMENTHUB_CONNECTION);
+            ServiceBusSender sender = client.CreateSender(_options.PAYMENTHUB_TOPIC);
             ServiceBusMessage message = new ServiceBusMessage(msg.EncodeMessage());
             await sender.SendMessageAsync(message);
         }

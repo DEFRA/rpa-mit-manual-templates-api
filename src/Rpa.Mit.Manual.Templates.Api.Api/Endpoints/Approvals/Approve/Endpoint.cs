@@ -1,7 +1,10 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
+using Rpa.Mit.Manual.Templates.Api.Api.MitAzure;
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
+using Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
+using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
 
 namespace ApproveInvoice
 {
@@ -9,16 +12,19 @@ namespace ApproveInvoice
     internal sealed class ApproveInvoiceEndpoint : EndpointWithMapping<ApproveInvoiceRequest, ApproveInvoiceResponse, InvoiceApproval>
     {
         private readonly IApprovalsRepo _iApprovalsRepo;
+        private readonly IServiceBusProvider _iServiceBusProvider;
         private readonly IPaymentHubJsonGenerator _iPaymentHubJsonGenerator;
         private readonly ILogger<ApproveInvoiceEndpoint> _logger;
 
         public ApproveInvoiceEndpoint(
             ILogger<ApproveInvoiceEndpoint> logger, 
             IApprovalsRepo iApprovalsRepo,
+            IServiceBusProvider iServiceBusProvider,    
             IPaymentHubJsonGenerator iPaymentHubJsonGenerator)
         {
             _logger = logger;
             _iApprovalsRepo = iApprovalsRepo;
+            _iServiceBusProvider = iServiceBusProvider;
             _iPaymentHubJsonGenerator = iPaymentHubJsonGenerator;
         }
 
@@ -43,18 +49,22 @@ namespace ApproveInvoice
                     //TODO: send to paymnent hub
                     var invoiceRequests = await _iApprovalsRepo.GetInvoiceRequestsForAzure(r.Id,  ct);
 
-                    var ttt = _iPaymentHubJsonGenerator.GenerateInvoiceRequestJson(invoiceRequests.First(), ct);
+                    foreach (InvoiceRequestForAzure request in invoiceRequests)
+                    {
+                        var invoiceRequestJson = _iPaymentHubJsonGenerator.GenerateInvoiceRequestJson(request, ct);
 
-                    if ( ttt.Length > 0 ) 
-                    {
-                        response.Result = true;
+                        if (invoiceRequestJson.Length > 0)
+                        {
+                            await _iServiceBusProvider.SendMessageAsync(invoiceRequestJson);
+                            response.Result = true;
+                        }
+                        else
+                        {
+                            response.Result = false;
+                        }
                     }
-                    else
-                    {
-                        response.Result = false;
-                    }
-            
-                    response.Message = "Invoice approved.";
+
+                    response.Message = "Invoice approved and data sent to Payment Hub.";
                 }
                 else
                 {

@@ -10,7 +10,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api
     {
         public static IServiceCollection ConfigureAzure(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddSingleton<IEventQueueService>(_ => new EventQueueService(new ServiceBusProvider(configuration), configuration));
+            //services.AddSingleton<IEventQueueService>(_ => new EventQueueService(new ServiceBusProvider(configuration), configuration));
 
             services.AddTransient<IServiceBusProvider, ServiceBusProvider>();
 

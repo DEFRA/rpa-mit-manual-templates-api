@@ -22,21 +22,21 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints
             var tokenProvider = new DefaultAzureCredential(
                 new DefaultAzureCredentialOptions
                 {
-                    ManagedIdentityClientId = _options.ManagedIdentityClientId,
+                    ManagedIdentityClientId = _options.MANAGEDIDENTITY_CLIENTID,
                 });
 
             AccessToken accessToken = await tokenProvider.GetTokenAsync(
                 new TokenRequestContext(scopes: new string[]
                 {
-                    _options.TokenScopes.ToString()
+                    _options.TOKEN_SCOPES.ToString()
                 }));
 
             string connString =
                 String.Format(
                     "Server={0}; User Id={1}; Database={2}; Port={3}; Password={4}; SSLMode=Require",
-                    _options.Host,
-                    _options.User,
-                    _options.Database,
+                    _options.HOST,
+                    _options.USER,
+                    _options.DATABASE,
                     5432,
                     accessToken.Token);
 

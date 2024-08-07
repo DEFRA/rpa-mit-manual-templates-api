@@ -29,9 +29,10 @@ namespace Rpa.Mit.Manual.Templates.Api.Api
 
             builder.Services.Configure<AzureAd>(builder.Configuration.GetSection("AzureAd"));
             //builder.Services.Configure<ConnectionStrings>(builder.Configuration.GetSection("ConnectionStrings"));
-            builder.Services.Configure<GovNotify>(builder.Configuration.GetSection("GovNotify"));
-            builder.Services.Configure<PaymentHub>(builder.Configuration.GetSection("PaymentHub"));
-            builder.Services.Configure<PostGres>(builder.Configuration.GetSection("PostGres"));
+            builder.Services.Configure<GovNotify>(builder.Configuration.GetSection("GOVNOTYIFY"));
+            builder.Services.Configure<PaymentHub>(builder.Configuration.GetSection("PAYMENTHUB"));
+            builder.Services.Configure<PostGres>(builder.Configuration.GetSection("POSTGRES"));
+            builder.Services.Configure<PaymentHub>(builder.Configuration.GetSection("PAYMENTHUB"));
 
             var appInsightsConfig = new AppInsightsConfig
             {
