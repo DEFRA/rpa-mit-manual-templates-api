@@ -8,7 +8,9 @@
   value: ""
 - key: POSTGRES:MANAGEDIDENTITY_CLIENTID
   value: ""
-- key: GOVNOTYIFY:API_KEY
+- key: GOVNOTIFY:API_KEY
   value: ""
 - key: PAYMENTHUB:PAYMENTHUB_CONNECTION
+  value: ""
+- key: PAYMENTHUB:PAYMENTHUB_TOPIC
   value: ""
