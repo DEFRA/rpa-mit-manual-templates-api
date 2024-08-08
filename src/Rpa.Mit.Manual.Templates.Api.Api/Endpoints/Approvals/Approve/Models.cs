@@ -5,6 +5,9 @@ namespace ApproveInvoice
     [ExcludeFromCodeCoverage]
     internal sealed class ApproveInvoiceRequest
     {
+        /// <summary>
+        /// invoice id
+        /// </summary>
         public Guid Id { get; set; }
 
         internal sealed class Validator : Validator<ApproveInvoiceRequest>

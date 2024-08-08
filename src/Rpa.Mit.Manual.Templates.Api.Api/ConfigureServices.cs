@@ -28,7 +28,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api
                    .AddCheck<ReadinessCheck>("ready");
 
             builder.Services.Configure<AzureAd>(builder.Configuration.GetSection("AzureAd"));
-            //builder.Services.Configure<ConnectionStrings>(builder.Configuration.GetSection("ConnectionStrings"));
             builder.Services.Configure<GovNotify>(builder.Configuration.GetSection("GOVNOTIFY"));
             builder.Services.Configure<PaymentHub>(builder.Configuration.GetSection("PAYMENTHUB"));
             builder.Services.Configure<PostGres>(builder.Configuration.GetSection("POSTGRES"));
