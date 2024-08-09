@@ -3,12 +3,20 @@
 namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 {
     [ExcludeFromCodeCoverage]
-    public class Approver
+    public struct Approver
     {
         public Guid Id { get; set; }
 
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; set; }
 
-        public string Email { get; set; } = string.Empty;
+        public string Email { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
+    public struct SelectedApprover
+    {
+        public Guid InvoiceId { get; set; }
+
+        public Guid ApproverId { get; set; }
     }
 }
