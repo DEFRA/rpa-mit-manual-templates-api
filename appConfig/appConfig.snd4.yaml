@@ -1,27 +1,27 @@
-- key: POSTGRES-HOST  
+- key: POSTGRES_HOST  
   value: "{{servicename}}-POSTGRES-HOST" 
   type: "keyvault"
-- key: POSTGRES-USER
+- key: POSTGRES_USER
   value: "{{servicename}}-POSTGRES-USER" 
   type: "keyvault"
-- key: POSTGRES-DATABASE
+- key: POSTGRES_DATABASE
   value: "{{servicename}}-POSTGRES-DATABASE" 
   type: "keyvault"
-- key: POSTGRES-TOKEN-SCOPES
+- key: POSTGRES_TOKEN_SCOPES
   value: "{{servicename}}-POSTGRES-TOKEN-SCOPES" 
   type: "keyvault"
-- key: POSTGRES-MANAGEDIDENTITY-CLIENTID
+- key: POSTGRES_MANAGEDIDENTITY_CLIENTID
   value: "{{servicename}}-POSTGRES-MANAGEDIDENTITY-CLIENTID" 
   type: "keyvault"
-- key: GOVNOTIFY-API-KEY
+- key: GOVNOTIFY_API_KEY
   value: "{{servicename}}-GOVNOTIFY-API-KEY" 
   type: "keyvault"
-- key: PAYMENTHUB-CONNECTION
+- key: PAYMENTHUB_CONNECTION
   value: "{{servicename}}-PAYMENTHUB-CONNECTION" 
   type: "keyvault"
-- key: PAYMENTHUB-TOPIC
+- key: PAYMENTHUB_TOPIC
   value: "{{servicename}}-PAYMENTHUB-TOPIC" 
   type: "keyvault"
-- key: APPINSIGHTS-CONNECTIONSTRING
+- key: APPINSIGHTS_CONNECTIONSTRING
   value: "{{servicename}}-APPINSIGHTS-CONNECTIONSTRING" 
   type: "keyvault"
