@@ -28,7 +28,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints
             AccessToken accessToken = await tokenProvider.GetTokenAsync(
                 new TokenRequestContext(scopes: new string[]
                 {
-                    _options.TOKEN_SCOPES.ToString()
+                     "https://ossrdbms-aad.database.windows.net/.default"
                 }));
 
             string connString =
