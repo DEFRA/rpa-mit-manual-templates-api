@@ -57,5 +57,5 @@ extends:
     appDeployConfig:
       filepath: "./appConfig"
       filetype: "yaml" 
-      # variableGroups: 
-      #   - rpa-mit-manual-templates-api-<environment> 
+      variableGroups: 
+        - rpa-mit-manual-templates-api-<environment> 
