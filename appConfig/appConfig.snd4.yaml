@@ -1,5 +1,5 @@
 - key: POSTGRES_HOST  
-  value: "{{servicename}}-POSTGRES-HOST" 
+  value: "{{servicename}}-HOST" 
   type: "keyvault"
 - key: POSTGRES_USER
   value: "{{servicename}}-POSTGRES-USER" 

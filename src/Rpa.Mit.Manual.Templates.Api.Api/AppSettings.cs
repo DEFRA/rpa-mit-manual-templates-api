@@ -22,7 +22,7 @@ namespace Rpa.Mit.Manual.Templates.Api
     [ExcludeFromCodeCoverage]
     public class GovNotify
     {
-        public string API_KEY { get; set; } = string.Empty;
+        public string APIKEY { get; set; } = string.Empty;
     }
 
     [ExcludeFromCodeCoverage]
