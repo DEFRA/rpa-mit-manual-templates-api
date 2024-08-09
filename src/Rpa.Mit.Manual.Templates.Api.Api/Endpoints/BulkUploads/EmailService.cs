@@ -24,7 +24,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
         public async Task<bool> EmailApprovers(IEnumerable<Approver> approvers, CancellationToken ct)
         {
-            var client = new NotificationClient(_options.API_KEY);
+            var client = new NotificationClient(_options.APIKEY);
 
             foreach (var approver in approvers)
             {
