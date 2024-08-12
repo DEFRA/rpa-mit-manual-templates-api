@@ -5,7 +5,7 @@ namespace Rpa.Mit.Manual.Templates.Api
     [ExcludeFromCodeCoverage]
     public class PostGres
     {
-        public string HOST { get; set; } = string.Empty;
+        public string POSTGRES_HOST { get; set; } = string.Empty;
         public string USER { get; set; } = string.Empty;
         public string DATABASE { get; set; } = string.Empty;
         public string TOKEN_SCOPES { get; set; } = string.Empty;
