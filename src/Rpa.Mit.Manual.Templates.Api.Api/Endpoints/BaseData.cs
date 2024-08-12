@@ -22,7 +22,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints
             var tokenProvider = new DefaultAzureCredential(
                 new DefaultAzureCredentialOptions
                 {
-                    ManagedIdentityClientId = _options.MANAGEDIDENTITY_CLIENTID,
+                    ManagedIdentityClientId = _options.MANAGEDIDENTITYCLIENTID,
                 });
 
             AccessToken accessToken = await tokenProvider.GetTokenAsync(

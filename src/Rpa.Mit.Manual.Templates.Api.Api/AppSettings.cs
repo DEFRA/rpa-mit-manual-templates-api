@@ -9,7 +9,7 @@ namespace Rpa.Mit.Manual.Templates.Api
         public string USER { get; set; } = string.Empty;
         public string DATABASE { get; set; } = string.Empty;
         public string TOKEN_SCOPES { get; set; } = string.Empty;
-        public string MANAGEDIDENTITY_CLIENTID { get; set; } = string.Empty;
+        public string MANAGEDIDENTITYCLIENTID { get; set; } = string.Empty;
     }
 
     [ExcludeFromCodeCoverage]

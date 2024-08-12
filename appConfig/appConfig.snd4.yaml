@@ -10,7 +10,7 @@
 - key: POSTGRES__TOKEN_SCOPES
   value: "{{servicename}}-POSTGRES-TOKEN-SCOPES" 
   type: "keyvault"
-- key: POSTGRES__MANAGEDIDENTITY_CLIENTID
+- key: POSTGRES__MANAGEDIDENTITYCLIENTID 
   value: "{{servicename}}-POSTGRES-MANAGEDIDENTITY-CLIENTID" 
   type: "keyvault"
 - key: GOVNOTIFY__APIKEY
