@@ -13,8 +13,8 @@
 - key: POSTGRES_MANAGEDIDENTITY_CLIENTID
   value: "{{servicename}}-POSTGRES-MANAGEDIDENTITY-CLIENTID" 
   type: "keyvault"
-- key: GOVNOTIFY_API_KEY
-  value: "{{servicename}}-GOVNOTIFY-API-KEY" 
+- key: GOVNOTIFY_APIKEY
+  value: "{{servicename}}-GOVNOTIFY-APIKEY" 
   type: "keyvault"
 - key: PAYMENTHUB_CONNECTION
   value: "{{servicename}}-PAYMENTHUB-CONNECTION" 
