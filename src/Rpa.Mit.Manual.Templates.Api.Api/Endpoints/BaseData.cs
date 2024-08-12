@@ -34,7 +34,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints
             string connString =
                 String.Format(
                     "Server={0}; User Id={1}; Database={2}; Port={3}; Password={4}; SSLMode=Require",
-                    _options.POSTGRES_HOST,
+                    _options.HOST,
                     _options.USER,
                     _options.DATABASE,
                     5432,
