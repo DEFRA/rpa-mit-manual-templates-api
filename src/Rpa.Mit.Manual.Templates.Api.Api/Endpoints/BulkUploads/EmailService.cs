@@ -22,15 +22,15 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
         }
 
 
-        public async Task<bool> EmailApprovers(IEnumerable<Approver> approvers, CancellationToken ct)
+        public async Task<bool> EmailApprovers(IEnumerable<Approver> approvers, Guid invoiceId, CancellationToken ct)
         {
             var client = new NotificationClient(_options.APIKEY);
 
             Dictionary<String, dynamic> personalisation = new Dictionary<String, dynamic>
             {
-                {"invoiceId", "Amala"},
-                {"value", "2018-01-01" },
-                { "link", "bbc.co.uk"}
+                {"invoiceId", invoiceId.ToString()},
+                {"value", "1234.99" },
+                { "link", "https://www.bbc.co.uk"}
             };
 
             foreach (var approver in approvers)

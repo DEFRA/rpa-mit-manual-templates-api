@@ -4,6 +4,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
 {
     public interface IEmailService
     {
-        Task<bool> EmailApprovers(IEnumerable<Approver> approvers, CancellationToken ct);
+        Task<bool> EmailApprovers(IEnumerable<Approver> approvers, Guid invoiceId, CancellationToken ct);
     }
 }
