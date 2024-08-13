@@ -48,7 +48,7 @@ namespace BulkUploadConfirm
                     var approvers = await _iApproversRepo.GetApproversForInvoice(r.InvoiceId, ct);
 
                     // 2. send out emails
-                    response.Result = await _iEmailService.EmailApprovers(approvers, ct);
+                    response.Result = await _iEmailService.EmailApprovers(approvers, r.InvoiceId, ct);
 
                     response.Message =  "Bulk upload confirmed";
                 }
