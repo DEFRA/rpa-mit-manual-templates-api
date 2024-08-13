@@ -14,7 +14,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
     public class EmailService : IEmailService
     {
         private readonly GovNotify _options;
-        private readonly string approverEmailTemplateId = "f33517ff-2a88-4f6e-b855-c550268ce08a";
+        private readonly string approverEmailTemplateId = "8b70257a-a41c-4260-b9ce-2c6596246fb0";
 
         public EmailService(IOptions<GovNotify> options)
         {
@@ -26,11 +26,19 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
         {
             var client = new NotificationClient(_options.APIKEY);
 
+            Dictionary<String, dynamic> personalisation = new Dictionary<String, dynamic>
+            {
+                {"invoiceId", "Amala"},
+                {"value", "2018-01-01" },
+                { "link", "bbc.co.uk"}
+            };
+
             foreach (var approver in approvers)
             {
                 EmailNotificationResponse response = await client.SendEmailAsync(
                                             emailAddress: approver.Email,
-                                            templateId: approverEmailTemplateId
+                                            templateId: approverEmailTemplateId,
+                                            personalisation: personalisation
                                         );
             }
 

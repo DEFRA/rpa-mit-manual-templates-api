@@ -89,7 +89,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             }
         }
 
-        public async Task<bool> Confirm(BulkUploadConfirmation request, CancellationToken ct)
+        public async Task<bool> ConfirmOrReject(BulkUploadConfirmation request, CancellationToken ct)
         {
             using (var cn = new NpgsqlConnection(await DbConn()))
             {
@@ -143,7 +143,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
                             await transaction.CommitAsync(ct);
 
-                            return true;
+                            return false;
                         }
                         catch
                         {

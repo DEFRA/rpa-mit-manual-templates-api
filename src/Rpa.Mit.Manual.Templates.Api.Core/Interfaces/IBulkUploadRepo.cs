@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-using Rpa.Mit.Manual.Templates.Api.Core.Entities;
+﻿using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 
 namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
 {
@@ -16,6 +14,12 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <returns></returns>
         Task<string> GetDetailLineDescripion(string query, CancellationToken ct);
 
-        Task<bool> Confirm(BulkUploadConfirmation request, CancellationToken ct);
+        /// <summary>
+        /// confirm or reject a bulk upload
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="ct"></param>
+        /// <returns>true if confirn, false if reject</returns>
+        Task<bool> ConfirmOrReject(BulkUploadConfirmation request, CancellationToken ct);
     }
 }

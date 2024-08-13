@@ -43,7 +43,7 @@ namespace BulkUploadConfirm
             {
                 BulkUploadConfirmation bulkUploadConfirmation = await MapToEntityAsync(r, ct);
 
-                if (await _iBulkUploadRepo.Confirm(bulkUploadConfirmation, ct))
+                if (await _iBulkUploadRepo.ConfirmOrReject(bulkUploadConfirmation, ct))
                 {
                     // 1. get list of relevant approvers
                     var approvers = await _iApproversRepo.GetApproversForInvoice(r.InvoiceId, ct);
@@ -51,14 +51,14 @@ namespace BulkUploadConfirm
                     // 2. send out emails
                     response.Result = await _iEmailService.EmailApprovers(approvers, ct);
 
-                    response.Message =  bulkUploadConfirmation.Confirm ? "Bulk upload confirmed" : "Bulk upload deleted";
+                    response.Message =  "Bulk upload confirmed";
                 }
                 else
                 {
-                    response.Message = "Error confirming bulk upload";
+                    response.Message = "Bulk upload rejected";
                 }
 
-                await SendAsync(response, cancellation: ct);
+                await SendAsync(response, 200, cancellation: ct);
             }
             catch (Exception ex)
             {

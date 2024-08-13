@@ -33,8 +33,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
                 var approverRequirements = await cn.QuerySingleAsync<ApproverRequirements>("SELECT schemetype,deliverybody FROM invoices where id = @invoiceId", new { invoiceId });
 
-
-                var approvers = await cn.QueryAsync<Approver>("SELECT id,name,email FROM lookup_approvers where position(schemetype in @schemetype)>0 and position(deliverybody in @deliverybody)>0",
+                var approvers = await cn.QueryAsync<Approver>("SELECT id,name,email FROM lookup_approvers la JOIN lookup_approvers_scopes las ON la.id = las.approverid where schemetype = @schemetype and deliverybody = @deliverybody",
                     new { 
                         schemetype = approverRequirements.SchemeType, 
                         deliverybody = approverRequirements.DeliveryBody 
@@ -50,7 +49,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                         ApproverId = approver.Id,
                     });
                 }
-
 
                 //stick these in the db
                 var sql = "INSERT INTO invoices_approvers (invoiceid, approverid) VALUES (@invoiceid, @approverid)";
