@@ -11,6 +11,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints
     public class BaseData
     {
         private readonly PostGres _options;
+        private static readonly string _tokenScopes = "https://ossrdbms-aad.database.windows.net/.default";
 
         public BaseData(IOptions<PostGres> options)
         {
@@ -28,7 +29,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints
             AccessToken accessToken = await tokenProvider.GetTokenAsync(
                 new TokenRequestContext(scopes: new string[]
                 {
-                     "https://ossrdbms-aad.database.windows.net/.default"
+                     _tokenScopes
                 }));
 
             string connString =

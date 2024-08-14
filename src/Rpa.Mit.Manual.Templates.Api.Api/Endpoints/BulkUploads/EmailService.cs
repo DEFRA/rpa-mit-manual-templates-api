@@ -27,7 +27,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
         {
             var client = new NotificationClient(_options.APIKEY);
 
-            Dictionary<String, dynamic> personalisation = new Dictionary<String, dynamic>
+            Dictionary<String, dynamic> personalisation = new()
             {
                 {"invoiceId", invoiceId.ToString()},
                 {"value", "1234.99" },
@@ -36,21 +36,21 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
             foreach (var approver in approvers)
             {
-                EmailNotificationResponse response = await client.SendEmailAsync(
+                await client.SendEmailAsync(
                                             emailAddress: approver.Email,
                                             templateId: approverEmailTemplateId,
                                             personalisation: personalisation
                                         );
             }
 
-            return true;// response.content != null;
+            return true;
         }
 
         public async Task<bool> EmailInvoiceRejection(string invoiceCreatorEmail, Guid invoiceId, CancellationToken ct)
         {
             var client = new NotificationClient(_options.APIKEY);
 
-            Dictionary<String, dynamic> personalisation = new Dictionary<String, dynamic>
+            Dictionary<String, dynamic> personalisation = new()
             {
                 {"invoiceId", invoiceId.ToString()},
                 {"value", "1234.99" },
@@ -63,7 +63,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                                         personalisation: personalisation
                                     );
 
-            return true;// response.content != null;
+            return response.Equals(true);
         }
     }
 }

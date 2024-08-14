@@ -39,7 +39,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                         deliverybody = approverRequirements.DeliveryBody 
                     });
 
-                List<SelectedApprover> selectedApprovers = new();
+                List<SelectedApprover> selectedApprovers = [];
 
                 foreach (var approver in approvers)
                 {

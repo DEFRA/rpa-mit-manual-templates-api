@@ -48,42 +48,15 @@ namespace ApproveInvoice
                     // get the invoice requests and lines for sending to payment hub
                     var invoiceRequests = await _iApprovalsRepo.GetInvoiceRequestsForAzure(r.Id, ct);
 
-                    if (invoiceRequests.Any())
+                    foreach (InvoiceRequestForAzure request in invoiceRequests)
                     {
-                        List<string> invoiceRequestJsons = [];  
+                        // create the json
+                        var invoiceRequestJson = _iPaymentHubJsonGenerator.GenerateInvoiceRequestJson(request, ct);
 
-                        foreach (InvoiceRequestForAzure request in invoiceRequests)
-                        {
-                            // create the json
-                            invoiceRequestJsons.Add(_iPaymentHubJsonGenerator.GenerateInvoiceRequestJson(request, ct));
-                        }
-
-                        if (invoiceRequestJsons.Count == invoiceRequests.Count())
-                        {
-                            foreach (string invoiceRequestJson in invoiceRequestJsons)
-                            {
-                                if (invoiceRequestJson.Length > 0)
-                                {
-                                    // send correctly structured json to paymnent hub
-                                    await _iServiceBusProvider.SendInvoiceRequestJson(invoiceRequestJson);
-
-                                    response.Result = true;
-                                }
-                                else
-                                {
-                                    response.Message = "Invoice approved but error creating json for Payment Hub.";
-                                    await SendAsync(response, 400, CancellationToken.None);
-                                }
-                            }
-                        }
-
-                        response.Message = "Invoice approved and data sent to Payment Hub.";
+                        await _iServiceBusProvider.SendInvoiceRequestJson(invoiceRequestJson);
                     }
-                    else
-                    {
-                        response.Message = "Invoice approved but error retrieving invoice requests from database for sending to Payment Hub.";
-                        await SendAsync(response, 400, CancellationToken.None);
-                    }
+
+                    response.Message = "Invoice approved and data sent to Payment Hub.";
                 }
                 else
                 {
