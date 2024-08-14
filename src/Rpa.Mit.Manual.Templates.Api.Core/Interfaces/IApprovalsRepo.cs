@@ -15,6 +15,9 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <returns></returns>
         Task<bool> ApproveInvoice(InvoiceApproval invoiceApproval, CancellationToken ct);
 
+
+        Task<bool> RejectInvoice(InvoiceRejection invoiceRejection, CancellationToken ct);
+
         /// <summary>
         /// gets a list of all invoices which have the user as the selected approver
         /// </summary>

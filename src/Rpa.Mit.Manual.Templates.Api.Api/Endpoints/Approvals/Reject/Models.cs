@@ -22,6 +22,8 @@ namespace RejectInvoice
     [ExcludeFromCodeCoverage]
     internal sealed class RejectInvoiceResponse
     {
+        public bool Result { get; set; }
+
         public string Message { get; set; } = string.Empty;
     }
 }

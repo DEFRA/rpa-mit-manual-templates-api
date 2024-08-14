@@ -116,5 +116,20 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
                 return invoiceRequests;
             }
         }
+
+        public async Task<bool> RejectInvoice(InvoiceRejection invoiceRejection, CancellationToken ct)
+        {
+            using (var cn = new NpgsqlConnection(await DbConn()))
+            {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
+                var sql = "UPDATE invoices SET approverid=@ApproverId,approveremail=@ApproverEmail,approved=FALSE,approvedby=@ApprovedBy,dateapproved=@DateApproved,approvalrejectionreason=@Reason WHERE id = @id";
+
+                var res = await cn.ExecuteAsync(sql, invoiceRejection);
+
+                return res == 1;
+            }
+        }
     }
 }

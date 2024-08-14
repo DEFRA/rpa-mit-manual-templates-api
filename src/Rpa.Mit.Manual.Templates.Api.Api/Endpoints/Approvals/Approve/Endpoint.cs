@@ -16,9 +16,9 @@ namespace ApproveInvoice
         private readonly ILogger<ApproveInvoiceEndpoint> _logger;
 
         public ApproveInvoiceEndpoint(
-            ILogger<ApproveInvoiceEndpoint> logger, 
+            ILogger<ApproveInvoiceEndpoint> logger,
             IApprovalsRepo iApprovalsRepo,
-            IServiceBusProvider iServiceBusProvider,    
+            IServiceBusProvider iServiceBusProvider,
             IPaymentHubJsonGenerator iPaymentHubJsonGenerator)
         {
             _logger = logger;
@@ -46,35 +46,51 @@ namespace ApproveInvoice
                 if (await _iApprovalsRepo.ApproveInvoice(approval, ct))
                 {
                     // get the invoice requests and lines for sending to payment hub
-                    var invoiceRequests = await _iApprovalsRepo.GetInvoiceRequestsForAzure(r.Id,  ct);
+                    var invoiceRequests = await _iApprovalsRepo.GetInvoiceRequestsForAzure(r.Id, ct);
 
-                    foreach (InvoiceRequestForAzure request in invoiceRequests)
+                    if (invoiceRequests.Any())
                     {
-                        // create the json
-                        var invoiceRequestJson = _iPaymentHubJsonGenerator.GenerateInvoiceRequestJson(request, ct);
+                        List<string> invoiceRequestJsons = [];  
 
-                        if (invoiceRequestJson.Length > 0)
+                        foreach (InvoiceRequestForAzure request in invoiceRequests)
                         {
-                            // send correctly structured json to paymnent hub
-                            await _iServiceBusProvider.SendInvoiceRequestJson(invoiceRequestJson);
-
-
-                            response.Result = true;
+                            // create the json
+                            invoiceRequestJsons.Add(_iPaymentHubJsonGenerator.GenerateInvoiceRequestJson(request, ct));
                         }
-                        else
+
+                        if (invoiceRequestJsons.Count == invoiceRequests.Count())
                         {
-                            response.Result = false;
+                            foreach (string invoiceRequestJson in invoiceRequestJsons)
+                            {
+                                if (invoiceRequestJson.Length > 0)
+                                {
+                                    // send correctly structured json to paymnent hub
+                                    await _iServiceBusProvider.SendInvoiceRequestJson(invoiceRequestJson);
+
+                                    response.Result = true;
+                                }
+                                else
+                                {
+                                    response.Message = "Invoice approved but error creating json for Payment Hub.";
+                                    await SendAsync(response, 400, CancellationToken.None);
+                                }
+                            }
                         }
+
+                        response.Message = "Invoice approved and data sent to Payment Hub.";
                     }
-
-                    response.Message = "Invoice approved and data sent to Payment Hub.";
+                    else
+                    {
+                        response.Message = "Invoice approved but error retrieving invoice requests from database for sending to Payment Hub.";
+                        await SendAsync(response, 400, CancellationToken.None);
+                    }
                 }
                 else
                 {
                     response.Message = "Error approving invoice.";
                 }
 
-                await SendAsync(response, cancellation: ct);
+                await SendAsync(response, 200, cancellation: ct);
             }
             catch (Exception ex)
             {

@@ -15,6 +15,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
     {
         private readonly GovNotify _options;
         private readonly string approverEmailTemplateId = "8b70257a-a41c-4260-b9ce-2c6596246fb0";
+        private readonly string invoiceRejectedEmailTemplateId = "69bba64c-e5a5-43a4-aab6-179041c21f13";
 
         public EmailService(IOptions<GovNotify> options)
         {
@@ -41,6 +42,26 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                                             personalisation: personalisation
                                         );
             }
+
+            return true;// response.content != null;
+        }
+
+        public async Task<bool> EmailInvoiceRejection(string invoiceCreatorEmail, Guid invoiceId, CancellationToken ct)
+        {
+            var client = new NotificationClient(_options.APIKEY);
+
+            Dictionary<String, dynamic> personalisation = new Dictionary<String, dynamic>
+            {
+                {"invoiceId", invoiceId.ToString()},
+                {"value", "1234.99" },
+                { "link", "https://www.bbc.co.uk"}
+            };
+
+            EmailNotificationResponse response = await client.SendEmailAsync(
+                                        emailAddress: invoiceCreatorEmail,
+                                        templateId: invoiceRejectedEmailTemplateId,
+                                        personalisation: personalisation
+                                    );
 
             return true;// response.content != null;
         }
