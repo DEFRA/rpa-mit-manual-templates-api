@@ -7,10 +7,14 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
     {
         public Guid Id { get; set; }
 
-        public DateTimeOffset DateRejected { get; set; }
+        public DateTimeOffset DateApproved { get; set; }
 
-        public string RejectedBy { get; set; } = default!;
+        public string ApprovedBy { get; set; } = default!;
 
         public string Reason { get; set; } = default!;
+
+        public Guid ApproverId { get; set; }
+
+        public string ApproverEmail { get; set; } = default!;
     }
 }

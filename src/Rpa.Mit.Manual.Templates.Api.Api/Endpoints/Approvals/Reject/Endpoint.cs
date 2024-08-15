@@ -61,8 +61,10 @@ namespace RejectInvoice
         {
             var invoiceRejection = await Task.FromResult(new InvoiceRejection());
 
-            invoiceRejection.RejectedBy = "aylmer.carson";
-            invoiceRejection.DateRejected = DateTime.UtcNow;
+            invoiceRejection.ApproverId = Guid.NewGuid();
+            invoiceRejection.ApproverEmail = "aylmer.carson@nowhere.com";
+            invoiceRejection.ApprovedBy = "aylmer.carson";
+            invoiceRejection.DateApproved = DateTime.UtcNow;
             invoiceRejection.Reason = r.Reason;
             invoiceRejection.Id = r.Id;
 
