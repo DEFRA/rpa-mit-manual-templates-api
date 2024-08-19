@@ -29,6 +29,8 @@ internal sealed class GetReferenceDataEndpoint : EndpointWithoutRequest<Response
     {
         var response = new Response();
 
+        var me = User.Identity?.Name;
+
         try
         {
             response.ReferenceData = await _iReferenceDataRepo.GetAllReferenceData(ct);

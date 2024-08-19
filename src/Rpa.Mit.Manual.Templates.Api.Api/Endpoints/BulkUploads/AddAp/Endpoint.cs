@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 
 using ExcelDataReader;
 
+using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace BulkUploads.AddAp
@@ -58,13 +59,15 @@ namespace BulkUploads.AddAp
                             // No data, return
                             await SendNoContentAsync(cancellation: ct);
                         }
-
+                    
                         if (tables?["AP"]?.Rows.Count > 4)
                         {
                             // dealing with AP data
                             var bulkUploadApDataset = await _iApImporterService.ImportAPData(tables["AP"]!, ct);
 
-                            bulkUploadApDataset.BulkUploadInvoice.CreatedBy = User.Identity?.Name;
+                            bulkUploadApDataset.BulkUploadInvoice = new BulkUploadInvoice();
+
+                            bulkUploadApDataset.BulkUploadInvoice.CreatedBy = User.Identity?.Name!;
 
                             if (await _iBulkUploadRepo.AddApBulkUpload(bulkUploadApDataset, ct))
                             {

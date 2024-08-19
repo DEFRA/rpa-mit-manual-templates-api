@@ -43,7 +43,7 @@ namespace Invoices.Add
                 Invoice invoice = await MapToEntityAsync(invoiceRequest, ct);
 
                 invoice.Created = DateTime.UtcNow;
-                invoice.CreatedBy = User.Identity?.Name;
+                invoice.CreatedBy = User.Identity?.Name!;
 
                 if (await _iInvoiceDataRepo.AddInvoice(invoice, ct))
                 {
