@@ -22,6 +22,6 @@
 - key: PAYMENTHUB__TOPIC
   value: "{{servicename}}-PAYMENTHUB-TOPIC" 
   type: "keyvault"
-- key: APPINSIGHTS_CONNECTIONSTRING
+- key: APPINSIGHTS__CONNECTIONSTRING
   value: "{{servicename}}-APPINSIGHTS-CONNECTIONSTRING" 
   type: "keyvault"
