@@ -5,8 +5,6 @@ services:
       target: production
     image: rpa-mit-manual-templates-api
     container_name: rpa-mit-manual-templates-api
-    depends_on:
-      - rpa_mit_invoices-postgres
     environment:
       APPINSIGHTS_CONNECTIONSTRING: ${APPINSIGHTS_CONNECTIONSTRING}
       APPINSIGHTS_CLOUDROLE: rpa-mit-manual-templates-api-local
@@ -16,10 +14,3 @@ services:
       POSTGRES_PORT: 5432
       POSTGRES_SCHEMA_NAME: ${POSTGRES_SCHEMA_NAME:-public}
       POSTGRES_USERNAME: ${POSTGRES_SCHEMA_USERNAME:-postgres}
-
-  rpa_mit_invoices:
-    image: postgres:15.6-alpine
-    environment:
-      POSTGRES_DB: rpa_mit_invoices
-      POSTGRES_PASSWORD: ghjiUIbfds345
-      POSTGRES_USERNAME: postgres
