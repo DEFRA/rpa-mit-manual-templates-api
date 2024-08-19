@@ -31,7 +31,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api
             builder.Services.Configure<GovNotify>(builder.Configuration.GetSection("GOVNOTIFY"));
             builder.Services.Configure<PaymentHub>(builder.Configuration.GetSection("PAYMENTHUB"));
             builder.Services.Configure<PostGres>(builder.Configuration.GetSection("POSTGRES"));
-            builder.Services.Configure<PaymentHub>(builder.Configuration.GetSection("PAYMENTHUB"));
 
             var appInsightsConfig = new AppInsightsConfig
             {

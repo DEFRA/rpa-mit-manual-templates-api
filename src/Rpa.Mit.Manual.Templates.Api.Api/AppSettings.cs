@@ -15,8 +15,8 @@ namespace Rpa.Mit.Manual.Templates.Api
     [ExcludeFromCodeCoverage]
     public class PaymentHub
     {
-        public string PAYMENTHUB_CONNECTION { get; set; } = string.Empty;
-        public string PAYMENTHUB_TOPIC { get; set; } = string.Empty;
+        public string CONNECTION { get; set; } = string.Empty;
+        public string TOPIC { get; set; } = string.Empty;
     }
 
     [ExcludeFromCodeCoverage]

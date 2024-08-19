@@ -22,12 +22,12 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.MitAzure
 
         public async Task SendInvoiceRequestJson(string msg)
         {
-            if (string.IsNullOrEmpty(_options.PAYMENTHUB_CONNECTION) 
-                || string.IsNullOrEmpty(_options.PAYMENTHUB_TOPIC)) return;
+            if (string.IsNullOrEmpty(_options.CONNECTION) 
+                || string.IsNullOrEmpty(_options.TOPIC)) return;
 
-            await using var client = new ServiceBusClient(_options.PAYMENTHUB_CONNECTION);
-            ServiceBusSender sender = client.CreateSender(_options.PAYMENTHUB_TOPIC);
-            ServiceBusMessage message = new ServiceBusMessage(msg.EncodeMessage());
+            await using var client = new ServiceBusClient(_options.CONNECTION);
+            ServiceBusSender sender = client.CreateSender(_options.TOPIC);
+            ServiceBusMessage message = new ServiceBusMessage(msg);//.EncodeMessage());
             await sender.SendMessageAsync(message);
         }
     }
