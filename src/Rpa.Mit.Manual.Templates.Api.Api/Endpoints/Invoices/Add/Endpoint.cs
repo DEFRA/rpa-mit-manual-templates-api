@@ -24,7 +24,7 @@ namespace Invoices.Add
         public override void Configure()
         {
             // temp allow anon
-            AllowAnonymous();
+            //AllowAnonymous();
             Post("/invoices/add");
         }
 
@@ -43,7 +43,7 @@ namespace Invoices.Add
                 Invoice invoice = await MapToEntityAsync(invoiceRequest, ct);
 
                 invoice.Created = DateTime.UtcNow;
-                invoice.CreatedBy = "aylmer.carson";
+                invoice.CreatedBy = User.Identity?.Name;
 
                 if (await _iInvoiceDataRepo.AddInvoice(invoice, ct))
                 {

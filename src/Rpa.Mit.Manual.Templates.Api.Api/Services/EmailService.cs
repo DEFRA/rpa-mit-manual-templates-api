@@ -8,7 +8,7 @@ using Notify.Models.Responses;
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
-namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
+namespace Rpa.Mit.Manual.Templates.Api.Api.Services
 {
     [ExcludeFromCodeCoverage]
     public class EmailService : IEmailService
@@ -27,7 +27,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
         {
             var client = new NotificationClient(_options.APIKEY);
 
-            Dictionary<String, dynamic> personalisation = new()
+            Dictionary<string, dynamic> personalisation = new()
             {
                 {"invoiceId", invoiceId.ToString()},
                 {"value", "1234.99" },
@@ -50,7 +50,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
         {
             var client = new NotificationClient(_options.APIKEY);
 
-            Dictionary<String, dynamic> personalisation = new()
+            Dictionary<string, dynamic> personalisation = new()
             {
                 {"invoiceId", invoiceId.ToString()},
                 {"value", "1234.99" },

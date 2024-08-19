@@ -8,14 +8,17 @@ namespace RejectInvoice
     [ExcludeFromCodeCoverage]
     internal sealed class RejectInvoiceEndpoint : EndpointWithMapping<RejectInvoiceRequest, RejectInvoiceResponse, InvoiceRejection>
     {
+        private readonly IEmailService _iEmailService;
         private readonly IApprovalsRepo _iApprovalsRepo;
         private readonly ILogger<RejectInvoiceEndpoint> _logger;
 
         public RejectInvoiceEndpoint(
             ILogger<RejectInvoiceEndpoint> logger,
+            IEmailService iEmailService,    
             IApprovalsRepo iApprovalsRepo)
         {
             _logger = logger;
+            _iEmailService = iEmailService;
             _iApprovalsRepo = iApprovalsRepo;
         }
 
@@ -37,7 +40,8 @@ namespace RejectInvoice
 
                 if (await _iApprovalsRepo.RejectInvoice(rejection, ct))
                 {
-                    response.Result = true;
+                    response.Result = await _iEmailService.EmailInvoiceRejection("aylmer.carson.external@eviden.com", r.InvoiceId, ct);
+
                     response.Message = "Invoice rejected.";
                 }
                 else
@@ -66,7 +70,7 @@ namespace RejectInvoice
             invoiceRejection.ApprovedBy = "aylmer.carson";
             invoiceRejection.DateApproved = DateTime.UtcNow;
             invoiceRejection.Reason = r.Reason;
-            invoiceRejection.Id = r.Id;
+            invoiceRejection.Id = r.InvoiceId;
 
             return invoiceRejection;
         }

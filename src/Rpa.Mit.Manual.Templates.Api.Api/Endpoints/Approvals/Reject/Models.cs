@@ -6,7 +6,7 @@ namespace RejectInvoice
     internal sealed class RejectInvoiceRequest
     {
 
-        public Guid Id { get; set; }
+        public Guid InvoiceId { get; set; }
 
         public string Reason { get; set; } = string.Empty;
 

@@ -29,7 +29,7 @@ namespace BulkUploads.AddAp
         {
             Post("/bulkuploads/add");
             AllowFileUploads();
-            AllowAnonymous();
+            //AllowAnonymous();
         }
 
         public override async Task HandleAsync(BulkUploadsRequest r, CancellationToken ct)
@@ -64,7 +64,9 @@ namespace BulkUploads.AddAp
                             // dealing with AP data
                             var bulkUploadApDataset = await _iApImporterService.ImportAPData(tables["AP"]!, ct);
 
-                            if(await _iBulkUploadRepo.AddApBulkUpload(bulkUploadApDataset, ct))
+                            bulkUploadApDataset.BulkUploadInvoice.CreatedBy = User.Identity?.Name;
+
+                            if (await _iBulkUploadRepo.AddApBulkUpload(bulkUploadApDataset, ct))
                             {
                                 response.BulkUploadApDataset = bulkUploadApDataset;
                             }

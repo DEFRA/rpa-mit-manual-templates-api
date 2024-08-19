@@ -6,6 +6,7 @@ using Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads;
 using System.Diagnostics.CodeAnalysis;
 using Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals;
 using Rpa.Mit.Manual.Templates.Api.Api.Azure;
+using Rpa.Mit.Manual.Templates.Api.Api.Services;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Extensions;
 [ExcludeFromCodeCoverage]
