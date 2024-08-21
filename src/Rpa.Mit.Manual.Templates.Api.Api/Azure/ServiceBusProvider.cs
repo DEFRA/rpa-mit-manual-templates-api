@@ -25,7 +25,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.MitAzure
 
             await using var client = new ServiceBusClient(_options.CONNECTION);
             ServiceBusSender sender = client.CreateSender(_options.TOPIC);
-            ServiceBusMessage message = new ServiceBusMessage(msg);//.EncodeMessage());
+            ServiceBusMessage message = new ServiceBusMessage(msg);
             await sender.SendMessageAsync(message);
         }
     }
