@@ -138,7 +138,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
                             UPDATE invoices SET approverid=@ApproverId,approveremail=@ApproverEmail,approved=FALSE,approvedby=@ApprovedBy,dateapproved=@DateApproved,approvalrejectionreason=@Reason WHERE id = @id;
                             SELECT createdby FROM invoices WHERE id = @id;";
 
-                var res = await cn.ExecuteScalarAsync<string>(sql, invoiceRejection);
+                await cn.ExecuteScalarAsync<string>(sql, invoiceRejection);
 
                 return true;
             }

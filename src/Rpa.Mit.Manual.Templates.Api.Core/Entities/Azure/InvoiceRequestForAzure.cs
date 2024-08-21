@@ -30,13 +30,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure
 
         public string currency { get; set; } = "GBP";
 
-        //public string DueDate { get; set; } = string.Empty;
-
-
-        //public string AccountType { get; set; } = string.Empty;
-
-        //public string Vendor { get; set; } = string.Empty;
-
         public IEnumerable<InvoiceLineForAzure> invoiceLines { get; set; } = Enumerable.Empty<InvoiceLineForAzure>();
     }
 }
