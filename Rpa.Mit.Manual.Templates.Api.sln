@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rpa.Mit.Manual.Templates.Ap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rpa.Mit.Manual.Templates.Api.Core.Tests", "test\Rpa.Mit.Manual.Templates.Api.Core.Tests\Rpa.Mit.Manual.Templates.Api.Core.Tests.csproj", "{98CE4860-F7ED-481B-BEA8-82BC64842E50}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rpa.Mit.Manual.Templates.Api.Api.Integration.Tests", "test\Rpa.Mit.Manual.Templates.Api.Api.Tests.Integration\Rpa.Mit.Manual.Templates.Api.Api.Integration.Tests.csproj", "{246E076D-3627-4713-8C8C-33798CBED039}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rpa.Mit.Manual.Templates.Api.Api.Tests.Integration", "test\Rpa.Mit.Manual.Templates.Api.Api.Tests.Integration\Rpa.Mit.Manual.Templates.Api.Api.Tests.Integration.csproj", "{246E076D-3627-4713-8C8C-33798CBED039}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
