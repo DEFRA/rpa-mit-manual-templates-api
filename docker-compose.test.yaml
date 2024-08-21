@@ -12,5 +12,8 @@ services:
       - ./test/Rpa.Mit.Manual.Templates.Api.Core.Tests:/home/dotnet/test/Rpa.Mit.Manual.Templates.Api.Core.Tests
       - ./src/Rpa.Mit.Manual.Templates.Api.Api:/home/dotnet/src/Rpa.Mit.Manual.Templates.Api.Api
       - ./test/Rpa.Mit.Manual.Templates.Api.Api.Tests:/home/dotnet/test/Rpa.Mit.Manual.Templates.Api.Api.Tests
+      - ./test/Rpa.Mit.Manual.Templates.Api.Api.Integration.Tests:/home/dotnet/test/Rpa.Mit.Manual.Templates.Api.Api.Integration.Tests
       - ./test/Rpa.Mit.Manual.Templates.Api.Api.Tests/test-output:/home/dotnet/test/Rpa.Mit.Manual.Templates.Api.Api.Tests/test-output
       - ./test/Rpa.Mit.Manual.Templates.Api.Core.Tests/test-output:/home/dotnet/test/Rpa.Mit.Manual.Templates.Api.Core.Tests/test-output
+      - ./test/Rpa.Mit.Manual.Templates.Api.Api.Integration.Tests/test-output:/home/dotnet/test/Rpa.Mit.Manual.Templates.Api.Api.Integration.Tests/test-output
+ 
