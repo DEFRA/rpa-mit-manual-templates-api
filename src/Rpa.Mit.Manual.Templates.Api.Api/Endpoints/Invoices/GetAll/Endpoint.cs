@@ -20,8 +20,6 @@ namespace Invoices.GetAll
 
         public override void Configure()
         {
-            // temp allow anon
-            AllowAnonymous();
             Get("/invoices/getall");
         }
 

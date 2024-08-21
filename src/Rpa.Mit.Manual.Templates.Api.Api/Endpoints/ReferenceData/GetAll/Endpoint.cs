@@ -20,7 +20,6 @@ internal sealed class GetReferenceDataEndpoint : EndpointWithoutRequest<Response
 
     public override void Configure()
     {
-        //AllowAnonymous();
         Get("/referencedata/getall");
         //ResponseCache(36000); //cache seconds. temp disable till all data is entered and stabilised
     }

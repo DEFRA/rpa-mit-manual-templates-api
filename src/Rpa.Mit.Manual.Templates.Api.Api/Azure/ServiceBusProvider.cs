@@ -6,8 +6,6 @@ using Microsoft.Extensions.Options;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
 
-using Rpa.Mit.Manual.Templates.Api.Core.Services;
-
 namespace Rpa.Mit.Manual.Templates.Api.Api.MitAzure
 {
     [ExcludeFromCodeCoverage]

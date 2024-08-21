@@ -6,30 +6,37 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure
     [ExcludeFromCodeCoverage]
     public class InvoiceRequestForAzure
     {
+        public int paymentRequestNumber { get; set; }
+
+
         [JsonIgnore]
         public string InvoiceRequestId { get; set; } = string.Empty;
 
-        public string SourceSystem { get; set; } = "Manual";
+        public string invoiceNumber { get; set; } = string.Empty;
 
-        public string FRN { get; set; } = string.Empty;
+        public string agreementNumber { get; set; } = string.Empty;
 
-        public string SBI { get; set; } = string.Empty;
+        public string sourceSystem { get; set; } = "Manual";
 
-        public string MarketingYear { get; set; } = string.Empty;
+        public string frn { get; set; } = string.Empty;
 
-        public string Currency { get; set; } = "GBP";
+        public int sbi { get; set; } = 123456789;
 
-        public string DueDate { get; set; } = string.Empty;
+        public string deliveryBody { get; set; } = string.Empty;
 
-        public decimal Value { get; set; }
+        public decimal value { get; set; }
 
-        public string AccountType { get; set; } = string.Empty;
+        public string marketingYear { get; set; } = string.Empty;
 
-        public string Vendor { get; set; } = string.Empty;
-        public int InvoiceRequestNumber { get; set; }
+        public string currency { get; set; } = "GBP";
 
-        public string AgreementNumber { get; set; } = string.Empty;
+        //public string DueDate { get; set; } = string.Empty;
 
-        public IEnumerable<InvoiceLineForAzure> InvoiceLines { get; set; } = Enumerable.Empty<InvoiceLineForAzure>();
+
+        //public string AccountType { get; set; } = string.Empty;
+
+        //public string Vendor { get; set; } = string.Empty;
+
+        public IEnumerable<InvoiceLineForAzure> invoiceLines { get; set; } = Enumerable.Empty<InvoiceLineForAzure>();
     }
 }
