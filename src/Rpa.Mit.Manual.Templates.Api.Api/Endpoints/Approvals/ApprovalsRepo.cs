@@ -25,7 +25,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
 
-                var sql = "UPDATE invoices SET approverid=@ApproverId,approveremail=@ApproverEmail,approved=TRUE,approvedby=@ApprovedBy,dateapproved=@DateApproved WHERE id = @id";
+                var sql = "UPDATE invoices SET approveremail=@ApproverEmail,approved=TRUE,dateapproved=@DateApproved WHERE id = @id";
 
                 var res = await cn.ExecuteAsync(sql, invoiceApproval);
 

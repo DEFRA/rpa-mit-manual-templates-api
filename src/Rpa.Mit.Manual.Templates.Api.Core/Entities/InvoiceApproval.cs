@@ -9,10 +9,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 
         public DateTimeOffset DateApproved { get; set; }
 
-        public string ApprovedBy { get; set; } = default!;
-
-        public Guid ApproverId { get; set; }
-
         public string ApproverEmail { get; set; } = default!;
     }
 }

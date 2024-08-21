@@ -30,7 +30,7 @@ namespace ApproveInvoice
         public override void Configure()
         {
             // temp allow anon
-            AllowAnonymous();
+            //AllowAnonymous();
             Post("/approvals/approve");
         }
 
@@ -79,9 +79,7 @@ namespace ApproveInvoice
         {
             var invoiceApproval = await Task.FromResult(new InvoiceApproval());
 
-            invoiceApproval.ApproverId = Guid.NewGuid();
-            invoiceApproval.ApproverEmail = "aylmer.carson@nowhere.com";
-            invoiceApproval.ApprovedBy = "aylmer.carson";
+            invoiceApproval.ApproverEmail = User.Identity?.Name!;
             invoiceApproval.DateApproved = DateTime.UtcNow;
             invoiceApproval.Id = r.Id;
 
