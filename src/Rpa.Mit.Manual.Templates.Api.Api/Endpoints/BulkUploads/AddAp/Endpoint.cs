@@ -30,7 +30,6 @@ namespace BulkUploads.AddAp
         {
             Post("/bulkuploads/add");
             AllowFileUploads();
-            //AllowAnonymous();
         }
 
         public override async Task HandleAsync(BulkUploadsRequest r, CancellationToken ct)

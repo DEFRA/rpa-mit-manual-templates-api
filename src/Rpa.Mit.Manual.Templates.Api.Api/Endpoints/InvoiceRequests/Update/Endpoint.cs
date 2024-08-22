@@ -22,8 +22,6 @@ namespace InvoiceRequests.Update
 
         public override void Configure()
         {
-            // temp allow anon
-            AllowAnonymous();
             Put("/invoicerequests/update");
         }
 

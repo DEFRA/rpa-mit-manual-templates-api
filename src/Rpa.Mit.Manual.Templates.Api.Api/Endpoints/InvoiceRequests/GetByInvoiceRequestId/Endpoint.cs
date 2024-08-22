@@ -1,7 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-using InvoiceRequests.GetByInvoiceId;
-
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace GetByInvoiceRequestId
@@ -22,8 +20,6 @@ namespace GetByInvoiceRequestId
 
         public override void Configure()
         {
-            // temp allow anon
-            AllowAnonymous();
             Get("/invoicerequests/getbyid");
         }
 

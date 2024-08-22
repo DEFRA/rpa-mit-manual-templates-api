@@ -23,8 +23,6 @@ namespace InvoiceLines.Update
 
         public override void Configure()
         {
-            // temp allow anon
-            AllowAnonymous();
             Put("/invoicelines/update");
         }
 

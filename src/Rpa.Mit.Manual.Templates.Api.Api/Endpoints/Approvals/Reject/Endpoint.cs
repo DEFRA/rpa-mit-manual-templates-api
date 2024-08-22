@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
+using Microsoft.Azure.Amqp.Framing;
+
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
@@ -24,8 +26,6 @@ namespace RejectInvoice
 
         public override void Configure()
         {
-            // temp allow anon
-            AllowAnonymous();
             Post("/approvals/reject");
         }
 
@@ -40,7 +40,9 @@ namespace RejectInvoice
 
                 if (await _iApprovalsRepo.RejectInvoice(rejection, ct))
                 {
-                    response.Result = await _iEmailService.EmailInvoiceRejection("aylmer.carson.external@eviden.com", r.InvoiceId, ct);
+                    var rejector = User.Identity?.Name!;
+
+                    response.Result = await _iEmailService.EmailInvoiceRejection(rejector, r.InvoiceId, ct);
 
                     response.Message = "Invoice rejected.";
                 }
@@ -65,9 +67,7 @@ namespace RejectInvoice
         {
             var invoiceRejection = await Task.FromResult(new InvoiceRejection());
 
-            invoiceRejection.ApproverId = Guid.NewGuid();
-            invoiceRejection.ApproverEmail = "aylmer.carson@nowhere.com";
-            invoiceRejection.ApprovedBy = "aylmer.carson";
+            invoiceRejection.ApproverEmail = User.Identity?.Name!;
             invoiceRejection.DateApproved = DateTime.UtcNow;
             invoiceRejection.Reason = r.Reason;
             invoiceRejection.Id = r.InvoiceId;

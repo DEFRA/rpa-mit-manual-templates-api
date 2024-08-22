@@ -123,7 +123,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
             invoice.Id = Guid.NewGuid();
             invoice.Created = DateTime.UtcNow;
-            //invoice.CreatedBy = "aylmer.carson";
             invoice.AccountType = "AP";
             invoice.SchemeType = row[23].ToString()!;
             invoice.DeliveryBody = row[25].ToString()!;

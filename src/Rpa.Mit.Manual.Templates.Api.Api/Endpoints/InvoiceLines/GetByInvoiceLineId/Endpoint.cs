@@ -20,8 +20,6 @@ namespace GetByInvoiceLineId
 
         public override void Configure()
         {
-            // temp allow anon
-            AllowAnonymous();
             Get("/invoicelines/getbyinvoicelineid");
         }
 

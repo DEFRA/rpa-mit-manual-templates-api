@@ -20,8 +20,7 @@ namespace GetInvoiceForApproval
 
         public override void Configure()
         {
-            // temp allow anon
-            AllowAnonymous();
+            //TODO: need to restrict this ep by role/policy
             Post("/approvals/getinvoiceforapproval");
         }
 
@@ -32,8 +31,7 @@ namespace GetInvoiceForApproval
 
             try
             {
-                //TODO: this needs to be changed to trap the logged-in authenticated user
-                var approverEmail = "ding.dong@us.com";
+                var approverEmail = User.Identity?.Name!;
 
                 response.Invoice = await _iApprovalsRepo.GetInvoiceForApproval(r.InvoiceId, approverEmail, ct);
 

@@ -20,7 +20,6 @@ namespace GetSchemeTypes
 
         public override void Configure()
         {
-            AllowAnonymous();
             Get("/schemetypes/get");
             ResponseCache(600); //cache seconds
         }

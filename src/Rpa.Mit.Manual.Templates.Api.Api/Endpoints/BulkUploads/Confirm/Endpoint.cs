@@ -28,7 +28,6 @@ namespace BulkUploadConfirm
         public override void Configure()
         {
             Post("/bulkuploads/confirm");
-            AllowAnonymous();
         }
 
         public override async Task HandleAsync(BulkUploadConfirmRequest r, CancellationToken ct)

@@ -21,8 +21,6 @@ namespace InvoiceLines.Add
 
         public override void Configure()
         {
-            // temp allow anon
-            AllowAnonymous();
             Post("/invoicelines/add");
         }
 

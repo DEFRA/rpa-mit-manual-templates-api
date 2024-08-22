@@ -29,8 +29,7 @@ namespace ApproveInvoice
 
         public override void Configure()
         {
-            // temp allow anon
-            //AllowAnonymous();
+            //TODO: need to restrict this ep by role/policy
             Post("/approvals/approve");
         }
 

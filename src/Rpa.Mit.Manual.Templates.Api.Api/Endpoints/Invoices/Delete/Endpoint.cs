@@ -20,8 +20,6 @@ namespace Invoices.Delete
 
         public override void Configure()
         {
-            // temp allow anon
-            AllowAnonymous();
             Delete("/invoices/delete");
         }
 

@@ -23,8 +23,6 @@ namespace InvoiceRequests.Add
 
         public override void Configure()
         {
-            // temp allow anon
-            AllowAnonymous();
             Post("/invoicerequests/add");
         }
 

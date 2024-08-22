@@ -21,8 +21,6 @@ namespace InvoiceLines.GetByInvoiceRequestId
 
         public override void Configure()
         {
-            // temp allow anon
-            AllowAnonymous();
             Get("/invoicelines/getbyinvoicerequestid");
         }
 

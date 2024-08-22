@@ -20,7 +20,6 @@ namespace GetPaymentTypes
 
         public override void Configure()
         {
-            AllowAnonymous();
             Get("/paymenttypes/get");
             ResponseCache(600); //cache seconds
         }
