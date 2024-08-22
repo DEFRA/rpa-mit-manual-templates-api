@@ -36,7 +36,7 @@ namespace ApproveInvoice
         public override async Task HandleAsync(ApproveInvoiceRequest r, CancellationToken ct)
         {
             ApproveInvoiceResponse response = new();
-            response.Result = false;
+            response.Result = true;
 
             try
             {
@@ -52,13 +52,23 @@ namespace ApproveInvoice
                         // create the json
                         var invoiceRequestJson = _iPaymentHubJsonGenerator.GenerateInvoiceRequestJson(request, ct);
 
-                        await _iServiceBusProvider.SendInvoiceRequestJson(invoiceRequestJson);
+                        if (string.IsNullOrEmpty(invoiceRequestJson))
+                        {
+                            response.Result = false;
+                            response.Message = "Error creating payment hub json with invoice request " + request.InvoiceRequestId;
+                            await SendAsync(response, 400, cancellation: ct);
+                        }
+                        else
+                        {
+                            await _iServiceBusProvider.SendInvoiceRequestJson(invoiceRequestJson);
+                        }
                     }
 
                     response.Message = "Invoice approved and data sent to Payment Hub.";
                 }
                 else
                 {
+                    response.Result = false;
                     response.Message = "Error approving invoice.";
                 }
 
