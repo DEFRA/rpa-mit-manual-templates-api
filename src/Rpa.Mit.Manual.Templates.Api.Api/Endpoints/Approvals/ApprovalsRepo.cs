@@ -41,7 +41,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
                     await cn.OpenAsync(ct);
 
                 //TODO: needs to be refined to filter against logged-in approver
-                var sql = "SELECT id,schemetype,reference,value,status,createdby,created,paymenttype,accounttype,deliverybody FROM invoices";
+                var sql = "SELECT id,schemetype,reference,value,status,createdby,created,paymenttype,accounttype,deliverybody FROM invoices WHERE approveremail is null";
 
                 var invoices = await cn.QueryAsync<Invoice>(sql);
 

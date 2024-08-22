@@ -21,7 +21,7 @@ namespace GetMyApprovals
         public override void Configure()
         {
             //TODO: need to restrict this ep by role/policy
-            Post("/approvals/getmyapprovals");
+            Get("/approvals/getmyapprovals");
         }
 
         public override async Task HandleAsync(CancellationToken ct)
