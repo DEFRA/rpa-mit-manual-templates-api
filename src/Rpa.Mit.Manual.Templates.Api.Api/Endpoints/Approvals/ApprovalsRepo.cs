@@ -110,7 +110,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
 
                 foreach (InvoiceRequestForAzure pr in invoiceRequests)
                 {
-                    pr.invoiceNumber = invoice.Id.ToString();
+                    pr.invoiceNumber = invoiceId.ToString();
                     pr.deliveryBody = invoice.DeliveryBody;
                     pr.agreementNumber = "TEST-AFBA-29E2";
                     pr.paymentRequestNumber = 1;
