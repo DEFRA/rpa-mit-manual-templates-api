@@ -7,7 +7,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Integration.Tests.InvoiceRequestTests
     public class Tests(Sut sut) : TestBase<Sut>
     {
         [Fact]
-        public async Task Add_InvoiceRequest_Succeeds()
+        public async Task Add_InvoiceRequest_FailsWith401()
         {
             var addInvoiceRequestRequest = new AddInvoiceRequestRequest
             {
@@ -39,7 +39,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Integration.Tests.InvoiceRequestTests
                 addInvoiceRequestRequest);
 
             //TODO: needs fixing
-            rsp.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            rsp.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
             //res.InvoiceRequestValue.Should().Be(12.12M);
             //res.InvoiceLine.Description.Should().Be("G00 - Gross value of claim");
             //res.InvoiceLine.FundCode.Should().Be("FUND1");

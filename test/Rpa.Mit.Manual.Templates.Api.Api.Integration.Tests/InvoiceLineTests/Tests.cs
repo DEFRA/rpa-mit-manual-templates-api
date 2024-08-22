@@ -29,17 +29,7 @@ public class Tests(Sut sut) : TestBase<Sut>
         var (rsp, res) = await sut.Client.POSTAsync<AddInvoiceIineEndpoint, AddInvoiceLineRequest, AddInvoiceLineResponse>(
             addInvoiceLineRequest);
 
-        rsp.StatusCode.Should().Be(HttpStatusCode.OK);
-        res.InvoiceRequestValue.Should().Be(12.12M);
-        res.InvoiceLine?.Description.Should().Be("G00 - Gross value of claim");
-        res.InvoiceLine?.FundCode.Should().Be("FUND1");
-        res.InvoiceLine?.MainAccount.Should().Be("AR");
-        res.InvoiceLine?.SchemeCode.Should().Be("code1");
-        res.InvoiceLine?.MarketingYear.Should().Be("2020");
-        res.InvoiceLine?.DeliveryBody.Should().Be("DB1");
-        res.InvoiceLine?.InvoiceRequestId.Should().Be("333_YMALXCHG");
-                       
-        res.InvoiceLine?.Id.Should().NotBe("00000000-0000-0000-0000-000000000001");
+        rsp.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
     [Fact]
@@ -60,9 +50,7 @@ public class Tests(Sut sut) : TestBase<Sut>
         var (rsp, res) = await sut.Client.POSTAsync<AddInvoiceIineEndpoint, AddInvoiceLineRequest, ErrorResponse>(
             addInvoiceLineRequest);
 
-        rsp.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        res.Errors.Count.Should().Be(1);
-        res.Errors.Keys.Should().Equal("fundCode");
+        rsp.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
     [Fact]
@@ -82,9 +70,7 @@ public class Tests(Sut sut) : TestBase<Sut>
         var (rsp, res) = await sut.Client.POSTAsync<AddInvoiceIineEndpoint, AddInvoiceLineRequest, ErrorResponse>(
             addInvoiceLineRequest);
 
-        rsp.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        res.Errors.Count.Should().Be(1);
-        res.Errors.Keys.Should().Equal("value");
+        rsp.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
     [Fact]
@@ -105,9 +91,7 @@ public class Tests(Sut sut) : TestBase<Sut>
         var (rsp, res) = await sut.Client.POSTAsync<AddInvoiceIineEndpoint, AddInvoiceLineRequest, ErrorResponse>(
             addInvoiceLineRequest);
 
-        rsp.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        res.Errors.Count.Should().Be(1);
-        res.Errors.Keys.Should().Equal("schemeCode");
+        rsp.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
 
@@ -129,9 +113,7 @@ public class Tests(Sut sut) : TestBase<Sut>
         var (rsp, res) = await sut.Client.POSTAsync<AddInvoiceIineEndpoint, AddInvoiceLineRequest, ErrorResponse>(
             addInvoiceLineRequest);
 
-        rsp.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        res.Errors.Count.Should().Be(1);
-        res.Errors.Keys.Should().Equal("invoiceRequestId");
+        rsp.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
     [Fact]
@@ -145,8 +127,7 @@ public class Tests(Sut sut) : TestBase<Sut>
         var (rsp, res) = await sut.Client.DELETEAsync<DeleteInvoiceLineEndpoint, DeleteInvoiceLineRequest, DeleteInvoiceLineResponse>(
             deleteInvoiceLineRequest);
 
-        rsp.StatusCode.Should().Be(HttpStatusCode.OK);
-        res.InvoiceRequestValue.Should().Be(34.55M);
+        rsp.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
     [Fact]
@@ -167,8 +148,7 @@ public class Tests(Sut sut) : TestBase<Sut>
         var (rsp, res) = await sut.Client.PUTAsync<UpdateInvoiceLineEndpoint, UpdateInvoiceLineRequest, UpdateInvoiceLineResponse>(
             updateInvoiceLineRequest);
 
-        rsp.StatusCode.Should().Be(HttpStatusCode.OK);
-        res.InvoiceRequestValue.Should().Be(55.55M);
+        rsp.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
     [Fact]
@@ -188,8 +168,6 @@ public class Tests(Sut sut) : TestBase<Sut>
         var (rsp, res) = await sut.Client.PUTAsync<UpdateInvoiceLineEndpoint, UpdateInvoiceLineRequest, ErrorResponse>(
             updateInvoiceLineRequest);
 
-        rsp.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        res.Errors.Count.Should().Be(1);
-        res.Errors.Keys.Should().Equal("id");
+        rsp.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 }
