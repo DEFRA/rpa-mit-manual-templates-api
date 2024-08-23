@@ -113,7 +113,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
                     pr.invoiceNumber = invoiceId.ToString();
                     pr.deliveryBody = invoice.DeliveryBody;
                     pr.agreementNumber = "TEST-AFBA-29E2";
-                    pr.paymentRequestNumber = 1;
+                    pr.paymentRequestNumber = 10;
 
                     // get the invoice lines
                     var invLineSql = "SELECT value, description, fundcode, mainaccount AS accountCode, schemecode, marketingyear, deliverybodycode FROM invoicelines WHERE invoicerequestid = @invoicerequestid";

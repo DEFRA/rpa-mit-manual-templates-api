@@ -3,14 +3,17 @@ using System.Text.Json.Serialization;
 
 namespace Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure
 {
+    /// <summary>
+    /// camel casing to suit payment hub requirements
+    /// </summary>
     [ExcludeFromCodeCoverage]
     public class InvoiceRequestForAzure
     {
-        public int paymentRequestNumber { get; set; }
-
 
         [JsonIgnore]
         public string InvoiceRequestId { get; set; } = string.Empty;
+
+        public int paymentRequestNumber { get; set; }
 
         public string invoiceNumber { get; set; } = string.Empty;
 
@@ -20,7 +23,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure
 
         public string frn { get; set; } = string.Empty;
 
-        public int sbi { get; set; } = 123456789;
+        public int sbi { get; set; } = 999999999;
 
         public string deliveryBody { get; set; } = string.Empty;
 
