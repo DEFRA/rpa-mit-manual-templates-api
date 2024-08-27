@@ -1,4 +1,6 @@
-﻿namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure
+﻿using Azure.Messaging.ServiceBus;
+
+namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure
 {
     public interface IServiceBusProvider
     {
@@ -7,6 +9,6 @@
         /// </summary>
         /// <param name="msg"></param>
         /// <returns></returns>
-        Task SendInvoiceRequestJson(string msg);
+        Task SendInvoiceRequestJson(ServiceBusSender sender, string msg);
     }
 }
