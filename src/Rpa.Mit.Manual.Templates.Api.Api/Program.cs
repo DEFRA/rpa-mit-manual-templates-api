@@ -2,13 +2,10 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.Extensions.Configuration;
 
 using Rpa.Mit.Manual.Templates.Api.Api;
-
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Options;
 
 namespace Program
 {
@@ -50,11 +47,9 @@ namespace Program
             var app = builder.Build();
 
             app.UseAuthentication()
-                .UseAuthorization()
-                .UseFastEndpoints()
-                .UseSwaggerGen();
-
-            app.UseAuthentication();
+               .UseAuthorization()
+               .UseFastEndpoints()
+               .UseSwaggerGen();
 
             app.UseResponseCaching();
 
@@ -67,7 +62,6 @@ namespace Program
             app.UseExceptionHandler();
 
             app.UseHttpsRedirection();
-
 
             app.UseHealthChecks("/healthy", new HealthCheckOptions()
             {
