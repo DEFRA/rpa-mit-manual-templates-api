@@ -17,6 +17,8 @@ namespace Rpa.Mit.Manual.Templates.Api
     {
         public string CONNECTION { get; set; } = string.Empty;
         public string TOPIC { get; set; } = string.Empty;
+        public string RESPONSE_TOPIC { get; set; } = string.Empty;
+        public string RESPONSE_SUBSCRIPTION { get; set; } = string.Empty;
     }
 
     [ExcludeFromCodeCoverage]

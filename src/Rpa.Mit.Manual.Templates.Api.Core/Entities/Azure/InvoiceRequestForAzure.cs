@@ -10,7 +10,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure
     public class InvoiceRequestForAzure
     {
 
-        [JsonIgnore]
+        //[JsonIgnore]
         public string InvoiceRequestId { get; set; } = string.Empty;
 
         public int paymentRequestNumber { get; set; }
