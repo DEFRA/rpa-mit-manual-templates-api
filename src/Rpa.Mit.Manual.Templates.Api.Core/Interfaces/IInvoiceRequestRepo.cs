@@ -1,4 +1,5 @@
 ﻿using Rpa.Mit.Manual.Templates.Api.Core.Entities;
+using Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure;
 
 namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
 {
@@ -51,5 +52,13 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <param name="ct"></param>
         /// <returns></returns>
         Task<IEnumerable<InvoiceRequest>> GetInvoiceRequestsByInvoiceId(Guid invoiceId, CancellationToken ct);
+
+        /// <summary>
+        /// updates an invoice request with the response coming back from the payment hub after it has processed the request
+        /// </summary>
+        /// <param name="invoiceRequest"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        Task<bool> UpdateInvoiceRequestWithPaymentHubResponse(PaymentHubResponseForDatabase paymentHubResponseForDatabase);
     }
 }

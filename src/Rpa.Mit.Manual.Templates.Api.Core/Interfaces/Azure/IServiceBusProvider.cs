@@ -10,7 +10,5 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure
         /// <param name="msg"></param>
         /// <returns></returns>
         Task SendInvoiceRequestJson(ServiceBusSender sender, string msg);
-
-        //Task GetPaymentHubResponses(ServiceBusSender sender, string msg);
     }
 }

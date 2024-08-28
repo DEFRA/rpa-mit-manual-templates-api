@@ -8,6 +8,7 @@ using Microsoft.Extensions.Options;
 using Npgsql;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
+using Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests
@@ -123,6 +124,21 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests
                 return await cn.QuerySingleAsync<InvoiceRequest>(
                             "SELECT frn, sbi, vendor, agreementnumber, currency, description, value, invoicerequestid, marketingyear, duedate, claimreferencenumber, claimreference, invoiceid FROM invoicerequests WHERE invoicerequestid = @invoiceRequestId",
                             new { invoiceRequestId });
+            }
+        }
+
+        public async Task<bool> UpdateInvoiceRequestWithPaymentHubResponse(PaymentHubResponseForDatabase paymentHubResponseForDatabase)
+        {
+            using (var cn = new NpgsqlConnection(await DbConn()))
+            {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync();
+
+                var sql = "UPDATE invoicerequests SET paymenthubdateprocessed=@paymenthubdateprocessed,paymenthuberror=@error,paymenthubaccepted=@accepted WHERE invoicerequestid=@invoicerequestid";
+
+                var res = await cn.ExecuteAsync(sql, paymentHubResponseForDatabase);
+
+                return res == 1;
             }
         }
     }

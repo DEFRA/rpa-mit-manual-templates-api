@@ -3,6 +3,7 @@
 using Microsoft.Extensions.Options;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure;
+using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Azure.ServiceBusMessaging
@@ -13,11 +14,14 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Azure.ServiceBusMessaging
         private readonly PaymentHub _options;
         private readonly ServiceBusClient _client;
         private ServiceBusProcessor? _processor = null;
+        private readonly IInvoiceRequestRepo _iInvoiceRequestRepo;
 
         public ServiceBusTopicSubscription(
             IOptions<PaymentHub> options,
+            IInvoiceRequestRepo iInvoiceRequestRepo,
             ILogger<ServiceBusTopicSubscription> logger)
         {
+            _iInvoiceRequestRepo = iInvoiceRequestRepo;
             _options = options.Value;
             _logger = logger;
             _client = new ServiceBusClient(_options.CONNECTION);
@@ -37,6 +41,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Azure.ServiceBusMessaging
                 _options.RESPONSE_SUBSCRIPTION, 
                 _serviceBusProcessorOptions);
 
+            // add the handlers
             _processor.ProcessMessageAsync += ProcessMessagesAsync;
             _processor.ProcessErrorAsync += ProcessErrorAsync;
 
@@ -46,11 +51,32 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Azure.ServiceBusMessaging
 
         private async Task ProcessMessagesAsync(ProcessMessageEventArgs args)
         {
-            var myPayload = args.Message.Body.ToObjectFromJson<PaymentHubResponseRoot>();
-          
-            // process the data...
+            try
+            {
+                var phubResponse = args.Message.Body.ToObjectFromJson<PaymentHubResponseRoot>();
 
-            await args.CompleteMessageAsync(args.Message);
+                if (null == phubResponse)
+                {
+                    return;
+                }
+
+                PaymentHubResponseForDatabase paymentHubResponseForDatabase = new PaymentHubResponseForDatabase
+                {
+                    invoicerequestid = phubResponse!.paymentRequest!.InvoiceRequestId,
+                    paymenthubdateprocessed = DateTime.UtcNow,
+                    error = phubResponse.error,
+                    accepted = phubResponse.accepted
+                };
+
+                // process the data...
+                await _iInvoiceRequestRepo.UpdateInvoiceRequestWithPaymentHubResponse(paymentHubResponseForDatabase);
+
+                await args.CompleteMessageAsync(args.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "{Message}", ex.Message);
+            }
         }
 
         private Task ProcessErrorAsync(ProcessErrorEventArgs arg)

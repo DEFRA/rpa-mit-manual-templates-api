@@ -1,6 +1,4 @@
-﻿
-using Rpa.Mit.Manual.Templates.Api.Api.Azure.ServiceBusMessaging;
-using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
+﻿using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
 {
@@ -20,14 +18,14 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
             _logger = logger;
         }
 
-        public async Task StartAsync(CancellationToken stoppingToken)
+        public async Task StartAsync(CancellationToken ct)
         {
             _logger.LogDebug("Starting the service bus queue consumer and the subscription");
             await _serviceBusConsumer.RegisterOnMessageHandlerAndReceiveMessages();
             await _serviceBusTopicSubscription.PrepareFiltersAndHandleMessages();
         }
 
-        public async Task StopAsync(CancellationToken stoppingToken)
+        public async Task StopAsync(CancellationToken ct)
         {
             _logger.LogDebug("Stopping the service bus queue consumer and the subscription");
             await _serviceBusConsumer.CloseQueueAsync();
@@ -44,8 +42,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
         {
             if (disposing)
             {
-                //await _serviceBusConsumer.DisposeAsync();
-                //await _serviceBusTopicSubscription.DisposeAsync();
+                await _serviceBusConsumer.DisposeAsync();
+                await _serviceBusTopicSubscription.DisposeAsync();
             }
         }
     }
