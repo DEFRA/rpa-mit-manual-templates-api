@@ -21,11 +21,11 @@ namespace InvoiceLines.Update
 
         public string DeliveryBody { get; set; } = string.Empty;
 
+        public string SchemeCode { get; set; } = string.Empty;
+
         public string FundCode { get; set; } = string.Empty;
 
         public string MainAccount { get; set; } = string.Empty;
-
-        public string SchemeCode { get; set; } = string.Empty;
     }
 
     [ExcludeFromCodeCoverage]
