@@ -4,7 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 
 using ExcelDataReader;
 
-using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace BulkUploads.AddAp
@@ -38,7 +37,7 @@ namespace BulkUploads.AddAp
         public override async Task HandleAsync(BulkUploadsRequest r, CancellationToken ct)
         {
             Response response = new Response();
-            string fileName = r.File.Name;
+            string fileName = r.File.FileName;
             var userEmail = User.Identity?.Name!;
 
             try
@@ -69,13 +68,11 @@ namespace BulkUploads.AddAp
                             // dealing with AP data
                             var bulkUploadApDataset = await _iApImporterService.ImportAPData(tables["AP"]!, ct);
 
-                            //bulkUploadApDataset.BulkUploadInvoice = new BulkUploadInvoice();
-
                             bulkUploadApDataset.BulkUploadInvoice!.CreatedBy = userEmail;
 
                             if (await _iBulkUploadRepo.AddApBulkUpload(bulkUploadApDataset, ct))
                             {
-                                // need to email the originator that their file has been successfully uploaded.
+                                // email the originator that their file has been successfully uploaded.
                                 await _iEmailService.EmailBulkUploadSuccess(userEmail, fileName, bulkUploadApDataset.BulkUploadInvoice.Id, ct);
 
                                 response.BulkUploadApDataset = bulkUploadApDataset;
@@ -92,7 +89,7 @@ namespace BulkUploads.AddAp
                             response.Message = "No recognisable requirement";
                         }
 
-                        await SendAsync(response, cancellation: ct);
+                        await SendAsync(response, 200, cancellation: ct);
                     }
                 }
             }
@@ -104,9 +101,6 @@ namespace BulkUploads.AddAp
 
                 await SendAsync(response, 400, CancellationToken.None);
             }
-
         }
-
-
     }
 }
