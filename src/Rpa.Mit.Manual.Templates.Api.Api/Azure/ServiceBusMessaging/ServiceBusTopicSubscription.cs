@@ -1,4 +1,6 @@
-﻿using Azure.Messaging.ServiceBus;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Azure.Messaging.ServiceBus;
 
 using Microsoft.Extensions.Options;
 
@@ -8,6 +10,7 @@ using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Azure.ServiceBusMessaging
 {
+    [ExcludeFromCodeCoverage]
     public class ServiceBusTopicSubscription : IServiceBusTopicSubscription
     {
         private readonly ILogger _logger;

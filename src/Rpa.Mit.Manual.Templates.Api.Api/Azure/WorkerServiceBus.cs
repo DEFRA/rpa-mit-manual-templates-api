@@ -1,7 +1,10 @@
-﻿using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
 {
+    [ExcludeFromCodeCoverage]
     public class WorkerServiceBus : IHostedService, IDisposable
     {
         private readonly ILogger<WorkerServiceBus> _logger;

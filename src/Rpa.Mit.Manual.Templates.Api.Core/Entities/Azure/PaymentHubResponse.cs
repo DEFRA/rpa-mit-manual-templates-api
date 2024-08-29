@@ -1,5 +1,8 @@
-﻿namespace Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure
 {
+    [ExcludeFromCodeCoverage]
     public class PaymentHubResponseInvoiceLine
     {
         public decimal value { get; set; }
@@ -13,6 +16,7 @@
         public bool stateAid { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     public class PaymentHubResponsePaymentRequest
     {
         public string InvoiceRequestId { get; set; } = string.Empty;
@@ -33,6 +37,7 @@
         public string dueDate { get; set; } = string.Empty;
     }
 
+    [ExcludeFromCodeCoverage]
     public class PaymentHubResponseRoot
     {
         public PaymentHubResponsePaymentRequest? paymentRequest { get; set; }
@@ -41,6 +46,7 @@
         public string error { get; set; } = string.Empty;
     }
 
+    [ExcludeFromCodeCoverage]
     public class PaymentHubResponseForDatabase
     {
         public string invoicerequestid { get; set; } = string.Empty;
