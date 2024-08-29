@@ -4,6 +4,12 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
 {
     public interface IBulkUploadRepo
     {
+        /// <summary>
+        /// takes the data from a parsed xsl file and submits it to our database
+        /// </summary>
+        /// <param name="bulkUploadApDataset"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
         Task<bool> AddApBulkUpload(BulkUploadApDataset bulkUploadApDataset, CancellationToken ct);
 
         /// <summary>

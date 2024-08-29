@@ -16,6 +16,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
         private readonly GovNotify _options;
         private readonly string approverEmailTemplateId = "8b70257a-a41c-4260-b9ce-2c6596246fb0";
         private readonly string invoiceRejectedEmailTemplateId = "69bba64c-e5a5-43a4-aab6-179041c21f13";
+        private readonly string bulkUploadSuccessEmailTemplateId = "88709ce9-b2b4-4175-a8fa-d0cf354e58b6";
 
         public EmailService(IOptions<GovNotify> options)
         {
@@ -60,6 +61,26 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
             EmailNotificationResponse response = await client.SendEmailAsync(
                                         emailAddress: invoiceCreatorEmail,
                                         templateId: invoiceRejectedEmailTemplateId,
+                                        personalisation: personalisation
+                                    );
+
+            return response.Equals(true);
+        }
+
+        public async Task<bool> EmailBulkUploadSuccess(string invoiceCreatorEmail, string filename, Guid invoiceId, CancellationToken ct)
+        {
+            var client = new NotificationClient(_options.APIKEY);
+
+            Dictionary<string, dynamic> personalisation = new()
+            {
+                {"FileName", filename },
+                {"confirmationNumber", invoiceId.ToString()},
+                { "link", "https://www.bbc.co.uk"}
+            };
+
+            EmailNotificationResponse response = await client.SendEmailAsync(
+                                        emailAddress: invoiceCreatorEmail,
+                                        templateId: bulkUploadSuccessEmailTemplateId,
                                         personalisation: personalisation
                                     );
 

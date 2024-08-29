@@ -13,15 +13,18 @@ namespace BulkUploads.AddAp
     internal sealed class AddBulkUploadsEndpoint : Endpoint<BulkUploadsRequest, Response>
     {
         private readonly IBulkUploadRepo _iBulkUploadRepo;
+        private readonly IEmailService _iEmailService;
         private readonly IApImporterService _iApImporterService;
         private readonly ILogger<AddBulkUploadsEndpoint> _logger;
 
         public AddBulkUploadsEndpoint(
+            IEmailService iEmailService,    
             IBulkUploadRepo iBulkUploadRepo,
             ILogger<AddBulkUploadsEndpoint> logger,
             IApImporterService iApImporterService)
         {
             _logger = logger;
+            _iEmailService = iEmailService;
             _iBulkUploadRepo = iBulkUploadRepo;
             _iApImporterService = iApImporterService;
         }
@@ -35,6 +38,8 @@ namespace BulkUploads.AddAp
         public override async Task HandleAsync(BulkUploadsRequest r, CancellationToken ct)
         {
             Response response = new Response();
+            string fileName = r.File.Name;
+            var userEmail = User.Identity?.Name!;
 
             try
             {
@@ -64,12 +69,15 @@ namespace BulkUploads.AddAp
                             // dealing with AP data
                             var bulkUploadApDataset = await _iApImporterService.ImportAPData(tables["AP"]!, ct);
 
-                            bulkUploadApDataset.BulkUploadInvoice = new BulkUploadInvoice();
+                            //bulkUploadApDataset.BulkUploadInvoice = new BulkUploadInvoice();
 
-                            bulkUploadApDataset.BulkUploadInvoice.CreatedBy = User.Identity?.Name!;
+                            bulkUploadApDataset.BulkUploadInvoice!.CreatedBy = userEmail;
 
                             if (await _iBulkUploadRepo.AddApBulkUpload(bulkUploadApDataset, ct))
                             {
+                                // need to email the originator that their file has been successfully uploaded.
+                                await _iEmailService.EmailBulkUploadSuccess(userEmail, fileName, bulkUploadApDataset.BulkUploadInvoice.Id, ct);
+
                                 response.BulkUploadApDataset = bulkUploadApDataset;
                             }
                         }

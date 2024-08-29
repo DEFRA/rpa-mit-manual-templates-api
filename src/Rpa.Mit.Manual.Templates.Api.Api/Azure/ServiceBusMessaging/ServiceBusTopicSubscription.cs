@@ -71,10 +71,14 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Azure.ServiceBusMessaging
                     accepted = phubResponse.accepted
                 };
 
-                // process the data...
-                await _iInvoiceRequestRepo.UpdateInvoiceRequestWithPaymentHubResponse(paymentHubResponseForDatabase);
+                // update the database...
+                if(await _iInvoiceRequestRepo.UpdateInvoiceRequestWithPaymentHubResponse(paymentHubResponseForDatabase))
+                {
 
-                await args.CompleteMessageAsync(args.Message);
+                    // if we have an error, we also need to email the originator of the data with the relevant data.
+
+                    await args.CompleteMessageAsync(args.Message);
+                }
             }
             catch (Exception ex)
             {

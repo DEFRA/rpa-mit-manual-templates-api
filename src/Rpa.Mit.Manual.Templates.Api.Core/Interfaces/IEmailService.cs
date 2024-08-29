@@ -21,5 +21,14 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <param name="ct"></param>
         /// <returns></returns>
         Task<bool> EmailInvoiceRejection(string invoiceCreatorEmail, Guid invoiceId, CancellationToken ct);
+
+        /// <summary>
+        /// emails a person doing a bulk upload that their file has been successfully uploaded into the system.
+        /// </summary>
+        /// <param name="invoiceCreatorEmail"></param>
+        /// <param name="invoiceId"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        Task<bool> EmailBulkUploadSuccess(string invoiceCreatorEmail, string filename, Guid invoiceId, CancellationToken ct);
     }
 }
