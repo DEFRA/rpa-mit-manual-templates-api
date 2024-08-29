@@ -1,4 +1,5 @@
 ﻿using Rpa.Mit.Manual.Templates.Api.Core.Entities;
+using Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Integration.Tests.InvoiceRequestTests
@@ -22,5 +23,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Integration.Tests.InvoiceRequestTests
 
         Task<InvoiceRequest> IInvoiceRequestRepo.GetInvoiceRequestByInvoiceRequestId(string invoiceRequestId, CancellationToken ct)
             => Task.FromResult(new InvoiceRequest());
+
+        Task<bool> IInvoiceRequestRepo.UpdateInvoiceRequestWithPaymentHubResponse(PaymentHubResponseForDatabase paymentHubResponseForDatabase)
+            => Task.FromResult(true);
     }
 }

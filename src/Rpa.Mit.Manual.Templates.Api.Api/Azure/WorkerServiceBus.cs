@@ -5,30 +5,25 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
     public class WorkerServiceBus : IHostedService, IDisposable
     {
         private readonly ILogger<WorkerServiceBus> _logger;
-        private readonly IServiceBusConsumer _serviceBusConsumer;
         private readonly IServiceBusTopicSubscription _serviceBusTopicSubscription;
 
         public WorkerServiceBus(
-            IServiceBusConsumer serviceBusConsumer,
             IServiceBusTopicSubscription serviceBusTopicSubscription,
             ILogger<WorkerServiceBus> logger)
         {
-            _serviceBusConsumer = serviceBusConsumer;
             _serviceBusTopicSubscription = serviceBusTopicSubscription;
             _logger = logger;
         }
 
-        public async Task StartAsync(CancellationToken ct)
+        public async Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogDebug("Starting the service bus queue consumer and the subscription");
-            await _serviceBusConsumer.RegisterOnMessageHandlerAndReceiveMessages();
             await _serviceBusTopicSubscription.PrepareFiltersAndHandleMessages();
         }
 
-        public async Task StopAsync(CancellationToken ct)
+        public async Task StopAsync(CancellationToken cancellationToken)
         {
             _logger.LogDebug("Stopping the service bus queue consumer and the subscription");
-            await _serviceBusConsumer.CloseQueueAsync();
             await _serviceBusTopicSubscription.CloseSubscriptionAsync();
         }
 
@@ -42,7 +37,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
         {
             if (disposing)
             {
-                await _serviceBusConsumer.DisposeAsync();
                 await _serviceBusTopicSubscription.DisposeAsync();
             }
         }

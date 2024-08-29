@@ -23,7 +23,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Integration.Tests
     public class ConnectionStrings
     {
         public string PrimaryConnection { get; set; } = string.Empty;
-        public string PostGres { get; set; } = "Server=127.0.0.1;Database=rpa_mit_invoices;Username=postgres;Password=ghjiUIbfds345;";
+        public string PostGres { get; set; } = string.Empty;
         public string PostGresLocal { get; set; } = string.Empty;
     }
 
