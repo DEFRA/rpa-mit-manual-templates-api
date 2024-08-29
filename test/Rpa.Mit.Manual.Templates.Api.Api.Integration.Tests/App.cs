@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
 
 using Rpa.Mit.Manual.Templates.Api.Api;
 using Rpa.Mit.Manual.Templates.Api.Api.Azure;

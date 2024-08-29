@@ -13,16 +13,16 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 
         public string AccountType { get; set; } = default!;
 
+        /// <summary>
+        /// the sum total of any or all of payment requests
+        /// </summary>
+        public decimal Value { get; set; } = 0.0M;
+
         public string DeliveryBody { get; set; } = default!;
 
         public string SecondaryQuestion { get; set; } = default!;
 
         public string SchemeType { get; set; } = default!;
-
-        /// <summary>
-        /// the sum total of any or all of payment requests
-        /// </summary>
-        public decimal Value { get; set; } = 0.0M;
 
         public string Status { get; set; } = InvoiceStatuses.New;
 
