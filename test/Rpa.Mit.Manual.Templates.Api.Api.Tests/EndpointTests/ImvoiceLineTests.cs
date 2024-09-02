@@ -75,10 +75,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
             var response = ep.Response;
 
             response.Should().NotBeNull();
-            //var res = await ep.ExecuteAsync(invoiceLineRequest, CancellationToken.None);
-            //res.Should().BeOfType<AddInvoiceLineResponse>();
-
-            //res.Message.Should().Be(string.Empty);
         }
     }
 }

@@ -5,13 +5,13 @@ using Microsoft.Extensions.Configuration;
 
 namespace Rpa.Mit.Manual.Templates.Api.Core.Integration.Tests;
 
-public class InvoiceLineTests : IAsyncLifetime
+public class ServiceBusConnTests : IAsyncLifetime
 {
     private readonly ServiceBusClient client;
     public static IConfiguration _config => BuildConfig();
     public ServiceBusAdministrationClient _adminClient { get; }
 
-    public InvoiceLineTests()
+    public ServiceBusConnTests()
     {
         var hostName = _config["PAYMENTHUB:CONNECTION"];
         client = new ServiceBusClient(hostName);
@@ -59,7 +59,7 @@ public class InvoiceLineTests : IAsyncLifetime
        });
 
     private static IConfiguration BuildConfig() => new ConfigurationBuilder()
-                                                .AddUserSecrets<InvoiceLineTests>()
+                                                .AddUserSecrets<ServiceBusConnTests>()
                                                 .Build();
 
     public Task InitializeAsync()
