@@ -22,6 +22,12 @@
 - key: PAYMENTHUB__TOPIC
   value: "{{servicename}}-PAYMENTHUB-TOPIC" 
   type: "keyvault"
+- key: PAYMENTHUB__RESPONSE_TOPIC
+  value: "{{servicename}}-PAYMENTHUB-RESPONSE-TOPIC" 
+  type: "keyvault"
+- key: PAYMENTHUB__RESPONSE_SUBSCRIPTION
+  value: "{{servicename}}-PAYMENTHUB-RESPONSE-SUBSCRIPTION" 
+  type: "keyvault"
 - key: APPINSIGHTS__CONNECTIONSTRING
   value: "{{servicename}}-APPINSIGHTS-CONNECTIONSTRING" 
   type: "keyvault"
