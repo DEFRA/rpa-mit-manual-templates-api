@@ -2,6 +2,7 @@
 
 using Azure.Messaging.ServiceBus;
 
+using Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
 
 using static System.Threading.CancellationTokenSource;
@@ -79,6 +80,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
         }
         public async ValueTask DisposeAsync()
         {
+            GC.SuppressFinalize(this);
             await _processor.DisposeAsync();
             stoppingCts?.Dispose();
             base.Dispose();
