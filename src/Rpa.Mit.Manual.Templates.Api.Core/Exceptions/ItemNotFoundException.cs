@@ -1,5 +1,8 @@
-﻿namespace Rpa.Mit.Manual.Templates.Api.Core.Exceptions;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace Rpa.Mit.Manual.Templates.Api.Core.Exceptions;
+
+[ExcludeFromCodeCoverage]
 public class ItemNotFoundException : Exception
 {
     public ItemNotFoundException() { }

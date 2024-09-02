@@ -17,12 +17,14 @@ namespace ApproveInvoice
     {
         private readonly PaymentHub _options;
         private readonly IApprovalsRepo _iApprovalsRepo;
+
         private readonly IServiceBusProvider _iServiceBusProvider;
         private readonly IPaymentHubJsonGenerator _iPaymentHubJsonGenerator;
         private readonly ILogger<ApproveInvoiceEndpoint> _logger;
 
         public ApproveInvoiceEndpoint(
             IOptions<PaymentHub> options,
+
             ILogger<ApproveInvoiceEndpoint> logger,
             IApprovalsRepo iApprovalsRepo,
             IServiceBusProvider iServiceBusProvider,
@@ -30,6 +32,7 @@ namespace ApproveInvoice
         {
             _options = options.Value;
             _logger = logger;
+
             _iApprovalsRepo = iApprovalsRepo;
             _iServiceBusProvider = iServiceBusProvider;
             _iPaymentHubJsonGenerator = iPaymentHubJsonGenerator;
@@ -64,9 +67,6 @@ namespace ApproveInvoice
                     var invoiceRequests = await _iApprovalsRepo.GetInvoiceRequestsForAzure(r.Id, ct);
                     int idx = 0;
 
-                    await using var client = new ServiceBusClient(_options.CONNECTION);
-                    ServiceBusSender servicebusSender = client.CreateSender(_options.TOPIC);
-
                     foreach (InvoiceRequestForAzure request in invoiceRequests)
                     {
                         // create the json
@@ -79,12 +79,10 @@ namespace ApproveInvoice
                         }
                         else
                         {
-                            await _iServiceBusProvider.SendInvoiceRequestJson(servicebusSender, invoiceRequestJson);
+                            await _iServiceBusProvider.SendInvoiceRequestJson(invoiceRequestJson);
                             idx++;
                         }
                     }
-
-                    await servicebusSender.DisposeAsync();
 
                     if (idx == invoiceRequests.Count())
                     {

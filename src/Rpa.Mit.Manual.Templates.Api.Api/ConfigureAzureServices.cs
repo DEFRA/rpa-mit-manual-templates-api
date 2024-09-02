@@ -1,23 +1,51 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-using Rpa.Mit.Manual.Templates.Api.Api.Azure;
-using Rpa.Mit.Manual.Templates.Api.Api.Azure.ServiceBusMessaging;
-using Rpa.Mit.Manual.Templates.Api.Api.MitAzure;
-using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
+using Azure.Messaging.ServiceBus;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api
 {
     [ExcludeFromCodeCoverage]
     public static class ConfigureAzureServices
     {
-        public static IServiceCollection ConfigureAzure(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddSingleton<IServiceBusProvider, ServiceBusProvider>();
-            //services.AddSingleton<IServiceBusConsumer, ServiceBusConsumer>();
-            services.AddSingleton<IServiceBusTopicSubscription, ServiceBusTopicSubscription>();
-            services.AddHostedService<WorkerServiceBus>();
+        private const string Identifier = "RpaMitManualInvoice";
 
-            return services;
-        }
+        public static IServiceCollection AddAzureBusComponents(
+            this IServiceCollection services, WebApplicationBuilder builder)
+            => services
+            .AddAzureBusProcessor(builder)
+            .AddAzureBusSender(builder);
+
+        private static IServiceCollection AddAzureBusProcessor(this IServiceCollection services, WebApplicationBuilder builder)
+            => services.AddSingleton(sp =>
+            {
+                var paymentHubOptions = builder.Configuration
+                                           .GetSection("PAYMENTHUB")
+                                           .Get<PaymentHub>();
+
+                var client = new ServiceBusClient(paymentHubOptions?.CONNECTION);
+
+                var _serviceBusProcessorOptions = new ServiceBusProcessorOptions()
+                {
+                    Identifier = $"{Identifier}-Reader"
+                };
+
+                return client.CreateProcessor(
+                    paymentHubOptions?.RESPONSE_TOPIC,
+                    paymentHubOptions?.RESPONSE_SUBSCRIPTION,
+                    _serviceBusProcessorOptions);
+            });
+
+        private static IServiceCollection AddAzureBusSender(this IServiceCollection services, WebApplicationBuilder builder)
+            => services.AddSingleton(sp =>
+            {
+                var paymentHubOptions = builder.Configuration
+                       .GetSection("PAYMENTHUB")
+                       .Get<PaymentHub>();
+
+                var client = new ServiceBusClient(paymentHubOptions?.CONNECTION);
+
+                return client.CreateSender(
+                    paymentHubOptions?.TOPIC);
+            });
     }
 }

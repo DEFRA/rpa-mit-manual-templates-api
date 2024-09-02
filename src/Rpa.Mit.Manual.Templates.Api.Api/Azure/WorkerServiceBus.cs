@@ -1,47 +1,87 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
+using Azure.Messaging.ServiceBus;
+
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
+
+using static System.Threading.CancellationTokenSource;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
 {
     [ExcludeFromCodeCoverage]
-    public class WorkerServiceBus : IHostedService, IDisposable
+    public class WorkerServiceBus<T> : BackgroundService, IAsyncDisposable
     {
-        private readonly ILogger<WorkerServiceBus> _logger;
-        private readonly IServiceBusTopicSubscription _serviceBusTopicSubscription;
+        private readonly ServiceBusProcessor _processor;
+        private readonly IMessageHandler<T> _handler;
+        private readonly ILogger<WorkerServiceBus<T>> _logger;
+        private CancellationTokenSource? stoppingCts;
 
         public WorkerServiceBus(
-            IServiceBusTopicSubscription serviceBusTopicSubscription,
-            ILogger<WorkerServiceBus> logger)
+                ILogger<WorkerServiceBus<T>> logger,
+                ServiceBusProcessor processor,
+                IMessageHandler<T> handler
+            )
         {
-            _serviceBusTopicSubscription = serviceBusTopicSubscription;
             _logger = logger;
+            _processor = processor;
+            _handler = handler;
+
+            processor.ProcessMessageAsync += ProcessMessageAsync;
+            processor.ProcessErrorAsync += ProcessErrorAsync;
         }
 
-        public async Task StartAsync(CancellationToken cancellationToken)
+        private async Task ProcessMessageAsync(ProcessMessageEventArgs args)
         {
-            _logger.LogDebug("Starting the service bus queue consumer and the subscription");
-            await _serviceBusTopicSubscription.PrepareFiltersAndHandleMessages();
+            var obj = args.Message.Body.ToObjectFromJson<T>();
+
+            var cts = CreateLinkedTokenSource(stoppingCts!.Token, args.CancellationToken);
+
+            await _handler.HandleAsync(obj, cts.Token);
+
+            cts.Dispose();
+
+            await args.CompleteMessageAsync(args.Message);
         }
 
-        public async Task StopAsync(CancellationToken cancellationToken)
+        private Task ProcessErrorAsync(ProcessErrorEventArgs args)
         {
-            _logger.LogDebug("Stopping the service bus queue consumer and the subscription");
-            await _serviceBusTopicSubscription.CloseSubscriptionAsync();
+            _logger.LogWarning("Error Processing {@Error}",
+                new
+                {
+                    args.Identifier,
+                    ErrorSource = $"{args.ErrorSource}",
+                    Exception = $"{args.Exception}"
+                });
+            return Task.CompletedTask;
         }
 
-        public void Dispose()
+        public Task CompleteOnCancelAsync(CancellationToken token)
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual async void Dispose(bool disposing)
-        {
-            if (disposing)
+            var tcs = new TaskCompletionSource();
+            token.Register(t =>
             {
-                await _serviceBusTopicSubscription.DisposeAsync();
-            }
+                if (t is TaskCompletionSource tcs)
+                    tcs.TrySetResult();
+            }, tcs);
+            return tcs.Task;
+        }
+
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            stoppingCts = CreateLinkedTokenSource(stoppingToken);
+            await _processor.StartProcessingAsync(CancellationToken.None);
+
+            await CompleteOnCancelAsync(stoppingToken);
+
+            await stoppingCts.CancelAsync();
+
+            await _processor.StopProcessingAsync(CancellationToken.None);
+        }
+        public async ValueTask DisposeAsync()
+        {
+            await _processor.DisposeAsync();
+            stoppingCts?.Dispose();
+            base.Dispose();
         }
     }
 }

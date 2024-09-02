@@ -7,6 +7,8 @@ using System.Diagnostics.CodeAnalysis;
 using Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals;
 using Rpa.Mit.Manual.Templates.Api.Api.Azure;
 using Rpa.Mit.Manual.Templates.Api.Api.Services;
+using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
+using Rpa.Mit.Manual.Templates.Api.Api.MitAzure;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Extensions;
 [ExcludeFromCodeCoverage]
@@ -24,6 +26,7 @@ public static class ServiceExtensions
 
         services.AddTransient<IApImporterService, ApImporterService>(); 
         services.AddTransient<IEmailService, EmailService>();
+        services.AddSingleton<IServiceBusProvider, ServiceBusProvider>();
         services.AddTransient<IPaymentHubJsonGenerator, PaymentHubJsonGenerator>();
 
         return services;

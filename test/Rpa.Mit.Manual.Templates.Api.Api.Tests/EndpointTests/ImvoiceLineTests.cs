@@ -45,5 +45,40 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
 
             Assert.IsType<InvoiceLine>(response.InvoiceLine);
         }
+
+
+        [Fact]
+        public async Task Invalid_InvoiceLine_Input_Missing_Fundcode()
+        {
+            var invoiceLineRequest = new AddInvoiceLineRequest
+            {
+                Value = 12.12M,
+                Description = "G00 - Gross value of claim",
+                FundCode = string.Empty,
+                MainAccount = "AR",
+                SchemeCode = "code1",
+                MarketingYear = "2020",
+                DeliveryBody = "DB1",
+                InvoiceRequestId = "333_YMALXCHG"
+            };
+
+
+            var fakeRepo = A.Fake<IInvoiceLineRepo>();
+            A.CallTo(() => fakeRepo.AddInvoiceLine(A<InvoiceLine>.Ignored, CancellationToken.None))
+                    .Returns(Task.FromResult(12.12M));
+
+            var ep = Factory.Create<AddInvoiceIineEndpoint>(
+                           A.Fake<ILogger<AddInvoiceIineEndpoint>>(),
+                           fakeRepo);
+
+            await ep.HandleAsync(invoiceLineRequest, default);
+            var response = ep.Response;
+
+            response.Should().NotBeNull();
+            //var res = await ep.ExecuteAsync(invoiceLineRequest, CancellationToken.None);
+            //res.Should().BeOfType<AddInvoiceLineResponse>();
+
+            //res.Message.Should().Be(string.Empty);
+        }
     }
 }

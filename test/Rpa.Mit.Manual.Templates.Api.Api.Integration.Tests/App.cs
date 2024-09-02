@@ -24,7 +24,7 @@ public class App : AppFixture<Program.Program>
     {
         s.AddApplicationServices();
 
-        var descriptor = s.Single(s => s.ImplementationType == typeof(WorkerServiceBus));
+        var descriptor = s.Single(s => s.ImplementationType == typeof(WorkerServiceBus<>));
         s.Remove(descriptor);
 
         s.AddMemoryCache();

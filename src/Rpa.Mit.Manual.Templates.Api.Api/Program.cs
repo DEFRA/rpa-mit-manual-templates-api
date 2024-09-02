@@ -4,8 +4,15 @@ using System.Text;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Configuration;
 
+using Rpa.Mit.Manual.Templates.Api;
 using Rpa.Mit.Manual.Templates.Api.Api;
+using Rpa.Mit.Manual.Templates.Api.Api.Azure;
+using Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure;
+using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
+
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Program
 {
@@ -19,14 +26,16 @@ namespace Program
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services
-               .AddFastEndpoints()
-               .SwaggerDocument();
-
             // Add services to the container.
             ConfigureServices.Configure(builder);
 
-            builder.Services.ConfigureAzure(builder.Configuration);
+            builder.Services
+               .AddFastEndpoints()
+               .SwaggerDocument()
+
+            .AddHostedService<WorkerServiceBus<PaymentHubResponseRoot>>()
+            .AddSingleton<IMessageHandler<PaymentHubResponseRoot>, NotificationHandler>()
+            .AddAzureBusComponents(builder);
 
             builder.Services
                    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

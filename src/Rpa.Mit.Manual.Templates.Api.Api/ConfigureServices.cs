@@ -40,8 +40,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api
 
             builder.ConfigureOpenTelemetry(appInsightsConfig);
 
-            builder.Services.AddAuthentication();
-
             builder.Services.AddApiVersioning(config =>
             {
                 config.DefaultApiVersion = new ApiVersion(1, 0);

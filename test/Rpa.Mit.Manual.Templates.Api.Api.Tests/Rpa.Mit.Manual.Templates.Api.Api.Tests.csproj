@@ -9,6 +9,7 @@
     <IsTestProject>true</IsTestProject>
     <!-- Exclude coverage from Core project. Outputs coverage only for Api projects -->
     <Exclude>[Rpa.Mit.Manual.Templates.Api.Core]*</Exclude>
+    <UserSecretsId>1991760f-2f01-4435-a0b4-00b41ffeabcb</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
