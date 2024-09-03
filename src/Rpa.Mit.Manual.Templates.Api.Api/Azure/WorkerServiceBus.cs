@@ -2,7 +2,6 @@
 
 using Azure.Messaging.ServiceBus;
 
-using Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
 
 using static System.Threading.CancellationTokenSource;

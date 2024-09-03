@@ -1,11 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-using ApproveInvoice;
-
 using Azure.Messaging.ServiceBus;
-using Microsoft.Extensions.Options;
 
-using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.MitAzure
@@ -16,13 +12,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.MitAzure
 
         private readonly ServiceBusSender _serviceBusSender;
 
-        public ServiceBusProvider(
-            ServiceBusSender serviceBusSender
-            )
-        {
-            _serviceBusSender = serviceBusSender;
-        }
-
+        public ServiceBusProvider(ServiceBusSender serviceBusSender) => _serviceBusSender = serviceBusSender;
 
         public async Task SendInvoiceRequestJson(string msg)
         {

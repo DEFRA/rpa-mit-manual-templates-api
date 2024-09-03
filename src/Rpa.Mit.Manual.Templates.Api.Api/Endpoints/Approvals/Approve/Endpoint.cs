@@ -1,7 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-using Azure.Messaging.ServiceBus;
-
 using Microsoft.Extensions.Options;
 
 using Rpa.Mit.Manual.Templates.Api;
