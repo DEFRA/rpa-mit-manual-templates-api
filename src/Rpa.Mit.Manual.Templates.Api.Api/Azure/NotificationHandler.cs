@@ -6,6 +6,9 @@ using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
 {
+    /// <summary>
+    /// handles responses from the payment hub
+    /// </summary>
     [ExcludeFromCodeCoverage]
     public sealed class NotificationHandler : IMessageHandler<PaymentHubResponseRoot>
     {
