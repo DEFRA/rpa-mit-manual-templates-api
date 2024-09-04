@@ -8,6 +8,10 @@ using static System.Threading.CancellationTokenSource;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
 {
+    /// <summary>
+    /// monitors the payment hub servicebus for responses to uploads
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     [ExcludeFromCodeCoverage]
     public class PaymentHubBackgroundService<T> : BackgroundService, IAsyncDisposable
     {

@@ -29,6 +29,8 @@ public static class ServiceExtensions
         services.AddSingleton<IServiceBusProvider, ServiceBusProvider>();
         services.AddTransient<IPaymentHubJsonGenerator, PaymentHubJsonGenerator>();
 
+        services.AddScoped<BusinessFeedbackService>();
+
         return services;
     }
 }

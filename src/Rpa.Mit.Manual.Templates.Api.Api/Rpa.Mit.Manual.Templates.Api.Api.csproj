@@ -12,10 +12,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="Azure\ServiceBusMessaging\ServiceBusConsumer.cs" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <None Remove="db.changelog.xml" />
 	  <None Remove="liquibase.advanced.flowfile.yaml" />
 	  <None Remove="liquibase.checks-package.yaml" />
