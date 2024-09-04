@@ -29,7 +29,7 @@ namespace Program
                .AddFastEndpoints()
                .SwaggerDocument()
 
-            .AddHostedService<WorkerServiceBus<PaymentHubResponseRoot>>()
+            .AddHostedService<PaymentHubBackgroundService<PaymentHubResponseRoot>>()
             .AddSingleton<IMessageHandler<PaymentHubResponseRoot>, PaymentHubResponseHandler>()
             .AddAzureBusComponents(builder);
 

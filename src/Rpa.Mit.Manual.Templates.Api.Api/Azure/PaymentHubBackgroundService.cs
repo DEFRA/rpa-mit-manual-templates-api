@@ -9,15 +9,15 @@ using static System.Threading.CancellationTokenSource;
 namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
 {
     [ExcludeFromCodeCoverage]
-    public class WorkerServiceBus<T> : BackgroundService, IAsyncDisposable
+    public class PaymentHubBackgroundService<T> : BackgroundService, IAsyncDisposable
     {
         private readonly ServiceBusProcessor _processor;
         private readonly IMessageHandler<T> _handler;
-        private readonly ILogger<WorkerServiceBus<T>> _logger;
+        private readonly ILogger<PaymentHubBackgroundService<T>> _logger;
         private CancellationTokenSource? stoppingCts;
 
-        public WorkerServiceBus(
-                ILogger<WorkerServiceBus<T>> logger,
+        public PaymentHubBackgroundService(
+                ILogger<PaymentHubBackgroundService<T>> logger,
                 ServiceBusProcessor processor,
                 IMessageHandler<T> handler
             )
