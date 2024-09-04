@@ -1,8 +1,11 @@
-﻿namespace Rpa.Mit.Manual.Templates.Api.Api.Services
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Rpa.Mit.Manual.Templates.Api.Api.Services
 {
     /// <summary>
     /// sends back to the business the responses we get from the payment hub.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class BusinessFeedbackService
     {
         private readonly ILogger<BusinessFeedbackService> _logger;

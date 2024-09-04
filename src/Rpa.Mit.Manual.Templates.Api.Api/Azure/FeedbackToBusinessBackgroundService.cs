@@ -1,4 +1,6 @@
 ﻿
+using System.Diagnostics.CodeAnalysis;
+
 using Rpa.Mit.Manual.Templates.Api.Api.Services;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
@@ -6,6 +8,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
     /// <summary>
     /// scheduled service to return payment hub responses to the business.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class FeedbackToBusinessBackgroundService : BackgroundService
     {
         private readonly ILogger<FeedbackToBusinessBackgroundService> _logger;
