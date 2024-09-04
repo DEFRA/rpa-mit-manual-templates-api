@@ -6,7 +6,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
     /// <summary>
     /// scheduled service to return payment hub responses to the business.
     /// </summary>
-    public class FeedbackToBusinessBackgroundService : BackgroundService, IAsyncDisposable
+    public class FeedbackToBusinessBackgroundService : BackgroundService
     {
         private readonly ILogger<FeedbackToBusinessBackgroundService> _logger;
         private readonly TimeSpan _period = TimeSpan.FromSeconds(15);
@@ -46,14 +46,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
                     _logger.LogError(ex, "{Message}", ex.Message);
                 }
             }
-        }
-
-
-
-        public async ValueTask DisposeAsync()
-        {
-            GC.SuppressFinalize(this);
-            base.Dispose();
         }
     }
 }
