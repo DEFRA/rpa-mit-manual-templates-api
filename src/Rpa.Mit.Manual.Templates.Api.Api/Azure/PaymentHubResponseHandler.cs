@@ -7,17 +7,17 @@ using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
 namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
 {
     /// <summary>
-    /// handles responses from the payment hub
+    /// handles responses from the payment hub servicebus topic
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public sealed class NotificationHandler : IMessageHandler<PaymentHubResponseRoot>
+    public sealed class PaymentHubResponseHandler : IMessageHandler<PaymentHubResponseRoot>
     {
-        private readonly ILogger<NotificationHandler> _logger;
+        private readonly ILogger<PaymentHubResponseHandler> _logger;
         private readonly IInvoiceRequestRepo _iInvoiceRequestRepo;
 
-        public NotificationHandler(
+        public PaymentHubResponseHandler(
             IInvoiceRequestRepo iInvoiceRequestRepo,
-            ILogger<NotificationHandler> logger)
+            ILogger<PaymentHubResponseHandler> logger)
         {
             _logger = logger;
             _iInvoiceRequestRepo = iInvoiceRequestRepo;

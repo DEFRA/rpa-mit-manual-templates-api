@@ -30,7 +30,7 @@ namespace Program
                .SwaggerDocument()
 
             .AddHostedService<WorkerServiceBus<PaymentHubResponseRoot>>()
-            .AddSingleton<IMessageHandler<PaymentHubResponseRoot>, NotificationHandler>()
+            .AddSingleton<IMessageHandler<PaymentHubResponseRoot>, PaymentHubResponseHandler>()
             .AddAzureBusComponents(builder);
 
             builder.Services
