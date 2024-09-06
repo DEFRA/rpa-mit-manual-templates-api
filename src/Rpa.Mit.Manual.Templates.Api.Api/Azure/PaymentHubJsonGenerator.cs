@@ -9,9 +9,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
     [ExcludeFromCodeCoverage]
     public sealed class PaymentHubJsonGenerator : IPaymentHubJsonGenerator
     {
-        public string GenerateInvoiceRequestJson(InvoiceRequestForAzure invoiceRequest, CancellationToken ct)
-        {
-            return JsonSerializer.Serialize(invoiceRequest);
-        }
+        public string GenerateInvoiceRequestJson(InvoiceRequestForAzure invoiceRequest, CancellationToken ct) 
+            =>  JsonSerializer.Serialize(invoiceRequest);
     }
 }

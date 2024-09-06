@@ -1,4 +1,5 @@
 ﻿using Rpa.Mit.Manual.Templates.Api.Core.Entities;
+using Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure;
 
 namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
 {
@@ -30,5 +31,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <param name="ct"></param>
         /// <returns></returns>
         Task<bool> EmailBulkUploadSuccess(string invoiceCreatorEmail, string filename, Guid invoiceId, CancellationToken ct);
+
+        Task<bool> EmailPaymentHubError(string invoiceCreatorEmail, PaymentHubResponseRoot invoiceRequest,CancellationToken ct);
     }
 }

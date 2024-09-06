@@ -1,8 +1,6 @@
 ﻿
 using System.Diagnostics.CodeAnalysis;
 
-using Rpa.Mit.Manual.Templates.Api.Api.Services;
-
 namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
 {
     /// <summary>
@@ -12,7 +10,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
     public class FeedbackToBusinessBackgroundService : BackgroundService
     {
         private readonly ILogger<FeedbackToBusinessBackgroundService> _logger;
-        private readonly TimeSpan _period = TimeSpan.FromSeconds(15);
+        private readonly TimeSpan _period = TimeSpan.FromSeconds(30);
         private readonly IServiceScopeFactory _factory;
 
         public FeedbackToBusinessBackgroundService(
@@ -31,18 +29,18 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
                 await timer.WaitForNextTickAsync(stoppingToken))
             {
                 try
-                {
+                {  
                     // We cannot use the default dependency injection behavior, because ExecuteAsync is
                     // a long-running method while the background service is running.
                     // To prevent open resources and instances, only create the services and other references on a run
 
-                    // Create scope, so we get request services
+                    // Create scope, so we get to request services
                     await using AsyncServiceScope asyncScope = _factory.CreateAsyncScope();
 
                     // Get service from scope
-                    var businessFeedbackService = asyncScope.ServiceProvider.GetRequiredService<BusinessFeedbackService>();
+                    var businessFeedbackService = asyncScope.ServiceProvider.GetRequiredService<BusinessFeedbackHandler>();
 
-                    await businessFeedbackService.SendPaymentHubResponses();
+                    await businessFeedbackService.SendPaymentHubResponses(stoppingToken);
                 }
                 catch (Exception ex)
                 {

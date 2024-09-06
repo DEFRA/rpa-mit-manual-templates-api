@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.Json;
 
 using Microsoft.Extensions.Options;
 
@@ -6,6 +7,7 @@ using Notify.Client;
 using Notify.Models.Responses;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
+using Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Services
@@ -17,6 +19,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
         private readonly string approverEmailTemplateId = "8b70257a-a41c-4260-b9ce-2c6596246fb0";
         private readonly string invoiceRejectedEmailTemplateId = "69bba64c-e5a5-43a4-aab6-179041c21f13";
         private readonly string bulkUploadSuccessEmailTemplateId = "88709ce9-b2b4-4175-a8fa-d0cf354e58b6";
+        private readonly string paymentHubErrorTemplateId = "731c5cf4-1cd4-4f07-b0ca-22ea24516bfc";
 
         public EmailService(IOptions<GovNotify> options)
         {
@@ -81,6 +84,26 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
             EmailNotificationResponse response = await client.SendEmailAsync(
                                         emailAddress: invoiceCreatorEmail,
                                         templateId: bulkUploadSuccessEmailTemplateId,
+                                        personalisation: personalisation
+                                    );
+
+            return response.Equals(true);
+        }
+
+        public async Task<bool> EmailPaymentHubError(string invoiceCreatorEmail, PaymentHubResponseRoot invoiceRequest, CancellationToken ct)
+        {
+            var client = new NotificationClient(_options.APIKEY);
+
+            Dictionary<string, dynamic> personalisation = new()
+            {
+                {"invoicerequestid", invoiceRequest!.paymentRequest!.InvoiceRequestId },
+                {"error", invoiceRequest.error},
+                {"invoicedata", JsonSerializer.Serialize(invoiceRequest)}
+            };
+
+            EmailNotificationResponse response = await client.SendEmailAsync(
+                                        emailAddress: invoiceCreatorEmail,
+                                        templateId: paymentHubErrorTemplateId,
                                         personalisation: personalisation
                                     );
 

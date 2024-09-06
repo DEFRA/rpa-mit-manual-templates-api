@@ -29,7 +29,7 @@ public static class ServiceExtensions
         services.AddSingleton<IServiceBusProvider, ServiceBusProvider>();
         services.AddTransient<IPaymentHubJsonGenerator, PaymentHubJsonGenerator>();
 
-        services.AddScoped<BusinessFeedbackService>();
+        services.AddScoped<BusinessFeedbackHandler>();
 
         return services;
     }

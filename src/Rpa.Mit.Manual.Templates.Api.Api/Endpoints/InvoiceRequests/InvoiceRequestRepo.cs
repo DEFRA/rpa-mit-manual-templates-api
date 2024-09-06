@@ -141,5 +141,16 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests
                 return res == 1;
             }
         }
+
+        public async Task<IEnumerable<InvoiceRequest>> GetInvoiceRequestsThatHaveErroredInPaymentHub(CancellationToken ct)
+        {
+            using (var cn = new NpgsqlConnection(await DbConn()))
+            {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
+                return await cn.QueryAsync<InvoiceRequest>("SELECT frn, sbi, vendor, agreementnumber, currency, description, value, invoicerequestid, marketingyear, duedate, claimreferencenumber, claimreference, invoiceid FROM invoicerequests WHERE paymenthuberroremailsent is null");
+            }
+        }
     }
 }

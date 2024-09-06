@@ -60,5 +60,13 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <param name="ct"></param>
         /// <returns></returns>
         Task<bool> UpdateInvoiceRequestWithPaymentHubResponse(PaymentHubResponseForDatabase paymentHubResponseForDatabase);
+
+        /// <summary>
+        /// gets a list of invoice requests that have errored in the payment hub.
+        /// we need this so that we can send an email to the respective submitters of the data to alert them of the error and request a re-submit.
+        /// </summary>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        Task<IEnumerable<InvoiceRequest>> GetInvoiceRequestsThatHaveErroredInPaymentHub(CancellationToken ct);
     }
 }

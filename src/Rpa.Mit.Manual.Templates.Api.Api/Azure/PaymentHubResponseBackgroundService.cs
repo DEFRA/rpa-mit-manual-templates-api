@@ -30,8 +30,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
             _processor = processor;
             _handler = handler;
 
-            processor.ProcessMessageAsync += ProcessMessageAsync;
-            processor.ProcessErrorAsync += ProcessErrorAsync;
+            _processor.ProcessMessageAsync += ProcessMessageAsync;
+            _processor.ProcessErrorAsync += ProcessErrorAsync;
         }
 
         private async Task ProcessMessageAsync(ProcessMessageEventArgs args)
@@ -49,7 +49,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
 
         private Task ProcessErrorAsync(ProcessErrorEventArgs args)
         {
-            _logger.LogWarning("Error Processing {@Error}",
+            _logger.LogError("Error Processing {@Error}",
                 new
                 {
                     args.Identifier,
@@ -81,6 +81,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
 
             await _processor.StopProcessingAsync(CancellationToken.None);
         }
+
         public async ValueTask DisposeAsync()
         {
             GC.SuppressFinalize(this);

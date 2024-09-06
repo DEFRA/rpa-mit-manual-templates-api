@@ -10,7 +10,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Api
         private const string Identifier = "RpaMitManualInvoice";
 
         public static IServiceCollection AddAzureBusComponents(
-            this IServiceCollection services, WebApplicationBuilder builder)
+            this IServiceCollection services, 
+            WebApplicationBuilder builder)
             => services
             .AddAzureBusProcessor(builder)
             .AddAzureBusSender(builder);
