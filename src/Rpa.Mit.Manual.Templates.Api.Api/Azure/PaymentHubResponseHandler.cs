@@ -60,7 +60,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
                 _logger.LogError(ex, "{Message}", ex.Message);
 
                 // throw this so it it caught by the processor
-                throw;
+                throw new Exception(ex.Message);
             }
 
             return Task.CompletedTask;
