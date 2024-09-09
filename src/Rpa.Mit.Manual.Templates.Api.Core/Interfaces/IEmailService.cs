@@ -32,6 +32,13 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <returns></returns>
         Task<bool> EmailBulkUploadSuccess(string invoiceCreatorEmail, string filename, Guid invoiceId, CancellationToken ct);
 
+        /// <summary>
+        /// sends an email to whoever submitted invoice data that the payment hub has rejected the invoice and raised an error.
+        /// </summary>
+        /// <param name="invoiceCreatorEmail"></param>
+        /// <param name="invoiceRequest"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
         Task<bool> EmailPaymentHubError(string invoiceCreatorEmail, PaymentHubResponseRoot invoiceRequest,CancellationToken ct);
     }
 }

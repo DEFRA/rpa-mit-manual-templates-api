@@ -116,5 +116,20 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
                 return await cn.QuerySingleAsync<Invoice>(sql, parameters);
             }
         }
+
+        public async Task<string> GetInvoiceCreatorEmail(Guid invoiceId, CancellationToken ct)
+        {
+            using (var cn = new NpgsqlConnection(await DbConn()))
+            {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
+                var sql = "SELECT createdby FROM invoices WHERE Id = @invoiceid";
+
+                var parameters = new { invoiceId };
+
+                return await cn.QuerySingleAsync<string>(sql, parameters);
+            }
+        }
     }
 }

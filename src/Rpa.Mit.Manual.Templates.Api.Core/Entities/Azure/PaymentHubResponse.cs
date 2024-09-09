@@ -2,6 +2,9 @@
 
 namespace Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure
 {
+    /// <summary>
+    /// the casing in all these classess is all lower case to match what postgres needs
+    /// </summary>
     [ExcludeFromCodeCoverage]
     public class PaymentHubResponseInvoiceLine
     {
@@ -19,9 +22,14 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure
     [ExcludeFromCodeCoverage]
     public class PaymentHubResponsePaymentRequest
     {
+        /// <summary>
+        /// this is our original invoice id
+        /// </summary>
+        public string invoiceNumber { get; set; } = string.Empty;
+
+
         public string InvoiceRequestId { get; set; } = string.Empty;
         public int paymentRequestNumber { get; set; }
-        public string invoiceNumber { get; set; } = string.Empty;
         public string agreementNumber { get; set; } = string.Empty;
         public string sourceSystem { get; set; } = string.Empty;
         public string frn { get; set; } = string.Empty;
@@ -49,6 +57,11 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure
     [ExcludeFromCodeCoverage]
     public class PaymentHubResponseForDatabase
     {
+        /// <summary>
+        /// this is our original invoice id
+        /// </summary>
+        public Guid invoicenumber { get; set; }
+
         public string invoicerequestid { get; set; } = string.Empty;
 
         public DateTime? paymenthubdateprocessed { get; set; }

@@ -17,14 +17,17 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
         private readonly ILogger<PaymentHubResponseHandler> _logger;
         private readonly IEmailService _iEmailService;
         private readonly IInvoiceRequestRepo _iInvoiceRequestRepo;
+        private readonly IInvoiceRepo _iInvoiceRepo;
 
         public PaymentHubResponseHandler(
             IEmailService iEmailService,    
+            IInvoiceRepo iInvoiceRepo,  
             IInvoiceRequestRepo iInvoiceRequestRepo,
             ILogger<PaymentHubResponseHandler> logger)
         {
             _iEmailService = iEmailService;
             _logger = logger;
+            _iInvoiceRepo = iInvoiceRepo;
             _iInvoiceRequestRepo = iInvoiceRequestRepo;
         }
 
@@ -33,10 +36,9 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
         {
             try
             {
-               //throw new NotImplementedException();
-
                 var paymentHubResponseForDatabase = new PaymentHubResponseForDatabase
                 {
+                    invoicenumber = Guid.Parse(message!.paymentRequest!.invoiceNumber),
                     invoicerequestid = message!.paymentRequest!.InvoiceRequestId,
                     paymenthubdateprocessed = DateTime.UtcNow,
                     error = message.error,
@@ -49,10 +51,13 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
                 //if (await _iInvoiceRequestRepo.UpdateInvoiceRequestWithPaymentHubResponse(paymentHubResponseForDatabase))
                 //{
                     //if we have an error, we also need to email the originator of the data with the relevant data.
-                    if (!message.accepted)
-                    {
-                        await _iEmailService.EmailPaymentHubError("aylmer.carson.external@eviden.com", message, cancelToken);
-                    }
+                if (!message.accepted)
+                {
+                    // first get the relevant user email
+                    var email = await _iInvoiceRepo.GetInvoiceCreatorEmail(paymentHubResponseForDatabase.invoicenumber, cancelToken);
+
+                    await _iEmailService.EmailPaymentHubError(email, message, cancelToken);
+                }
                 //}
             }
             catch (Exception ex)

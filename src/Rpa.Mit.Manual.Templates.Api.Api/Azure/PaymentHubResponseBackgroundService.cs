@@ -59,7 +59,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
             return Task.CompletedTask;
         }
 
-        public Task CompleteOnCancelAsync(CancellationToken token)
+        protected Task CompleteOnCancelAsync(CancellationToken token)
         {
             var tcs = new TaskCompletionSource();
             token.Register(t =>
