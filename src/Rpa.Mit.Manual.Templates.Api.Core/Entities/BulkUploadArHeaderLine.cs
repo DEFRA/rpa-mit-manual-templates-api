@@ -3,43 +3,24 @@
 namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 {
     [ExcludeFromCodeCoverage]
-    public sealed class BulkUploadArHeaderLine
+    public sealed class BulkUploadArHeaderLine : BulkUploadApHeaderLine
     {
-        public Guid InvoiceId { get; set; }
+        /// <summary>
+        /// this is the AP invoice ID
+        /// </summary>
+        public string OriginalClaimReference { get; set; } = string.Empty;
 
-        public string InvoiceRequestId { get; set; } = string.Empty;
+        public string OriginalAPInvoiceSettlementDate { get; set; } = string.Empty;
 
         /// <summary>
-        /// this is the account type (AP or AR)
+        /// the earliest date when possible recovery was identified
         /// </summary>
-        public string Leger { get; set; } = string.Empty;
-
-
-        public string ClaimReferenceNumber { get; set; } = string.Empty;
-
-        public string ClaimReference { get; set; } = string.Empty;
-
-        public string Frn { get; set; } = string.Empty;
-
-        public string Sbi { get; set; } = string.Empty;
-
-        public string Vendor { get; set; } = string.Empty;
-
-        public string MarketingYear { get; set; } = string.Empty;
-
-        public string AgreementNumber { get; set; } = string.Empty;
-
-        public string PaymentType { get; set; } = string.Empty;
-
-        public string DueDate { get; set; } = string.Empty;
+        public string EarliestDatePossibleRecovery { get; set; } = string.Empty;
 
         /// <summary>
-        /// Calulated field
+        /// Previous AR invoice ID. Only present if correcting a previous AR invoice
         /// </summary>
-        public decimal TotalAmount { get; set; } = 0.0M;
+        public string CorrectionReference { get; set; } = string.Empty;
 
-        public string Description { get; set; } = string.Empty;
-
-        public List<BulkUploadApDetailLine>? BulkUploadApDetailLines { get; set; }
     }
 }

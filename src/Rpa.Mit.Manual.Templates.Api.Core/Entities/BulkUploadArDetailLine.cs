@@ -3,28 +3,11 @@
 namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 {
     [ExcludeFromCodeCoverage]
-    public sealed class BulkUploadArDetailLine
+    public sealed class BulkUploadArDetailLine : BulkUploadApDetailLine
     {
-        public Guid Id { get; set; }
-
-        public string InvoiceRequestId { get; set; } = string.Empty;
-
-        public decimal Value { get; set; } = 0.0M;
-
-        public string FundCode { get; set; } = string.Empty;
-
-        public string MainAccount { get; set; } = string.Empty;
-
-        public string SchemeCode { get; set; } = string.Empty;
-
-        public string MarketingYear { get; set; } = string.Empty;
-
-        public string DeliveryBodyCode { get; set; } = string.Empty;
-
         /// <summary>
-        /// calculated field = Main Account AP / 
-        ///  strDES = strACC & " / " & strSCH & " / " & strDB 
+        /// calculated. either ‘ADMIN ERROR’ or ‘IRREGULARITY’
         /// </summary>
-        public string Description { get; set; } = string.Empty;
+        public string DebtType { get; set; } = string.Empty;
     }
 }

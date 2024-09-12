@@ -3,7 +3,7 @@
 namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 {
     [ExcludeFromCodeCoverage]
-    public sealed class BulkUploadApDetailLine
+    public class BulkUploadApDetailLine
     {
         public Guid Id { get; set; }
 
