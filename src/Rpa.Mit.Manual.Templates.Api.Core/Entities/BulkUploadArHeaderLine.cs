@@ -3,7 +3,7 @@
 namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 {
     [ExcludeFromCodeCoverage]
-    public sealed class BulkUploadApHeaderLine //: BulkUploadBaseClass
+    public sealed class BulkUploadArHeaderLine
     {
         public Guid InvoiceId { get; set; }
 

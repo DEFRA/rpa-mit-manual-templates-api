@@ -104,7 +104,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
                 var invoice = await cn.QuerySingleAsync<Invoice>(invSql, invParameters);
 
 
-                var prSql = "SELECT invoicerequestid,frn,currency,marketingyear,claimreference AS invoiceNumber FROM invoicerequests WHERE invoiceid = @invoiceId";
+                var prSql = "SELECT invoicerequestid,leger,frn,currency,marketingyear,claimreference AS invoiceNumber FROM invoicerequests WHERE invoiceid = @invoiceId";
                 var prParameters = new { invoiceId };
                 var invoiceRequests = await cn.QueryAsync<InvoiceRequestForAzure>(prSql, prParameters);
 

@@ -25,22 +25,6 @@ namespace Invoices.Add
         public string Status { get; private set; } = InvoiceStatuses.New;
 
         public string Reference { get; set; } = default!;
-
-        //public string ApprovalGroup
-        //{
-        //    get
-        //    {
-        //        return DeliveryBody == "RPA" ? SchemeType : DeliveryBody;
-        //    }
-        //}
-
-
-        //[JsonIgnore]
-        //public decimal TotalValueOfPaymentsGBP => PaymentRequests.Where(x => x.Currency == "GBP").Sum(x => x.Value);
-        //[JsonIgnore]
-        //public decimal TotalValueOfPaymentsEUR => PaymentRequests.Where(x => x.Currency == "EUR").Sum(x => x.Value);
-        //[JsonIgnore]
-        //public bool CanBeSentForApproval => Status == InvoiceStatuses.New && PaymentRequests.All(x => x.Value != 0 && x.InvoiceLines.Any());
     }
 
     [ExcludeFromCodeCoverage]

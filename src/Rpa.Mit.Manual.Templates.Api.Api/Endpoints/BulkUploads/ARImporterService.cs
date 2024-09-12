@@ -4,31 +4,30 @@ using System.Diagnostics.CodeAnalysis;
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
-
 namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 {
-
     /// <summary>
-    /// Accounts Payable Importer
+    /// Accounts Receivable Importer
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class ApImporterService : IApImporterService
+    public class ARImporterService : IArImporterService
     {
         private readonly IReferenceDataRepo _iReferenceDataRepo;
 
-        public ApImporterService(IReferenceDataRepo iReferenceDataRepo)
+        public ARImporterService(IReferenceDataRepo iReferenceDataRepo)
         {
             _iReferenceDataRepo = iReferenceDataRepo;
         }
 
-        public async Task<BulkUploadApDataset> ImportAPData(DataTable data, CancellationToken ct)
+
+        public async Task<BulkUploadArDataset> ImportARData(DataTable data, CancellationToken ct)
         {
             // row 0, col 1 and row 0, col 16 have the 2 titles
             // row 1 is placeholder/empty
             // row 2, cols 1-8 and row 2, col 16-28 have the data headers
             // row 3 = start of data
 
-            BulkUploadApDataset bulkUploadApDataset = new();
+            BulkUploadArDataset bulkUploadArDataset = new();
             BulkUploadInvoice bulkUploadInvoice = new();
 
             var i = 0;
@@ -52,7 +51,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 {
                     var bulkUploadHeaderLine = new BulkUploadApHeaderLine
                     {
-                        Leger = "AP",
+                        Leger = "AR",
                         InvoiceId = bulkUploadInvoice!.Id,
                         InvoiceRequestId = row[2].ToString() + "_" + row[3].ToString(),
                         ClaimReferenceNumber = row[2].ToString()!,
@@ -81,7 +80,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     };
 
                     // for the databasee
-                    bulkUploadApDataset.BulkUploadDetailLines!.Add(bulkUploadDetailLine);
+                    bulkUploadArDataset.BulkUploadDetailLines!.Add(bulkUploadDetailLine);
                 }
                 else if (!string.IsNullOrEmpty(row[19].ToString()))
                 {
@@ -102,14 +101,14 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     };
 
                     // this for the database
-                    bulkUploadApDataset.BulkUploadDetailLines!.Add(bulkUploadDetailLine);
+                    bulkUploadArDataset.BulkUploadDetailLines!.Add(bulkUploadDetailLine);
                 }
             }
 
             // nest the data for returning json
             foreach (var parent in bulkUploadInvoice.BulkUploadApHeaderLines!)
             {
-                parent.BulkUploadApDetailLines = bulkUploadApDataset.BulkUploadDetailLines
+                parent.BulkUploadApDetailLines = bulkUploadArDataset.BulkUploadDetailLines
                     .Where(c => c.InvoiceRequestId == parent.InvoiceRequestId)
                     .ToList();
 
@@ -117,9 +116,9 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 parent.TotalAmount = parent.BulkUploadApDetailLines.Select(c => c.Value).Sum();
             }
 
-            bulkUploadApDataset.BulkUploadInvoice = bulkUploadInvoice;
+            bulkUploadArDataset.BulkUploadInvoice = bulkUploadInvoice;
 
-            return bulkUploadApDataset;
+            return bulkUploadArDataset;
         }
 
         private static async Task<BulkUploadInvoice> CreateNewInvoice(DataRow row)
@@ -128,7 +127,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
             invoice.Id = Guid.NewGuid();
             invoice.Created = DateTime.UtcNow;
-            invoice.AccountType = "AP";
+            invoice.AccountType = "AR";
             invoice.SchemeType = row[23].ToString()!;
             invoice.DeliveryBody = row[25].ToString()!;
 

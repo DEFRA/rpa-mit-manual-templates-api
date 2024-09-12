@@ -10,6 +10,11 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure
     {
         public string InvoiceRequestId { get; set; } = string.Empty;
 
+        /// <summary>
+        /// this is the account code, either "AP" or "AR"
+        /// </summary>
+        public string leger { get; set; } = string.Empty;
+
         public int paymentRequestNumber { get; set; }
 
         public string invoiceNumber { get; set; } = string.Empty;
