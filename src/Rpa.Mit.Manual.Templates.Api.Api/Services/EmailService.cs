@@ -96,9 +96,10 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
 
             Dictionary<string, dynamic> personalisation = new()
             {
-                {"invoicerequestid", invoiceRequest!.paymentRequest!.InvoiceRequestId },
-                {"error", invoiceRequest.error},
-                {"invoicedata", JsonSerializer.Serialize(invoiceRequest)}
+                { "invoicerequestid", invoiceRequest!.paymentRequest!.InvoiceRequestId },
+                { "error", invoiceRequest.error},
+                { "value", invoiceRequest.paymentRequest.invoiceLines!.Sum(x => x.value)}
+                //{"invoicedata", JsonSerializer.Serialize(invoiceRequest)}
             };
 
             EmailNotificationResponse response = await client.SendEmailAsync(

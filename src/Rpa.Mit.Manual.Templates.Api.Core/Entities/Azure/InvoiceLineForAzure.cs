@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure
 {
     [ExcludeFromCodeCoverage]
-    public class InvoiceLineForAzure
+    public record InvoiceLineForAzure
     {
         public decimal value { get; set; }
 

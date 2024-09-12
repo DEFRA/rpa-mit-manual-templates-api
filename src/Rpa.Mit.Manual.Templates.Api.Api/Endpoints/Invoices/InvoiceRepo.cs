@@ -117,7 +117,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
             }
         }
 
-        public async Task<string> GetInvoiceCreatorEmail(Guid invoiceId, CancellationToken ct)
+        public async Task<string> GetInvoiceCreatorEmailAddress(Guid invoiceId, CancellationToken ct)
         {
             using (var cn = new NpgsqlConnection(await DbConn()))
             {

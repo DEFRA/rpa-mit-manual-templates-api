@@ -104,23 +104,23 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
                 var invoice = await cn.QuerySingleAsync<Invoice>(invSql, invParameters);
 
 
-                var prSql = "SELECT invoicerequestid,frn,value,currency,marketingyear,claimreference AS invoiceNumber FROM invoicerequests WHERE invoiceid = @invoiceId";
+                var prSql = "SELECT invoicerequestid,frn,currency,marketingyear,claimreference AS invoiceNumber FROM invoicerequests WHERE invoiceid = @invoiceId";
                 var prParameters = new { invoiceId };
                 var invoiceRequests = await cn.QueryAsync<InvoiceRequestForAzure>(prSql, prParameters);
 
-                foreach (InvoiceRequestForAzure pr in invoiceRequests)
+                foreach (InvoiceRequestForAzure invoiceRequest in invoiceRequests)
                 {
-                    pr.invoiceNumber = invoiceId.ToString();
-                    pr.deliveryBody = invoice.DeliveryBody;
-                    pr.agreementNumber = "TEST-AFBA-29E2";
-                    pr.paymentRequestNumber = 10;
+                    invoiceRequest.invoiceNumber = invoiceId.ToString();
+                    invoiceRequest.deliveryBody = invoice.DeliveryBody;
+                    invoiceRequest.agreementNumber = "TEST-AFBA-29E2";
+                    invoiceRequest.paymentRequestNumber = 10;
 
                     // get the invoice lines
                     var invLineSql = "SELECT value, description, fundcode, mainaccount AS accountCode, schemecode, marketingyear, deliverybodycode FROM invoicelines WHERE invoicerequestid = @invoicerequestid";
-                    var invLineParameters = new { invoicerequestid = pr.InvoiceRequestId };
-                    pr.invoiceLines = await cn.QueryAsync<InvoiceLineForAzure>(invLineSql, invLineParameters);
+                    var invLineParameters = new { invoicerequestid = invoiceRequest.InvoiceRequestId };
+                    invoiceRequest.invoiceLines = await cn.QueryAsync<InvoiceLineForAzure>(invLineSql, invLineParameters);
 
-                    pr.value = pr.invoiceLines.Sum(x => x.value);
+                    invoiceRequest.value = invoiceRequest.invoiceLines.Sum(x => x.value);
                 }
 
                 return invoiceRequests;

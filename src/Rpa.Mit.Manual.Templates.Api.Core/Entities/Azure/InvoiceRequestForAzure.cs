@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using System.Text.Json.Serialization;
 
 namespace Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure
 {
@@ -7,10 +6,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure
     /// camel casing to suit payment hub requirements
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class InvoiceRequestForAzure
+    public record InvoiceRequestForAzure
     {
-
-        //[JsonIgnore]
         public string InvoiceRequestId { get; set; } = string.Empty;
 
         public int paymentRequestNumber { get; set; }

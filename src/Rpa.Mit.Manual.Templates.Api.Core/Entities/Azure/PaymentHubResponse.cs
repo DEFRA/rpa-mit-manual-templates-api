@@ -35,7 +35,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure
         public string frn { get; set; } = string.Empty;
         public int sbi { get; set; }
         public string deliveryBody { get; set; } = string.Empty;
-        public int value { get; set; }
+        public decimal value { get; set; }
         public string marketingYear { get; set; } = string.Empty;
         public string currency { get; set; } = string.Empty;
         public List<PaymentHubResponseInvoiceLine>? invoiceLines { get; set; }

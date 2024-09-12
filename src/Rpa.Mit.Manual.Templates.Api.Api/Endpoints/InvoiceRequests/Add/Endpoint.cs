@@ -59,7 +59,7 @@ namespace InvoiceRequests.Add
         {
             var invoiceRequest = await Task.FromResult(new InvoiceRequest());
 
-            invoiceRequest.InvoiceRequestId = IdGeneratorHelper.IdGenerator(r.AgreementNumber);
+            invoiceRequest.InvoiceRequestId = r.ClaimReference + "-" + r.ClaimReferenceNumber;
             invoiceRequest.FRN = r.FRN;
             invoiceRequest.SBI = r.SBI;
             invoiceRequest.Currency = r.Currency;

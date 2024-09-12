@@ -39,6 +39,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <param name="invoiceRequest"></param>
         /// <param name="ct"></param>
         /// <returns></returns>
-        Task<bool> EmailPaymentHubError(string invoiceCreatorEmail, PaymentHubResponseRoot invoiceRequest,CancellationToken ct);
+        Task<bool> EmailPaymentHubError(string invoiceCreatorEmail, PaymentHubResponseRoot invoiceRequest, CancellationToken ct);
     }
 }

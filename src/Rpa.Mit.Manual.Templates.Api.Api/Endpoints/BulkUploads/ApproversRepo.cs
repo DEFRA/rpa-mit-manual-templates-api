@@ -55,7 +55,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
                 await cn.ExecuteAsync(sql, selectedApprovers);
 
-
                 return approvers;
             }
         }

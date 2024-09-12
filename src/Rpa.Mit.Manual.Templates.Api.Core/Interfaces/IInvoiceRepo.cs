@@ -41,6 +41,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <param name="invoiceId"></param>
         /// <param name="ct"></param>
         /// <returns></returns>
-        Task<string> GetInvoiceCreatorEmail(Guid invoiceId, CancellationToken ct);
+        Task<string> GetInvoiceCreatorEmailAddress(Guid invoiceId, CancellationToken ct);
     }
 }
