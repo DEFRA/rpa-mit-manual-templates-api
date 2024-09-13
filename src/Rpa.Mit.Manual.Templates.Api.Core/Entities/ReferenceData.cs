@@ -22,6 +22,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
         public IEnumerable<MarketingYear> MarketingYears { get; set; } = Enumerable.Empty<MarketingYear>();
         public IEnumerable<FundCode> FundCodes { get; set; } = Enumerable.Empty<FundCode>();
 
-        public IEnumerable<ChartOfAccounts> ChartOfAccounts { get; set; } = Enumerable.Empty<ChartOfAccounts>();
+        public IEnumerable<ChartOfAccountsAp> ChartOfAccountsAp { get; set; } = Enumerable.Empty<ChartOfAccountsAp>();
+        public IEnumerable<ChartOfAccountsAr> ChartOfAccountsAr { get; set; } = Enumerable.Empty<ChartOfAccountsAr>();
     }
 }
