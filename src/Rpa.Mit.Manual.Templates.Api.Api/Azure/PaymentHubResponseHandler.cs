@@ -75,5 +75,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
             }
 
             return Task.CompletedTask;
+        }
     }
 }
