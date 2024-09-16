@@ -75,58 +75,5 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
             }
 
             return Task.CompletedTask;
-        }
-
-        public static string GetMyTable<T>(T item, params Func<T, object>[] fxns)
-        {
-            // Dynamic build  HTML Table Header column name base on T\model object
-            Type type = item!.GetType();
-            PropertyInfo[] props = type.GetProperties();
-            string THstr = "<tr>";
-            foreach (var prop in props)
-            {
-                THstr += "<TH>" + prop.Name + "</TH>";
-            }
-            THstr += "</tr>";
-
-            // Build  remain data rows in HTML Table
-            StringBuilder sb = new StringBuilder();
-            // Inject bootstrap class base on your need
-            sb.Append("<TABLE class='table table-sm table-dark'>\n");
-            sb.Append(THstr);
-
-            sb.Append("<TR>\n");
-            foreach (var fxn in fxns)
-            {
-                sb.Append("<TD>");
-                sb.Append(fxn(item));
-                sb.Append("</TD>");
-            }
-            sb.Append("</TR>\n");
-
-            sb.Append("</TABLE>");
-
-            return sb.ToString();
-        }
-
-        //public static string GetMyTable<T>(T item, params Func<T, object>[] fxns)
-        //{
-
-        //    StringBuilder sb = new StringBuilder();
-        //    sb.Append("<TABLE>\n");
-
-        //    sb.Append("<TR>\n");
-        //    foreach (var fxn in fxns)
-        //    {
-        //        sb.Append("<TD>");
-        //        sb.Append(fxn(item));
-        //        sb.Append("</TD>");
-        //    }
-        //    sb.Append("</TR>\n");
-
-        //    sb.Append("</TABLE>");
-
-        //    return sb.ToString();
-        //}
     }
 }
