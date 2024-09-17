@@ -40,8 +40,8 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
                         SELECT code, description, org FROM lookup_deliverybodycodes;
                         SELECT code, description FROM lookup_marketingyearcodes;
                         SELECT code, description FROM lookup_fundcodes;
-                        //SELECT code, description,org FROM lookup_ap_chartofaccounts;
-                        //SELECT code, description,org FROM lookup_ar_chartofaccounts;
+                        --SELECT code, description,org FROM lookup_ap_chartofaccounts;
+                        --SELECT code, description,org FROM lookup_ar_chartofaccounts;
                         ";
 
                 using (var res = await cn.QueryMultipleAsync(sql))
