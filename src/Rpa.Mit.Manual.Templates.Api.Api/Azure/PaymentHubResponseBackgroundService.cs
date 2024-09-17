@@ -56,17 +56,20 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
                     ErrorSource = $"{args.ErrorSource}",
                     Exception = $"{args.Exception}"
                 });
+
             return Task.CompletedTask;
         }
 
-        protected Task CompleteOnCancelAsync(CancellationToken token)
+        protected static Task CompleteOnCancelAsync(CancellationToken token)
         {
             var tcs = new TaskCompletionSource();
+
             token.Register(t =>
             {
                 if (t is TaskCompletionSource tcs)
                     tcs.TrySetResult();
             }, tcs);
+
             return tcs.Task;
         }
 

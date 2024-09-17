@@ -54,7 +54,7 @@ namespace InvoiceLines.Update
 
                 response.Message = ex.Message;
 
-                await SendAsync(response, 400, CancellationToken.None);
+                await SendAsync(response, 500, CancellationToken.None);
             }
         }
 

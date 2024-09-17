@@ -32,7 +32,7 @@ internal sealed class GetReferenceDataEndpoint : EndpointWithoutRequest<Response
         {
             response.ReferenceData = await _iReferenceDataRepo.GetAllReferenceData(ct);
 
-            await SendAsync(response, cancellation: ct);
+            await SendAsync(response, 200, cancellation: ct);
         }
         catch (Exception ex)
         {
@@ -40,7 +40,7 @@ internal sealed class GetReferenceDataEndpoint : EndpointWithoutRequest<Response
 
             response.Message = ex.Message;
 
-            await SendAsync(response, 400, CancellationToken.None);
+            await SendAsync(response, 500, CancellationToken.None);
         }
     }
 }

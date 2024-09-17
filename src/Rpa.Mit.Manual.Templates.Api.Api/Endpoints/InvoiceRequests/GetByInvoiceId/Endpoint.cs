@@ -31,7 +31,7 @@ namespace InvoiceRequests.GetByInvoiceId
             {
                 response.InvoiceRequests = await _iInvoiceRequestRepo.GetInvoiceRequestsByInvoiceId(r.InvoiceId, ct);
 
-                await SendAsync(response, cancellation: ct);
+                await SendAsync(response, 200, cancellation: ct);
             }
             catch (Exception ex)
             {
@@ -39,7 +39,7 @@ namespace InvoiceRequests.GetByInvoiceId
 
                 response.Message = ex.Message;
 
-                await SendAsync(response, 400, CancellationToken.None);
+                await SendAsync(response, 500, CancellationToken.None);
             }
         }
     }

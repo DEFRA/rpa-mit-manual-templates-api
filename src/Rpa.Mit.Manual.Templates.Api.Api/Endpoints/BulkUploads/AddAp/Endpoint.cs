@@ -30,7 +30,7 @@ namespace BulkUploads.AddAp
 
         public override void Configure()
         {
-            Post("/bulkuploads/add");
+            Post("/bulkuploads/addar");
             AllowFileUploads();
         }
 
@@ -86,7 +86,7 @@ namespace BulkUploads.AddAp
                         else
                         {
                             // No data
-                            response.Message = "No recognisable requirement";
+                            response.Message = "No recognisable data";
                         }
 
                         await SendAsync(response, 200, cancellation: ct);
@@ -99,7 +99,7 @@ namespace BulkUploads.AddAp
 
                 response.Message = ex.Message;
 
-                await SendAsync(response, 400, CancellationToken.None);
+                await SendAsync(response, 500, CancellationToken.None);
             }
         }
     }

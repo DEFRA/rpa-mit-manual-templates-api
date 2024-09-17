@@ -35,7 +35,7 @@ namespace GetInvoiceForApproval
 
                 response.Invoice = await _iApprovalsRepo.GetInvoiceForApproval(r.InvoiceId, approverEmail, ct);
 
-                await SendAsync(response, cancellation: ct);
+                await SendAsync(response, 200, cancellation: ct);
             }
             catch (Exception ex)
             {
@@ -43,7 +43,7 @@ namespace GetInvoiceForApproval
 
                 response.Message = ex.Message;
 
-                await SendAsync(response, 400, CancellationToken.None);
+                await SendAsync(response, 500, CancellationToken.None);
             }
         }
     }

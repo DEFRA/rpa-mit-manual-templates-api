@@ -36,13 +36,15 @@ namespace Invoices.Delete
                 {
                     response.Result = true;
                     response.Message = "Invoice deleted";
+
+                    await SendAsync(response, 200, cancellation: ct);
                 }
                 else
                 {
                     response.Message = "Error deleting invoice";
-                }
 
-                await SendAsync(response, cancellation: ct);
+                    await SendAsync(response, 400,cancellation: ct);
+                }
             }
             catch (Exception ex)
             {
@@ -50,7 +52,7 @@ namespace Invoices.Delete
 
                 response.Message = ex.Message;
 
-                await SendAsync(response, 400, CancellationToken.None);
+                await SendAsync(response, 500, CancellationToken.None);
             }
         }
     }
