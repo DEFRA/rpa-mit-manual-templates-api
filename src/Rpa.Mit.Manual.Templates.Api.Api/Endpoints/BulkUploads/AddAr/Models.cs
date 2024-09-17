@@ -2,16 +2,16 @@
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 
-namespace BulkUploads.AddAp
+namespace BulkUploads.AddAr
 {
     [ExcludeFromCodeCoverage]
-    internal sealed class BulkUploadsApRequest
+    internal sealed class BulkUploadsArRequest
     {
         public required IFormFile File { get; set; }
 
-        internal sealed class BulkUploadsApValidator : Validator<BulkUploadsApRequest>
+        internal sealed class BulkUploadsArValidator : Validator<BulkUploadsArRequest>
         {
-            public BulkUploadsApValidator()
+            public BulkUploadsArValidator()
             {
                 RuleFor(x => x.File)
                     .NotNull();
@@ -22,7 +22,7 @@ namespace BulkUploads.AddAp
     [ExcludeFromCodeCoverage]
     internal sealed class Response
     {
-        public BulkUploadApDataset? BulkUploadApDataset { get; set; }
+        public BulkUploadArDataset? BulkUploadArDataset { get; set; }
 
         public string Message { get; set; } = string.Empty;
     }

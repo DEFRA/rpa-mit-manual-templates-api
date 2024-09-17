@@ -9,17 +9,17 @@ using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 namespace BulkUploads.AddAp
 {
     [ExcludeFromCodeCoverage]
-    internal sealed class AddBulkUploadsEndpoint : Endpoint<BulkUploadsRequest, Response>
+    internal sealed class AddBulkUploadsApEndpoint : Endpoint<BulkUploadsApRequest, Response>
     {
         private readonly IBulkUploadRepo _iBulkUploadRepo;
         private readonly IEmailService _iEmailService;
         private readonly IApImporterService _iApImporterService;
-        private readonly ILogger<AddBulkUploadsEndpoint> _logger;
+        private readonly ILogger<AddBulkUploadsApEndpoint> _logger;
 
-        public AddBulkUploadsEndpoint(
+        public AddBulkUploadsApEndpoint(
             IEmailService iEmailService,    
             IBulkUploadRepo iBulkUploadRepo,
-            ILogger<AddBulkUploadsEndpoint> logger,
+            ILogger<AddBulkUploadsApEndpoint> logger,
             IApImporterService iApImporterService)
         {
             _logger = logger;
@@ -30,11 +30,11 @@ namespace BulkUploads.AddAp
 
         public override void Configure()
         {
-            Post("/bulkuploads/addar");
+            Post("/bulkuploads/addap");
             AllowFileUploads();
         }
 
-        public override async Task HandleAsync(BulkUploadsRequest r, CancellationToken ct)
+        public override async Task HandleAsync(BulkUploadsApRequest r, CancellationToken ct)
         {
             Response response = new Response();
             string fileName = r.File.FileName;
