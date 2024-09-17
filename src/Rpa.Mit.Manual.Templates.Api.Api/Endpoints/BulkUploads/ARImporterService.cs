@@ -10,11 +10,11 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
     /// Accounts Receivable Importer
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class ARImporterService : IArImporterService
+    public class ArImporterService : IArImporterService
     {
         private readonly IReferenceDataRepo _iReferenceDataRepo;
 
-        public ARImporterService(IReferenceDataRepo iReferenceDataRepo)
+        public ArImporterService(IReferenceDataRepo iReferenceDataRepo)
         {
             _iReferenceDataRepo = iReferenceDataRepo;
         }
@@ -33,7 +33,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             var i = 0;
 
             // get all our chartofaccounts before we enter the loop
-            var chartOfAccounts = await _iReferenceDataRepo.GetChartOfAccountsReferenceData(ct);
+            var chartOfAccounts = await _iReferenceDataRepo.GetChartOfAccountsArReferenceData(ct);
 
             foreach (DataRow row in data.Rows)
             {

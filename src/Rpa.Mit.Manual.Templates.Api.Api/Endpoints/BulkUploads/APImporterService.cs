@@ -34,7 +34,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             var i = 0;
 
             // get all our chartofaccounts before we enter the loop
-            var chartOfAccounts = await _iReferenceDataRepo.GetChartOfAccountsReferenceData(ct);
+            var chartOfAccounts = await _iReferenceDataRepo.GetChartOfAccountsApReferenceData(ct);
 
             foreach (DataRow row in data.Rows)
             {

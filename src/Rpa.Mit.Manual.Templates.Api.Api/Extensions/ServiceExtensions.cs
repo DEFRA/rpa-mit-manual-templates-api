@@ -24,7 +24,8 @@ public static class ServiceExtensions
         services.AddTransient<IInvoiceRepo, InvoiceRepo>();
         services.AddTransient<IInvoiceRequestRepo, InvoiceRequestRepo>();
 
-        services.AddTransient<IApImporterService, ApImporterService>(); 
+        services.AddTransient<IApImporterService, ApImporterService>();
+        services.AddTransient<IArImporterService, ArImporterService>();
         services.AddTransient<IEmailService, EmailService>();
         services.AddSingleton<IServiceBusProvider, ServiceBusProvider>();
         services.AddTransient<IPaymentHubJsonGenerator, PaymentHubJsonGenerator>();

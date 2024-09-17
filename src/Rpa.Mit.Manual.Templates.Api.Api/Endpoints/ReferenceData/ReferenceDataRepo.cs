@@ -40,8 +40,8 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
                         SELECT code, description, org FROM lookup_deliverybodycodes;
                         SELECT code, description FROM lookup_marketingyearcodes;
                         SELECT code, description FROM lookup_fundcodes;
-                        SELECT code, description,org FROM lookup_ap_chartofaccounts;
-                        SELECT code, description,org FROM lookup_ar_chartofaccounts;
+                        //SELECT code, description,org FROM lookup_ap_chartofaccounts;
+                        //SELECT code, description,org FROM lookup_ar_chartofaccounts;
                         ";
 
                 using (var res = await cn.QueryMultipleAsync(sql))
@@ -56,8 +56,8 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
                     referenceData.DeliveryBodies = await res.ReadAsync<DeliveryBody>();
                     referenceData.MarketingYears = await res.ReadAsync<MarketingYear>();
                     referenceData.FundCodes = await res.ReadAsync<FundCode>();
-                    referenceData.ChartOfAccountsAp = await res.ReadAsync<ChartOfAccountsAp>();
-                    referenceData.ChartOfAccountsAr = await res.ReadAsync<ChartOfAccountsAr>();
+                    //referenceData.ChartOfAccountsAp = await res.ReadAsync<ChartOfAccounts>();
+                    //referenceData.ChartOfAccountsAr = await res.ReadAsync<ChartOfAccountsAr>();
 
                     return referenceData;
                 }
@@ -90,7 +90,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
             }
         }
 
-        public async Task<IEnumerable<ChartOfAccountsAp>> GetChartOfAccountsReferenceData(CancellationToken ct)
+        public async Task<IEnumerable<ChartOfAccounts>> GetChartOfAccountsApReferenceData(CancellationToken ct)
         {
             using (var cn = new NpgsqlConnection(await DbConn()))
             {
@@ -99,7 +99,20 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
 
                 var sql = @"SELECT code, description org FROM lookup_ap_chartofaccounts;";
 
-                return await cn.QueryAsync<ChartOfAccountsAp>(sql);
+                return await cn.QueryAsync<ChartOfAccounts>(sql);
+            }
+        }
+
+        public async Task<IEnumerable<ChartOfAccounts>> GetChartOfAccountsArReferenceData(CancellationToken ct)
+        {
+            using (var cn = new NpgsqlConnection(await DbConn()))
+            {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
+                var sql = @"SELECT code, description org FROM lookup_ar_chartofaccounts;";
+
+                return await cn.QueryAsync<ChartOfAccounts>(sql);
             }
         }
     }

@@ -15,6 +15,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
 
         public Task<IEnumerable<PaymentType>> GetPaymentTypeReferenceData(CancellationToken ct);
 
-        public Task<IEnumerable<ChartOfAccountsAp>> GetChartOfAccountsReferenceData(CancellationToken ct);
+        public Task<IEnumerable<ChartOfAccounts>> GetChartOfAccountsApReferenceData(CancellationToken ct);
+
+        public Task<IEnumerable<ChartOfAccounts>> GetChartOfAccountsArReferenceData(CancellationToken ct);
     }
 }
