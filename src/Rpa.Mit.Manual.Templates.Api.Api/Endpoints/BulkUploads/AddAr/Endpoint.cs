@@ -11,7 +11,7 @@ namespace BulkUploads.AddAr
         private readonly IBulkUploadRepo _iBulkUploadRepo;
         private readonly IEmailService _iEmailService;
         private readonly IArImporterService _iArImporterService;
-        private readonly ILogger<AddBulkUploadsApEndpoint> _logger;
+        private readonly ILogger<AddBulkUploadsArEndpoint> _logger;
 
         public AddBulkUploadsArEndpoint(
             IEmailService iEmailService,
@@ -22,7 +22,7 @@ namespace BulkUploads.AddAr
             _logger = logger;
             _iEmailService = iEmailService;
             _iBulkUploadRepo = iBulkUploadRepo;
-            _iArImporterService = _ArImporterService;
+            _iArImporterService = iArImporterService;
         }
 
         public override void Configure()
