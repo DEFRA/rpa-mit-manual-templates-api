@@ -11,20 +11,15 @@ namespace BulkUploads.AddAr
     [ExcludeFromCodeCoverage]
     internal sealed class AddBulkUploadsArEndpoint : Endpoint<BulkUploadsArRequest, Response>
     {
-        private readonly IBulkUploadRepo _iBulkUploadRepo;
-        private readonly IEmailService _iEmailService;
+
         private readonly IArImporterService _iArImporterService;
         private readonly ILogger<AddBulkUploadsArEndpoint> _logger;
 
         public AddBulkUploadsArEndpoint(
-            IEmailService iEmailService,
-            IBulkUploadRepo iBulkUploadRepo,
             ILogger<AddBulkUploadsArEndpoint> logger,
             IArImporterService iArImporterService)
         {
             _logger = logger;
-            _iEmailService = iEmailService;
-            _iBulkUploadRepo = iBulkUploadRepo;
             _iArImporterService = iArImporterService;
         }
 
