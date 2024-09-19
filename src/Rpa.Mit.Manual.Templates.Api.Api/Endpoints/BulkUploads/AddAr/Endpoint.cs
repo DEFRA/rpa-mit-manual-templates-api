@@ -3,7 +3,6 @@ using System.Diagnostics.CodeAnalysis;
 
 using ExcelDataReader;
 
-using Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace BulkUploads.AddAr
@@ -11,16 +10,21 @@ namespace BulkUploads.AddAr
     [ExcludeFromCodeCoverage]
     internal sealed class AddBulkUploadsArEndpoint : Endpoint<BulkUploadsArRequest, Response>
     {
-
+        private readonly IBulkUploadRepo _iBulkUploadRepo;
+        private readonly IEmailService _iEmailService;
         private readonly IArImporterService _iArImporterService;
         private readonly ILogger<AddBulkUploadsArEndpoint> _logger;
 
         public AddBulkUploadsArEndpoint(
             ILogger<AddBulkUploadsArEndpoint> logger,
-            IArImporterService iArImporterService)
+            IBulkUploadRepo iBulkUploadRepo,        
+            IArImporterService iArImporterService,
+            IEmailService iEmailService)
         {
             _logger = logger;
+            _iBulkUploadRepo = iBulkUploadRepo;
             _iArImporterService = iArImporterService;
+            _iEmailService = iEmailService;
         }
 
         public override void Configure()
@@ -66,13 +70,13 @@ namespace BulkUploads.AddAr
 
                             bulkUploadArDataset.BulkUploadInvoice!.CreatedBy = userEmail;
 
-                            //if (await _iBulkUploadRepo.AddApBulkUpload(bulkUploadArDataset, ct))
-                            //{
-                            //    // email the originator that their file has been successfully uploaded.
-                            //    await _iEmailService.EmailBulkUploadSuccess(userEmail, fileName, bulkUploadApDataset.BulkUploadInvoice.Id, ct);
+                            if (await _iBulkUploadRepo.AddArBulkUpload(bulkUploadArDataset, ct))
+                            {
+                                // email the originator that their file has been successfully uploaded.
+                                await _iEmailService.EmailBulkUploadSuccess(userEmail, fileName, bulkUploadArDataset.BulkUploadInvoice.Id, ct);
 
-                            //    response.BulkUploadApDataset = bulkUploadApDataset;
-                            //}
+                                response.BulkUploadArDataset = bulkUploadArDataset;
+                            }
                         }
                         else
                         {

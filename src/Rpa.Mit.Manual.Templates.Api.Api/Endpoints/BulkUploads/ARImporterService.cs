@@ -49,7 +49,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
                 if (!string.IsNullOrEmpty(row[2].ToString()))
                 {
-                    var bulkUploadHeaderLine = new BulkUploadApHeaderLine
+                    var bulkUploadHeaderLine = new BulkUploadArHeaderLine
                     {
                         Leger = "AR",
                         InvoiceId = bulkUploadInvoice!.Id,
@@ -62,11 +62,11 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                         Description = row[7].ToString()!
                     };
 
-                    bulkUploadInvoice.BulkUploadApHeaderLines!.Add(bulkUploadHeaderLine);
+                    bulkUploadInvoice.BulkUploadArHeaderLines!.Add(bulkUploadHeaderLine);
 
                     var descriptionQuery = row[22].ToString() + "/" + row[23].ToString() + "/" + row[25].ToString();
 
-                    var bulkUploadDetailLine = new BulkUploadApDetailLine
+                    var bulkUploadDetailLine = new BulkUploadArDetailLine
                     {
                         Id = Guid.NewGuid(),
                         InvoiceRequestId = row[17].ToString() + "_" + row[18].ToString(),
@@ -76,7 +76,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                         SchemeCode = row[23].ToString()!,
                         DeliveryBodyCode = row[25].ToString()!,
                         MarketingYear = row[24].ToString()!,
-                        Description = chartOfAccounts.First(c => c.Code == descriptionQuery).Org
+                        Description = chartOfAccounts.First(c => c.Code == descriptionQuery).Org,
+                        DebtType = row[26].ToString()!
                     };
 
                     // for the databasee
@@ -87,7 +88,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     var descriptionQuery = row[22].ToString() + "/" + row[23].ToString() + "/" + row[25].ToString();
                     var invReqId = row[17].ToString() + "_" + row[18].ToString();
 
-                    var bulkUploadDetailLine = new BulkUploadApDetailLine
+                    var bulkUploadDetailLine = new BulkUploadArDetailLine
                     {
                         Id = Guid.NewGuid(),
                         InvoiceRequestId = invReqId,
@@ -97,7 +98,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                         SchemeCode = row[23].ToString()!,
                         MarketingYear = row[24].ToString()!,
                         DeliveryBodyCode = row[25].ToString()!,
-                        Description = chartOfAccounts.First(c => c.Code == descriptionQuery).Org
+                        Description = chartOfAccounts.First(c => c.Code == descriptionQuery).Org,
+                        DebtType = row[26].ToString()!
                     };
 
                     // this for the database
@@ -106,14 +108,14 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             }
 
             // nest the data for returning json
-            foreach (var parent in bulkUploadInvoice.BulkUploadApHeaderLines!)
+            foreach (var parent in bulkUploadInvoice.BulkUploadArHeaderLines!)
             {
-                parent.BulkUploadApDetailLines = bulkUploadArDataset.BulkUploadDetailLines
+                parent.BulkUploadArDetailLines = bulkUploadArDataset.BulkUploadDetailLines
                     .Where(c => c.InvoiceRequestId == parent.InvoiceRequestId)
                     .ToList();
 
                 // total up the value of the detail lines for the parent invoice request
-                parent.TotalAmount = parent.BulkUploadApDetailLines.Select(c => c.Value).Sum();
+                parent.TotalAmount = parent.BulkUploadArDetailLines.Select(c => c.Value).Sum();
             }
 
             bulkUploadArDataset.BulkUploadInvoice = bulkUploadInvoice;

@@ -154,5 +154,45 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 }
             }
         }
+
+        public async Task<bool> AddArBulkUpload(BulkUploadArDataset bulkUploadArDataset, CancellationToken ct)
+        {
+            using (var cn = new NpgsqlConnection(await DbConn()))
+            {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
+                using (var transaction = await cn.BeginTransactionAsync(ct))
+                {
+                    try
+                    {
+
+                        var sql = @"INSERT INTO Invoices (Id, SchemeType, Reference, Value, Status, CreatedBy, Created, PaymentType, AccountType, DeliveryBody, SecondaryQuestion, ApprovalGroup)
+                                VALUES (@Id, @SchemeType, @Reference, @Value, @Status, @CreatedBy, @Created, @PaymentType, @AccountType, @DeliveryBody, @SecondaryQuestion, @ApprovalGroup)";
+
+                        await cn.ExecuteAsync(sql, bulkUploadArDataset.BulkUploadInvoice);
+
+                        var sql1 = "INSERT INTO invoicerequests (invoicerequestid, invoiceid, leger, frn, sbi, vendor, marketingyear, agreementnumber, currency, description, duedate, claimreferencenumber, claimreference )" +
+                             " VALUES (@InvoiceRequestId, @InvoiceId, @Leger, @Frn, @Sbi, @Vendor, @MarketingYear,  @AgreementNumber, @PaymentType, @Description, @DueDate, @claimreferencenumber, @claimreference)";
+
+                        await cn.ExecuteAsync(sql1, bulkUploadArDataset.BulkUploadInvoice!.BulkUploadArHeaderLines);
+
+                        var sql2 = "INSERT INTO invoicelines (id, value, debttype, description, fundcode, mainaccount, schemecode, marketingyear, deliverybodycode, invoicerequestid )" +
+                            " VALUES (@Id, @Value, @DebtType, @Description, @Fundcode, @mainaccount, @schemecode,  @marketingyear, @deliverybodycode, @invoicerequestid)";
+
+                        await cn.ExecuteAsync(sql2, bulkUploadArDataset.BulkUploadDetailLines);
+
+                        await transaction.CommitAsync(ct);
+
+                        return true;
+                    }
+                    catch
+                    {
+                        await transaction.RollbackAsync(ct);
+                        throw;
+                    }
+                }
+            }
+        }
     }
 }

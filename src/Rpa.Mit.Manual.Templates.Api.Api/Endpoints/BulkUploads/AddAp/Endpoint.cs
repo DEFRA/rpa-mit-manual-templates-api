@@ -78,11 +78,6 @@ namespace BulkUploads.AddAp
                                 response.BulkUploadApDataset = bulkUploadApDataset;
                             }
                         }
-                        else if (tables?["AR"]?.Rows.Count > 4)
-                        {
-                            // dealing with AR data
-                            response.Message = "Currently not able to handle AR data";
-                        }
                         else
                         {
                             // No data

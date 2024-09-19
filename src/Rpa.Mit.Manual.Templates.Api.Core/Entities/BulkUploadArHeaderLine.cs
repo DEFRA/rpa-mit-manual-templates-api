@@ -22,5 +22,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
         /// </summary>
         public string CorrectionReference { get; set; } = string.Empty;
 
+
+        public List<BulkUploadArDetailLine>? BulkUploadArDetailLines { get; set; }
+
     }
 }

@@ -9,6 +9,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
     public sealed class BulkUploadArDataset
     {
         public BulkUploadInvoice? BulkUploadInvoice { get; set; }
-        public List<BulkUploadApDetailLine> BulkUploadDetailLines { get; set; } = [];
+        public List<BulkUploadArDetailLine> BulkUploadDetailLines { get; set; } = [];
     }
 }

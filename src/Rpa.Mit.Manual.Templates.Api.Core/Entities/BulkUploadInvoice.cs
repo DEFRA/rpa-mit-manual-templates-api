@@ -42,5 +42,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 
 
         public List<BulkUploadApHeaderLine>? BulkUploadApHeaderLines { get; set; } = [];
+
+        public List<BulkUploadArHeaderLine>? BulkUploadArHeaderLines { get; set; } = [];
     }
 }
