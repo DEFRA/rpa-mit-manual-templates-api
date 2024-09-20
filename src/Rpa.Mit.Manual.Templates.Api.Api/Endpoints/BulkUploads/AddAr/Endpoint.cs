@@ -31,7 +31,6 @@ namespace BulkUploads.AddAr
         {
             Post("/bulkuploads/addar");
             AllowFileUploads();
-            AllowAnonymous();
         }
 
         public override async Task HandleAsync(BulkUploadsArRequest r, CancellationToken ct)
@@ -65,7 +64,6 @@ namespace BulkUploads.AddAr
 
                         if (tables?["AR"]?.Rows.Count > 4)
                         {
-                            // dealing with AP data
                             var bulkUploadArDataset = await _iArImporterService.ImportARData(tables["AR"]!, ct);
 
                             bulkUploadArDataset.BulkUploadInvoice!.CreatedBy = userEmail;
