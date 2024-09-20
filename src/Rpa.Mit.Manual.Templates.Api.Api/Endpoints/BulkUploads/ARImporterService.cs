@@ -59,7 +59,12 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                         PaymentType = row[6].ToString()!,
                         MarketingYear = row[24].ToString()!,
                         Frn = row[4].ToString()!,
-                        Description = row[7].ToString()!
+                        Description = row[7].ToString()!,
+                        //new
+                        OriginalClaimReference = row[8].ToString()!,
+                        OriginalAPInvoiceSettlementDate = row[9].ToString()!,
+                        EarliestDatePossibleRecovery = row[10].ToString()!,
+                        CorrectionReference = row[11].ToString()!,
                     };
 
                     bulkUploadInvoice.BulkUploadArHeaderLines!.Add(bulkUploadHeaderLine);
