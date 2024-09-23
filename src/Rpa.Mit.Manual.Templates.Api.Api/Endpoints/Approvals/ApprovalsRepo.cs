@@ -143,5 +143,38 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
                 return true;
             }
         }
+
+        public async Task<InvoiceAr> GetInvoiceForApprovalAr(Guid invoiceId, string approverEmail, CancellationToken ct)
+        {
+            using (var cn = new NpgsqlConnection(await DbConn()))
+            {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
+                var sql = "SELECT id,schemetype,reference,createdby, updatedby, created,paymenttype,accounttype,deliverybody FROM invoices WHERE Id = @Id";
+
+                var parameters = new { Id = invoiceId };
+
+                var invoice = await cn.QuerySingleAsync<InvoiceAr>(sql, parameters);
+
+                var prSql = "SELECT invoiceid, invoicerequestid, frn, sbi, vendor, agreementnumber, currency, description, value, marketingyear, duedate FROM invoicerequests WHERE invoiceid = @Id";
+                var prParameters = new { invoice.Id };
+                invoice.InvoiceRequests = await cn.QueryAsync<InvoiceRequestAr>(prSql, prParameters);
+
+                foreach (InvoiceRequestAr pr in invoice.InvoiceRequests)
+                {
+                    // get the invoice detail lines
+                    var invSql = "SELECT id, value, description, fundcode, mainaccount, schemecode, marketingyear, deliverybodycode, invoicerequestid FROM invoicelines WHERE invoicerequestid = @invoicerequestid";
+                    var invParameters = new { invoicerequestid = pr.InvoiceRequestId };
+                    pr.InvoiceLinesAr = await cn.QueryAsync<InvoiceLineAr>(invSql, invParameters);
+
+                    pr.Value = pr.InvoiceLinesAr.Select(c => c.Value).Sum();
+
+                    invoice.Value += pr.Value;
+                }
+
+                return invoice;
+            }
+        }
     }
 }
