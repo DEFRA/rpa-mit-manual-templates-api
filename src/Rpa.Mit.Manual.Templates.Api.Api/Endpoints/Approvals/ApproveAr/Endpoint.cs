@@ -15,7 +15,7 @@ namespace ApproveInvoiceAr
             Post("/approvals/approvear");
         }
 
-        public override async Task HandleAsync(ApproveInvoiceArRequest r, CancellationToken c)
+        public override async Task HandleAsync(ApproveInvoiceArRequest r, CancellationToken ct)
         {
             await SendAsync(new ApproveInvoiceArResponse());
         }
