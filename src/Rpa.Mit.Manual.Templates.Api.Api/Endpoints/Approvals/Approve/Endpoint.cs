@@ -10,6 +10,9 @@ using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
 
 namespace ApproveInvoice
 {
+    /// <summary>
+    /// approve an AP invoice
+    /// </summary>
     [ExcludeFromCodeCoverage]
     internal sealed class ApproveInvoiceEndpoint : EndpointWithMapping<ApproveInvoiceRequest, ApproveInvoiceResponse, InvoiceApproval>
     {
