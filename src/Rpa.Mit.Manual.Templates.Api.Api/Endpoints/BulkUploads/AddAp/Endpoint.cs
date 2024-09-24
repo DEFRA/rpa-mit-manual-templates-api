@@ -12,19 +12,19 @@ namespace BulkUploads.AddAp
     internal sealed class AddBulkUploadsApEndpoint : Endpoint<BulkUploadsApRequest, Response>
     {
         private readonly IBulkUploadRepo _iBulkUploadRepo;
-        private readonly IEmailService _iEmailService;
         private readonly IApImporterService _iApImporterService;
+        private readonly IEmailService _iEmailService;
         private readonly ILogger<AddBulkUploadsApEndpoint> _logger;
 
         public AddBulkUploadsApEndpoint(
             IEmailService iEmailService,    
-            IBulkUploadRepo iBulkUploadRepo,
             ILogger<AddBulkUploadsApEndpoint> logger,
+            IBulkUploadRepo iBulkUploadRepo,
             IApImporterService iApImporterService)
         {
             _logger = logger;
-            _iEmailService = iEmailService;
             _iBulkUploadRepo = iBulkUploadRepo;
+            _iEmailService = iEmailService;
             _iApImporterService = iApImporterService;
         }
 
@@ -47,7 +47,7 @@ namespace BulkUploads.AddAp
 
                     using (var reader = ExcelReaderFactory.CreateReader(stream))
                     {
-                        var result = reader.AsDataSet(new ExcelDataSetConfiguration()
+                        var dataSet = reader.AsDataSet(new ExcelDataSetConfiguration()
                         {
                             ConfigureDataTable = (data) => new ExcelDataTableConfiguration()
                             {
@@ -55,18 +55,18 @@ namespace BulkUploads.AddAp
                             }
                         });
 
-                        DataTableCollection tables = result.Tables;
+                        DataTableCollection dataTables = dataSet.Tables;
 
-                        if (null == tables)
+                        if (null == dataTables)
                         {
                             // No data, return
                             await SendNoContentAsync(cancellation: ct);
                         }
                     
-                        if (tables?["AP"]?.Rows.Count > 4)
+                        if (dataTables?["AP"]?.Rows.Count > 4)
                         {
                             // dealing with AP data
-                            var bulkUploadApDataset = await _iApImporterService.ImportAPData(tables["AP"]!, ct);
+                            var bulkUploadApDataset = await _iApImporterService.ImportAPData(dataTables["AP"]!, ct);
 
                             bulkUploadApDataset.BulkUploadInvoice!.CreatedBy = userEmail;
 
