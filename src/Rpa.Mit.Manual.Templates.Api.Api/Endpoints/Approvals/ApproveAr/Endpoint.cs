@@ -19,7 +19,7 @@ namespace ApproveInvoiceAr
         private readonly PaymentHub _options;
         private readonly IServiceBusProvider _iServiceBusProvider;
         private readonly IApprovalsRepo _iApprovalsRepo;
-        private readonly ILogger<ApproveInvoiceArEndpoint> _logger
+        private readonly ILogger<ApproveInvoiceArEndpoint> _logger;
         private readonly IPaymentHubJsonGenerator _iPaymentHubJsonGenerator;
 
         public ApproveInvoiceArEndpoint(
