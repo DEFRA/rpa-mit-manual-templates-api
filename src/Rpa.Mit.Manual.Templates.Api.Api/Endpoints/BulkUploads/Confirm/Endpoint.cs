@@ -5,6 +5,10 @@ using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace BulkUploadConfirm
 {
+    /// <summary>
+    /// this sets the confirmation status of an invoice.
+    /// handles both AP and AR invoices
+    /// </summary>
     [ExcludeFromCodeCoverage]
     internal sealed class BulkUploadConfirmEndpoint : EndpointWithMapping<BulkUploadConfirmRequest, BulkUploadConfirmResponse, BulkUploadConfirmation>
     {
