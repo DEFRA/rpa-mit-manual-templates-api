@@ -2,6 +2,9 @@
 
 namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 {
+    /// <summary>
+    /// An invoice request for an AR type
+    /// </summary>
     [ExcludeFromCodeCoverage]
     public sealed class InvoiceRequestAr : InvoiceRequestBase
     {
