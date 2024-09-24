@@ -1,6 +1,5 @@
 ﻿using System.Data;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
