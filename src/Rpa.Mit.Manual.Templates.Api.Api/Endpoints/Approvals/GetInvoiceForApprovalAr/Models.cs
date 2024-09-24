@@ -1,7 +1,10 @@
-﻿using Rpa.Mit.Manual.Templates.Api.Core.Entities;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 
 namespace GetInvoiceForApprovalAr
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class GetInvoiceForApprovalArRequest
     {
         public Guid InvoiceId { get; set; }
@@ -15,6 +18,7 @@ namespace GetInvoiceForApprovalAr
         }
     }
 
+    [ExcludeFromCodeCoverage]
     internal sealed class GetInvoiceForApprovalArResponse
     {
         public InvoiceAr? InvoiceAr { get; set; }

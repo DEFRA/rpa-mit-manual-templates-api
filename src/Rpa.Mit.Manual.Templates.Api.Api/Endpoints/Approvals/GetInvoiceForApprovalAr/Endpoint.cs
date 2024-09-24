@@ -1,7 +1,10 @@
-﻿using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace GetInvoiceForApprovalAr
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class GetInvoiceForApprovalArEndpoint : Endpoint<GetInvoiceForApprovalArRequest, GetInvoiceForApprovalArResponse>
     {
         private readonly IApprovalsRepo _iApprovalsRepo;
