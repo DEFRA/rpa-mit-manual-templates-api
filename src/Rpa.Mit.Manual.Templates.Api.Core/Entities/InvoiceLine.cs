@@ -2,12 +2,25 @@
 
 namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 {
-    /// <summary>
-    /// an invoice detail line for AP invoices
-    /// </summary>
     [ExcludeFromCodeCoverage]
-    public sealed class InvoiceLine : InvoiceLineBase
+    public class InvoiceLine
     {
+        public Guid Id { get; set; }
 
+        public string InvoiceRequestId { get; set; } = string.Empty;
+
+        public decimal Value { get; set; }
+
+        public string Description { get; set; } = string.Empty;
+
+        public string MarketingYear { get; set; } = string.Empty;
+
+        public string DeliveryBody { get; set; } = string.Empty;
+
+        public string FundCode { get; set; } = string.Empty;
+
+        public string MainAccount { get; set; } = string.Empty;
+
+        public string SchemeCode { get; set; } = string.Empty;
     }
 }

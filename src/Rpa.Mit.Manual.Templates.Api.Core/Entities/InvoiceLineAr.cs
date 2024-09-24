@@ -6,7 +6,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
     /// an invoice detail line for AR invoices
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public sealed class InvoiceLineAr : InvoiceLineBase
+    public sealed class InvoiceLineAr : InvoiceLine
     {
         /// <summary>
         /// calculated. either ‘ADMIN ERROR’ or ‘IRREGULARITY’

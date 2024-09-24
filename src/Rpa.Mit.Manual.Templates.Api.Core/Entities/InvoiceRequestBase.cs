@@ -1,5 +1,8 @@
-﻿namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 {
+    [ExcludeFromCodeCoverage]
     public class InvoiceRequestBase
     {
         public string InvoiceRequestId { get; set; } = string.Empty;
