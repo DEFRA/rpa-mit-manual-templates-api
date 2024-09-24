@@ -1,7 +1,10 @@
-﻿using Rpa.Mit.Manual.Templates.Api.Core.Enums;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Rpa.Mit.Manual.Templates.Api.Core.Enums;
 
 namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 {
+    [ExcludeFromCodeCoverage]
     public class InvoiceBase
     {
         public Guid Id { get; set; }
