@@ -4,6 +4,9 @@ using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace GetInvoiceForApproval
 {
+    /// <summary>
+    /// this handles AP type invoices
+    /// </summary>
     [ExcludeFromCodeCoverage]
     internal sealed class GetInvoiceForApprovalEndpoint : Endpoint<GetInvoiceForApprovalRequest, GetInvoiceForApprovalResponse>
     {

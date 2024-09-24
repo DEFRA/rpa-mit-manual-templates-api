@@ -28,7 +28,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         Task<IEnumerable<Invoice>> GetMyApprovals(string approverEmail, CancellationToken ct);
 
         /// <summary>
-        /// gets a single AP invoice for approver. needs to also check that the person making the request
+        /// gets a single AP invoice for approval. needs to also check that the person making the request
         /// is one of the people selected as approver.
         /// </summary>
         /// <param name="invoiceId"></param>
@@ -38,14 +38,14 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         Task<Invoice> GetInvoiceForApproval(Guid invoiceId, string approverEmail, CancellationToken ct);
 
         /// <summary>
-        /// gets a single AR invoice for approver. needs to also check that the person making the request
+        /// gets a single AR invoice for approval. needs to also check that the person making the request
         /// is one of the people selected as approver.
         /// </summary>
         /// <param name="invoiceId"></param>
         /// <param name="approverEmail"></param>
         /// <param name="ct"></param>
         /// <returns></returns>
-        Task<InvoiceAr> GetInvoiceForApprovalAr(Guid invoiceId, string approverEmail, CancellationToken ct);
+        Task<InvoiceAr> GetInvoiceArForApproval(Guid invoiceId, string approverEmail, CancellationToken ct);
 
         /// <summary>
         /// get a list of invoice requests for a given invoice header, with all children, for publishing to azure servicebus
