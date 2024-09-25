@@ -1,5 +1,8 @@
-﻿namespace Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure
 {
+    [ExcludeFromCodeCoverage]
     public record InvoiceRequestForAzureBase
     {
         public string InvoiceRequestId { get; set; } = string.Empty;
