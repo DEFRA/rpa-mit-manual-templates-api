@@ -3,6 +3,7 @@
 namespace Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure
 {
     /// <summary>
+    /// AP invoice request for azure payment hub
     /// camel casing to suit payment hub requirements
     /// </summary>
     [ExcludeFromCodeCoverage]
