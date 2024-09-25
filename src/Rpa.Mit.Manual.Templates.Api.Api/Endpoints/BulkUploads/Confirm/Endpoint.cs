@@ -6,7 +6,7 @@ using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 namespace BulkUploadConfirm
 {
     /// <summary>
-    /// this sets the confirmation status of an invoice.
+    /// this sets the confirmation status of an AP invoice.
     /// handles both AP and AR invoices
     /// </summary>
     [ExcludeFromCodeCoverage]

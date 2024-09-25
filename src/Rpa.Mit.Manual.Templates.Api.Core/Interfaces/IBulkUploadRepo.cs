@@ -33,7 +33,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// </summary>
         /// <param name="request"></param>
         /// <param name="ct"></param>
-        /// <returns>true if confirn, false if reject</returns>
+        /// <returns>true if confirned, false if rejected</returns>
         Task<bool> ConfirmOrReject(BulkUploadConfirmation request, CancellationToken ct);
     }
 }
