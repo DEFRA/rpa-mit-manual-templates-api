@@ -103,7 +103,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
                 var invParameters = new { invoiceId };
                 var invoice = await cn.QuerySingleAsync<Invoice>(invSql, invParameters);
 
-
                 var prSql = "SELECT invoicerequestid,leger,frn,currency,marketingyear,claimreference AS invoiceNumber FROM invoicerequests WHERE invoiceid = @invoiceId";
                 var prParameters = new { invoiceId };
                 var invoiceRequests = await cn.QueryAsync<InvoiceRequestForAzure>(prSql, prParameters);
@@ -174,6 +173,40 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
                 }
 
                 return invoice;
+            }
+        }
+
+        public async Task<IEnumerable<InvoiceRequestArForAzure>> GetInvoiceRequestsArForAzure(Guid invoiceId, CancellationToken ct)
+        {
+            using (var cn = new NpgsqlConnection(await DbConn()))
+            {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
+                var invSql = "SELECT schemetype,reference,deliverybody FROM invoices WHERE id = @invoiceId";
+                var invParameters = new { invoiceId };
+                var invoice = await cn.QuerySingleAsync<Invoice>(invSql, invParameters);
+
+                var prSql = "SELECT invoicerequestid,leger,frn,currency,marketingyear,claimreference AS invoiceNumber,invoiceid,sbi,vendor,agreementnumber,description,value,duedate,claimreferencenumber,originalclaimreference,originalapinvoicesettlementdate,earliestdatepossiblerecovery,correctionreference FROM invoicerequests WHERE invoiceid = @invoiceId";
+                var prParameters = new { invoiceId };
+                var invoiceRequestsAr = await cn.QueryAsync<InvoiceRequestArForAzure>(prSql, prParameters);
+
+                foreach (InvoiceRequestArForAzure invoiceRequestAr in invoiceRequestsAr)
+                {
+                    invoiceRequestAr.invoiceNumber = invoiceId.ToString();
+                    invoiceRequestAr.deliveryBody = invoice.DeliveryBody;
+                    invoiceRequestAr.agreementNumber = "TEST-AFBA-29E2";
+                    invoiceRequestAr.paymentRequestNumber = 1;
+
+                    // get the invoice lines
+                    var invLineSql = "SELECT value, description, debttype, fundcode, mainaccount AS accountCode, schemecode, marketingyear, deliverybodycode FROM invoicelines WHERE invoicerequestid = @invoicerequestid";
+                    var invLineParms = new { invoicerequestid = invoiceRequestAr.InvoiceRequestId };
+                    invoiceRequestAr.invoiceLinesAr = await cn.QueryAsync<InvoiceLineForAzureAr>(invLineSql, invLineParms);
+
+                    invoiceRequestAr.value = invoiceRequestAr.invoiceLinesAr.Sum(x => x.value);
+                }
+
+                return invoiceRequestsAr;
             }
         }
     }

@@ -48,11 +48,19 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         Task<InvoiceAr> GetInvoiceArForApproval(Guid invoiceId, string approverEmail, CancellationToken ct);
 
         /// <summary>
-        /// get a list of invoice requests for a given invoice header, with all children, for publishing to azure servicebus
+        /// get a list of AP invoice requests for a given invoice header, with all children, for publishing to azure servicebus
         /// </summary>
         /// <param name="invoiceId"></param>
         /// <param name="ct"></param>
         /// <returns></returns>
         Task<IEnumerable<InvoiceRequestForAzure>> GetInvoiceRequestsForAzure(Guid invoiceId, CancellationToken ct);
+
+        /// <summary>
+        ///  get a list of AR invoice requests for a given invoice header, with all children, for publishing to azure servicebus
+        /// </summary>
+        /// <param name="invoiceId"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        Task<IEnumerable<InvoiceRequestArForAzure>> GetInvoiceRequestsArForAzure(Guid invoiceId, CancellationToken ct);
     }
 }

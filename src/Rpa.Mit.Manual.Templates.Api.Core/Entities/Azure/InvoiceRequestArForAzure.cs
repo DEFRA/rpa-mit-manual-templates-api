@@ -6,7 +6,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure
     /// camel casing to suit payment hub requirements
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public record InvoiceRequestForAzureAr : InvoiceRequestForAzure
+    public record InvoiceRequestArForAzure : InvoiceRequestForAzureBase
     {
         /// <summary>
         /// this is the AP invoice ID
@@ -25,7 +25,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure
         /// </summary>
         public string CorrectionReference { get; set; } = string.Empty;
 
-
-        public List<BulkUploadArDetailLine>? BulkUploadArDetailLines { get; set; }
+        public IEnumerable<InvoiceLineForAzureAr> invoiceLinesAr { get; set; } = Enumerable.Empty<InvoiceLineForAzureAr>();
     }
 }
