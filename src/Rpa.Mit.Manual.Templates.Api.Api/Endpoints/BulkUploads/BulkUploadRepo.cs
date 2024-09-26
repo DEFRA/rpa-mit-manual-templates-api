@@ -29,7 +29,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 {
                     try
                     {
-
                         var sql = @"INSERT INTO Invoices (Id, SchemeType, Reference, Value, Status, CreatedBy, Created, PaymentType, AccountType, DeliveryBody, SecondaryQuestion, ApprovalGroup)
                                 VALUES (@Id, @SchemeType, @Reference, @Value, @Status, @CreatedBy, @Created, @PaymentType, @AccountType, @DeliveryBody, @SecondaryQuestion, @ApprovalGroup)";
 

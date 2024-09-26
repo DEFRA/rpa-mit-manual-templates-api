@@ -40,10 +40,13 @@ namespace BulkUploads.AddAp
             string fileName = r.File.FileName;
             var userEmail = User.Identity?.Name!;
 
+            _logger.LogInformation("BulkUploadsApRequest ln 43");
+
             try
             {
                 using (var stream = r.File.OpenReadStream())
                 {
+                    _logger.LogInformation("BulkUploadsApRequest ln 49");
 
                     using (var reader = ExcelReaderFactory.CreateReader(stream))
                     {
@@ -54,6 +57,8 @@ namespace BulkUploads.AddAp
                                 UseHeaderRow = true
                             }
                         });
+
+                        _logger.LogInformation("BulkUploadsApRequest ln 61");
 
                         DataTableCollection dataTables = dataSet.Tables;
 
