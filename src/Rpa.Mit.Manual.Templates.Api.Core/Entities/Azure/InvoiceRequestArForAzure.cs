@@ -6,7 +6,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure
     /// camel casing to suit payment hub requirements
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public record InvoiceRequestArForAzure : InvoiceRequestForAzureBase
+    public sealed record InvoiceRequestArForAzure : InvoiceRequestForAzureBase
     {
         /// <summary>
         /// this is the AP invoice ID
