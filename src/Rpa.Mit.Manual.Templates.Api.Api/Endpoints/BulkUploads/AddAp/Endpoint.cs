@@ -37,7 +37,7 @@ namespace BulkUploads.AddAp
         public override async Task HandleAsync(BulkUploadsApRequest r, CancellationToken ct)
         {
             Response response = new Response();
-            string fileName = r.File.FileName;
+            string fileName = "www";// r.File.FileName;
             var userEmail = User.Identity?.Name!;
 
             _logger.LogInformation("BulkUploadsApRequest ln 43");
