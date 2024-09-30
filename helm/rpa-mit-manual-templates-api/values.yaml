@@ -34,4 +34,4 @@ livenessProbe:
 # These may be changed. See here: https://github.com/DEFRA/adp-helm-library?tab=readme-ov-file#container-template
 volumeMounts:
   mountPath: /tmp
-  name: tmp
+  name: core-app-dir
