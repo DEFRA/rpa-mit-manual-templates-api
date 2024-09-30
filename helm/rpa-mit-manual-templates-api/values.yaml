@@ -13,6 +13,7 @@ deployment: {}
 container:
   port: 3007
   memCpuTier: M
+  readOnlyRootFilesystem: false
 
 # These may be changed. See here: https://github.com/DEFRA/adp-helm-library?tab=readme-ov-file#container-template
 readinessProbe:
