@@ -53,7 +53,6 @@ namespace BulkUploads.AddAr
                             }
                         });
 
-
                         DataTableCollection tables = result.Tables;
 
                         if (null == tables)

@@ -9,14 +9,14 @@ namespace BulkUploads.AddAp
     {
         public required IFormFile File { get; set; }
 
-        internal sealed class BulkUploadsApValidator : Validator<BulkUploadsApRequest>
-        {
-            public BulkUploadsApValidator()
-            {
-                RuleFor(x => x.File)
-                    .NotNull();
-            }
-        }
+        //internal sealed class BulkUploadsApValidator : Validator<BulkUploadsApRequest>
+        //{
+        //    public BulkUploadsApValidator()
+        //    {
+        //        RuleFor(x => x.File)
+        //            .NotNull();
+        //    }
+        //}
     }
 
     [ExcludeFromCodeCoverage]
