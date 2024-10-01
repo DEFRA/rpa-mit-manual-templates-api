@@ -71,12 +71,12 @@ namespace ApproveInvoice
                     foreach (InvoiceRequestForAzure request in invoiceRequests)
                     {
                         // create the json
-                        var invoiceRequestJson = _iPaymentHubJsonGenerator.GenerateInvoiceRequestJson(request, ct);
+                        var invoiceRequestJson = _iPaymentHubJsonGenerator.GenerateInvoiceRequestJson<InvoiceRequestForAzure>(request, ct);
 
                         if (string.IsNullOrEmpty(invoiceRequestJson))
                         {
                             response.Result = false;
-                            response.Message += "Error creating payment hub json with invoice request " + request.InvoiceRequestId;
+                            response.Message += "Error creating payment hub json for invoice request " + request.InvoiceRequestId;
                         }
                         else
                         {

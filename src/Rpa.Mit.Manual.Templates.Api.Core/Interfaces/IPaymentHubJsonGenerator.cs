@@ -1,9 +1,7 @@
-﻿using Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure;
-
-namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
+﻿namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
 {
     public interface IPaymentHubJsonGenerator
     {
-        string GenerateInvoiceRequestJson(InvoiceRequestForAzure invoiceRequest, CancellationToken ct);
+        string GenerateInvoiceRequestJson<T>(T invoiceRequest, CancellationToken ct) where T:class;
     }
 }

@@ -60,14 +60,14 @@ namespace ApproveInvoiceAr
 
                 if (await _iApprovalsRepo.ApproveInvoice(mappedApproval, ct))
                 {
-                    // get the invoice requests and lines for sending to payment hub
-                    var invoiceRequestsForAzure = await _iApprovalsRepo.GetInvoiceRequestsForAzure(r.Id, ct);
+                    // get the AR invoice requests and lines for sending to payment hub
+                    var invoiceRequestsForAzure = await _iApprovalsRepo.GetInvoiceRequestsArForAzure(r.Id, ct);
                     int idx = 0;
 
-                    foreach (InvoiceRequestForAzure request in invoiceRequestsForAzure)
+                    foreach (InvoiceRequestArForAzure request in invoiceRequestsForAzure)
                     {
                         // create the json
-                        var invoiceRequestForAzureJson = _iPaymentHubJsonGenerator.GenerateInvoiceRequestJson(request, ct);
+                        var invoiceRequestForAzureJson = _iPaymentHubJsonGenerator.GenerateInvoiceRequestJson<InvoiceRequestArForAzure>(request, ct);
 
                         if (string.IsNullOrEmpty(invoiceRequestForAzureJson))
                         {

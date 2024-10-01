@@ -25,6 +25,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure
         /// </summary>
         public string CorrectionReference { get; set; } = string.Empty;
 
-        public IEnumerable<InvoiceLineForAzureAr> invoiceLinesAr { get; set; } = Enumerable.Empty<InvoiceLineForAzureAr>();
+        public IEnumerable<InvoiceLineForAzureAr> invoiceLines { get; set; } = Enumerable.Empty<InvoiceLineForAzureAr>();
     }
 }

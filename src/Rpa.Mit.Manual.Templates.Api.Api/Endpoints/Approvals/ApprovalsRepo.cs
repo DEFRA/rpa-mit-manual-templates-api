@@ -187,7 +187,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
                 var invParameters = new { invoiceId };
                 var invoice = await cn.QuerySingleAsync<Invoice>(invSql, invParameters);
 
-                var prSql = "SELECT invoicerequestid,leger,frn,currency,marketingyear,claimreference AS invoiceNumber,invoiceid,sbi,vendor,agreementnumber,description,value,duedate,claimreferencenumber,originalclaimreference,originalapinvoicesettlementdate,earliestdatepossiblerecovery,correctionreference FROM invoicerequests WHERE invoiceid = @invoiceId";
+                var prSql = "SELECT invoiceid,invoicerequestid,ledger,frn,currency,marketingyear,claimreference AS invoiceNumber,sbi,vendor,agreementnumber,description,value,duedate,claimreferencenumber,originalclaimreference,originalapinvoicesettlementdate,earliestdatepossiblerecovery,correctionreference FROM invoicerequests WHERE invoiceid = @invoiceId";
                 var prParameters = new { invoiceId };
                 var invoiceRequestsAr = await cn.QueryAsync<InvoiceRequestArForAzure>(prSql, prParameters);
 
@@ -201,9 +201,9 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
                     // get the invoice lines
                     var invLineSql = "SELECT value, description, debttype, fundcode, mainaccount AS accountCode, schemecode, marketingyear, deliverybodycode FROM invoicelines WHERE invoicerequestid = @invoicerequestid";
                     var invLineParms = new { invoicerequestid = invoiceRequestAr.InvoiceRequestId };
-                    invoiceRequestAr.invoiceLinesAr = await cn.QueryAsync<InvoiceLineForAzureAr>(invLineSql, invLineParms);
+                    invoiceRequestAr.invoiceLines = await cn.QueryAsync<InvoiceLineForAzureAr>(invLineSql, invLineParms);
 
-                    invoiceRequestAr.value = invoiceRequestAr.invoiceLinesAr.Sum(x => x.value);
+                    invoiceRequestAr.value = invoiceRequestAr.invoiceLines.Sum(x => x.value);
                 }
 
                 return invoiceRequestsAr;

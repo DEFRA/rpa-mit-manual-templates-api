@@ -28,7 +28,7 @@ public static class ServiceExtensions
         services.AddTransient<IArImporterService, ArImporterService>();
         services.AddTransient<IEmailService, EmailService>();
         services.AddSingleton<IServiceBusProvider, ServiceBusProvider>();
-        services.AddTransient<IPaymentHubJsonGenerator, PaymentHubJsonGenerator>();
+        services.AddTransient<IPaymentHubJsonGenerator,PaymentHubJsonGenerator>();
 
         services.AddScoped<BusinessFeedbackHandler>();
 

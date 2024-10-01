@@ -12,7 +12,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
         /// <summary>
         /// this is the account type (AP or AR)
         /// </summary>
-        public string Leger { get; set; } = string.Empty;
+        public string Ledger { get; set; } = string.Empty;
 
 
         public string ClaimReferenceNumber { get; set; } = string.Empty;
@@ -21,7 +21,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 
         public string Frn { get; set; } = string.Empty;
 
-        public string Sbi { get; set; } = string.Empty;
+        public int? Sbi { get; set; } = null;
 
         public string Vendor { get; set; } = string.Empty;
 

@@ -51,7 +51,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 {
                     var bulkUploadHeaderLine = new BulkUploadArHeaderLine
                     {
-                        Leger = "AR",
+                        Ledger = "AR",
                         InvoiceId = bulkUploadInvoice!.Id,
                         InvoiceRequestId = row[2].ToString() + "_" + row[3].ToString(),
                         ClaimReferenceNumber = row[2].ToString()!,

@@ -10,7 +10,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure
         /// <summary>
         /// this is the account code, either "AP" or "AR"
         /// </summary>
-        public string leger { get; set; } = string.Empty;
+        public string ledger { get; set; } = string.Empty;
 
         public int paymentRequestNumber { get; set; }
 

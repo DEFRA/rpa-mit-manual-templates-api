@@ -34,8 +34,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
                         await cn.ExecuteAsync(sql, bulkUploadApDataset.BulkUploadInvoice);
 
-                        var sql1 = "INSERT INTO invoicerequests (invoicerequestid, invoiceid, leger, frn, sbi, vendor, marketingyear, agreementnumber, currency, description, duedate, claimreferencenumber, claimreference )" +
-                             " VALUES (@InvoiceRequestId, @InvoiceId, @Leger, @Frn, @Sbi, @Vendor, @MarketingYear,  @AgreementNumber, @PaymentType, @Description, @DueDate, @claimreferencenumber, @claimreference)";
+                        var sql1 = "INSERT INTO invoicerequests (invoicerequestid, invoiceid, ledger, frn, sbi, vendor, marketingyear, agreementnumber, currency, description, duedate, claimreferencenumber, claimreference )" +
+                             " VALUES (@InvoiceRequestId, @InvoiceId, @Ledger, @Frn, @Sbi, @Vendor, @MarketingYear,  @AgreementNumber, @PaymentType, @Description, @DueDate, @claimreferencenumber, @claimreference)";
 
                         await cn.ExecuteAsync(sql1, bulkUploadApDataset.BulkUploadInvoice!.BulkUploadApHeaderLines);
 
@@ -171,8 +171,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
                         await cn.ExecuteAsync(sql, bulkUploadArDataset.BulkUploadInvoice);
 
-                        var sql1 = "INSERT INTO invoicerequests (invoicerequestid, invoiceid, earliestdatepossiblerecovery,correctionreference,originalapinvoicesettlementdate,originalclaimreference,leger, frn, sbi, vendor, marketingyear, agreementnumber, currency, description, duedate, claimreferencenumber, claimreference )" +
-                             " VALUES (@InvoiceRequestId, @InvoiceId, @EarliestDatePossibleRecovery,@CorrectionReference, @OriginalAPInvoiceSettlementDate,@OriginalClaimReference,@Leger, @Frn, @Sbi, @Vendor, @MarketingYear,  @AgreementNumber, @PaymentType, @Description, @DueDate, @claimreferencenumber, @claimreference)";
+                        var sql1 = "INSERT INTO invoicerequests (invoicerequestid, invoiceid, earliestdatepossiblerecovery,correctionreference,originalapinvoicesettlementdate,originalclaimreference,ledger, frn, sbi, vendor, marketingyear, agreementnumber, currency, description, duedate, claimreferencenumber, claimreference )" +
+                             " VALUES (@InvoiceRequestId, @InvoiceId, @EarliestDatePossibleRecovery,@CorrectionReference, @OriginalAPInvoiceSettlementDate,@OriginalClaimReference,@Ledger, @Frn, @Sbi, @Vendor, @MarketingYear,  @AgreementNumber, @PaymentType, @Description, @DueDate, @claimreferencenumber, @claimreference)";
 
                         await cn.ExecuteAsync(sql1, bulkUploadArDataset.BulkUploadInvoice!.BulkUploadArHeaderLines);
 
