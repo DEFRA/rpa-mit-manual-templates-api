@@ -37,14 +37,17 @@ namespace Program
 
             .AddAzureBusComponents(builder);
 
+            var tenantId = builder.Configuration["AzureAd:TenantId"];
+            var clientId = builder.Configuration["AzureAd:ClientId"];
+
             builder.Services
                    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                    .AddJwtBearer(
                        o =>
                        {
-                           o.Authority = "https://login.microsoftonline.com/6f504113-6b64-43f2-ade9-242e05780007/v2.0";
-                           o.TokenValidationParameters.ValidIssuer = "https://sts.windows.net/6f504113-6b64-43f2-ade9-242e05780007/";
-                           o.Audience = "api://442bf74f-8332-4b81-9335-8d4d45b24eb6";
+                           o.Authority = $"https://login.microsoftonline.com/{tenantId}/v2.0";
+                           o.TokenValidationParameters.ValidIssuer = $"https://sts.windows.net/{tenantId}/";
+                           o.Audience = $"api://{clientId}";
                        }
                        );
 
