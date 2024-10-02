@@ -13,10 +13,10 @@
 - key: POSTGRES__MANAGEDIDENTITYCLIENTID 
   value: "{{servicename}}-POSTGRES-MANAGEDIDENTITY-CLIENTID" 
   type: "keyvault"
-- key: TENANT__ID
+- key: AZUREAD__TENANTID
   value: "{{servicename}}-TENANT-ID" 
   type: "keyvault"
-- key: CLIENT__ID
+- key: AZUREAD__CLIENTID
   value: "{{servicename}}-CLIENT-ID" 
   type: "keyvault"
 - key: GOVNOTIFY__APIKEY
