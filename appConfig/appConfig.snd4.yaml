@@ -18,6 +18,7 @@
   type: "keyvault"
 - key: CLIENT__ID
   value: "{{servicename}}-CLIENT-ID" 
+  type: "keyvault"
 - key: GOVNOTIFY__APIKEY
   value: "{{servicename}}-GOVNOTIFY-APIKEY" 
   type: "keyvault"
