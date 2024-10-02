@@ -37,8 +37,8 @@ namespace Program
 
             .AddAzureBusComponents(builder);
 
-            var tenantId = builder.Configuration["AzureAd:TenantId"];
-            var clientId = builder.Configuration["AzureAd:ClientId"];
+            var tenantId = builder.Configuration["AzureAd:TENANTID"];
+            var clientId = builder.Configuration["AzureAd:CLIENTID"];
 
             builder.Services
                    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
