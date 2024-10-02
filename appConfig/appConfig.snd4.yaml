@@ -13,6 +13,12 @@
 - key: POSTGRES__MANAGEDIDENTITYCLIENTID 
   value: "{{servicename}}-POSTGRES-MANAGEDIDENTITY-CLIENTID" 
   type: "keyvault"
+- key: TENANT__ID
+  value: "{{servicename}}-TENANT-ID" 
+  type: "keyvault"
+- key: CLIENT__ID
+  value: "{{servicename}}-CLIENT-ID" 
+  type: "keyvault"
 - key: GOVNOTIFY__APIKEY
   value: "{{servicename}}-GOVNOTIFY-APIKEY" 
   type: "keyvault"
