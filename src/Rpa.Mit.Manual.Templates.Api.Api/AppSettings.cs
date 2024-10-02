@@ -26,14 +26,4 @@ namespace Rpa.Mit.Manual.Templates.Api
     {
         public string APIKEY { get; set; } = string.Empty;
     }
-
-    [ExcludeFromCodeCoverage]
-    public class AzureAd
-    {
-        public string Instance { get; set; } = string.Empty;
-        public string TENANTID { get; set; } = string.Empty;
-        public string Domain { get; set; } = string.Empty;
-        public string CLIENTID { get; set; } = string.Empty;
-        public string CallbackPath { get; set; } = string.Empty;
-    }
 }

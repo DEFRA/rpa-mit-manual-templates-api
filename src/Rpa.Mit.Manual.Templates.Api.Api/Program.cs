@@ -32,13 +32,10 @@ namespace Program
             .AddHostedService<PaymentHubBackgroundService<PaymentHubResponseRoot>>()
             .AddSingleton<IMessageHandler<PaymentHubResponseRoot>, PaymentHubResponseHandler>()
 
-            //.AddSingleton<FeedbackToBusinessBackgroundService>()
-            //.AddHostedService(provider => provider.GetRequiredService<FeedbackToBusinessBackgroundService>())
-
             .AddAzureBusComponents(builder);
 
-            var tenantId = builder.Configuration["AzureAd:TENANTID"];
-            var clientId = builder.Configuration["AzureAd:CLIENTID"];
+            var tenantId = builder.Configuration["TENANTID"];
+            var clientId = builder.Configuration["CLIENTID"];
 
             builder.Services
                    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
