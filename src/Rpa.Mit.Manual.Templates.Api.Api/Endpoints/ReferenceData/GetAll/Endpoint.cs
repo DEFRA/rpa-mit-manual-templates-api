@@ -22,7 +22,7 @@ internal sealed class GetReferenceDataEndpoint : EndpointWithoutRequest<Response
     {
         AllowAnonymous();
         Get("/referencedata/getall");
-        //ResponseCache(36000); //cache seconds. temp disable till all data is entered and stabilised
+        ResponseCache(360000); //cache seconds. temp disable till all data is entered and stabilised
     }
 
     public override async Task HandleAsync(CancellationToken ct)
