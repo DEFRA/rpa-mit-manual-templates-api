@@ -16,7 +16,7 @@ namespace InvoiceRequests.Add
 
         public string FRN { get; set; } = string.Empty;
 
-        public string SBI { get; set; } = string.Empty;
+        public int? SBI { get; set; } = null;
 
         [RegularExpression(@"^(201[5-9]|20[2-9]\d|[2-9]\d{3})$", ErrorMessage = "The Marketing Year must be after 2014")]
         public string MarketingYear { get; set; } = string.Empty;
