@@ -13,7 +13,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 
         public string FRN { get; set; } = string.Empty;
 
-        public string SBI { get; set; } = string.Empty;
+        public int? SBI { get; set; } = null;
 
         public string MarketingYear { get; set; } = string.Empty;
 

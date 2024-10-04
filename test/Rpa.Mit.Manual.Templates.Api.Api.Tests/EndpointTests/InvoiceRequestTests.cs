@@ -19,7 +19,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
             InvoiceRequests.Add.AddInvoiceRequestRequest invoiceRequest = new AddInvoiceRequestRequest
             {
                 FRN = "EU (2014 - 2020 Program)",
-                SBI = "GBP",
+                SBI = 999,
                 Description = "AP",
                 DueDate = "EA",
                 InvoiceRequestId = "Any question",
@@ -55,7 +55,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
             AddInvoiceRequestRequest invoiceRequest = new AddInvoiceRequestRequest
             {
                 FRN = "EU (2014 - 2020 Program)",
-                SBI = "GBP",
+                SBI = 999,
                 Description = "AP",
                 DueDate = "EA",
                 InvoiceRequestId = "Any question",
@@ -89,7 +89,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
             AddInvoiceRequestRequest invoiceRequest = new AddInvoiceRequestRequest
             {
                 FRN = "EU (2014 - 2020 Program)",
-                SBI = "GBP",
+                SBI = 999,
                 Description = "AP",
                 DueDate = "EA",
                 InvoiceRequestId = "Any question",

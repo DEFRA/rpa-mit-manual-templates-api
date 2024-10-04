@@ -65,20 +65,13 @@ namespace InvoiceRequests.Add
 
             RuleFor(x => x)
                 .Cascade(CascadeMode.Stop)
-                .Must(x => (!string.IsNullOrEmpty(x.FRN) ^ !string.IsNullOrEmpty(x.SBI)) ^ !string.IsNullOrEmpty(x.Vendor))
+                .Must(x => (!string.IsNullOrEmpty(x.FRN) ^ !string.IsNullOrEmpty(x.Vendor)))
                 .WithMessage("Select only one of FRN, SBI and Vendor");
 
             When(x => !string.IsNullOrEmpty(x.FRN), () => {
                 RuleFor(x => x.FRN).NotEmpty()
                 .Matches("^([0-9]{10})?$")
                 .WithMessage("The FRN must be a 10-digit number or be empty.");
-            });
-
-            When(x => !string.IsNullOrEmpty(x.SBI), () => {
-                RuleFor(x => x.SBI)
-                .NotEmpty()
-                .Matches("^(1050{5}|10[5-9]\\d{6}|1[1-9]\\d{7}|[2-9]\\d{8})?$")
-                .WithMessage("The SBI is not in valid range (105000000 .. 999999999) or should be empty.");
             });
 
             When(x => !string.IsNullOrEmpty(x.Vendor), () => {
