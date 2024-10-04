@@ -108,8 +108,17 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
 
+                var sql = @"
+                            SELECT frn,sbi,vendor,agreementnumber,currency,ir.description,ir.invoicerequestid,il.marketingyear,duedate,claimreferencenumber,claimreference,invoiceid,
+                            SUM(il.value) AS value
+                            FROM invoicerequests ir JOIN invoicelines il 
+                            ON ir.invoicerequestid = il.invoicerequestid
+                            WHERE ir.invoiceid = @invoiceId
+                            group by frn, sbi, vendor,agreementnumber,currency,ir.description,ir.invoicerequestid,il.marketingyear,duedate,claimreferencenumber,claimreference,invoiceid
+                          ";
+
                 return await cn.QueryAsync<InvoiceRequest>(
-                            "SELECT frn, sbi, vendor, agreementnumber, currency, description, value, invoicerequestid, marketingyear, duedate, claimreferencenumber, claimreference, invoiceid FROM invoicerequests WHERE invoiceid = @invoiceId",
+                            sql,
                             new { invoiceId });
             }
         }
@@ -122,7 +131,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests
                     await cn.OpenAsync(ct);
 
                 return await cn.QuerySingleAsync<InvoiceRequest>(
-                            "SELECT frn, sbi, vendor, agreementnumber, currency, description, value, invoicerequestid, marketingyear, duedate, claimreferencenumber, claimreference, invoiceid FROM invoicerequests WHERE invoicerequestid = @invoiceRequestId",
+                            "SELECT frn, sbi, vendor, agreementnumber, currency, description, invoicerequestid, marketingyear, duedate, claimreferencenumber, claimreference, invoiceid FROM invoicerequests WHERE invoicerequestid = @invoiceRequestId",
                             new { invoiceRequestId });
             }
         }
