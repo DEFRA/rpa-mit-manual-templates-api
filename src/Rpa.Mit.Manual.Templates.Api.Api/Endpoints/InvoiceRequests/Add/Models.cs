@@ -63,11 +63,6 @@ namespace InvoiceRequests.Add
             RuleFor(x => x.InvoiceId)
                 .NotEmpty().WithMessage("InvoiceId is required");
 
-            RuleFor(x => x)
-                .Cascade(CascadeMode.Stop)
-                .Must(x => (!string.IsNullOrEmpty(x.FRN) ^ !string.IsNullOrEmpty(x.Vendor)))
-                .WithMessage("Select only one of FRN, SBI and Vendor");
-
             When(x => !string.IsNullOrEmpty(x.FRN), () => {
                 RuleFor(x => x.FRN).NotEmpty()
                 .Matches("^([0-9]{10})?$")

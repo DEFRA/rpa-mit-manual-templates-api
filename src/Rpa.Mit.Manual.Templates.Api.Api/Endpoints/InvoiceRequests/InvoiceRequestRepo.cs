@@ -100,7 +100,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests
                 }
             }
         }
-
+         
         public async Task<IEnumerable<InvoiceRequest>> GetInvoiceRequestsByInvoiceId(Guid invoiceId, CancellationToken ct)
         {
             using (var cn = new NpgsqlConnection(await DbConn()))
