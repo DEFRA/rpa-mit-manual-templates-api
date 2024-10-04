@@ -111,7 +111,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests
                 var sql = @"
                             SELECT frn,sbi,vendor,agreementnumber,currency,ir.description,ir.invoicerequestid,il.marketingyear,duedate,claimreferencenumber,claimreference,invoiceid,
                             SUM(il.value) AS value
-                            FROM invoicerequests ir JOIN invoicelines il 
+                            FROM invoicerequests ir LEFT JOIN invoicelines il 
                             ON ir.invoicerequestid = il.invoicerequestid
                             WHERE ir.invoiceid = @invoiceId
                             group by frn, sbi, vendor,agreementnumber,currency,ir.description,ir.invoicerequestid,il.marketingyear,duedate,claimreferencenumber,claimreference,invoiceid
