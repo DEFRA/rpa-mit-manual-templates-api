@@ -26,5 +26,9 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
         public const string MarketingYearsReferenceData = "_MarketingYearsReferenceData";
 
         public const string FundCodesReferenceData = "_FundCodesReferenceData";
+
+        public const string ApChartOfAccounts = "_ApChartOfAccounts";
+
+        public const string ArChartOfAccounts = "_ArChartOfAccounts";
     }
 }

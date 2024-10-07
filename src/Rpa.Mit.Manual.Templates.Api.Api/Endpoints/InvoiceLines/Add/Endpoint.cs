@@ -2,6 +2,7 @@
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
+using Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint;
 
 namespace InvoiceLines.Add
 {
@@ -9,19 +10,22 @@ namespace InvoiceLines.Add
     public sealed class AddInvoiceIineEndpoint : EndpointWithMapping<AddInvoiceLineRequest, AddInvoiceLineResponse, InvoiceLine>
     {
         private readonly IInvoiceLineRepo _iInvoiceLineRepo;
+        private readonly IReferenceDataRepo _iReferenceDataRepo;
         private readonly ILogger<AddInvoiceIineEndpoint> _logger;
 
         public AddInvoiceIineEndpoint(
             ILogger<AddInvoiceIineEndpoint> logger,
-            IInvoiceLineRepo iInvoiceLineRepo)
+            IInvoiceLineRepo iInvoiceLineRepo,
+            IReferenceDataRepo iReferenceDataRepo)
         {
             _logger = logger;
             _iInvoiceLineRepo = iInvoiceLineRepo;
+            _iReferenceDataRepo = iReferenceDataRepo;
         }
 
         public override void Configure()
         {
-            Post("/invoicelines/add");
+            Post("/invoicelines/addap");
         }
 
         public override async Task HandleAsync(AddInvoiceLineRequest r, CancellationToken ct)
@@ -62,10 +66,13 @@ namespace InvoiceLines.Add
         {
             var invoiceLine = await Task.FromResult(new InvoiceLine());
 
+            var chartOfAccounts = await _iReferenceDataRepo.GetChartOfAccountsApReferenceData(ct);
+            var descriptionQuery = r.MainAccount + "/" + r.SchemeCode + "/" + r.DeliveryBody;
+
             invoiceLine.MarketingYear = r.MarketingYear;
             invoiceLine.DeliveryBody = r.DeliveryBody;
             invoiceLine.Value = r.Value;
-            invoiceLine.Description = r.Description;
+            invoiceLine.Description = chartOfAccounts.First(c => c.Code == descriptionQuery).Org;
             invoiceLine.FundCode = r.FundCode;
             invoiceLine.SchemeCode = r.SchemeCode;
             invoiceLine.MainAccount = r.MainAccount;

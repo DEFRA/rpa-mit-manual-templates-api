@@ -18,11 +18,9 @@ namespace InvoiceRequests.Add
 
         public int? SBI { get; set; } = null;
 
-        [RegularExpression(@"^(201[5-9]|20[2-9]\d|[2-9]\d{3})$", ErrorMessage = "The Marketing Year must be after 2014")]
-        public string MarketingYear { get; set; } = string.Empty;
+        public string Vendor { get; set; } = string.Empty;
 
-        [Range(1, int.MaxValue, ErrorMessage = "The Payment Request Number must be greater than 0")]
-        public int InvoiceRequestNumber { get; set; }
+        public string MarketingYear { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "The Agreement Number is required")]
         public string AgreementNumber { get; set; } = string.Empty;
@@ -31,13 +29,9 @@ namespace InvoiceRequests.Add
 
         public string ClaimReference { get; set; } = string.Empty;
 
-        [RegularExpression("GBP|EUR", ErrorMessage = "The Currency must be either GBP or EUR")]
         public string Currency { get; set; } = "GBP";
 
         public string DueDate { get; set; } = string.Empty;
-
-        [RegularExpression(@"^[0-9]*(\.[0-9]{1,2})?$", ErrorMessage = "The value must be valid number and have a maximum of 2 decimal places.")]
-        public decimal Value { get; set; }
 
         public string AccountType { get; set; } = string.Empty;
 
@@ -48,9 +42,6 @@ namespace InvoiceRequests.Add
         public DateTime RecoveryDate { get; set; } = default!;
 
         public string InvoiceCorrectionReference { get; set; } = string.Empty;
-
-        [RegularExpression(@"^.{6}$|^$", ErrorMessage = "The Vendor must be 6 characters or be empty.")]
-        public string Vendor { get; set; } = string.Empty;
 
         public string Description { get; set; } = string.Empty;
     }
@@ -63,19 +54,29 @@ namespace InvoiceRequests.Add
             RuleFor(x => x.InvoiceId)
                 .NotEmpty().WithMessage("InvoiceId is required");
 
+            RuleFor(x => x.Currency)
+                .NotEmpty()
+                .Matches("^GBP|EUR$")
+                .WithMessage("The Currency must be either GBP or EUR");
+
             When(x => !string.IsNullOrEmpty(x.FRN), () => {
                 RuleFor(x => x.FRN).NotEmpty()
                 .Matches("^([0-9]{10})?$")
                 .WithMessage("The FRN must be a 10-digit number or be empty.");
             });
 
+            RuleFor(x => x.SBI).InclusiveBetween(105000000, 999999999)
+                .WithMessage("The SBI is not in valid range (105000000 .. 999999999) or should be empty.");
+
             When(x => !string.IsNullOrEmpty(x.Vendor), () => {
                 RuleFor(x => x.Vendor)
-                .NotEmpty()
-                .WithMessage("Vendor must be longer than 3 characters.");
+                 .Matches("^.{6}$|^$")
+                 .WithMessage("The Vendor must be 6 characters or be empty.");
             });
 
-
+            RuleFor(x => x.MarketingYear).NotEmpty()
+                .Matches("^(201[5-9]|20[2-9]\\d|[2-9]\\d{3})$")
+                .WithMessage("The Marketing Year must be after 2014");
         }
     }
 

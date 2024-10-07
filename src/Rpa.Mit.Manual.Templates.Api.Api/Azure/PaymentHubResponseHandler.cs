@@ -55,7 +55,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Azure
                 // update the database...
                 await _iInvoiceRequestRepo.UpdateInvoiceRequestWithPaymentHubResponse(paymentHubResponseForDatabase);
 
-                //if we have an error, we also need to email the originator of the data with the relevant data.
+                // if we have an error, we also need to email the originator of the data with the relevant data.
+                // this ought to be extracted and the functionality put into a timed service or azure function.
                 if (!message.accepted)
                 {
                     // first get the relevant user email
