@@ -19,22 +19,34 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
             AddInvoiceLineRequest invoiceRequest = new AddInvoiceLineRequest
             {
                 Value = 12.12M,
-                Description = "G00 - Gross value of claim",
-                FundCode = "FUND1",
-                MainAccount = "AR",
-                SchemeCode = "code1",
-                MarketingYear = "2020",
+                FundCode = "FUN",
+                MainAccount = "SOS216",
+                SchemeCode = "10580",
+                MarketingYear = "2025",
                 DeliveryBody = "DB1",
                 InvoiceRequestId = "333_YMALXCHG"
             };
+
+            IEnumerable<ChartOfAccounts> chartOfAccounts = new List<ChartOfAccounts>() {
+                new ChartOfAccounts
+            {
+                Code = "SOS216/10580/DB1",
+                Org = "DA",
+                Description = "R00 Crisis reserve distribution / FDM Reimbursement -2020 / England",
+            } }.AsEnumerable();
 
             var fakeRepo = A.Fake<IInvoiceLineRepo>();
             A.CallTo(() => fakeRepo.AddInvoiceLine(A<InvoiceLine>.Ignored, CancellationToken.None))
                     .Returns(Task.FromResult(12.12M));
 
+            var fakeChartOfAccountsRepo = A.Fake<IReferenceDataRepo>();
+            A.CallTo(() => fakeChartOfAccountsRepo.GetChartOfAccountsApReferenceData(CancellationToken.None))
+                    .Returns(Task.FromResult(chartOfAccounts));
+
             var ep = Factory.Create<AddInvoiceIineEndpoint>(
                            A.Fake<ILogger<AddInvoiceIineEndpoint>>(),
-                           fakeRepo);
+                           fakeRepo,
+                           fakeChartOfAccountsRepo);
 
             await ep.HandleAsync(invoiceRequest, default);
             var response = ep.Response;
@@ -69,7 +81,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
 
             var ep = Factory.Create<AddInvoiceIineEndpoint>(
                            A.Fake<ILogger<AddInvoiceIineEndpoint>>(),
-                           fakeRepo);
+                           fakeRepo,
+                           A.Fake<IReferenceDataRepo>());
 
             await ep.HandleAsync(invoiceLineRequest, default);
             var response = ep.Response;
