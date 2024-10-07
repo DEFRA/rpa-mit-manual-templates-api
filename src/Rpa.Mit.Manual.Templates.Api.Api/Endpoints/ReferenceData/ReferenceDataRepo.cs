@@ -46,8 +46,8 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
                         SELECT code, description, org FROM lookup_deliverybodycodes;
                         SELECT code, description FROM lookup_marketingyearcodes;
                         SELECT code, description FROM lookup_fundcodes;
-                        --SELECT code, description,org FROM lookup_ap_chartofaccounts;
-                        --SELECT code, description,org FROM lookup_ar_chartofaccounts;
+                        SELECT code, description, org FROM lookup_accounts_ap;
+                        SELECT code, description, org FROM lookup_accounts_ar;
                         ";
 
                 using (var res = await cn.QueryMultipleAsync(sql))
@@ -62,6 +62,8 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
                     referenceData.DeliveryBodies = await res.ReadAsync<DeliveryBody>();
                     referenceData.MarketingYears = await res.ReadAsync<MarketingYear>();
                     referenceData.FundCodes = await res.ReadAsync<FundCode>();
+                    referenceData.AccountAps = await res.ReadAsync<AccountAp>();
+                    referenceData.AccountArs = await res.ReadAsync<AccountAr>();
 
                     return referenceData;
                 }
