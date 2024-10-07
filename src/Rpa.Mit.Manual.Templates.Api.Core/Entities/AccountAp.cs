@@ -1,8 +1,11 @@
-﻿namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 {
     /// <summary>
     /// from the lookup_accounts_ap table
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public sealed record AccountAp
     {
         public string Code { get; set; } = string.Empty;
