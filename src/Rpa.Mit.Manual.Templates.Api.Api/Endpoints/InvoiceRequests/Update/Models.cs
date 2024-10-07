@@ -20,15 +20,7 @@ namespace InvoiceRequests.Update
 
         public string AgreementNumber { get; set; } = string.Empty;
 
-        public string ClaimReferenceNumber { get; set; } = string.Empty;
-
-        public string ClaimReference { get; set; } = string.Empty;
-
         public string Currency { get; set; } = "GBP";
-
-        public string DueDate { get; set; } = string.Empty;
-
-        public string AccountType { get; set; } = string.Empty;
 
         public string OriginalInvoiceNumber { get; set; } = string.Empty;
 
@@ -36,9 +28,17 @@ namespace InvoiceRequests.Update
 
         public DateTime RecoveryDate { get; set; } = default!;
 
+        public string ClaimReferenceNumber { get; set; } = string.Empty;
+
+        public string ClaimReference { get; set; } = string.Empty;
+
         public string InvoiceCorrectionReference { get; set; } = string.Empty;
 
         public string Vendor { get; set; } = string.Empty;
+
+        public string DueDate { get; set; } = string.Empty;
+
+        public string AccountType { get; set; } = string.Empty;
 
         public string Description { get; set; } = string.Empty;
 
