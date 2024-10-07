@@ -96,7 +96,9 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
 
         public async Task<IEnumerable<ChartOfAccounts>> GetChartOfAccountsApReferenceData(CancellationToken ct)
         {
-            if (!_memoryCache.TryGetValue(CacheKeys.ApChartOfAccounts, out IEnumerable<ChartOfAccounts> chartOfAccounts))
+            IEnumerable<ChartOfAccounts> chartOfAccounts;
+
+            if (!_memoryCache.TryGetValue(CacheKeys.ApChartOfAccounts, out chartOfAccounts!))
             {
                 using (var cn = new NpgsqlConnection(await DbConn()))
                 {
@@ -119,7 +121,9 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
 
         public async Task<IEnumerable<ChartOfAccounts>> GetChartOfAccountsArReferenceData(CancellationToken ct)
         {
-            if (!_memoryCache.TryGetValue(CacheKeys.ArChartOfAccounts, out IEnumerable<ChartOfAccounts> chartOfAccounts))
+            IEnumerable<ChartOfAccounts> chartOfAccounts;
+
+            if (!_memoryCache.TryGetValue(CacheKeys.ArChartOfAccounts, out chartOfAccounts!))
             {
                 using (var cn = new NpgsqlConnection(await DbConn()))
                 {
