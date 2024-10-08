@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 using Dapper;
 
+using Microsoft.Azure.Amqp.Framing;
 using Microsoft.Extensions.Options;
 
 using Npgsql;

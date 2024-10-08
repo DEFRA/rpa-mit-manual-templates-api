@@ -3,10 +3,13 @@ using System.Diagnostics.CodeAnalysis;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 
-namespace InvoiceLines.Add
+namespace InvoiceLines.AddAp
 {
+    /// <summary>
+    /// Ap invoice line
+    /// </summary>
     [ExcludeFromCodeCoverage]
-    public sealed class AddInvoiceLineRequest
+    public class AddInvoiceLineRequest
     {
         public Guid Id { get; set; }
 

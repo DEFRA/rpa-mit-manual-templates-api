@@ -1,21 +1,20 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using InvoiceLines.AddAp;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
-namespace InvoiceLines.Add
+namespace AddInvoiceIineAr
 {
-    [ExcludeFromCodeCoverage]
-    public sealed class AddInvoiceIineEndpoint : EndpointWithMapping<AddInvoiceLineRequest, AddInvoiceLineResponse, InvoiceLine>
+    internal sealed class AddInvoiceIineArEndpoint : EndpointWithMapping<AddInvoiceLineArRequest, AddInvoiceLineArResponse, InvoiceLineAr>
     {
         private readonly IInvoiceLineRepo _iInvoiceLineRepo;
         private readonly IReferenceDataRepo _iReferenceDataRepo;
-        private readonly ILogger<AddInvoiceIineEndpoint> _logger;
+        private readonly ILogger<AddInvoiceIineArEndpoint> _logger;
 
-        public AddInvoiceIineEndpoint(
-            ILogger<AddInvoiceIineEndpoint> logger,
-            IInvoiceLineRepo iInvoiceLineRepo,
-            IReferenceDataRepo iReferenceDataRepo)
+        public AddInvoiceIineArEndpoint(
+                                        ILogger<AddInvoiceIineArEndpoint> logger,
+                                        IInvoiceLineRepo iInvoiceLineRepo,
+                                        IReferenceDataRepo iReferenceDataRepo)
         {
             _logger = logger;
             _iInvoiceLineRepo = iInvoiceLineRepo;
@@ -24,22 +23,22 @@ namespace InvoiceLines.Add
 
         public override void Configure()
         {
-            Post("/invoicelines/addap");
+            Post("/invoicelines/addar");
         }
 
-        public override async Task HandleAsync(AddInvoiceLineRequest r, CancellationToken ct)
+        public override async Task HandleAsync(AddInvoiceLineArRequest r, CancellationToken ct)
         {
-            AddInvoiceLineResponse response = new AddInvoiceLineResponse();
+            AddInvoiceLineArResponse response = new AddInvoiceLineArResponse();
 
             try
             {
-                InvoiceLine invoiceLine = await MapToEntityAsync(r, ct);
+                InvoiceLineAr invoiceLine = await MapToEntityAsync(r, ct);
 
                 invoiceLine.Id = Guid.NewGuid();
 
                 var res = await _iInvoiceLineRepo.AddInvoiceLine(invoiceLine, ct);
-                
-                if(res != 0)
+
+                if (res != 0)
                 {
                     response.InvoiceRequestValue = res;
                     response.InvoiceLine = invoiceLine;
@@ -61,11 +60,11 @@ namespace InvoiceLines.Add
             }
         }
 
-        public sealed override async Task<InvoiceLine> MapToEntityAsync(AddInvoiceLineRequest r, CancellationToken ct = default)
+        public sealed override async Task<InvoiceLineAr> MapToEntityAsync(AddInvoiceLineArRequest r, CancellationToken ct = default)
         {
-            var invoiceLine = await Task.FromResult(new InvoiceLine());
+            var invoiceLine = await Task.FromResult(new InvoiceLineAr());
 
-            var chartOfAccounts = await _iReferenceDataRepo.GetChartOfAccountsApReferenceData(ct);
+            var chartOfAccounts = await _iReferenceDataRepo.GetChartOfAccountsArReferenceData(ct);
             var descriptionQuery = r.MainAccount + "/" + r.SchemeCode + "/" + r.DeliveryBody;
 
             invoiceLine.MarketingYear = r.MarketingYear;
@@ -76,7 +75,7 @@ namespace InvoiceLines.Add
             invoiceLine.SchemeCode = r.SchemeCode;
             invoiceLine.MainAccount = r.MainAccount;
             invoiceLine.InvoiceRequestId = r.InvoiceRequestId;
-
+            invoiceLine.DebtType = r.DebtType;
             return invoiceLine;
         }
     }

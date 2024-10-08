@@ -151,5 +151,38 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
                             new { invoiceLineId });
             }
         }
+
+        public async Task<decimal> AddInvoiceLineAr(InvoiceLineAr invoiceLine, CancellationToken ct)
+        {
+            using (var cn = new NpgsqlConnection(await DbConn()))
+            {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
+                using (var transaction = await cn.BeginTransactionAsync(ct))
+                {
+                    try
+                    {
+                        var sql = "INSERT INTO invoicelines (id, value, description, fundcode, mainaccount, schemecode, marketingyear, deliverybodycode, invoicerequestid, debttype )" +
+                            " VALUES (@Id, @Value, @Description, @Fundcode, @mainaccount, @schemecode,  @marketingyear, @deliverybody, @invoicerequestid, @DebtType)";
+
+                        await cn.ExecuteAsync(sql, invoiceLine);
+
+                        var invoiceLineValues = await cn.QueryAsync<decimal>(
+                                    "SELECT value FROM invoicelines WHERE invoicerequestid = @invoiceRequestId",
+                                    new { invoiceLine.InvoiceRequestId });
+
+                        await transaction.CommitAsync(ct);
+
+                        return invoiceLineValues.Sum();
+                    }
+                    catch
+                    {
+                        await transaction.RollbackAsync(ct);
+                        throw;
+                    }
+                }
+            }
+        }
     }
 }

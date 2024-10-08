@@ -5,12 +5,20 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
     public interface IInvoiceLineRepo
     {
         /// <summary>
-        /// adds an invoice line to the db and returns the new total value for the parent invoice request
+        /// adds an AP invoice line to the db and returns the new total value for the parent invoice request
         /// </summary>
         /// <param name="invoiceLine"></param>
         /// <param name="ct"></param>
         /// <returns></returns>
         Task<decimal> AddInvoiceLine(InvoiceLine invoiceLine, CancellationToken ct);
+
+        /// <summary>
+        /// adds an AR invoice line to the db and returns the new total value for the parent invoice request
+        /// </summary>
+        /// <param name="invoiceLine"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        Task<decimal> AddInvoiceLineAr(InvoiceLineAr invoiceLine, CancellationToken ct);
 
         /// <summary>
         /// delete a single invoice line and return the new total value for the parent invoice request

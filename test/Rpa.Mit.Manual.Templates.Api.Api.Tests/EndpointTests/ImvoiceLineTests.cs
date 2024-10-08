@@ -2,7 +2,7 @@
 
 using FastEndpoints;
 
-using InvoiceLines.Add;
+using InvoiceLines.AddAp;
 
 using Microsoft.Extensions.Logging;
 
@@ -43,8 +43,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
             A.CallTo(() => fakeChartOfAccountsRepo.GetChartOfAccountsApReferenceData(CancellationToken.None))
                     .Returns(Task.FromResult(chartOfAccounts));
 
-            var ep = Factory.Create<AddInvoiceIineEndpoint>(
-                           A.Fake<ILogger<AddInvoiceIineEndpoint>>(),
+            var ep = Factory.Create<AddInvoiceIineApEndpoint>(
+                           A.Fake<ILogger<AddInvoiceIineApEndpoint>>(),
                            fakeRepo,
                            fakeChartOfAccountsRepo);
 
@@ -79,8 +79,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
             A.CallTo(() => fakeRepo.AddInvoiceLine(A<InvoiceLine>.Ignored, CancellationToken.None))
                     .Returns(Task.FromResult(12.12M));
 
-            var ep = Factory.Create<AddInvoiceIineEndpoint>(
-                           A.Fake<ILogger<AddInvoiceIineEndpoint>>(),
+            var ep = Factory.Create<AddInvoiceIineApEndpoint>(
+                           A.Fake<ILogger<AddInvoiceIineApEndpoint>>(),
                            fakeRepo,
                            A.Fake<IReferenceDataRepo>());
 

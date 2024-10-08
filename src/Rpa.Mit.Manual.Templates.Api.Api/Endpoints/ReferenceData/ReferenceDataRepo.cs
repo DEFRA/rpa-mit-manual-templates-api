@@ -41,11 +41,11 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
                         SELECT id, name FROM lookup_schemeinvoicetemplatessecondaryrpaquestions;
                         SELECT code, description FROM lookup_paymenttypes;
                         SELECT code, description FROM lookup_schemetypes;
-                        SELECT code, description FROM lookup_schemecodes;
+                        SELECT code, description, org FROM lookup_schemecodes;
                         SELECT code, description FROM lookup_accountcodes;
                         SELECT code, description, org FROM lookup_deliverybodycodes;
                         SELECT code, description FROM lookup_marketingyearcodes;
-                        SELECT code, description FROM lookup_fundcodes;
+                        SELECT code, description, org FROM lookup_fundcodes;
                         SELECT code, description, org FROM lookup_accounts_ap;
                         SELECT code, description, org FROM lookup_accounts_ar;
                         ";
