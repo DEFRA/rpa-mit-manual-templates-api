@@ -45,11 +45,19 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         Task<IEnumerable<InvoiceLine>> GetInvoiceLinesByInvoiceRequestId(string invoiceRequestId, CancellationToken ct);
 
         /// <summary>
-        /// gets a single invoice line by its id
+        /// gets a single AP invoice line by its id
         /// </summary>
         /// <param name="invoiceLineId"></param>
         /// <param name="ct"></param>
         /// <returns></returns>
         Task<InvoiceLine> GetInvoiceLineByInvoiceLineId(Guid invoiceLineId, CancellationToken ct);
+
+        /// <summary>
+        /// gets a single AR invoice line by its id
+        /// </summary>
+        /// <param name="invoiceLineId"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        Task<InvoiceLineAr> GetInvoiceLineArByInvoiceLineId(Guid invoiceLineId, CancellationToken ct);
     }
 }

@@ -7,16 +7,7 @@ namespace GetByInvoiceLineId
     [ExcludeFromCodeCoverage]
     internal sealed class GetInvoiceLineByIdRequest
     {
-
         public Guid InvoiceLineId { get; set; }
-
-        internal sealed class Validator : Validator<GetInvoiceLineByIdRequest>
-        {
-            public Validator()
-            {
-
-            }
-        }
     }
 
     [ExcludeFromCodeCoverage]
