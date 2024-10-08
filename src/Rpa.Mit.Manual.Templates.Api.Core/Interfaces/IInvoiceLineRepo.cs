@@ -18,7 +18,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <param name="invoiceLine"></param>
         /// <param name="ct"></param>
         /// <returns></returns>
-        Task<decimal> AddInvoiceLineAr(InvoiceLineAr invoiceLine, CancellationToken ct);
+        Task<decimal> AddInvoiceLineAr(InvoiceLineAr invoiceLineAr, CancellationToken ct);
 
         /// <summary>
         /// delete a single invoice line and return the new total value for the parent invoice request

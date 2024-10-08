@@ -152,7 +152,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
             }
         }
 
-        public async Task<decimal> AddInvoiceLineAr(InvoiceLineAr invoiceLine, CancellationToken ct)
+        public async Task<decimal> AddInvoiceLineAr(InvoiceLineAr invoiceLineAr, CancellationToken ct)
         {
             using (var cn = new NpgsqlConnection(await DbConn()))
             {
@@ -166,11 +166,11 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
                         var sql = "INSERT INTO invoicelines (id, value, description, fundcode, mainaccount, schemecode, marketingyear, deliverybodycode, invoicerequestid, debttype )" +
                             " VALUES (@Id, @Value, @Description, @Fundcode, @mainaccount, @schemecode,  @marketingyear, @deliverybody, @invoicerequestid, @DebtType)";
 
-                        await cn.ExecuteAsync(sql, invoiceLine);
+                        await cn.ExecuteAsync(sql, invoiceLineAr);
 
                         var invoiceLineValues = await cn.QueryAsync<decimal>(
                                     "SELECT value FROM invoicelines WHERE invoicerequestid = @invoiceRequestId",
-                                    new { invoiceLine.InvoiceRequestId });
+                                    new { invoiceLineAr.InvoiceRequestId });
 
                         await transaction.CommitAsync(ct);
 
