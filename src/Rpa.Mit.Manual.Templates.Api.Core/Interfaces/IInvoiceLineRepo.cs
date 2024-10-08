@@ -37,12 +37,20 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         Task<decimal> UpdateInvoiceLine(InvoiceLine invoiceLine, CancellationToken ct);
 
         /// <summary>
-        /// get all invoice lines for an invoice request
+        /// get all AP invoice lines for an invoice request
         /// </summary>
         /// <param name="invoiceRequestId"></param>
         /// <param name="ct"></param>
         /// <returns></returns>
         Task<IEnumerable<InvoiceLine>> GetInvoiceLinesByInvoiceRequestId(string invoiceRequestId, CancellationToken ct);
+
+        /// <summary>
+        /// get all AR invoice lines for an invoice request
+        /// </summary>
+        /// <param name="invoiceRequestId"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        Task<IEnumerable<InvoiceLineAr>> GetInvoiceLinesArByInvoiceRequestId(string invoiceRequestId, CancellationToken ct);
 
         /// <summary>
         /// gets a single AP invoice line by its id
