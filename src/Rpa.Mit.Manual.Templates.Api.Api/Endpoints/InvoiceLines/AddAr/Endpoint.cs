@@ -1,22 +1,23 @@
-﻿using InvoiceLines.AddAp;
+﻿using System.Diagnostics.CodeAnalysis;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace AddInvoiceIineAr
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class AddInvoiceIineArEndpoint : EndpointWithMapping<AddInvoiceLineArRequest, AddInvoiceLineArResponse, InvoiceLineAr>
     {
         private readonly IInvoiceLineRepo _iInvoiceLineRepo;
         private readonly IReferenceDataRepo _iReferenceDataRepo;
-        private readonly ILogger<AddInvoiceIineArEndpoint> _logger;
+        private readonly ILogger<AddInvoiceIineArEndpoint> _arLogger;
 
         public AddInvoiceIineArEndpoint(
-                                        ILogger<AddInvoiceIineArEndpoint> logger,
+                                        ILogger<AddInvoiceIineArEndpoint> arLogger,
                                         IInvoiceLineRepo iInvoiceLineRepo,
                                         IReferenceDataRepo iReferenceDataRepo)
         {
-            _logger = logger;
+            _arLogger = arLogger;
             _iInvoiceLineRepo = iInvoiceLineRepo;
             _iReferenceDataRepo = iReferenceDataRepo;
         }
@@ -36,7 +37,7 @@ namespace AddInvoiceIineAr
 
                 invoiceLine.Id = Guid.NewGuid();
 
-                var res = await _iInvoiceLineRepo.AddInvoiceLine(invoiceLine, ct);
+                var res = await _iInvoiceLineRepo.AddInvoiceLineAr(invoiceLine, ct);
 
                 if (res != 0)
                 {
@@ -52,7 +53,7 @@ namespace AddInvoiceIineAr
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "{Message}", ex.Message);
+                _arLogger.LogError(ex, "{Message}", ex.Message);
 
                 response.Message = ex.Message;
 

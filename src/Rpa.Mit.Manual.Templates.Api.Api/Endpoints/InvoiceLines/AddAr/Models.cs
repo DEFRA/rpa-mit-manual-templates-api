@@ -29,6 +29,7 @@ namespace AddInvoiceIineAr
         }
     }
 
+    [ExcludeFromCodeCoverage]
     internal sealed class AddInvoiceLineArResponse
     {
         public string Message { get; set; } = string.Empty;
