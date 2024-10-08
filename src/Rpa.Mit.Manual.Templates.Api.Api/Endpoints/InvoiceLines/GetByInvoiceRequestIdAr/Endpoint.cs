@@ -25,7 +25,7 @@ namespace InvoiceLinesArByInvoiceRequestIdEndpoint
             Get("/invoicelines/getbyinvoicerequestidar");
         }
 
-        public override async Task HandleAsync(InvoiceLinesArGetByInvoiceRequestIdRequest r, CancellationToken c)
+        public override async Task HandleAsync(InvoiceLinesArGetByInvoiceRequestIdRequest r, CancellationToken ct)
         {
             var response = new InvoiceLinesArGetByInvoiceRequestIdResponse();
 
