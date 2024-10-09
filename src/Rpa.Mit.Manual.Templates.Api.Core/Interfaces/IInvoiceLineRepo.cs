@@ -42,7 +42,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <param name="invoiceLine"></param>
         /// <param name="ct"></param>
         /// <returns></returns>
-        Task<decimal> UpdateInvoiceLineAr(InvoiceLineAr invoiceLine, CancellationToken ct);
+        Task<decimal> UpdateInvoiceLineAr(InvoiceLineAr invoiceLineAr, CancellationToken ct);
 
         /// <summary>
         /// get all AP invoice lines for an invoice request
