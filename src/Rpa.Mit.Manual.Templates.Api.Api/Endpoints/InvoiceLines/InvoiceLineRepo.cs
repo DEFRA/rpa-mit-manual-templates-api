@@ -125,7 +125,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
             }
         }
 
-        public async Task<decimal> UpdateInvoiceLineAr(InvoiceLineAr invoiceLine, CancellationToken ct)
+        public async Task<decimal> UpdateInvoiceLineAr(InvoiceLineAr invoiceLineAr, CancellationToken ct)
         {
             using (var cn = new NpgsqlConnection(await DbConn()))
             {
@@ -136,17 +136,17 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
                 {
                     try
                     {
-                        var sql = "UPDATE invoicelines SET value = @Value, description = @Description, fundcode = @Fundcode, mainaccount = @mainaccount, schemecode = @schemecode, marketingyear = @marketingyear, deliverybody = @deliverybody, debttype = @debttype WHERE id = @id";
+                        var sql = "UPDATE invoicelines SET description=@Description,value = @Value,fundcode = @Fundcode,mainaccount = @mainaccount, schemecode = @schemecode, marketingyear = @marketingyear, deliverybody = @deliverybody, debttype = @debttype WHERE id = @id";
 
-                        await cn.ExecuteAsync(sql, invoiceLine);
+                        await cn.ExecuteAsync(sql, invoiceLineAr);
 
-                        var invoiceLineValues = await cn.QueryAsync<decimal>(
+                        var invoiceLineArValues = await cn.QueryAsync<decimal>(
                                     "SELECT value FROM invoicelines WHERE invoicerequestid = @invoiceRequestId",
-                                    new { invoiceLine.InvoiceRequestId });
+                                    new { invoiceLineAr.InvoiceRequestId });
 
                         await transaction.CommitAsync(ct);
 
-                        return invoiceLineValues.Sum();
+                        return invoiceLineArValues.Sum();
                     }
                     catch
                     {

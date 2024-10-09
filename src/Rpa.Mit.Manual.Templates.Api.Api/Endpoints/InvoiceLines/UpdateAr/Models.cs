@@ -5,6 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace UpdateInvoiceLineAr
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class UpdateInvoiceLineArRequest : UpdateInvoiceLineRequest
     {
         public string DebtType { get; set; } = string.Empty;
