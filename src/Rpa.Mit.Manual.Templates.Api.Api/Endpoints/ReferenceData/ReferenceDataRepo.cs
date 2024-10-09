@@ -107,7 +107,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
                     if (cn.State != ConnectionState.Open)
                         await cn.OpenAsync(ct);
 
-                    var sql = @"SELECT code, description org FROM lookup_ap_chartofaccounts;";
+                    var sql = @"SELECT code,description,org FROM lookup_ap_chartofaccounts;";
 
                     chartOfAccounts = await cn.QueryAsync<ChartOfAccounts>(sql);
 
@@ -132,7 +132,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
                     if (cn.State != ConnectionState.Open)
                         await cn.OpenAsync(ct);
 
-                    var sql = @"SELECT code, description org FROM lookup_ar_chartofaccounts;";
+                    var sql = @"SELECT code,description,org FROM lookup_ar_chartofaccounts;";
 
                     chartOfAccounts = await cn.QueryAsync<ChartOfAccounts>(sql);
 
