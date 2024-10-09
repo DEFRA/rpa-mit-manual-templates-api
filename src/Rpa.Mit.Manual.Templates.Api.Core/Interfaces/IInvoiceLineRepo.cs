@@ -29,12 +29,20 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         Task<decimal> DeleteInvoiceLine(Guid invoiceLineId, CancellationToken ct);
 
         /// <summary>
-        /// updates an invoice line to the db and returns the new total value for the parent invoice request
+        /// updates an AP invoice line to the db and returns the new total value for the parent invoice request
         /// </summary>
         /// <param name="invoiceLine"></param>
         /// <param name="ct"></param>
         /// <returns></returns>
         Task<decimal> UpdateInvoiceLine(InvoiceLine invoiceLine, CancellationToken ct);
+
+        /// <summary>
+        /// updates an AR invoice line to the db and returns the new total value for the parent invoice request
+        /// </summary>
+        /// <param name="invoiceLine"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        Task<decimal> UpdateInvoiceLineAr(InvoiceLineAr invoiceLine, CancellationToken ct);
 
         /// <summary>
         /// get all AP invoice lines for an invoice request

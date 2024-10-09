@@ -6,7 +6,7 @@ using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 namespace InvoiceLines.Update
 {
     [ExcludeFromCodeCoverage]
-    internal sealed class UpdateInvoiceLineRequest
+    internal class UpdateInvoiceLineRequest
     {
 
         public Guid Id { get; set; }

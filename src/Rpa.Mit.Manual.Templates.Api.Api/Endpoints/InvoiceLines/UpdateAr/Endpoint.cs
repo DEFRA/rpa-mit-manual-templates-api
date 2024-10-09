@@ -1,40 +1,43 @@
-﻿
+﻿using System.Diagnostics.CodeAnalysis;
 
-using System.Diagnostics.CodeAnalysis;
+using InvoiceLines.Update;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
-namespace InvoiceLines.Update
+namespace UpdateInvoiceLineAr
 {
+    /// <summary>
+    /// updates an AR invoice line
+    /// </summary>
     [ExcludeFromCodeCoverage]
-    internal sealed class UpdateInvoiceLineEndpoint : EndpointWithMapping<UpdateInvoiceLineRequest, UpdateInvoiceLineResponse, InvoiceLine>
+    internal sealed class UpdateInvoiceLineArEndpoint : EndpointWithMapping<UpdateInvoiceLineArRequest, UpdateInvoiceLineArResponse, InvoiceLineAr>
     {
         private readonly IInvoiceLineRepo _iInvoiceLineRepo;
-        private readonly ILogger<UpdateInvoiceLineEndpoint> _logger;
+        private readonly ILogger<UpdateInvoiceLineArEndpoint> _arLogger;
 
-        public UpdateInvoiceLineEndpoint(
-            ILogger<UpdateInvoiceLineEndpoint> logger,
+        public UpdateInvoiceLineArEndpoint(
+            ILogger<UpdateInvoiceLineArEndpoint> logger,
             IInvoiceLineRepo iInvoiceLineRepo)
         {
-            _logger = logger;
+            _arLogger = logger;
             _iInvoiceLineRepo = iInvoiceLineRepo;
         }
 
         public override void Configure()
         {
-            Put("/invoicelines/update");
+            Put("/invoicelines/updatear");
         }
 
-        public override async Task HandleAsync(UpdateInvoiceLineRequest r, CancellationToken ct)
+        public override async Task HandleAsync(UpdateInvoiceLineArRequest r, CancellationToken ct)
         {
-            UpdateInvoiceLineResponse response = new();
+            UpdateInvoiceLineArResponse response = new();
 
             try
             {
-                InvoiceLine invoiceLine = await MapToEntityAsync(r, ct);
+                InvoiceLineAr invoiceLine = await MapToEntityAsync(r, ct);
 
-                var res = await _iInvoiceLineRepo.UpdateInvoiceLine(invoiceLine, ct);
+                var res = await _iInvoiceLineRepo.UpdateInvoiceLineAr(invoiceLine, ct);
 
                 if (res != 0)
                 {
@@ -43,14 +46,14 @@ namespace InvoiceLines.Update
                 }
                 else
                 {
-                    response.Message = "Error updating invoice line";
+                    response.Message = "Error updating AR invoice line";
                 }
 
                 await SendAsync(response, cancellation: ct);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "{Message}", ex.Message);
+                _arLogger.LogError(ex, "{Message}", ex.Message);
 
                 response.Message = ex.Message;
 
@@ -58,9 +61,10 @@ namespace InvoiceLines.Update
             }
         }
 
-        public sealed override async Task<InvoiceLine> MapToEntityAsync(UpdateInvoiceLineRequest r, CancellationToken ct = default)
+        public sealed override async Task<InvoiceLineAr> MapToEntityAsync(UpdateInvoiceLineArRequest r, CancellationToken ct = default)
         {
-            var invoiceLine = await Task.FromResult(new InvoiceLine());
+            var invoiceLine = await Task.FromResult(new InvoiceLineAr());
+
             invoiceLine.Id = r.Id;
             invoiceLine.MarketingYear = r.MarketingYear;
             invoiceLine.DeliveryBody = r.DeliveryBody;
@@ -70,6 +74,8 @@ namespace InvoiceLines.Update
             invoiceLine.SchemeCode = r.SchemeCode;
             invoiceLine.MainAccount = r.MainAccount;
             invoiceLine.InvoiceRequestId = r.InvoiceRequestId;
+            invoiceLine.DebtType = r.DebtType;
+
             return invoiceLine;
         }
     }
