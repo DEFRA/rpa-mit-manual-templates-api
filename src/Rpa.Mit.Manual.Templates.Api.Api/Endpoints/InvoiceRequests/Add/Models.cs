@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 
@@ -20,7 +19,6 @@ namespace InvoiceRequests.Add
 
         public string Vendor { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "The Agreement Number is required")]
         public string AgreementNumber { get; set; } = string.Empty;
 
         public string ClaimReferenceNumber { get; set; } = string.Empty;
@@ -51,6 +49,9 @@ namespace InvoiceRequests.Add
         {
             RuleFor(x => x.InvoiceId)
                 .NotEmpty().WithMessage("InvoiceId is required");
+
+            RuleFor(x => x.AgreementNumber)
+                .NotEmpty().WithMessage("Agreement Number is required");
 
             RuleFor(x => x.Currency)
                 .NotEmpty()

@@ -58,7 +58,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                         ClaimReferenceNumber = row[2].ToString()!,
                         ClaimReference = row[3].ToString()!,
                         PaymentType = row[6].ToString()!,
-                        MarketingYear = row[24].ToString()!,
                         Frn = row[4].ToString()!,
                         Description = row[7].ToString()!
                     };

@@ -26,7 +26,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
                 AccountType = "QQ",
                 Currency = "DDD",
                 AgreementNumber = "1",
-                MarketingYear ="2024",
                 InvoiceId = Guid.NewGuid(),
                 Vendor = "Q"
             };
@@ -62,7 +61,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
                 AccountType = "QQ",
                 Currency = "DDD",
                 AgreementNumber = "1",
-                MarketingYear = "2024",
                 InvoiceId = Guid.NewGuid(),
                 Vendor = "Q"
             };
@@ -96,7 +94,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
                 AccountType = "QQ",
                 Currency = "DDD",
                 AgreementNumber = "1",
-                MarketingYear = "2024",
                 InvoiceId = Guid.NewGuid(),
                 Vendor = "Q"
             };

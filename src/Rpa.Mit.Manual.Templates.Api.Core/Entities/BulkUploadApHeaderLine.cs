@@ -25,8 +25,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 
         public string Vendor { get; set; } = string.Empty;
 
-        public string MarketingYear { get; set; } = string.Empty;
-
         public string AgreementNumber { get; set; } = string.Empty;
 
         public string PaymentType { get; set; } = string.Empty;

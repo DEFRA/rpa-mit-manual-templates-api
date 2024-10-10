@@ -65,7 +65,6 @@ namespace InvoiceRequests.Add
             invoiceRequest.Vendor = r.Vendor;
             invoiceRequest.AccountType = r.AccountType;
             invoiceRequest.AgreementNumber = r.AgreementNumber;
-            invoiceRequest.MarketingYear = r.MarketingYear;
             invoiceRequest.Description = r.Description;
             invoiceRequest.InvoiceId = r.InvoiceId;
             invoiceRequest.InvoiceRequestNumber = 1;  //TODO: this needs investigation
