@@ -23,10 +23,17 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         public Task<IEnumerable<ChartOfAccounts>> GetChartOfAccountsApReferenceData(CancellationToken ct);
 
         /// <summary>
-        ///  cached set of ar accounts data
+        ///  cached set of chart ar accounts data
         /// </summary>
         /// <param name="ct"></param>
         /// <returns></returns>
         public Task<IEnumerable<ChartOfAccounts>> GetChartOfAccountsArReferenceData(CancellationToken ct);
+
+        /// <summary>
+        /// cached set of lookup_accounts_ar data
+        /// </summary>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        public Task<IEnumerable<AccountAr>> GetAccountsArReferenceData(CancellationToken ct);
     }
 }

@@ -34,6 +34,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
             // get all our chartofaccounts before we enter the loop
             var chartOfAccounts = await _iReferenceDataRepo.GetChartOfAccountsArReferenceData(ct);
+            var accountsAr = await _iReferenceDataRepo.GetAccountsArReferenceData(ct);
 
             foreach (DataRow row in data.Rows)
             {
@@ -70,6 +71,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     bulkUploadInvoice.BulkUploadArHeaderLines!.Add(bulkUploadHeaderLine);
 
                     var descriptionQuery = row[22].ToString() + "/" + row[23].ToString() + "/" + row[25].ToString();
+                    var debtTypeQuery = row[23].ToString() + "/" + row[25].ToString();
 
                     var bulkUploadDetailLine = new BulkUploadArDetailLine
                     {
@@ -82,7 +84,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                         DeliveryBodyCode = row[25].ToString()!,
                         MarketingYear = row[24].ToString()!,
                         Description = chartOfAccounts.First(c => c.Code == descriptionQuery).Description,
-                        DebtType = row[26].ToString()!
+                        DebtType = accountsAr.First(c => c.Code == row[22].ToString() && c.Org == row[23].ToString()).Type//row[26].ToString()!
                     };
 
                     // for the databasee
@@ -104,7 +106,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                         MarketingYear = row[24].ToString()!,
                         DeliveryBodyCode = row[25].ToString()!,
                         Description = chartOfAccounts.First(c => c.Code == descriptionQuery).Description,
-                        DebtType = row[26].ToString()!
+                        DebtType = accountsAr.First(c => c.Code == descriptionQuery).Type//row[26].ToString()!
                     };
 
                     // this for the database

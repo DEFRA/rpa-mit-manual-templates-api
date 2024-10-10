@@ -10,7 +10,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
     {
         public string Code { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
-
+        public string Type { get; set; } = string.Empty;
         public string Org { get; set; } = string.Empty;
     }
 }
