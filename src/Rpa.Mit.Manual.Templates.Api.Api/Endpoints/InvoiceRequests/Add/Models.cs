@@ -20,8 +20,6 @@ namespace InvoiceRequests.Add
 
         public string Vendor { get; set; } = string.Empty;
 
-        public string MarketingYear { get; set; } = string.Empty;
-
         [Required(ErrorMessage = "The Agreement Number is required")]
         public string AgreementNumber { get; set; } = string.Empty;
 
@@ -73,10 +71,6 @@ namespace InvoiceRequests.Add
                  .Matches("^.{6}$|^$")
                  .WithMessage("The Vendor must be 6 characters or be empty.");
             });
-
-            RuleFor(x => x.MarketingYear).NotEmpty()
-                .Matches("^(201[5-9]|20[2-9]\\d|[2-9]\\d{3})$")
-                .WithMessage("The Marketing Year must be after 2014");
         }
     }
 
