@@ -29,6 +29,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
             BulkUploadArDataset bulkUploadArDataset = new();
             BulkUploadInvoice bulkUploadInvoice = new();
+            decimal totalUploadedValue = 0.0M;
 
             var i = 0;
 
@@ -120,8 +121,12 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
                 // total up the value of the detail lines for the parent invoice request
                 parent.TotalAmount = parent.BulkUploadArDetailLines.Select(c => c.Value).Sum();
+
+                totalUploadedValue += parent.TotalAmount;
             }
 
+            bulkUploadArDataset.InvoiceTotal = totalUploadedValue;
+            bulkUploadArDataset.NumberOfInvoices = bulkUploadArDataset.BulkUploadDetailLines.Count;
             bulkUploadArDataset.BulkUploadInvoice = bulkUploadInvoice;
 
             return bulkUploadArDataset;
