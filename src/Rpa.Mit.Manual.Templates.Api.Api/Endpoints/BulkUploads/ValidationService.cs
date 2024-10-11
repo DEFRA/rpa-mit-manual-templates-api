@@ -1,10 +1,11 @@
-﻿using System.Linq;
+﻿using System.Diagnostics.CodeAnalysis;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 {
+    [ExcludeFromCodeCoverage]
     public class ValidationService : IValidationService
     {
         private readonly IReferenceDataRepo _iReferenceDataRepo;
