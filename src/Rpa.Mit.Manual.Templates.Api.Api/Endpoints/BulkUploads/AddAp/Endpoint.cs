@@ -13,6 +13,7 @@ namespace BulkUploads.AddAp
     {
         private readonly IBulkUploadRepo _iBulkUploadRepo;
         private readonly IApImporterService _iApImporterService;
+        private readonly IValidationService _iValidationService;
         private readonly IEmailService _iEmailService;
         private readonly ILogger<AddBulkUploadsApEndpoint> _logger;
 
@@ -20,12 +21,14 @@ namespace BulkUploads.AddAp
             IEmailService iEmailService,    
             ILogger<AddBulkUploadsApEndpoint> logger,
             IBulkUploadRepo iBulkUploadRepo,
-            IApImporterService iApImporterService)
+            IApImporterService iApImporterService,
+            IValidationService iValidationService)
         {
             _logger = logger;
             _iBulkUploadRepo = iBulkUploadRepo;
             _iEmailService = iEmailService;
             _iApImporterService = iApImporterService;
+            _iValidationService = iValidationService;
         }
 
         public override void Configure()
@@ -64,8 +67,16 @@ namespace BulkUploads.AddAp
                     
                         if (dataTables?["AP"]?.Rows.Count > 4)
                         {
-                            // dealing with AP data
                             var bulkUploadApDataset = await _iApImporterService.ImportAPData(dataTables["AP"]!, ct);
+
+                            // now validate the import
+                            var isValid = await _iValidationService.ApBulkUploadIsValid(bulkUploadApDataset, r.DeliveryBody, ct);
+
+                            if (!isValid)
+                            {
+                                response.Message = "Invalid data";
+                                await SendAsync(response, 400, cancellation: ct);
+                            }
 
                             bulkUploadApDataset.BulkUploadInvoice!.CreatedBy = userEmail;
 

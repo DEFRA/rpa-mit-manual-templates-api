@@ -32,5 +32,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
         public const string ArChartOfAccounts = "_ArChartOfAccounts";
 
         public const string AccountsAr = "_AccountsAr";
+
+        public const string FundCodes = "_FundCodes";
     }
 }

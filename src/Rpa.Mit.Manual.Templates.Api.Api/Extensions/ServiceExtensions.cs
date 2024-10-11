@@ -21,11 +21,12 @@ public static class ServiceExtensions
         services.AddTransient<IBulkUploadRepo, BulkUploadRepo>();
         services.AddTransient<IInvoiceLineRepo, InvoiceLineRepo>();
         services.AddTransient<IReferenceDataRepo, ReferenceDataRepo>();
-        services.AddTransient<IInvoiceRepo, InvoiceRepo>();
+        services.AddTransient<IInvoiceRepo, InvoiceRepo>(); 
         services.AddTransient<IInvoiceRequestRepo, InvoiceRequestRepo>();
 
         services.AddTransient<IApImporterService, ApImporterService>();
         services.AddTransient<IArImporterService, ArImporterService>();
+        services.AddTransient<IValidationService, ValidationService>();
         services.AddTransient<IEmailService, EmailService>();
         services.AddSingleton<IServiceBusProvider, ServiceBusProvider>();
         services.AddTransient<IPaymentHubJsonGenerator,PaymentHubJsonGenerator>();

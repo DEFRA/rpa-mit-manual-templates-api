@@ -170,5 +170,30 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
 
             return accountsAr;
         }
+
+        public async Task<IEnumerable<FundCode>> GetFilteredFundcodesReferenceData(string org, CancellationToken ct)
+        {
+            IEnumerable<FundCode> fundCodes;
+
+            if (!_memoryCache.TryGetValue(CacheKeys.FundCodes, out fundCodes!))
+            {
+                using (var cn = new NpgsqlConnection(await DbConn()))
+                {
+                    if (cn.State != ConnectionState.Open)
+                        await cn.OpenAsync(ct);
+
+                    var sql = @"SELECT code,description,org FROM lookup_fundcodes;";
+
+                    fundCodes = await cn.QueryAsync<FundCode>(sql);
+
+                    var cacheEntryOptions = new MemoryCacheEntryOptions()
+                        .SetSlidingExpiration(TimeSpan.FromDays(30));
+
+                    _memoryCache.Set(CacheKeys.FundCodes, fundCodes, cacheEntryOptions);
+                }
+            }
+
+            return fundCodes.Where(x => x.Org.ToLower().Contains(org.ToLower())).AsEnumerable();
+        }
     }
 }
