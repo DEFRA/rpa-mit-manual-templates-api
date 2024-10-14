@@ -155,7 +155,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
         {
             var r = await _iReferenceDataRepo.GetArMainAccountsReferenceData(CancellationToken.None);
 
-            var debtType = r.FirstOrDefault(x => x.Org == org && x.Code == mainAccount);
+            var debtType = r.Single(x => x.Org == org && x.Code == mainAccount);
 
             return debtType.Type;
         }
