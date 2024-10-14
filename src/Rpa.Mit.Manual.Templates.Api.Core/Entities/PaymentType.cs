@@ -2,6 +2,10 @@
 
 namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 {
+    /// <summary>
+    /// This is atually currency. Current naming is confusing, copied from legacy code. 
+    /// Should be renamed to Currency.
+    /// </summary>
     [ExcludeFromCodeCoverage]
     public sealed class PaymentType
     {

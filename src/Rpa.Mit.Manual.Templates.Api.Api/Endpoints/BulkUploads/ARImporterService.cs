@@ -151,6 +151,12 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             return invoice;
         }
 
+        /// <summary>
+        /// get the single debt type for given org and ar main account
+        /// </summary>
+        /// <param name="org"></param>
+        /// <param name="mainAccount"></param>
+        /// <returns></returns>
         private async Task<string> GetDebtType(string org, string mainAccount)
         {
             var r = await _iReferenceDataRepo.GetArMainAccountsReferenceData(CancellationToken.None);

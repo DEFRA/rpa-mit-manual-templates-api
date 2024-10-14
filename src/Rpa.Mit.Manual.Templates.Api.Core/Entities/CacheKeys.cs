@@ -9,7 +9,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 
         public const string OrganisationReferenceData = "_OrganisationReferenceData";
 
-        public const string PaymentTypesReferenceData = "_PaymentTypesReferenceData";
+        public const string CurrenciesReferenceData = "_CurrenciesReferenceData";
 
         public const string SchemeTypesReferenceData = "_SchemeTypesReferenceData";
 

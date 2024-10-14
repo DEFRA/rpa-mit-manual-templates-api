@@ -30,7 +30,7 @@ namespace GetPaymentTypes
 
             try
             {
-                response.PaymentTypes = await _iReferenceDataRepo.GetPaymentTypeReferenceData(ct);
+                response.PaymentTypes = await _iReferenceDataRepo.GetCurrencyReferenceData(ct);
 
                 await SendAsync(response, 200, cancellation: ct);
             }

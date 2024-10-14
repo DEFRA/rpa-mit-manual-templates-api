@@ -13,7 +13,12 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
 
         public Task<IEnumerable<SchemeType>> GetSchemeTypeReferenceData(CancellationToken ct);
 
-        public Task<IEnumerable<PaymentType>> GetPaymentTypeReferenceData(CancellationToken ct);
+        /// <summary>
+        /// loads the payment currency options. currently either EURO or GBP
+        /// </summary>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        public Task<IEnumerable<PaymentType>> GetCurrencyReferenceData(CancellationToken ct);
 
         /// <summary>
         /// cached set of ap accounts data

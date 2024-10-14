@@ -17,6 +17,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
     [ExcludeFromCodeCoverage]
     public class ReferenceDataRepo : BaseData, IReferenceDataRepo
     {
+        private const int CacheDurationInDays = 60;
         private readonly IMemoryCache _memoryCache;
 
         public ReferenceDataRepo(
@@ -70,17 +71,29 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
             }
         }
 
-        public async Task<IEnumerable<PaymentType>> GetPaymentTypeReferenceData(CancellationToken ct)
+        public async Task<IEnumerable<PaymentType>> GetCurrencyReferenceData(CancellationToken ct)
         {
-            using (var cn = new NpgsqlConnection(await DbConn()))
+            IEnumerable<PaymentType> currencies;
+
+            if (!_memoryCache.TryGetValue(CacheKeys.CurrenciesReferenceData, out currencies!))
             {
-                if (cn.State != ConnectionState.Open)
-                    await cn.OpenAsync(ct);
+                using (var cn = new NpgsqlConnection(await DbConn()))
+                {
+                    if (cn.State != ConnectionState.Open)
+                        await cn.OpenAsync(ct);
 
-                var sql = @"SELECT code, description FROM lookup_paymenttypes;";
+                    var sql = @"SELECT code, description FROM lookup_paymenttypes;";
 
-                return await cn.QueryAsync<PaymentType>(sql);
+                    currencies = await cn.QueryAsync<PaymentType>(sql);
+
+                    var cacheEntryOptions = new MemoryCacheEntryOptions()
+                        .SetSlidingExpiration(TimeSpan.FromDays(CacheDurationInDays));
+
+                    _memoryCache.Set(CacheKeys.CurrenciesReferenceData, currencies, cacheEntryOptions);
+                }
             }
+
+            return currencies;
         }
 
         public async Task<IEnumerable<SchemeType>> GetSchemeTypeReferenceData(CancellationToken ct)
@@ -112,7 +125,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
                     chartOfAccounts = await cn.QueryAsync<ChartOfAccounts>(sql);
 
                     var cacheEntryOptions = new MemoryCacheEntryOptions()
-                        .SetSlidingExpiration(TimeSpan.FromDays(30));
+                        .SetSlidingExpiration(TimeSpan.FromDays(CacheDurationInDays));
 
                     _memoryCache.Set(CacheKeys.ApChartOfAccounts, chartOfAccounts, cacheEntryOptions);
                 }
@@ -137,7 +150,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
                     chartOfAccounts = await cn.QueryAsync<ChartOfAccounts>(sql);
 
                     var cacheEntryOptions = new MemoryCacheEntryOptions()
-                        .SetSlidingExpiration(TimeSpan.FromDays(30));
+                        .SetSlidingExpiration(TimeSpan.FromDays(CacheDurationInDays));
 
                     _memoryCache.Set(CacheKeys.ArChartOfAccounts, chartOfAccounts, cacheEntryOptions);
                 }
@@ -162,7 +175,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
                     accountsAr = await cn.QueryAsync<AccountAr>(sql);
 
                     var cacheEntryOptions = new MemoryCacheEntryOptions()
-                        .SetSlidingExpiration(TimeSpan.FromDays(30));
+                        .SetSlidingExpiration(TimeSpan.FromDays(CacheDurationInDays));
 
                     _memoryCache.Set(CacheKeys.AccountsAr, accountsAr, cacheEntryOptions);
                 }
@@ -187,7 +200,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
                     fundCodes = await cn.QueryAsync<FundCode>(sql);
 
                     var cacheEntryOptions = new MemoryCacheEntryOptions()
-                        .SetSlidingExpiration(TimeSpan.FromDays(30));
+                        .SetSlidingExpiration(TimeSpan.FromDays(CacheDurationInDays));
 
                     _memoryCache.Set(CacheKeys.FundCodes, fundCodes, cacheEntryOptions);
                 }

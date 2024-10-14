@@ -66,7 +66,7 @@ public class ReferenceDataTests// : TestBase<App>
         ];
 
         var fakeRepo = A.Fake<IReferenceDataRepo>();
-        A.CallTo(() => fakeRepo.GetPaymentTypeReferenceData(CancellationToken.None))
+        A.CallTo(() => fakeRepo.GetCurrencyReferenceData(CancellationToken.None))
                 .Returns(Task.FromResult(paymentTypes.AsEnumerable()));
 
         var ep = Factory.Create<GetPaymentTypesEndpoint>(
