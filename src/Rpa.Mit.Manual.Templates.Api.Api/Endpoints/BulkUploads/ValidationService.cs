@@ -67,11 +67,11 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
         {
             var isValid = true;
 
-            var filteredMainAccounts = await _iReferenceDataRepo.GetArMainAccountsFilteredByOrg(org, ct);
+            var mainAccounts = await _iReferenceDataRepo.GetArMainAccountsReferenceData(ct);
 
             foreach (BulkUploadApDetailLine detailLine in bulkUploadDetailLines)
             {
-                isValid = filteredMainAccounts.Any(p => p.Org == org);
+                isValid = mainAccounts.Any(p => p.Org == org);
 
                 if (!isValid) { break; }
             }

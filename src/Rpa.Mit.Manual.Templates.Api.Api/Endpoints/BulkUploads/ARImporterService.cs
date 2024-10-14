@@ -14,14 +14,11 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
     [ExcludeFromCodeCoverage]
     public class ArImporterService : IArImporterService
     {
-        private readonly IMemoryCache _memoryCache;
         private readonly IReferenceDataRepo _iReferenceDataRepo;
 
         public ArImporterService(
-            IReferenceDataRepo iReferenceDataRepo, 
-            IMemoryCache memoryCache)
+            IReferenceDataRepo iReferenceDataRepo)
         {
-            _memoryCache =memoryCache;
             _iReferenceDataRepo = iReferenceDataRepo;
         }
 
@@ -156,9 +153,9 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
         private async Task<string> GetDebtType(string org, string mainAccount)
         {
-            var r = await _iReferenceDataRepo.GetArMainAccountsFilteredByOrg(org, CancellationToken.None);
+            var r = await _iReferenceDataRepo.GetArMainAccountsReferenceData(CancellationToken.None);
 
-            var debtType = r.FirstOrDefault(x => x.Code == mainAccount);
+            var debtType = r.FirstOrDefault(x => x.Org == org && x.Code == mainAccount);
 
             return debtType.Type;
         }

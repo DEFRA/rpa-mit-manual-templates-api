@@ -42,12 +42,5 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <param name="ct"></param>
         /// <returns></returns>
         public Task<IEnumerable<FundCode>> GetFilteredFundcodes(string org, CancellationToken ct);
-
-        /// <summary>
-        /// gets a list of ar main accounts filtered on org
-        /// </summary>
-        /// <param name="ct"></param>
-        /// <returns></returns>
-        public Task<IEnumerable<AccountAr>> GetArMainAccountsFilteredByOrg(string org, CancellationToken ct);
     }
 }

@@ -10,7 +10,7 @@ namespace BulkUploads.AddAp
         public required IFormFile File { get; set; }
 
         /// <summary>
-        /// this is the initil org selection
+        /// this is the initial org selection
         /// </summary>
         public string Org { get; set; } = string.Empty;
 

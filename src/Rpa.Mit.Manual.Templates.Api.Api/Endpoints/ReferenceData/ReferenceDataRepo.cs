@@ -195,30 +195,5 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
 
             return fundCodes.Where(x => x.Org.ToLower().Contains(org.ToLower())).AsEnumerable();
         }
-
-        public async Task<IEnumerable<AccountAr>> GetArMainAccountsFilteredByOrg(string org, CancellationToken ct)
-        {
-            IEnumerable<AccountAr> accountsAr;
-
-            if (!_memoryCache.TryGetValue(CacheKeys.AccountsAr, out accountsAr!))
-            {
-                using (var cn = new NpgsqlConnection(await DbConn()))
-                {
-                    if (cn.State != ConnectionState.Open)
-                        await cn.OpenAsync(ct);
-
-                    var sql = @"SELECT code,description,org,type FROM lookup_accounts_ar;";
-
-                    accountsAr = await cn.QueryAsync<AccountAr>(sql);
-
-                    var cacheEntryOptions = new MemoryCacheEntryOptions()
-                        .SetSlidingExpiration(TimeSpan.FromDays(30));
-
-                    _memoryCache.Set(CacheKeys.AccountsAr, accountsAr, cacheEntryOptions);
-                }
-            }
-
-            return accountsAr.Where(x => x.Org.ToLower().Contains(org.ToLower())).AsEnumerable();
-        }
     }
 }
