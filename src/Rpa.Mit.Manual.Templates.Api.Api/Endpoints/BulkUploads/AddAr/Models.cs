@@ -7,7 +7,12 @@ namespace BulkUploads.AddAr
     [ExcludeFromCodeCoverage]
     internal sealed class BulkUploadsArRequest
     {
-        public string DeliveryBody { get; set; } = string.Empty;
+
+        /// <summary>
+        /// this is the initial org selection
+        /// </summary>
+        public string Org { get; set; } = string.Empty;
+
         public string SchemeInvoiceTemplate { get; set; } = string.Empty;
 
         public required IFormFile File { get; set; }
@@ -16,9 +21,9 @@ namespace BulkUploads.AddAr
         {
             public BulkUploadsArValidator()
             {
-                RuleFor(x => x.DeliveryBody)
+                RuleFor(x => x.Org)
                     .NotNull().NotEmpty()
-                                        .WithMessage("DeliveryBody must have a value");
+                                        .WithMessage("Org must have a value");
 
                 RuleFor(x => x.SchemeInvoiceTemplate)
                     .NotNull().NotEmpty()

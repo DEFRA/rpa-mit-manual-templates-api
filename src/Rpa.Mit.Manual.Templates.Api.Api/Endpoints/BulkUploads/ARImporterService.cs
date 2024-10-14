@@ -1,6 +1,8 @@
 ﻿using System.Data;
 using System.Diagnostics.CodeAnalysis;
 
+using Microsoft.Extensions.Caching.Memory;
+
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
@@ -12,15 +14,19 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
     [ExcludeFromCodeCoverage]
     public class ArImporterService : IArImporterService
     {
+        private readonly IMemoryCache _memoryCache;
         private readonly IReferenceDataRepo _iReferenceDataRepo;
 
-        public ArImporterService(IReferenceDataRepo iReferenceDataRepo)
+        public ArImporterService(
+            IReferenceDataRepo iReferenceDataRepo, 
+            IMemoryCache memoryCache)
         {
+            _memoryCache =memoryCache;
             _iReferenceDataRepo = iReferenceDataRepo;
         }
 
 
-        public async Task<BulkUploadArDataset> ImportARData(DataTable data, CancellationToken ct)
+        public async Task<BulkUploadArDataset> ImportARData(DataTable data, string org, CancellationToken ct)
         {
             // row 0, col 1 and row 0, col 16 have the 2 titles
             // row 1 is placeholder/empty
@@ -71,6 +77,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
                     var descriptionQuery = row[22].ToString() + "/" + row[23].ToString() + "/" + row[25].ToString();
 
+                    var debtType = await GetDebtType(org, row[22].ToString()!);
+
                     var bulkUploadDetailLine = new BulkUploadArDetailLine
                     {
                         Id = Guid.NewGuid(),
@@ -79,10 +87,10 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                         FundCode = row[21].ToString()!,
                         MainAccount = row[22].ToString()!,
                         SchemeCode = row[23].ToString()!,
-                        DeliveryBodyCode = row[25].ToString()!,
                         MarketingYear = row[24].ToString()!,
+                        DeliveryBodyCode = row[25].ToString()!,
                         Description = chartOfAccounts.First(c => c.Code == descriptionQuery).Description,
-                        DebtType = "ADMIN ERROR"
+                        DebtType = debtType
                     };
 
                     // for the databasee
@@ -92,6 +100,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 {
                     var descriptionQuery = row[22].ToString() + "/" + row[23].ToString() + "/" + row[25].ToString();
                     var invReqId = row[17].ToString() + "_" + row[18].ToString();
+                    var debtType = await GetDebtType(org, row[22].ToString()!);
 
                     var bulkUploadDetailLine = new BulkUploadArDetailLine
                     {
@@ -104,7 +113,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                         MarketingYear = row[24].ToString()!,
                         DeliveryBodyCode = row[25].ToString()!,
                         Description = chartOfAccounts.First(c => c.Code == descriptionQuery).Description,
-                        DebtType = "ADMIN ERROR"
+                        DebtType = debtType
                     };
 
                     // this for the database
@@ -143,6 +152,15 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             invoice.DeliveryBody = row[25].ToString()!;
 
             return invoice;
+        }
+
+        private async Task<string> GetDebtType(string org, string mainAccount)
+        {
+            var r = await _iReferenceDataRepo.GetArMainAccountsFilteredByOrg(org, CancellationToken.None);
+
+            var debtType = r.FirstOrDefault(x => x.Code == mainAccount);
+
+            return debtType.Type;
         }
     }
 }

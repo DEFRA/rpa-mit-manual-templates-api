@@ -11,6 +11,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
 
     public interface IArImporterService
     {
-        Task<BulkUploadArDataset> ImportARData(DataTable data, CancellationToken ct);
+        Task<BulkUploadArDataset> ImportARData(DataTable data, string org, CancellationToken ct);
     }
 }

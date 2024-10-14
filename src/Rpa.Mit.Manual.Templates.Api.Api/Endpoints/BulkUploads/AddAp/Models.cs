@@ -9,16 +9,20 @@ namespace BulkUploads.AddAp
     {
         public required IFormFile File { get; set; }
 
-        public string DeliveryBody { get; set; } = string.Empty;
+        /// <summary>
+        /// this is the initil org selection
+        /// </summary>
+        public string Org { get; set; } = string.Empty;
+
         public string SchemeInvoiceTemplate { get; set; } = string.Empty;
 
         internal sealed class BulkUploadsApValidator : Validator<BulkUploadsApRequest>
         {
             public BulkUploadsApValidator()
             {
-                RuleFor(x => x.DeliveryBody)
+                RuleFor(x => x.Org)
                     .NotNull().NotEmpty()
-                                        .WithMessage("DeliveryBody must have a value");
+                                        .WithMessage("Org must have a value");
 
                 RuleFor(x => x.SchemeInvoiceTemplate)
                     .NotNull().NotEmpty()

@@ -34,13 +34,20 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// </summary>
         /// <param name="ct"></param>
         /// <returns></returns>
-        public Task<IEnumerable<AccountAr>> GetAccountsArReferenceData(CancellationToken ct);
+        public Task<IEnumerable<AccountAr>> GetArMainAccountsReferenceData(CancellationToken ct);
 
         /// <summary>
         /// gets a list of filtered fundcodes for validation purposes, filtered on org
         /// </summary>
         /// <param name="ct"></param>
         /// <returns></returns>
-        public Task<IEnumerable<FundCode>> GetFilteredFundcodesReferenceData(string org, CancellationToken ct);
+        public Task<IEnumerable<FundCode>> GetFilteredFundcodes(string org, CancellationToken ct);
+
+        /// <summary>
+        /// gets a list of ar main accounts filtered on org
+        /// </summary>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        public Task<IEnumerable<AccountAr>> GetArMainAccountsFilteredByOrg(string org, CancellationToken ct);
     }
 }

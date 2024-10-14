@@ -146,11 +146,11 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
             return chartOfAccounts;
         }
 
-        public async Task<IEnumerable<AccountAr>> GetAccountsArReferenceData(CancellationToken ct)
+        public async Task<IEnumerable<AccountAr>> GetArMainAccountsReferenceData(CancellationToken ct)
         {
             IEnumerable<AccountAr> accountsAr;
 
-            if (!_memoryCache.TryGetValue(CacheKeys.ArChartOfAccounts, out accountsAr!))
+            if (!_memoryCache.TryGetValue(CacheKeys.AccountsAr, out accountsAr!))
             {
                 using (var cn = new NpgsqlConnection(await DbConn()))
                 {
@@ -171,7 +171,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
             return accountsAr;
         }
 
-        public async Task<IEnumerable<FundCode>> GetFilteredFundcodesReferenceData(string org, CancellationToken ct)
+        public async Task<IEnumerable<FundCode>> GetFilteredFundcodes(string org, CancellationToken ct)
         {
             IEnumerable<FundCode> fundCodes;
 
@@ -194,6 +194,31 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
             }
 
             return fundCodes.Where(x => x.Org.ToLower().Contains(org.ToLower())).AsEnumerable();
+        }
+
+        public async Task<IEnumerable<AccountAr>> GetArMainAccountsFilteredByOrg(string org, CancellationToken ct)
+        {
+            IEnumerable<AccountAr> accountsAr;
+
+            if (!_memoryCache.TryGetValue(CacheKeys.AccountsAr, out accountsAr!))
+            {
+                using (var cn = new NpgsqlConnection(await DbConn()))
+                {
+                    if (cn.State != ConnectionState.Open)
+                        await cn.OpenAsync(ct);
+
+                    var sql = @"SELECT code,description,org,type FROM lookup_accounts_ar;";
+
+                    accountsAr = await cn.QueryAsync<AccountAr>(sql);
+
+                    var cacheEntryOptions = new MemoryCacheEntryOptions()
+                        .SetSlidingExpiration(TimeSpan.FromDays(30));
+
+                    _memoryCache.Set(CacheKeys.AccountsAr, accountsAr, cacheEntryOptions);
+                }
+            }
+
+            return accountsAr.Where(x => x.Org.ToLower().Contains(org.ToLower())).AsEnumerable();
         }
     }
 }

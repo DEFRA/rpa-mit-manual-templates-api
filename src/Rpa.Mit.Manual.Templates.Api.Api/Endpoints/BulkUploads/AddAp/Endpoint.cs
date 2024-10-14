@@ -70,7 +70,7 @@ namespace BulkUploads.AddAp
                             var bulkUploadApDataset = await _iApImporterService.ImportAPData(dataTables["AP"]!, ct);
 
                             // now validate the import
-                            var isValid = await _iValidationService.ApBulkUploadIsValid(bulkUploadApDataset, r.DeliveryBody, ct);
+                            var isValid = await _iValidationService.ApBulkUploadIsValid(bulkUploadApDataset, r.Org, ct);
 
                             if (!isValid)
                             {
