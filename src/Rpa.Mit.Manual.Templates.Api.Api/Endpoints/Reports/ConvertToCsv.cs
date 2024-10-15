@@ -1,7 +1,9 @@
-﻿using System.Text;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Reports
 {
+    [ExcludeFromCodeCoverage]
     internal static class ConvertToCsv
     {
         public static string AsCsv<T>(this IEnumerable<T> items) where T : class

@@ -1,4 +1,6 @@
-﻿using Azure.Core;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Azure.Core;
 using Azure.Identity;
 
 using Microsoft.Extensions.Options;
@@ -8,6 +10,7 @@ using Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Reports;
 
 namespace TiReport
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class Endpoint : EndpointWithoutRequest
     {
         private readonly ILogger<Endpoint> _logger;

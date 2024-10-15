@@ -1,10 +1,14 @@
-﻿namespace TiReport
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace TiReport
 {
+    [ExcludeFromCodeCoverage]
     internal sealed record Response
     {
         public IEnumerable<T1Report> Report { get; set; } = Enumerable.Empty<T1Report>();
     }
 
+    [ExcludeFromCodeCoverage]
     internal sealed record T1Report
     {
         public string DeliveryBodyCode { get; set; } = string.Empty;

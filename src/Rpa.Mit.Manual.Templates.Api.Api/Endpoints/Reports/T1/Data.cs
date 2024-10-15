@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Diagnostics.CodeAnalysis;
 
 using Dapper;
 
@@ -6,6 +7,7 @@ using Npgsql;
 
 namespace TiReport
 {
+    [ExcludeFromCodeCoverage]
     public static class Data
     {
         internal static IEnumerable<T1Report> GetT1ReportData(string connString, CancellationToken ct)
