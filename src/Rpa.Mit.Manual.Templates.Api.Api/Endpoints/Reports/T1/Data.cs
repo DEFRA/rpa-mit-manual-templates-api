@@ -17,7 +17,23 @@ namespace TiReport
                 if (cn.State != ConnectionState.Open)
                     cn.Open();
 
-                var sql = @"SELECT id, value, description, fundcode, mainaccount, schemecode, marketingyear, deliverybodycode, invoicerequestid, debttype FROM invoicelines";
+                var sql = @"SELECT 
+il.value, 
+fundcode,
+mainaccount, 
+schemecode, 
+deliverybodycode, 
+il.invoicerequestid, 
+debttype, 
+currency, 
+frn,
+originalclaimreference AS legacyid,
+paymenthubdateprocessed AS settlementdate,
+paymenthuberror AS reason,
+createdby AS requestor
+FROM invoicelines il
+JOIN invoicerequests ir ON il.invoicerequestid = ir.invoicerequestid
+JOIN invoices i ON ir.invoiceid = i.id";
 
                 return cn.Query<T1Report>(sql);
             }

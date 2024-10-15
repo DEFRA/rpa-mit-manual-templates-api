@@ -206,7 +206,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
                 }
             }
 
-            return fundCodes.Where(x => x.Org.ToLower().Contains(org.ToLower())).AsEnumerable();
+            return fundCodes.Where(x => x.Org.ToLower() == org.ToLower()).AsEnumerable();
         }
     }
 }

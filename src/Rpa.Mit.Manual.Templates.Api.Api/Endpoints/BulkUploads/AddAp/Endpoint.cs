@@ -70,13 +70,13 @@ namespace BulkUploads.AddAp
                             var bulkUploadApDataset = await _iApImporterService.ImportAPData(dataTables["AP"]!, ct);
 
                             // now validate the import
-                            var isValid = await _iValidationService.ApBulkUploadIsValid(bulkUploadApDataset, r.Org, ct);
+                            //var isValid = await _iValidationService.ApBulkUploadIsValid(bulkUploadApDataset, r.Org, ct);
 
-                            if (!isValid)
-                            {
-                                response.Message = "Invalid data";
-                                await SendAsync(response, 400, cancellation: ct);
-                            }
+                            //if (!isValid)
+                            //{
+                            //    response.Message = "Invalid data";
+                            //    await SendAsync(response, 400, cancellation: ct);
+                            //}
 
                             bulkUploadApDataset.BulkUploadInvoice!.CreatedBy = userEmail;
 
