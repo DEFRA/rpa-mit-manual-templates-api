@@ -5,12 +5,12 @@ using Dapper;
 
 using Npgsql;
 
-namespace T1Report
+namespace T2Report
 {
     [ExcludeFromCodeCoverage]
     public static class Data
     {
-        internal static IEnumerable<T1Report> GetT1ReportData(string connString)
+        internal static IEnumerable<T2Report> GetT2ReportData(string connString)
         {
             using (var cn = new NpgsqlConnection(connString))
             {
@@ -35,9 +35,9 @@ namespace T1Report
                                 FROM invoices i 
                                 LEFT JOIN invoicerequests ir ON i.id = ir.invoiceid
                                 LEFT JOIN invoicelines il ON il.invoicerequestid = ir.invoicerequestid";
-                
 
-                return cn.Query<T1Report>(sql);
+
+                return cn.Query<T2Report>(sql);
             }
         }
     }

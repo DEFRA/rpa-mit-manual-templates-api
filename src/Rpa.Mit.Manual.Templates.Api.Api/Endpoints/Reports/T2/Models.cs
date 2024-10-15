@@ -1,15 +1,15 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace T1Report
+namespace T2Report
 {
     [ExcludeFromCodeCoverage]
     internal sealed record Response
     {
-        public IEnumerable<T1Report> Report { get; set; } = Enumerable.Empty<T1Report>();
+        public IEnumerable<T2Report> Report { get; set; } = Enumerable.Empty<T2Report>();
     }
 
     [ExcludeFromCodeCoverage]
-    internal sealed record T1Report
+    internal sealed record T2Report
     {
         public string DeliveryBodyCode { get; set; } = string.Empty;
 
