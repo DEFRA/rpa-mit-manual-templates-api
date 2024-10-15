@@ -18,22 +18,24 @@ namespace TiReport
                     cn.Open();
 
                 var sql = @"SELECT 
-il.value, 
-fundcode,
-mainaccount, 
-schemecode, 
-deliverybodycode, 
-il.invoicerequestid, 
-debttype, 
-currency, 
-frn,
-originalclaimreference AS legacyid,
-paymenthubdateprocessed AS settlementdate,
-paymenthuberror AS reason,
-createdby AS requestor
-FROM invoicelines il
-JOIN invoicerequests ir ON il.invoicerequestid = ir.invoicerequestid
-JOIN invoices i ON ir.invoiceid = i.id";
+                                il.value, 
+                                fundcode,
+                                mainaccount, 
+                                schemecode, 
+                                deliverybodycode, 
+                                il.invoicerequestid, 
+                                debttype, 
+                                currency, 
+                                frn,
+                                originalclaimreference AS legacyid,
+                                paymenthubdateprocessed AS settlementdate,
+                                paymenthuberror AS reason,
+                                createdby AS requester,
+                                approveremail AS approver
+                                FROM invoices i 
+                                LEFT JOIN invoicerequests ir ON i.id = ir.invoiceid
+                                LEFT JOIN  invoicelines il ON il.invoicerequestid = ir.invoicerequestid";
+                
 
                 return cn.Query<T1Report>(sql);
             }
