@@ -61,10 +61,10 @@ namespace BulkUploads.AddAr
                         if (null == tables)
                         {
                             // No data, return
-                            await SendNoContentAsync(cancellation: ct);
+                            ThrowError("No data!");
                         }
 
-                        if (tables?["AR"]?.Rows.Count > 4)
+                        if (tables["AR"]?.Rows.Count > 4)
                         {
                             var bulkUploadArDataset = await _iArImporterService.ImportARData(tables["AR"]!, r.Org, ct);
 

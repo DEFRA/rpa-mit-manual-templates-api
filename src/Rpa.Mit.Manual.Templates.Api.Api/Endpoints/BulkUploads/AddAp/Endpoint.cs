@@ -62,10 +62,10 @@ namespace BulkUploads.AddAp
                         if (null == dataTables)
                         {
                             // No data, return
-                            await SendNoContentAsync(cancellation: ct);
+                            ThrowError("No data!");
                         }
                     
-                        if (dataTables?["AP"]?.Rows.Count > 4)
+                        if (dataTables["AP"]?.Rows.Count > 4)
                         {
                             var bulkUploadApDataset = await _iApImporterService.ImportAPData(dataTables["AP"]!, ct);
 
