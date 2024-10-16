@@ -1,8 +1,11 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Net.Mail;
+using System.Text;
 
 using Azure.Core;
 using Azure.Identity;
 
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Rpa.Mit.Manual.Templates.Api;
 using Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Reports;

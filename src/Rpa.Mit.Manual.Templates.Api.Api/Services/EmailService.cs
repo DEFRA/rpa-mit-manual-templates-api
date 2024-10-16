@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Net.Mail;
 
 using Microsoft.Extensions.Options;
 
@@ -19,6 +20,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
         private readonly string invoiceRejectedEmailTemplateId = "69bba64c-e5a5-43a4-aab6-179041c21f13";
         private readonly string bulkUploadSuccessEmailTemplateId = "88709ce9-b2b4-4175-a8fa-d0cf354e58b6";
         private readonly string paymentHubErrorTemplateId = "731c5cf4-1cd4-4f07-b0ca-22ea24516bfc";
+        private readonly string reportTemplateId = "7b5a3cb8-273d-4da4-a1c4-36e072fb4d1c";
 
         public EmailService(IOptions<GovNotify> options)
         {
@@ -104,6 +106,24 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
             EmailNotificationResponse response = await client.SendEmailAsync(
                                         emailAddress: invoiceCreatorEmail,
                                         templateId: paymentHubErrorTemplateId,
+                                        personalisation: personalisation
+                                    );
+
+            return response.Equals(true);
+        }
+
+        public async Task<bool> EmailReport(string recipientEmail, byte[] attachment, CancellationToken ct)
+        {
+            var client = new NotificationClient(_options.APIKEY);
+
+            Dictionary<string, dynamic> personalisation = new()
+            {
+                { "link_to_file", NotificationClient.PrepareUpload(attachment)}
+            };
+
+            EmailNotificationResponse response = await client.SendEmailAsync(
+                                        emailAddress: recipientEmail,
+                                        templateId: reportTemplateId,
                                         personalisation: personalisation
                                     );
 

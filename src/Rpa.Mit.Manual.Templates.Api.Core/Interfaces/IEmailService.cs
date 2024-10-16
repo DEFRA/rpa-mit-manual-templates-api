@@ -1,4 +1,6 @@
-﻿using Rpa.Mit.Manual.Templates.Api.Core.Entities;
+﻿using System.Net.Mail;
+
+using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure;
 
 namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
@@ -40,5 +42,14 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <param name="ct"></param>
         /// <returns></returns>
         Task<bool> EmailPaymentHubError(string invoiceCreatorEmail, PaymentHubResponseRoot invoiceRequest, CancellationToken ct);
+
+        /// <summary>
+        /// emails a report to a specified email box
+        /// </summary>
+        /// <param name="recipientEmail"></param>
+        /// <param name="attachment"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        Task<bool> EmailReport(string recipientEmail, byte[] attachment, CancellationToken ct);
     }
 }
