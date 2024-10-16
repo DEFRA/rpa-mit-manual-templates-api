@@ -75,7 +75,7 @@ namespace BulkUploads.AddAp
                             if (!isValid)
                             {
                                 response.Message = "Invalid data";
-                                //await SendAsync(response, 400, cancellation: ct);
+                                ThrowError("The supplied data are invalid!");
                             }
 
                             bulkUploadApDataset.BulkUploadInvoice!.CreatedBy = userEmail;
