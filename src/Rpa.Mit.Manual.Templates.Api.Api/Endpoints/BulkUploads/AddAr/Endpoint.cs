@@ -72,7 +72,6 @@ namespace BulkUploads.AddAr
 
                             if (!isValid)
                             {
-                                response.Message = "Invalid data";
                                 ThrowError("The supplied data are invalid!");
                             }
 
@@ -89,8 +88,7 @@ namespace BulkUploads.AddAr
                         else
                         {
                             // No data
-                            response.Message = "No recognisable data";
-                            await SendAsync(response, 400, cancellation: ct);
+                            ThrowError("No recognisable data!");
                         }
 
                         await SendAsync(response, 200, cancellation: ct);

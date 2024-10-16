@@ -112,13 +112,14 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
             return response.Equals(true);
         }
 
-        public async Task<bool> EmailReport(string recipientEmail, byte[] attachment, CancellationToken ct)
+        public async Task<bool> EmailReport(string recipientEmail, string reportName, byte[] attachment, CancellationToken ct)
         {
             var client = new NotificationClient(_options.APIKEY);
 
             Dictionary<string, dynamic> personalisation = new()
             {
-                { "link_to_file", NotificationClient.PrepareUpload(attachment)}
+                { "reportName", reportName },
+                { "link_to_file", NotificationClient.PrepareUpload(attachment, reportName, true, "2 weeks")}
             };
 
             EmailNotificationResponse response = await client.SendEmailAsync(
