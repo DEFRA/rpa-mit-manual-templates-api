@@ -24,5 +24,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 
         public IEnumerable<AccountAp> AccountAps { get; set; } = Enumerable.Empty<AccountAp>();
         public IEnumerable<AccountAr> AccountArs { get; set; } = Enumerable.Empty<AccountAr>();
+
+        public IEnumerable<ChartOfAccounts> ChartOfAccountsAp { get; set; } = Enumerable.Empty<ChartOfAccounts>();
+        public IEnumerable<ChartOfAccounts> ChartOfAccountsAr { get; set; } = Enumerable.Empty<ChartOfAccounts>();
     }
 }

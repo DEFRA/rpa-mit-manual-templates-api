@@ -3,8 +3,6 @@ using System.Diagnostics.CodeAnalysis;
 
 using ExcelDataReader;
 
-using Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads;
-using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace BulkUploads.AddAr
