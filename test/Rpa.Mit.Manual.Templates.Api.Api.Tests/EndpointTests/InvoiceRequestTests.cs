@@ -53,21 +53,22 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
         {
             AddInvoiceRequestRequest invoiceRequest = new AddInvoiceRequestRequest
             {
-                FRN = "EU (2014 - 2020 Program)",
+                FRN = "110078005",
                 SBI = 999,
-                Description = "AP",
+                Ledger = "AP",
                 DueDate = "EA",
                 InvoiceRequestId = "Any question",
                 AccountType = "QQ",
                 Currency = "DDD",
                 AgreementNumber = "1",
+                MarketingYear = "2023",
                 InvoiceId = Guid.NewGuid(),
                 Vendor = "Q"
             };
 
             var fakeRepo = A.Fake<IInvoiceRequestRepo>();
             A.CallTo(() => fakeRepo.AddInvoiceRequest(A<InvoiceRequest>.Ignored, CancellationToken.None))
-                    .Returns(Task.FromResult(false));
+                    .Returns(Task.FromResult(true));
 
             var ep = Factory.Create<AddInvoiceRequestEndpoint>(
                            A.Fake<ILogger<AddInvoiceRequestEndpoint>>(),
@@ -76,8 +77,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
             await ep.HandleAsync(invoiceRequest, default);
             var response = ep.Response;
 
-            Assert.Equal("Error adding new payment request", response.Message);
-            Assert.Null(response.InvoiceRequest);
+            Assert.Equal(invoiceRequest.FRN, response.InvoiceRequest.FRN);
         }
 
 
@@ -94,6 +94,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
                 AccountType = "QQ",
                 Currency = "DDD",
                 AgreementNumber = "1",
+                MarketingYear = "2023",
                 InvoiceId = Guid.NewGuid(),
                 Vendor = "Q"
             };

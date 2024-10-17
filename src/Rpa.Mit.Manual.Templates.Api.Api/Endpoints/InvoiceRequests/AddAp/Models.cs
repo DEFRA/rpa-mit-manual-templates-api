@@ -70,7 +70,7 @@ namespace InvoiceRequests.Add
 
             RuleFor(x => x.Currency)
                 .NotEmpty()
-                .Matches("^GBP|EUR$")
+                .Matches("^GBP|EUR")
                 .WithMessage("The Currency must be either GBP or EUR");
 
             When(x => !string.IsNullOrEmpty(x.FRN), () => {
