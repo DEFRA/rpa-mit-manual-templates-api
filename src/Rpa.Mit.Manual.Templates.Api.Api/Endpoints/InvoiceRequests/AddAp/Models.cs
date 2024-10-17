@@ -33,6 +33,8 @@ namespace InvoiceRequests.Add
 
         public string AccountType { get; set; } = string.Empty;
 
+        public string MarketingYear { get; set; } = string.Empty;
+
         public string OriginalInvoiceNumber { get; set; } = string.Empty;
 
         public DateTime OriginalSettlementDate { get; set; } = default!;
@@ -50,7 +52,13 @@ namespace InvoiceRequests.Add
         public AddInvoiceRequestValidator()
         {
             RuleFor(x => x.InvoiceId)
-                .NotEmpty().WithMessage("InvoiceId is required");
+                .NotEmpty()
+                .WithMessage("InvoiceId is required");
+
+            RuleFor(x => x.MarketingYear)
+                                .NotNull()
+                                .NotEmpty()
+                                .WithMessage("MarketingYear is required");
 
             RuleFor(x => x.Ledger)
                 .NotEmpty()

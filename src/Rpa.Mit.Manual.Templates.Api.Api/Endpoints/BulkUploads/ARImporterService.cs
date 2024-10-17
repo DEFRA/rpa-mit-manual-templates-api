@@ -63,6 +63,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                         PaymentType = row[6].ToString()!,
                         Frn = row[4].ToString()!,
                         Description = row[7].ToString()!,
+                        MarketingYear = row[24].ToString()!,
                         //new
                         OriginalClaimReference = row[8].ToString()!,
                         OriginalAPInvoiceSettlementDate = row[9].ToString()!,

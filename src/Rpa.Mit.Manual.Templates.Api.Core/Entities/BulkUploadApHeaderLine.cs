@@ -18,6 +18,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 
         public string ClaimReference { get; set; } = string.Empty;
 
+        public string MarketingYear { get; set; } = string.Empty;
+
         public string Frn { get; set; } = string.Empty;
 
         public int? Sbi { get; set; } = null;

@@ -61,6 +61,7 @@ namespace InvoiceRequests.Add
             invoiceRequest.InvoiceRequestId = r.ClaimReferenceNumber + "-" + r.ClaimReference;
             invoiceRequest.FRN = r.FRN;
             invoiceRequest.SBI = r.SBI;
+            invoiceRequest.MarketingYear = r.MarketingYear;
             invoiceRequest.Currency = r.Currency;
             invoiceRequest.Vendor = r.Vendor;
             invoiceRequest.AccountType = r.AccountType;

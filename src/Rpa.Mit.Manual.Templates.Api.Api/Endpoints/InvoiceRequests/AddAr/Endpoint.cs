@@ -66,6 +66,7 @@ namespace AddInvoiceRequestAr
             invoiceRequest.Description = r.Description;
             invoiceRequest.InvoiceId = r.InvoiceId;
             invoiceRequest.Ledger = "AR";
+            invoiceRequest.MarketingYear = r.MarketingYear;
             invoiceRequest.InvoiceRequestNumber = 1;  //TODO: this needs investigation
             invoiceRequest.Value = 0.00M;
             invoiceRequest.ClaimReference = r.ClaimReference;
