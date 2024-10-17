@@ -14,7 +14,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
         /// </summary>
         public string Ledger { get; set; } = string.Empty;
 
-
         public string ClaimReferenceNumber { get; set; } = string.Empty;
 
         public string ClaimReference { get; set; } = string.Empty;

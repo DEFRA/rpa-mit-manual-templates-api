@@ -1,19 +1,17 @@
-﻿
-using System.Diagnostics.CodeAnalysis;
+﻿using InvoiceRequests.Add;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
-namespace InvoiceRequests.Add
+namespace AddInvoiceRequestAr
 {
-    [ExcludeFromCodeCoverage]
-    internal sealed class AddInvoiceRequestEndpoint : EndpointWithMapping<AddInvoiceRequestRequest, AddInvoiceRequestResponse, InvoiceRequest>
+    internal sealed class Endpoint : EndpointWithMapping<AddArRequest, AddArResponse, InvoiceRequestAr>
     {
         private readonly IInvoiceRequestRepo _iInvoiceRequestRepo;
-        private readonly ILogger<AddInvoiceRequestEndpoint> _logger;
+        private readonly ILogger<Endpoint> _logger;
 
-        public AddInvoiceRequestEndpoint(
-            ILogger<AddInvoiceRequestEndpoint> logger,
+        public Endpoint(
+            ILogger<Endpoint> logger,
             IInvoiceRequestRepo iInvoiceRequestRepo)
         {
             _logger = logger;
@@ -22,27 +20,27 @@ namespace InvoiceRequests.Add
 
         public override void Configure()
         {
-            Post("/invoicerequests/add");
+            Post("/invoicerequests/addar");
         }
 
-        public override async Task HandleAsync(AddInvoiceRequestRequest r, CancellationToken ct)
+        public override async Task HandleAsync(AddArRequest r, CancellationToken ct)
         {
-            AddInvoiceRequestResponse response = new AddInvoiceRequestResponse();
+            AddArResponse response = new AddArResponse();
 
             try
             {
-                InvoiceRequest invoiceRequest = await MapToEntityAsync(r, ct);
+                InvoiceRequestAr invoiceRequest = await MapToEntityAsync(r, ct);
 
-                if(await _iInvoiceRequestRepo.AddInvoiceRequest(invoiceRequest, ct))
+                if (await _iInvoiceRequestRepo.AddInvoiceRequestAr(invoiceRequest, ct))
                 {
                     response.InvoiceRequest = invoiceRequest;
-                    await SendAsync(response, 200, cancellation: ct);
                 }
                 else
                 {
-                    response.Message = "Error adding new payment request";
-                    await SendAsync(response, 400, cancellation: ct);
+                    ThrowError("Error adding new invoice request");
                 }
+
+                await SendAsync(response, 200, cancellation: ct);
             }
             catch (Exception ex)
             {
@@ -54,9 +52,9 @@ namespace InvoiceRequests.Add
             }
         }
 
-        public override async Task<InvoiceRequest> MapToEntityAsync(AddInvoiceRequestRequest r, CancellationToken ct = default)
+        public override async Task<InvoiceRequestAr> MapToEntityAsync(AddArRequest r, CancellationToken ct = default)
         {
-            var invoiceRequest = await Task.FromResult(new InvoiceRequest());
+            var invoiceRequest = await Task.FromResult(new InvoiceRequestAr());
 
             invoiceRequest.InvoiceRequestId = r.ClaimReferenceNumber + "-" + r.ClaimReference;
             invoiceRequest.FRN = r.FRN;
@@ -67,6 +65,7 @@ namespace InvoiceRequests.Add
             invoiceRequest.AgreementNumber = r.AgreementNumber;
             invoiceRequest.Description = r.Description;
             invoiceRequest.InvoiceId = r.InvoiceId;
+            invoiceRequest.Ledger = "AR";
             invoiceRequest.InvoiceRequestNumber = 1;  //TODO: this needs investigation
             invoiceRequest.Value = 0.00M;
             invoiceRequest.ClaimReference = r.ClaimReference;

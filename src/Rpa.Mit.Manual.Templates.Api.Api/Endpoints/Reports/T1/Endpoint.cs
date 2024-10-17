@@ -8,7 +8,6 @@ using Microsoft.Extensions.Options;
 
 using Rpa.Mit.Manual.Templates.Api;
 using Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Reports;
-using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace T1Report
@@ -73,7 +72,7 @@ namespace T1Report
                 await _iEmailService.EmailReport("aylmer.carson.external@eviden.com", "MIT_Report_T1.csv", Encoding.ASCII.GetBytes(reportAsCsv), ct);
 
 
-                await File.WriteAllTextAsync(_filePath, reportAsCsv, ct);
+                //await File.WriteAllTextAsync(_filePath, reportAsCsv, ct);
             }
             catch (Exception ex)
             {

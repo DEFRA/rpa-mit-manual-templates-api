@@ -9,21 +9,25 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Rpa.Mit.Manual.Templates.Api;
 using Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Reports;
+using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace T2Report
 {
     [ExcludeFromCodeCoverage]
     internal sealed class Endpoint :  EndpointWithoutRequest
     {
+        private readonly IEmailService _iEmailService;
         private readonly ILogger<Endpoint> _logger;
         private readonly PostGres _options;
         private static readonly string _tokenScopes = "https://ossrdbms-aad.database.windows.net/.default";
         private static readonly string _filePath = @"C:\\Reports\\GeneratedT2.csv";
 
         public Endpoint(
+            IEmailService iEmailService,
             ILogger<Endpoint> logger,
             IOptions<PostGres> options)
         {
+            _iEmailService = iEmailService;
             _logger = logger;
             _options = options.Value;
         }
@@ -65,7 +69,8 @@ namespace T2Report
 
                 var reportAsCsv = response.Report.AsCsv<T2Report>();
 
-                await File.WriteAllTextAsync(_filePath, reportAsCsv, ct);
+                await _iEmailService.EmailReport("aylmer.carson.external@eviden.com", "MIT_Report_T2.csv", Encoding.ASCII.GetBytes(reportAsCsv), ct);
+
             }
             catch (Exception ex)
             {

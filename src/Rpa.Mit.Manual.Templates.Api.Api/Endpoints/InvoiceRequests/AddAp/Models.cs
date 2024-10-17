@@ -5,11 +5,13 @@ using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 namespace InvoiceRequests.Add
 {
     [ExcludeFromCodeCoverage]
-    internal sealed class AddInvoiceRequestRequest
+    internal class AddInvoiceRequestRequest
     {
         public string InvoiceRequestId { get; set; } = string.Empty;
 
         public Guid InvoiceId { get; set; }
+
+        public string Ledger { get; set; } = string.Empty;
 
         public string SourceSystem { get; set; } = "Manual";
 
@@ -49,6 +51,11 @@ namespace InvoiceRequests.Add
         {
             RuleFor(x => x.InvoiceId)
                 .NotEmpty().WithMessage("InvoiceId is required");
+
+            RuleFor(x => x.Ledger)
+                .NotEmpty()
+                .Matches("^AP|AR")
+                .WithMessage("Ledger must be either AP or AR");
 
             RuleFor(x => x.AgreementNumber)
                 .NotEmpty().WithMessage("Agreement Number is required");

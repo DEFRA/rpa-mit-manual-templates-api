@@ -9,6 +9,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 
         public Guid InvoiceId { get; set; }
 
+        public string Ledger { get; set; } = string.Empty;
+
         public string SourceSystem { get; set; } = "Manual";
 
         public string FRN { get; set; } = string.Empty;

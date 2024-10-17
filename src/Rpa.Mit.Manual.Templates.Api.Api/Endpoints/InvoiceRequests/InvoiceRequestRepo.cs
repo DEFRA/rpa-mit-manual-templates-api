@@ -26,8 +26,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
 
-                var sql = "INSERT INTO invoicerequests (invoicerequestid, invoiceid, frn, sbi, vendor, marketingyear, agreementnumber, currency, description, duedate, claimreferencenumber, claimreference )" +
-                     " VALUES (@InvoiceRequestId, @InvoiceId, @Frn, @Sbi, @Vendor, @MarketingYear,  @AgreementNumber, @Currency, @Description, @DueDate, @claimreferencenumber, @claimreference)";
+                var sql = "INSERT INTO invoicerequests (invoicerequestid, invoiceid, ledger, frn, sbi, vendor, marketingyear, agreementnumber, currency, description, duedate, claimreferencenumber, claimreference )" +
+                     " VALUES (@InvoiceRequestId, @InvoiceId, @Ledger, @Frn, @Sbi, @Vendor, @MarketingYear,  @AgreementNumber, @Currency, @Description, @DueDate, @claimreferencenumber, @claimreference)";
 
                 var res = await cn.ExecuteAsync(sql, invoiceRequest);
 
@@ -159,6 +159,22 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests
                     await cn.OpenAsync(ct);
 
                 return await cn.QueryAsync<InvoiceRequest>("SELECT frn, sbi, vendor, agreementnumber, currency, description, value, invoicerequestid, marketingyear, duedate, claimreferencenumber, claimreference, invoiceid FROM invoicerequests WHERE paymenthuberroremailsent is null");
+            }
+        }
+
+        public async Task<bool> AddInvoiceRequestAr(InvoiceRequestAr invoiceRequest, CancellationToken ct)
+        {
+            using (var cn = new NpgsqlConnection(await DbConn()))
+            {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
+                var sql = "INSERT INTO invoicerequests (invoicerequestid, invoiceid, ledger, frn, sbi, vendor, marketingyear, agreementnumber, currency, description, duedate, claimreferencenumber, claimreference,originalclaimreference,originalapinvoicesettlementdate,earliestdatepossiblerecovery,correctionreference )" +
+                     " VALUES (@InvoiceRequestId,@InvoiceId,@Ledger,@Frn,@Sbi,@Vendor,@MarketingYear,@AgreementNumber,@Currency,@Description,@DueDate,@claimreferencenumber,@claimreference,@OriginalClaimReference,@OriginalAPInvoiceSettlementDate,@EarliestDatePossibleRecovery,@CorrectionReference)";
+
+                var res = await cn.ExecuteAsync(sql, invoiceRequest);
+
+                return res == 1;
             }
         }
     }
