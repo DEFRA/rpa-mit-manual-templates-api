@@ -1,9 +1,12 @@
-﻿using InvoiceRequests.Add;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using InvoiceRequests.Add;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 
 namespace AddInvoiceRequestAr
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class AddArRequest : AddInvoiceRequestRequest
     {
         /// <summary>
@@ -32,6 +35,7 @@ namespace AddInvoiceRequestAr
         }
     }
 
+    [ExcludeFromCodeCoverage]
     internal sealed class AddArResponse
     {
         public string Message { get; set; } = string.Empty;

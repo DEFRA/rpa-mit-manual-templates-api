@@ -1,10 +1,13 @@
-﻿using InvoiceRequests.Add;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using InvoiceRequests.Add;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace AddInvoiceRequestAr
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class Endpoint : EndpointWithMapping<AddArRequest, AddArResponse, InvoiceRequestAr>
     {
         private readonly IInvoiceRequestRepo _iInvoiceRequestRepo;
