@@ -65,13 +65,20 @@ namespace AddInvoiceIineAr
         {
             var invoiceLine = await Task.FromResult(new InvoiceLineAr());
 
-            var chartOfAccounts = await _iReferenceDataRepo.GetChartOfAccountsArReferenceData(ct);
+            var chartOfAccountsAr = await _iReferenceDataRepo.GetChartOfAccountsArReferenceData(ct);
             var descriptionQuery = r.MainAccount + "/" + r.SchemeCode + "/" + r.DeliveryBody;
+
+            var description = chartOfAccountsAr.First(c => c.Code == descriptionQuery).Description;
+
+            if (string.IsNullOrEmpty(description))
+            {
+                ThrowError("Invalid account/scheme/deliverybody combination");
+            }
 
             invoiceLine.MarketingYear = r.MarketingYear;
             invoiceLine.DeliveryBody = r.DeliveryBody;
             invoiceLine.Value = r.Value;
-            invoiceLine.Description = chartOfAccounts.First(c => c.Code == descriptionQuery).Org;
+            invoiceLine.Description = description;
             invoiceLine.FundCode = r.FundCode;
             invoiceLine.SchemeCode = r.SchemeCode;
             invoiceLine.MainAccount = r.MainAccount;
