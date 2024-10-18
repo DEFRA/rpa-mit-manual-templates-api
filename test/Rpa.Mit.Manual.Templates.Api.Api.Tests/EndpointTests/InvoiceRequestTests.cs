@@ -77,7 +77,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
             await ep.HandleAsync(invoiceRequest, default);
             var response = ep.Response;
 
-            Assert.Equal(invoiceRequest.FRN, response.InvoiceRequest.FRN);
+            Assert.Equal(invoiceRequest.FRN, response.InvoiceRequest!.FRN);
         }
 
 

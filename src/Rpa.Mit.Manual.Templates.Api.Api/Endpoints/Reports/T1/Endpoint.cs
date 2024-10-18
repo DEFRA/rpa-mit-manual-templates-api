@@ -19,7 +19,6 @@ namespace T1Report
         private readonly ILogger<Endpoint> _logger;
         private readonly PostGres _options;
         private static readonly string _tokenScopes = "https://ossrdbms-aad.database.windows.net/.default";
-        private static readonly string _filePath = @"C:\\Reports\\GeneratedT1.csv";
 
         public Endpoint(
             IEmailService iEmailService,
@@ -50,7 +49,7 @@ namespace T1Report
                 new TokenRequestContext(scopes: new string[]
                 {
                      _tokenScopes
-                }));
+                }), CancellationToken.None);
 
             string connString =
                 String.Format(
@@ -70,9 +69,6 @@ namespace T1Report
                 var reportAsCsv = response.Report.AsCsv<T1Report>();
 
                 await _iEmailService.EmailReport("aylmer.carson.external@eviden.com", "MIT_Report_T1.csv", Encoding.ASCII.GetBytes(reportAsCsv), ct);
-
-
-                //await File.WriteAllTextAsync(_filePath, reportAsCsv, ct);
             }
             catch (Exception ex)
             {
