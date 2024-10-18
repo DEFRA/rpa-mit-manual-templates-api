@@ -69,6 +69,13 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
                     var descriptionQuery = row[22].ToString() + "/" + row[23].ToString() + "/" + row[25].ToString();
 
+                    var description = chartOfAccounts.First(c => c.Code == descriptionQuery).Description;
+
+                    if (string.IsNullOrEmpty(description))
+                    {
+                        throw new Exception("Invalid account/scheme/deliverybody combination");
+                    }
+
                     var bulkUploadDetailLine = new BulkUploadApDetailLine
                     {
                         Id = Guid.NewGuid(),
@@ -79,7 +86,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                         SchemeCode = row[23].ToString()!,
                         DeliveryBodyCode = row[25].ToString()!,
                         MarketingYear = row[24].ToString()!,
-                        Description = chartOfAccounts.First(c => c.Code == descriptionQuery).Description
+                        Description = description
                     };
 
                     // for the databasee
@@ -88,19 +95,26 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 else if (!string.IsNullOrEmpty(row[19].ToString()))
                 {
                     var descriptionQuery = row[22].ToString() + "/" + row[23].ToString() + "/" + row[25].ToString();
-                    var invReqId = row[17].ToString() + "_" + row[18].ToString();
+                    var invoiceRequestId = row[17].ToString() + "_" + row[18].ToString();
+
+                    var description = chartOfAccounts.First(c => c.Code == descriptionQuery).Description;
+
+                    if (string.IsNullOrEmpty(description))
+                    {
+                        throw new Exception("Invalid account/scheme/deliverybody combination");
+                    }
 
                     var bulkUploadDetailLine = new BulkUploadApDetailLine
                     {
                         Id = Guid.NewGuid(),
-                        InvoiceRequestId = invReqId,
+                        InvoiceRequestId = invoiceRequestId,
                         Value = decimal.Parse(row[19].ToString()!),
                         FundCode = row[21].ToString()!,
-                        MainAccount = row[22].ToString()!,
                         SchemeCode = row[23].ToString()!,
+                        MainAccount = row[22].ToString()!,
                         MarketingYear = row[24].ToString()!,
                         DeliveryBodyCode = row[25].ToString()!,
-                        Description = chartOfAccounts.First(c => c.Code == descriptionQuery).Description
+                        Description = description
                     };
 
                     // this for the database

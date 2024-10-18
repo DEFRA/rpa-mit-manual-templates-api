@@ -75,6 +75,13 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
                     var descriptionQuery = row[22].ToString() + "/" + row[23].ToString() + "/" + row[25].ToString();
 
+                    var description = chartOfAccounts.First(c => c.Code == descriptionQuery).Description;
+
+                    if (string.IsNullOrEmpty(description))
+                    {
+                        throw new Exception("Invalid account/scheme/deliverybody combination");
+                    }
+
                     var debtType = await GetDebtType(org, row[22].ToString()!);
 
                     var bulkUploadDetailLine = new BulkUploadArDetailLine
@@ -82,12 +89,12 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                         Id = Guid.NewGuid(),
                         InvoiceRequestId = row[17].ToString() + "_" + row[18].ToString(),
                         Value = decimal.Parse(row[19].ToString()!),
-                        FundCode = row[21].ToString()!,
                         MainAccount = row[22].ToString()!,
+                        FundCode = row[21].ToString()!,
                         SchemeCode = row[23].ToString()!,
-                        MarketingYear = row[24].ToString()!,
                         DeliveryBodyCode = row[25].ToString()!,
-                        Description = chartOfAccounts.First(c => c.Code == descriptionQuery).Description,
+                        MarketingYear = row[24].ToString()!,
+                        Description = description,
                         DebtType = debtType
                     };
 
@@ -100,6 +107,13 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     var invReqId = row[17].ToString() + "_" + row[18].ToString();
                     var debtType = await GetDebtType(org, row[22].ToString()!);
 
+                    var description = chartOfAccounts.First(c => c.Code == descriptionQuery).Description;
+
+                    if (string.IsNullOrEmpty(description))
+                    {
+                        throw new Exception("Invalid account/scheme/deliverybody combination");
+                    }
+
                     var bulkUploadDetailLine = new BulkUploadArDetailLine
                     {
                         Id = Guid.NewGuid(),
@@ -110,7 +124,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                         SchemeCode = row[23].ToString()!,
                         MarketingYear = row[24].ToString()!,
                         DeliveryBodyCode = row[25].ToString()!,
-                        Description = chartOfAccounts.First(c => c.Code == descriptionQuery).Description,
+                        Description = description,
                         DebtType = debtType
                     };
 
