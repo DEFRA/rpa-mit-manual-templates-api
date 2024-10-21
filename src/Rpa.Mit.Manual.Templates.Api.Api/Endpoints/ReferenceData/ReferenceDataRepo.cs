@@ -38,7 +38,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
 
                 var sql = @"
                         SELECT deliverybodydescription, code, accountcode, org FROM lookup_deliverybodyinitialselections;
-                        SELECT name, deliverybodycode FROM lookup_schemeinvoicetemplates;
+                        SELECT name, code, deliverybodycode FROM lookup_schemeinvoicetemplates;
                         SELECT id, name FROM lookup_schemeinvoicetemplatessecondaryrpaquestions;
                         SELECT code, description FROM lookup_paymenttypes;
                         SELECT code, description FROM lookup_schemetypes;
