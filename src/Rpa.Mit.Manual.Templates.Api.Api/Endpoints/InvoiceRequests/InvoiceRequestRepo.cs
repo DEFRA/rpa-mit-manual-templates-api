@@ -188,10 +188,11 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests
                 var sql = @"
                             SELECT frn,sbi,vendor,agreementnumber,currency,ir.description,ir.invoicerequestid,il.marketingyear,duedate,claimreferencenumber,claimreference,invoiceid,originalclaimreference,originalapinvoicesettlementdate,earliestdatepossiblerecovery,correctionreference,
                                     SUM(il.value) AS value
-                            FROM invoicerequests ir LEFT JOIN invoicelines il 
-                            ON ir.invoicerequestid = il.invoicerequestid
-                            WHERE ir.invoiceid = @invoiceId
-                            group by frn, sbi, vendor,agreementnumber,currency,ir.description,ir.invoicerequestid,il.marketingyear,duedate,claimreferencenumber,claimreference,invoiceid
+                                FROM invoicerequests ir LEFT JOIN invoicelines il 
+                                ON ir.invoicerequestid = il.invoicerequestid
+                                WHERE ir.invoiceid = @invoiceId
+                                GROUP BY frn, sbi, vendor,agreementnumber,currency,ir.description,ir.invoicerequestid,il.marketingyear,duedate,claimreferencenumber,claimreference,invoiceid,
+                                    originalclaimreference,originalapinvoicesettlementdate,earliestdatepossiblerecovery,correctionreference
                           ";
 
                 return await cn.QueryAsync<InvoiceRequestAr>(
