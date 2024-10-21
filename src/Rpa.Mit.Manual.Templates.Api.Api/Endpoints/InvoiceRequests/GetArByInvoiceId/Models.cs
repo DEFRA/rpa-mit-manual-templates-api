@@ -1,12 +1,16 @@
-﻿using Rpa.Mit.Manual.Templates.Api.Core.Entities;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 
 namespace GetArByInvoiceId
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class Request
     {
         public Guid InvoiceId { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     internal sealed class Response
     {
         public IEnumerable<InvoiceRequestAr> InvoiceRequests { get; set; } = Enumerable.Empty<InvoiceRequestAr>();

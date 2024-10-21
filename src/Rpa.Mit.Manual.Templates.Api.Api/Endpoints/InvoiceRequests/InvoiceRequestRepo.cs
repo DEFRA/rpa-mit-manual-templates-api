@@ -186,8 +186,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests
                     await cn.OpenAsync(ct);
 
                 var sql = @"
-                            SELECT frn,sbi,vendor,agreementnumber,currency,ir.description,ir.invoicerequestid,il.marketingyear,duedate,claimreferencenumber,claimreference,invoiceid,
-                            SUM(il.value) AS value
+                            SELECT frn,sbi,vendor,agreementnumber,currency,ir.description,ir.invoicerequestid,il.marketingyear,duedate,claimreferencenumber,claimreference,invoiceid,originalclaimreference,originalapinvoicesettlementdate,earliestdatepossiblerecovery,correctionreference,
+                                    SUM(il.value) AS value
                             FROM invoicerequests ir LEFT JOIN invoicelines il 
                             ON ir.invoicerequestid = il.invoicerequestid
                             WHERE ir.invoiceid = @invoiceId
