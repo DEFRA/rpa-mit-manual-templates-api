@@ -177,5 +177,27 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests
                 return res == 1;
             }
         }
+
+        public async Task<IEnumerable<InvoiceRequestAr>> GetArInvoiceRequestsByInvoiceId(Guid invoiceId, CancellationToken ct)
+        {
+            using (var cn = new NpgsqlConnection(await DbConn()))
+            {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
+                var sql = @"
+                            SELECT frn,sbi,vendor,agreementnumber,currency,ir.description,ir.invoicerequestid,il.marketingyear,duedate,claimreferencenumber,claimreference,invoiceid,
+                            SUM(il.value) AS value
+                            FROM invoicerequests ir LEFT JOIN invoicelines il 
+                            ON ir.invoicerequestid = il.invoicerequestid
+                            WHERE ir.invoiceid = @invoiceId
+                            group by frn, sbi, vendor,agreementnumber,currency,ir.description,ir.invoicerequestid,il.marketingyear,duedate,claimreferencenumber,claimreference,invoiceid
+                          ";
+
+                return await cn.QueryAsync<InvoiceRequestAr>(
+                            sql,
+                            new { invoiceId });
+            }
+        }
     }
 }

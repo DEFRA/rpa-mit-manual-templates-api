@@ -15,7 +15,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 
         public string MarketingYear { get; set; } = string.Empty;
 
-        public string DeliveryBody { get; set; } = string.Empty;
+        public string DeliveryBodyCode { get; set; } = string.Empty;
 
         public string FundCode { get; set; } = string.Empty;
 

@@ -66,7 +66,7 @@ namespace InvoiceLines.Update
             var invoiceLine = await Task.FromResult(new InvoiceLine());
             invoiceLine.Id = r.Id;
             invoiceLine.MarketingYear = r.MarketingYear;
-            invoiceLine.DeliveryBody = r.DeliveryBody;
+            invoiceLine.DeliveryBodyCode = r.DeliveryBody;
             invoiceLine.Value = r.Value;
             invoiceLine.Description = r.Description;
             invoiceLine.FundCode = r.FundCode;

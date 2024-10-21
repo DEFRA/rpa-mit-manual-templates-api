@@ -76,7 +76,7 @@ namespace AddInvoiceIineAr
             }
 
             invoiceLine.MarketingYear = r.MarketingYear;
-            invoiceLine.DeliveryBody = r.DeliveryBody;
+            invoiceLine.DeliveryBodyCode = r.DeliveryBody;
             invoiceLine.Value = r.Value;
             invoiceLine.Description = description;
             invoiceLine.FundCode = r.FundCode;
