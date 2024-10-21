@@ -2,16 +2,16 @@
 
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
-namespace GetArByInvoiceId
+namespace InvoiceRequestsAr.GetByInvoiceId
 {
     [ExcludeFromCodeCoverage]
-    internal sealed class Endpoint : Endpoint<Request, Response>
+    internal sealed class GetArByInvoiceIdEndpoint : Endpoint<Request, Response>
     {
         private readonly IInvoiceRequestRepo _iInvoiceRequestRepo;
-        private readonly ILogger<Endpoint> _logger;
+        private readonly ILogger<GetArByInvoiceIdEndpoint> _logger;
 
-        public Endpoint(
-            ILogger<Endpoint> logger,
+        public GetArByInvoiceIdEndpoint(
+            ILogger<GetArByInvoiceIdEndpoint> logger,
             IInvoiceRequestRepo iInvoiceRequestRepo)
         {
             _logger = logger;

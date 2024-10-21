@@ -2,20 +2,12 @@
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 
-namespace InvoiceRequests.GetByInvoiceId
+namespace InvoiceRequestsAp.GetByInvoiceId
 {
     [ExcludeFromCodeCoverage]
     internal sealed class InvoiceRequestsGetByInvoiceIdRequest
     {
         public Guid InvoiceId { get; set; }
-
-        internal sealed class Validator : Validator<InvoiceRequestsGetByInvoiceIdRequest>
-        {
-            public Validator()
-            {
-
-            }
-        }
     }
 
     [ExcludeFromCodeCoverage]

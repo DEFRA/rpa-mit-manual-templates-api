@@ -2,7 +2,7 @@
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 
-namespace GetArByInvoiceId
+namespace InvoiceRequestsAr.GetByInvoiceId
 {
     [ExcludeFromCodeCoverage]
     internal sealed class Request

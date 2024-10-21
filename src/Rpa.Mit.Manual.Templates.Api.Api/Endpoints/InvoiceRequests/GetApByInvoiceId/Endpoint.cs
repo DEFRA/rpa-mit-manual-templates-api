@@ -2,7 +2,7 @@
 
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
-namespace InvoiceRequests.GetByInvoiceId
+namespace InvoiceRequestsAp.GetByInvoiceId
 {
     [ExcludeFromCodeCoverage]
     internal sealed class InvoiceRequestsByInvoiceIdEndpoint : Endpoint<InvoiceRequestsGetByInvoiceIdRequest, InvoiceRequestsGetByInvoiceIdResponse>
@@ -20,7 +20,7 @@ namespace InvoiceRequests.GetByInvoiceId
 
         public override void Configure()
         {
-            Get("/invoicerequests/getbyinvoiceid");
+            Get("/invoicerequests/getapbyinvoiceid");
         }
 
         public override async Task HandleAsync(InvoiceRequestsGetByInvoiceIdRequest r, CancellationToken ct)
