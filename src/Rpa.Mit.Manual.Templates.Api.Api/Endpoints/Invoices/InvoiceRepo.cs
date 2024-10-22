@@ -109,17 +109,21 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
 
-                var sql = "SELECT id,schemetype,data,reference,value,status,approverid,approveremail,approvedby,approved,createdby, updatedby, created, updated,paymenttype,accounttype,deliverybody FROM invoices WHERE Id = @invoiceid";
+                var invoice = new Invoice();
+
+                var sql = @"
+                            SELECT id,schemetype,data,reference,value,status,approverid,approveremail,approvedby,approved,createdby, updatedby, created, updated,paymenttype,accounttype,deliverybody FROM invoices WHERE Id = @invoiceid;
+                            select value from public.invoicelines where invoicerequestid in (Select invoicerequestid from invoicerequests where invoiceid=@invoiceid);
+                        ";
 
                 var parameters = new { invoiceId };
 
-                var invoice = await cn.QuerySingleAsync<Invoice>(sql, parameters);
-
-                var invoiceLimeValues = await cn.QueryAsync<decimal>(
-                        "select value from public.invoicelines where invoicerequestid in (Select invoicerequestid from invoicerequests where invoiceid=@Id)",
-                        new { invoice.Id });
-
-                invoice.Value = invoiceLimeValues.Sum();
+                using (var res = await cn.QueryMultipleAsync(sql, parameters))
+                {
+                    invoice = await res.ReadSingleAsync<Invoice>();
+                    var values= await res.ReadAsync<decimal>();
+                    invoice.Value = values.Sum();
+                }
 
                 return invoice;
             }
