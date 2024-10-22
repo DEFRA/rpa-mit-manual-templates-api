@@ -113,7 +113,15 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
 
                 var parameters = new { invoiceId };
 
-                return await cn.QuerySingleAsync<Invoice>(sql, parameters);
+                var invoice = await cn.QuerySingleAsync<Invoice>(sql, parameters);
+
+                var invoiceLimeValues = await cn.QueryAsync<decimal>(
+                        "select value from public.invoicelines where invoicerequestid in (Select invoicerequestid from invoicerequests where invoiceid=@Id)",
+                        new { invoice.Id });
+
+                invoice.Value = invoiceLimeValues.Sum();
+
+                return invoice;
             }
         }
 
