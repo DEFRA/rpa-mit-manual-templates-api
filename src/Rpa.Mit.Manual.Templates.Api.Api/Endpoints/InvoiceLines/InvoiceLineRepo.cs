@@ -31,7 +31,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
                     try
                     {
                         var sql = "INSERT INTO invoicelines (id, value, description, fundcode, mainaccount, schemecode, marketingyear, deliverybodycode, invoicerequestid )" +
-                            " VALUES (@Id, @Value, @Description, @Fundcode, @mainaccount, @schemecode,  @marketingyear, @deliverybody, @invoicerequestid)";
+                            " VALUES (@Id, @Value, @Description, @Fundcode, @mainaccount, @schemecode,  @marketingyear, @deliverybodycode, @invoicerequestid)";
 
                         await cn.ExecuteAsync(sql, invoiceLine);
 
