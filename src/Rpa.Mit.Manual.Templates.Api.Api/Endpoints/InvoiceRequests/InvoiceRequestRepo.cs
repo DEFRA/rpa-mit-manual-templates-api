@@ -127,12 +127,22 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests
         {
             using (var cn = new NpgsqlConnection(await DbConn()))
             {
+                InvoiceRequest invoiceRequest = new InvoiceRequest();
+
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
 
-                return await cn.QuerySingleAsync<InvoiceRequest>(
+                invoiceRequest = await cn.QuerySingleAsync<InvoiceRequest>(
                             "SELECT frn, sbi, vendor, agreementnumber, currency, description, invoicerequestid, marketingyear, duedate, claimreferencenumber, claimreference, invoiceid FROM invoicerequests WHERE invoicerequestid = @invoiceRequestId",
                             new { invoiceRequestId });
+
+                var invoiceLineValues = await cn.QueryAsync<decimal>(
+                            "SELECT value FROM invoicelines WHERE invoicerequestid = @invoiceRequestId",
+                            new { InvoiceRequestId = invoiceRequestId });
+
+                invoiceRequest.Value = invoiceLineValues.Sum();
+
+                return invoiceRequest;
             }
         }
 
@@ -205,12 +215,22 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests
         {
             using (var cn = new NpgsqlConnection(await DbConn()))
             {
+                InvoiceRequestAr invoiceRequest = new InvoiceRequestAr();
+
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
 
-                return await cn.QuerySingleAsync<InvoiceRequestAr>(
+                invoiceRequest = await cn.QuerySingleAsync<InvoiceRequestAr>(
                             "SELECT frn, sbi, vendor, agreementnumber, currency, description, invoicerequestid, marketingyear, duedate, claimreferencenumber, claimreference, invoiceid, originalclaimreference,originalapinvoicesettlementdate,earliestdatepossiblerecovery,correctionreference FROM invoicerequests WHERE invoicerequestid = @invoiceRequestId",
                             new { invoiceRequestId });
+
+                var invoiceLineValues = await cn.QueryAsync<decimal>(
+                            "SELECT value FROM invoicelines WHERE invoicerequestid = @invoiceRequestId",
+                            new { InvoiceRequestId = invoiceRequestId });
+
+                invoiceRequest.Value = invoiceLineValues.Sum();
+
+                return invoiceRequest;
             }
         }
     }
