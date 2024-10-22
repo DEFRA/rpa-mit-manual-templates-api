@@ -30,7 +30,7 @@ namespace GetArByInvoiceRequestId
 
             try
             {
-                response.InvoiceRequest = await _iInvoiceRequestRepo.GetInvoiceRequestByInvoiceRequestId(r.InvoiceRequestId, ct);
+                response.InvoiceRequest = await _iInvoiceRequestRepo.GetArInvoiceRequestByInvoiceRequestId(r.InvoiceRequestId, ct);
 
                 await SendAsync(response, 200, cancellation: ct);
             }

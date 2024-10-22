@@ -43,7 +43,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <param name="invoiceRequestId"></param>
         /// <param name="ct"></param>
         /// <returns></returns>
-        Task<InvoiceRequest> GetArInvoiceRequestByInvoiceRequestId(string invoiceRequestId, CancellationToken ct);
+        Task<InvoiceRequestAr> GetArInvoiceRequestByInvoiceRequestId(string invoiceRequestId, CancellationToken ct);
 
         /// <summary>
         /// updates a single invoice request
