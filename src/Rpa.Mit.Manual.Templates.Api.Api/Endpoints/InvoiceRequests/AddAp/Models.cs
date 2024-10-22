@@ -60,11 +60,6 @@ namespace InvoiceRequests.Add
                                 .NotEmpty()
                                 .WithMessage("MarketingYear is required");
 
-            RuleFor(x => x.Ledger)
-                .NotEmpty()
-                .Matches("^AP|AR")
-                .WithMessage("Ledger must be either AP or AR");
-
             RuleFor(x => x.AgreementNumber)
                 .NotEmpty().WithMessage("Agreement Number is required");
 

@@ -25,14 +25,6 @@ namespace AddInvoiceRequestAr
         /// Previous AR invoice ID. Only present if correcting a previous AR invoice
         /// </summary>
         public string CorrectionReference { get; set; } = string.Empty;
-
-        internal sealed class Validator : Validator<AddArRequest>
-        {
-            public Validator()
-            {
-
-            }
-        }
     }
 
     [ExcludeFromCodeCoverage]
