@@ -200,5 +200,18 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests
                             new { invoiceId });
             }
         }
+
+        public async Task<InvoiceRequestAr> GetArInvoiceRequestByInvoiceRequestId(string invoiceRequestId, CancellationToken ct)
+        {
+            using (var cn = new NpgsqlConnection(await DbConn()))
+            {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
+                return await cn.QuerySingleAsync<InvoiceRequestAr>(
+                            "SELECT frn, sbi, vendor, agreementnumber, currency, description, invoicerequestid, marketingyear, duedate, claimreferencenumber, claimreference, invoiceid, originalclaimreference,originalapinvoicesettlementdate,earliestdatepossiblerecovery,correctionreference FROM invoicerequests WHERE invoicerequestid = @invoiceRequestId",
+                            new { invoiceRequestId });
+            }
+        }
     }
 }

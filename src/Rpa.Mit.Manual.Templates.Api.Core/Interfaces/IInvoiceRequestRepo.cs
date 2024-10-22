@@ -30,12 +30,20 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         Task<decimal> GetInvoiceRequestValue(string invoiceRequestId, CancellationToken ct);
 
         /// <summary>
-        /// get a single invoice request by its id
+        /// get a single AP invoice request by its id
         /// </summary>
         /// <param name="invoiceRequestId"></param>
         /// <param name="ct"></param>
         /// <returns></returns>
         Task<InvoiceRequest> GetInvoiceRequestByInvoiceRequestId(string invoiceRequestId, CancellationToken ct);
+
+        /// <summary>
+        /// get a single AR invoice request by its id
+        /// </summary>
+        /// <param name="invoiceRequestId"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        Task<InvoiceRequest> GetArInvoiceRequestByInvoiceRequestId(string invoiceRequestId, CancellationToken ct);
 
         /// <summary>
         /// updates a single invoice request

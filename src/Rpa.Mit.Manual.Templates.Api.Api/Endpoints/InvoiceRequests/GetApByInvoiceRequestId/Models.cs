@@ -8,14 +8,6 @@ namespace GetByInvoiceRequestId
     internal sealed class GetByInvoiceRequestIdRequest
     {
         public string InvoiceRequestId { get; set; } = string.Empty;
-
-        internal sealed class Validator : Validator<GetByInvoiceRequestIdRequest>
-        {
-            public Validator()
-            {
-
-            }
-        }
     }
 
     [ExcludeFromCodeCoverage]

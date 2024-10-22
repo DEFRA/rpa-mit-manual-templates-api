@@ -1,17 +1,18 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
+using GetByInvoiceRequestId;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
-namespace GetByInvoiceRequestId
+namespace GetArByInvoiceRequestId
 {
     [ExcludeFromCodeCoverage]
-    internal sealed class GetByInvoiceRequestIdEndpoint : Endpoint<GetByInvoiceRequestIdRequest, GetByInvoiceRequestIdResponse>
+    internal sealed class GetArByInvoiceRequestIdEndpoint : Endpoint<Request, GetArByInvoiceRequestIdResponse>
     {
         private readonly IInvoiceRequestRepo _iInvoiceRequestRepo;
-        private readonly ILogger<GetByInvoiceRequestIdEndpoint> _logger;
+        private readonly ILogger<GetArByInvoiceRequestIdEndpoint> _logger;
 
-        public GetByInvoiceRequestIdEndpoint(
-            ILogger<GetByInvoiceRequestIdEndpoint> logger,
+        public GetArByInvoiceRequestIdEndpoint(
+            ILogger<GetArByInvoiceRequestIdEndpoint> logger,
             IInvoiceRequestRepo iInvoiceRequestRepo)
         {
             _logger = logger;
@@ -20,12 +21,12 @@ namespace GetByInvoiceRequestId
 
         public override void Configure()
         {
-            Get("/invoicerequests/getbyid");
+            Get("/invoicerequests/getarbyid");
         }
 
-        public override async Task HandleAsync(GetByInvoiceRequestIdRequest r, CancellationToken ct)
+        public override async Task HandleAsync(Request r, CancellationToken ct)
         {
-            var response = new GetByInvoiceRequestIdResponse();
+            var response = new GetArByInvoiceRequestIdResponse();
 
             try
             {
