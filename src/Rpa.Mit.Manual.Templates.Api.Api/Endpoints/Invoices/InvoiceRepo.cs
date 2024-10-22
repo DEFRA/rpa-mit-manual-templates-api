@@ -113,7 +113,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
 
                 var sql = @"
                             SELECT id,schemetype,data,reference,value,status,approverid,approveremail,approvedby,approved,createdby, updatedby, created, updated,paymenttype,accounttype,deliverybody FROM invoices WHERE Id = @invoiceid;
-                            select value from public.invoicelines where invoicerequestid in (Select invoicerequestid from invoicerequests where invoiceid=@invoiceid);
+                            SELECT value FROM public.invoicelines WHERE invoicerequestid IN (SELECT invoicerequestid FROM invoicerequests WHERE invoiceid=@invoiceid);
                         ";
 
                 var parameters = new { invoiceId };
