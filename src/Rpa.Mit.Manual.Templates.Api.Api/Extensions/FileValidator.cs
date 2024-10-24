@@ -3,17 +3,19 @@
 namespace Rpa.Mit.Manual.Templates.Api.Api.Extensions
 {
     [ExcludeFromCodeCoverage]
-    public static class FileValidator
+    public class FileValidator : AbstractValidator<IFormFile>
     {
-        public static bool IsFileExtensionAllowed(this IFormFile file, string[] allowedExtensions)
+        public FileValidator()
         {
-            var extension = Path.GetExtension(file.FileName);
-            return allowedExtensions.Contains(extension);
-        }
+            RuleFor(x => x.Length)
+                .NotNull()
+                .LessThanOrEqualTo(1048576)
+                .WithMessage("File size is larger than allowed - 1MB");
 
-        public static bool IsFileSizeWithinLimit(this IFormFile file, double maxSizeInBytes)
-        {
-            return file.Length <= maxSizeInBytes;
+            RuleFor(x => x.ContentType)
+                .NotNull()
+                .Must(x => x.Equals("application/vnd.ms-excel.sheet.macroenabled.12"))
+                .WithMessage("File type is wrong. Must be application/vnd.ms-excel with extension .xlsm");
         }
     }
 }

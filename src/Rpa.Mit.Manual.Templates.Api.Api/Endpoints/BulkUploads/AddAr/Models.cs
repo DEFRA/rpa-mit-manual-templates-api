@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
+using Rpa.Mit.Manual.Templates.Api.Api.Extensions;
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 
 namespace BulkUploads.AddAr
@@ -22,15 +23,17 @@ namespace BulkUploads.AddAr
             public BulkUploadsArValidator()
             {
                 RuleFor(x => x.Org)
-                    .NotNull().NotEmpty()
-                                        .WithMessage("Org must have a value");
+                    .NotNull()
+                    .NotEmpty()
+                    .WithMessage("Org must have a value");
 
                 RuleFor(x => x.SchemeInvoiceTemplate)
-                    .NotNull().NotEmpty()
-                                        .WithMessage("SchemeInvoiceTemplate must have a value");
+                    .NotNull()
+                    .NotEmpty()
+                    .WithMessage("SchemeInvoiceTemplate must have a value");
 
                 RuleFor(x => x.File)
-                    .NotNull();
+                    .SetValidator(new FileValidator());
             }
         }
     }
