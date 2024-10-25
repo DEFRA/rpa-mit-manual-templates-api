@@ -12,5 +12,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
         public string Reason { get; set; } = default!;
 
         public string ApproverEmail { get; set; } = default!;
+
+        public string Status { get; set; } = default!;
     }
 }

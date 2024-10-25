@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
+using Rpa.Mit.Manual.Templates.Api.Core.Enums;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace RejectInvoice
@@ -67,6 +68,7 @@ namespace RejectInvoice
             invoiceRejection.DateApproved = DateTime.UtcNow;
             invoiceRejection.Reason = r.Reason;
             invoiceRejection.Id = r.InvoiceId;
+            invoiceRejection.Status = InvoiceStatuses.Rejected;
 
             return invoiceRejection;
         }

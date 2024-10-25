@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using Rpa.Mit.Manual.Templates.Api;
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure;
+using Rpa.Mit.Manual.Templates.Api.Core.Enums;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
 
@@ -116,6 +117,7 @@ namespace ApproveInvoice
             invoiceApproval.ApproverEmail = User.Identity?.Name!;
             invoiceApproval.DateApproved = DateTime.UtcNow;
             invoiceApproval.Id = r.Id;
+            invoiceApproval.Status = InvoiceStatuses.Approved;
 
             return invoiceApproval;
         }

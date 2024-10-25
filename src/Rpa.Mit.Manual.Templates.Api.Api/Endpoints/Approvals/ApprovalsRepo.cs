@@ -25,7 +25,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
 
-                var sql = "UPDATE invoices SET approveremail=@ApproverEmail,approved=TRUE,dateapproved=@DateApproved WHERE id = @id";
+                var sql = "UPDATE invoices SET approveremail=@ApproverEmail,status = @Status, approved=TRUE,dateapproved=@DateApproved WHERE id = @id";
 
                 var res = await cn.ExecuteAsync(sql, invoiceApproval);
 
@@ -133,13 +133,11 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
 
-                var sql = @"
-                            UPDATE invoices SET approverid=@ApproverId,approveremail=@ApproverEmail,approved=FALSE,approvedby=@ApprovedBy,dateapproved=@DateApproved,approvalrejectionreason=@Reason WHERE id = @id;
-                            SELECT createdby FROM invoices WHERE id = @id;";
+                var sql = "UPDATE invoices SET status=@Status, approverid=@ApproverId,approveremail=@ApproverEmail,approved=FALSE,approvedby=@ApprovedBy,dateapproved=@DateApproved,approvalrejectionreason=@Reason WHERE id = @id";
 
-                await cn.ExecuteScalarAsync<string>(sql, invoiceRejection);
+                var res = await cn.ExecuteAsync(sql, invoiceRejection);
 
-                return true;
+                return res == 1;
             }
         }
 

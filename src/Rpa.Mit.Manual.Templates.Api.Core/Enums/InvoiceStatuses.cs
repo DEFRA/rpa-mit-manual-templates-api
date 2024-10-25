@@ -5,7 +5,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Enums
     [ExcludeFromCodeCoverage]
     public static class InvoiceStatuses
     {
-        public const string New = "new";
+        public const string New = "NEW";
         public const string BulkUploadConfirmed = "BULKUPLOAD_CONFIRMED";
         public const string AwaitingApproval = "AWAITING_APPROVAL";
         public const string Approved = "APPROVED";
