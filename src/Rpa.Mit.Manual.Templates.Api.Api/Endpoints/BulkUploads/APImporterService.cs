@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Eventing.Reader;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
@@ -34,8 +35,11 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
             var i = 0;
 
-            // get all our chartofaccounts before we enter the loop
+            // get all our chartofaccounts etc before we enter the loop
             var chartOfAccounts = await _iReferenceDataRepo.GetChartOfAccountsApReferenceData(ct);
+            var mainAccounts = await _iReferenceDataRepo.GetApMainAccountsReferenceData(ct);
+            var schemeCodes = await _iReferenceDataRepo.GetSchemeCodesReferenceData(ct);
+            var deliveryBodies = await _iReferenceDataRepo.GetDeliveryBodiesReferenceData(ct);
 
             foreach (DataRow row in data.Rows)
             {
@@ -66,26 +70,13 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
                     bulkUploadInvoice.BulkUploadApHeaderLines!.Add(bulkUploadHeaderLine);
 
-                    var description = string.Empty;
+                    var description = GetChartOfAccountDescription(chartOfAccounts, mainAccounts, schemeCodes, deliveryBodies, row[22].ToString()!, row[23].ToString()!, row[25].ToString()!);
 
-                    // this is mainaccount/schemecode/deliverybody
-                    var descriptionQuery = row[22].ToString() + "/" + row[23].ToString() + "/" + row[25].ToString();
-
-                    var chartOfAccount = chartOfAccounts.FirstOrDefault(c => c.Code == descriptionQuery);
-
-                    if (null == chartOfAccount)
+                    if (string.IsNullOrEmpty(description))
                     {
-                        description = await GetChartOfAccountDescriptionIfDefaultIsNull(row[22].ToString()!, row[23].ToString()!, row[25].ToString()!);
+                        throw new Exception("Invalid account/scheme/deliverybody combination");
+                    }
 
-                        if (string.IsNullOrEmpty(description))
-                        {
-                            throw new Exception("Invalid account/scheme/deliverybody combination");
-                        }
-                    }
-                    else
-                    {
-                        description = chartOfAccount.Description;
-                    }
 
                     var bulkUploadDetailLine = new BulkUploadApDetailLine
                     {
@@ -105,15 +96,14 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 }
                 else if (!string.IsNullOrEmpty(row[19].ToString()))
                 {
-                    var descriptionQuery = row[22].ToString() + "/" + row[23].ToString() + "/" + row[25].ToString();
-                    var invoiceRequestId = row[17].ToString() + "_" + row[18].ToString();
-
-                    var description = chartOfAccounts.First(c => c.Code == descriptionQuery).Description;
+                    var description = GetChartOfAccountDescription(chartOfAccounts, mainAccounts, schemeCodes, deliveryBodies, row[22].ToString()!, row[23].ToString()!, row[25].ToString()!);
 
                     if (string.IsNullOrEmpty(description))
                     {
                         throw new Exception("Invalid account/scheme/deliverybody combination");
                     }
+
+                    var invoiceRequestId = row[17].ToString() + "_" + row[18].ToString();
 
                     var bulkUploadDetailLine = new BulkUploadApDetailLine
                     {
@@ -166,28 +156,38 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             return invoice;
         }
 
-        private async Task<string?> GetChartOfAccountDescriptionIfDefaultIsNull(string mainAccount, string schemeCode, string deliveryBodyCode)
+        private static string? GetChartOfAccountDescription(
+            IEnumerable<ChartOfAccounts> chartOfAccounts,
+            IEnumerable<AccountAp> accountsAp,
+            IEnumerable<SchemeType> schemeTypes,
+            IEnumerable<DeliveryBody> deliveryBodies,
+            string mainAccount, 
+            string schemeCode, 
+            string deliveryBodyCode)
         {
-            var description = string.Empty;
+            var descriptionQuery = mainAccount + "/" + schemeCode + "/" + deliveryBodyCode;
 
-            var macs = await _iReferenceDataRepo.GetApMainAccountsReferenceData(CancellationToken.None);
-            var mainAccounto = macs.FirstOrDefault(c => c.Code == mainAccount);
-            if (mainAccounto == null) return null;
-            var macDesc = mainAccounto.Description;
+            var chartOfAccount = chartOfAccounts.FirstOrDefault(c => c.Code == descriptionQuery);
+            if (chartOfAccount != null)    
+            {
+                return chartOfAccount.Description;
+            }
+            else
+            {
+                var mainAccounto = accountsAp.FirstOrDefault(c => c.Code == mainAccount);
+                if (mainAccounto == null) return null;
+                var macDesc = mainAccounto.Description;
 
-            var scs = await _iReferenceDataRepo.GetSchemeCodesReferenceData(CancellationToken.None);
-            var scsq= scs.FirstOrDefault(c => c.Code == schemeCode);
-            if (scsq == null) return null;
-            var scsDesc = scsq.Description;
+                var scsq = schemeTypes.FirstOrDefault(c => c.Code == schemeCode);
+                if (scsq == null) return null;
+                var scsDesc = scsq.Description;
 
-            var dbs = await _iReferenceDataRepo.GetDeliveryBodiesReferenceData(CancellationToken.None);
-            var dbsd = dbs.FirstOrDefault(c => c.Code == deliveryBodyCode);
-            if (dbsd == null) return null;
-            var dbsDesc = dbsd.Description;
+                var dbsd = deliveryBodies.FirstOrDefault(c => c.Code == deliveryBodyCode);
+                if (dbsd == null) return null;
+                var dbsDesc = dbsd.Description;
 
-            description = macDesc + "/" + scsDesc + "/" + dbsDesc;    
-
-            return description;
+                return macDesc + "/" + scsDesc + "/" + dbsDesc;
+            }
         }
     }
 }

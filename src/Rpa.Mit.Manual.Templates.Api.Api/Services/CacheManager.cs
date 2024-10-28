@@ -1,8 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Caching;
 
-using Microsoft.Extensions.Caching.Memory;
-
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 using MemoryCache = System.Runtime.Caching.MemoryCache;
