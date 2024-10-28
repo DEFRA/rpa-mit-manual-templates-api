@@ -71,11 +71,20 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     // this is mainaccount/schemecode/deliverybody
                     var descriptionQuery = row[22].ToString() + "/" + row[23].ToString() + "/" + row[25].ToString();
 
-                    var description = chartOfAccounts.Single(c => c.Code == descriptionQuery).Description;
+                    var chartOfAccount = chartOfAccounts.FirstOrDefault(c => c.Code == descriptionQuery);
 
-                    if (string.IsNullOrEmpty(description))
+                    if (null == chartOfAccount)
                     {
-                        throw new Exception("Invalid account/scheme/deliverybody combination");
+                        description = await GetChartOfAccountDescriptionIfDefaultIsNull(row[22].ToString()!, row[23].ToString()!, row[25].ToString()!);
+
+                        if (string.IsNullOrEmpty(description))
+                        {
+                            throw new Exception("Invalid account/scheme/deliverybody combination");
+                        }
+                    }
+                    else
+                    {
+                        description = chartOfAccount.Description;
                     }
 
                     var bulkUploadDetailLine = new BulkUploadApDetailLine
@@ -155,6 +164,30 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             invoice.DeliveryBody = row[25].ToString()!;
 
             return invoice;
+        }
+
+        private async Task<string?> GetChartOfAccountDescriptionIfDefaultIsNull(string mainAccount, string schemeCode, string deliveryBodyCode)
+        {
+            var description = string.Empty;
+
+            var macs = await _iReferenceDataRepo.GetApMainAccountsReferenceData(CancellationToken.None);
+            var mainAccounto = macs.FirstOrDefault(c => c.Code == mainAccount);
+            if (mainAccounto == null) return null;
+            var macDesc = mainAccounto.Description;
+
+            var scs = await _iReferenceDataRepo.GetSchemeCodesReferenceData(CancellationToken.None);
+            var scsq= scs.FirstOrDefault(c => c.Code == schemeCode);
+            if (scsq == null) return null;
+            var scsDesc = scsq.Description;
+
+            var dbs = await _iReferenceDataRepo.GetDeliveryBodiesReferenceData(CancellationToken.None);
+            var dbsd = dbs.FirstOrDefault(c => c.Code == deliveryBodyCode);
+            if (dbsd == null) return null;
+            var dbsDesc = dbsd.Description;
+
+            description = macDesc + "/" + scsDesc + "/" + dbsDesc;    
+
+            return description;
         }
     }
 }

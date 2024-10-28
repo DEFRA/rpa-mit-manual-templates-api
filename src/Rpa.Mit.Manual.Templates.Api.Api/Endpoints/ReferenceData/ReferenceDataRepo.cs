@@ -9,6 +9,7 @@ using Microsoft.Extensions.Options;
 using Npgsql;
 
 using Rpa.Mit.Manual.Templates.Api.Api.Endpoints;
+using Rpa.Mit.Manual.Templates.Api.Api.Extensions;
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
@@ -19,11 +20,14 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
     {
         private const int CacheDurationInDays = 60;
         private readonly IMemoryCache _memoryCache;
+        private readonly ICacheManager _iCacheManager;
 
         public ReferenceDataRepo(
             IOptions<PostGres> options,
+            ICacheManager iCacheManager,
              IMemoryCache memoryCache) : base(options)
-        {  
+        {
+            _iCacheManager = iCacheManager;
             _memoryCache = memoryCache;
         }     
 
@@ -79,9 +83,11 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
 
         public async Task<IEnumerable<PaymentType>> GetCurrencyReferenceData(CancellationToken ct)
         {
+            string key = CacheKeys.CurrenciesReferenceData;
+
             IEnumerable<PaymentType> currencies;
 
-            if (!_memoryCache.TryGetValue(CacheKeys.CurrenciesReferenceData, out currencies!))
+            return await _iCacheManager.Get(key, async () =>
             {
                 using (var cn = new NpgsqlConnection(await DbConn()))
                 {
@@ -92,14 +98,30 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
 
                     currencies = await cn.QueryAsync<PaymentType>(sql);
 
-                    var cacheEntryOptions = new MemoryCacheEntryOptions()
-                        .SetSlidingExpiration(TimeSpan.FromDays(CacheDurationInDays));
-
-                    _memoryCache.Set(CacheKeys.CurrenciesReferenceData, currencies, cacheEntryOptions);
+                    return currencies;
                 }
-            }
+            });
 
-            return currencies;
+
+            //if (!_memoryCache.TryGetValue(CacheKeys.CurrenciesReferenceData, out currencies!))
+            //{
+            //    using (var cn = new NpgsqlConnection(await DbConn()))
+            //    {
+            //        if (cn.State != ConnectionState.Open)
+            //            await cn.OpenAsync(ct);
+
+            //        var sql = @"SELECT code, description FROM lookup_paymenttypes;";
+
+            //        currencies = await cn.QueryAsync<PaymentType>(sql);
+
+            //        var cacheEntryOptions = new MemoryCacheEntryOptions()
+            //            .SetSlidingExpiration(TimeSpan.FromDays(CacheDurationInDays));
+
+            //        _memoryCache.Set(CacheKeys.CurrenciesReferenceData, currencies, cacheEntryOptions);
+            //    }
+            //}
+
+            //return currencies;
         }
 
         public async Task<IEnumerable<SchemeType>> GetSchemeTypeReferenceData(CancellationToken ct)
@@ -117,9 +139,11 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
 
         public async Task<IEnumerable<ChartOfAccounts>> GetChartOfAccountsApReferenceData(CancellationToken ct)
         {
+            string key = CacheKeys.ApChartOfAccounts;
+
             IEnumerable<ChartOfAccounts> chartOfAccounts;
 
-            if (!_memoryCache.TryGetValue(CacheKeys.ApChartOfAccounts, out chartOfAccounts!))
+            return await _iCacheManager.Get(key, async () =>
             {
                 using (var cn = new NpgsqlConnection(await DbConn()))
                 {
@@ -130,21 +154,40 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
 
                     chartOfAccounts = await cn.QueryAsync<ChartOfAccounts>(sql);
 
-                    var cacheEntryOptions = new MemoryCacheEntryOptions()
-                        .SetSlidingExpiration(TimeSpan.FromDays(CacheDurationInDays));
-
-                    _memoryCache.Set(CacheKeys.ApChartOfAccounts, chartOfAccounts, cacheEntryOptions);
+                    return chartOfAccounts;
                 }
-            }
+            });
 
-            return chartOfAccounts;
+            //IEnumerable<ChartOfAccounts> chartOfAccounts;
+
+            //if (!_memoryCache.TryGetValue(CacheKeys.ApChartOfAccounts, out chartOfAccounts!))
+            //{
+            //    using (var cn = new NpgsqlConnection(await DbConn()))
+            //    {
+            //        if (cn.State != ConnectionState.Open)
+            //            await cn.OpenAsync(ct);
+
+            //        var sql = @"SELECT code,description,org FROM lookup_ap_chartofaccounts;";
+
+            //        chartOfAccounts = await cn.QueryAsync<ChartOfAccounts>(sql);
+
+            //        var cacheEntryOptions = new MemoryCacheEntryOptions()
+            //            .SetSlidingExpiration(TimeSpan.FromDays(CacheDurationInDays));
+
+            //        _memoryCache.Set(CacheKeys.ApChartOfAccounts, chartOfAccounts, cacheEntryOptions);
+            //    }
+            //}
+
+            //return chartOfAccounts;
         }
 
         public async Task<IEnumerable<ChartOfAccounts>> GetChartOfAccountsArReferenceData(CancellationToken ct)
         {
+            string key = CacheKeys.ArChartOfAccounts;
+
             IEnumerable<ChartOfAccounts> chartOfAccounts;
 
-            if (!_memoryCache.TryGetValue(CacheKeys.ArChartOfAccounts, out chartOfAccounts!))
+            return await _iCacheManager.Get(key, async () =>
             {
                 using (var cn = new NpgsqlConnection(await DbConn()))
                 {
@@ -155,21 +198,40 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
 
                     chartOfAccounts = await cn.QueryAsync<ChartOfAccounts>(sql);
 
-                    var cacheEntryOptions = new MemoryCacheEntryOptions()
-                        .SetSlidingExpiration(TimeSpan.FromDays(CacheDurationInDays));
-
-                    _memoryCache.Set(CacheKeys.ArChartOfAccounts, chartOfAccounts, cacheEntryOptions);
+                    return chartOfAccounts;
                 }
-            }
+            });
 
-            return chartOfAccounts;
+            //IEnumerable<ChartOfAccounts> chartOfAccounts;
+
+            //if (!_memoryCache.TryGetValue(CacheKeys.ArChartOfAccounts, out chartOfAccounts!))
+            //{
+            //    using (var cn = new NpgsqlConnection(await DbConn()))
+            //    {
+            //        if (cn.State != ConnectionState.Open)
+            //            await cn.OpenAsync(ct);
+
+            //        var sql = @"SELECT code,description,org FROM lookup_ar_chartofaccounts;";
+
+            //        chartOfAccounts = await cn.QueryAsync<ChartOfAccounts>(sql);
+
+            //        var cacheEntryOptions = new MemoryCacheEntryOptions()
+            //            .SetSlidingExpiration(TimeSpan.FromDays(CacheDurationInDays));
+
+            //        _memoryCache.Set(CacheKeys.ArChartOfAccounts, chartOfAccounts, cacheEntryOptions);
+            //    }
+            //}
+
+            //return chartOfAccounts;
         }
 
         public async Task<IEnumerable<AccountAr>> GetArMainAccountsReferenceData(CancellationToken ct)
         {
+            string key = CacheKeys.AccountsAr;
+
             IEnumerable<AccountAr> accountsAr;
 
-            if (!_memoryCache.TryGetValue(CacheKeys.AccountsAr, out accountsAr!))
+            return await _iCacheManager.Get(key, async () =>
             {
                 using (var cn = new NpgsqlConnection(await DbConn()))
                 {
@@ -180,21 +242,40 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
 
                     accountsAr = await cn.QueryAsync<AccountAr>(sql);
 
-                    var cacheEntryOptions = new MemoryCacheEntryOptions()
-                        .SetSlidingExpiration(TimeSpan.FromDays(CacheDurationInDays));
-
-                    _memoryCache.Set(CacheKeys.AccountsAr, accountsAr, cacheEntryOptions);
+                    return accountsAr;
                 }
-            }
+            });
 
-            return accountsAr;
+            //IEnumerable<AccountAr> accountsAr;
+
+            //if (!_memoryCache.TryGetValue(CacheKeys.AccountsAr, out accountsAr!))
+            //{
+            //    using (var cn = new NpgsqlConnection(await DbConn()))
+            //    {
+            //        if (cn.State != ConnectionState.Open)
+            //            await cn.OpenAsync(ct);
+
+            //        var sql = @"SELECT code,description,org,type FROM lookup_accounts_ar;";
+
+            //        accountsAr = await cn.QueryAsync<AccountAr>(sql);
+
+            //        var cacheEntryOptions = new MemoryCacheEntryOptions()
+            //            .SetSlidingExpiration(TimeSpan.FromDays(CacheDurationInDays));
+
+            //        _memoryCache.Set(CacheKeys.AccountsAr, accountsAr, cacheEntryOptions);
+            //    }
+            //}
+
+            //return accountsAr;
         }
 
         public async Task<IEnumerable<FundCode>> GetFilteredFundcodes(string org, CancellationToken ct)
         {
+            string key = CacheKeys.FundCodes;
+
             IEnumerable<FundCode> fundCodes;
 
-            if (!_memoryCache.TryGetValue(CacheKeys.FundCodes, out fundCodes!))
+            return await _iCacheManager.Get(key, async () =>
             {
                 using (var cn = new NpgsqlConnection(await DbConn()))
                 {
@@ -205,21 +286,40 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
 
                     fundCodes = await cn.QueryAsync<FundCode>(sql);
 
-                    var cacheEntryOptions = new MemoryCacheEntryOptions()
-                        .SetSlidingExpiration(TimeSpan.FromDays(CacheDurationInDays));
-
-                    _memoryCache.Set(CacheKeys.FundCodes, fundCodes, cacheEntryOptions);
+                    return fundCodes.Where(x => x.Org.ToLower() == org.ToLower()).AsEnumerable();
                 }
-            }
+            });
 
-            return fundCodes.Where(x => x.Org.ToLower() == org.ToLower()).AsEnumerable();
+            //IEnumerable<FundCode> fundCodes;
+
+            //if (!_memoryCache.TryGetValue(CacheKeys.FundCodes, out fundCodes!))
+            //{
+            //    using (var cn = new NpgsqlConnection(await DbConn()))
+            //    {
+            //        if (cn.State != ConnectionState.Open)
+            //            await cn.OpenAsync(ct);
+
+            //        var sql = @"SELECT code,description,org FROM lookup_fundcodes;";
+
+            //        fundCodes = await cn.QueryAsync<FundCode>(sql);
+
+            //        var cacheEntryOptions = new MemoryCacheEntryOptions()
+            //            .SetSlidingExpiration(TimeSpan.FromDays(CacheDurationInDays));
+
+            //        _memoryCache.Set(CacheKeys.FundCodes, fundCodes, cacheEntryOptions);
+            //    }
+            //}
+
+            //return fundCodes.Where(x => x.Org.ToLower() == org.ToLower()).AsEnumerable();
         }
 
         public async Task<IEnumerable<AccountAp>> GetApMainAccountsReferenceData(CancellationToken ct)
         {
+            string key = CacheKeys.AccountsAp;
+
             IEnumerable<AccountAp> accountsAp;
 
-            if (!_memoryCache.TryGetValue(CacheKeys.AccountsAp, out accountsAp!))
+            return await _iCacheManager.Get(key, async () =>
             {
                 using (var cn = new NpgsqlConnection(await DbConn()))
                 {
@@ -230,14 +330,75 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
 
                     accountsAp = await cn.QueryAsync<AccountAp>(sql);
 
-                    var cacheEntryOptions = new MemoryCacheEntryOptions()
-                        .SetSlidingExpiration(TimeSpan.FromDays(CacheDurationInDays));
-
-                    _memoryCache.Set(CacheKeys.AccountsAp, accountsAp, cacheEntryOptions);
+                    return accountsAp;
                 }
-            }
+            });
 
-            return accountsAp;
+            //IEnumerable<AccountAp> accountsAp;
+
+            //if (!_memoryCache.TryGetValue(CacheKeys.AccountsAp, out accountsAp!))
+            //{
+            //    using (var cn = new NpgsqlConnection(await DbConn()))
+            //    {
+            //        if (cn.State != ConnectionState.Open)
+            //            await cn.OpenAsync(ct);
+
+            //        var sql = @"SELECT code,description,org FROM lookup_accounts_ap;";
+
+            //        accountsAp = await cn.QueryAsync<AccountAp>(sql);
+
+            //        var cacheEntryOptions = new MemoryCacheEntryOptions()
+            //            .SetSlidingExpiration(TimeSpan.FromDays(CacheDurationInDays));
+
+            //        _memoryCache.Set(CacheKeys.AccountsAp, accountsAp, cacheEntryOptions);
+            //    }
+            //}
+
+            //return accountsAp;
+        }
+
+        public async Task<IEnumerable<SchemeType>> GetSchemeCodesReferenceData(CancellationToken ct)
+        {
+            string key = CacheKeys.SchemeCodesReferenceData;
+
+            IEnumerable<SchemeType> schemeCodes;
+
+            return await _iCacheManager.Get(key, async () =>
+            {
+                using (var cn = new NpgsqlConnection(await DbConn()))
+                {
+                    if (cn.State != ConnectionState.Open)
+                        await cn.OpenAsync(ct);
+
+                    var sql = @"SELECT code,description,org FROM lookup_schemecodes;";
+
+                    schemeCodes = await cn.QueryAsync<SchemeType>(sql);
+
+                    return schemeCodes;
+                }
+            });
+        }
+
+        public async Task<IEnumerable<DeliveryBody>> GetDeliveryBodiesReferenceData(CancellationToken ct)
+        {
+            string key = CacheKeys.DeliveryBodiesReferenceData;
+
+            IEnumerable<DeliveryBody> deliveryBodies;
+
+            return await _iCacheManager.Get(key, async () =>
+            {
+                using (var cn = new NpgsqlConnection(await DbConn()))
+                {
+                    if (cn.State != ConnectionState.Open)
+                        await cn.OpenAsync(ct);
+
+                    var sql = @"SELECT code,description,org FROM lookup_deliverybodycodes;";
+
+                    deliveryBodies = await cn.QueryAsync<DeliveryBody>(sql);
+
+                    return deliveryBodies;
+                }
+            });
         }
     }
 }

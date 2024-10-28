@@ -54,5 +54,19 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <param name="ct"></param>
         /// <returns></returns>
         public Task<IEnumerable<FundCode>> GetFilteredFundcodes(string org, CancellationToken ct);
+
+        /// <summary>
+        /// cached set of lookup_schemecodes data
+        /// </summary>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        public Task<IEnumerable<SchemeType>> GetSchemeCodesReferenceData(CancellationToken ct);
+
+        /// <summary>
+        /// cached set of lookup_deliverybodycodes data
+        /// </summary>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        public Task<IEnumerable<DeliveryBody>> GetDeliveryBodiesReferenceData(CancellationToken ct);
     }
 }
