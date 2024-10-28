@@ -101,27 +101,6 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
                     return currencies;
                 }
             });
-
-
-            //if (!_memoryCache.TryGetValue(CacheKeys.CurrenciesReferenceData, out currencies!))
-            //{
-            //    using (var cn = new NpgsqlConnection(await DbConn()))
-            //    {
-            //        if (cn.State != ConnectionState.Open)
-            //            await cn.OpenAsync(ct);
-
-            //        var sql = @"SELECT code, description FROM lookup_paymenttypes;";
-
-            //        currencies = await cn.QueryAsync<PaymentType>(sql);
-
-            //        var cacheEntryOptions = new MemoryCacheEntryOptions()
-            //            .SetSlidingExpiration(TimeSpan.FromDays(CacheDurationInDays));
-
-            //        _memoryCache.Set(CacheKeys.CurrenciesReferenceData, currencies, cacheEntryOptions);
-            //    }
-            //}
-
-            //return currencies;
         }
 
         public async Task<IEnumerable<SchemeType>> GetSchemeTypeReferenceData(CancellationToken ct)
@@ -157,28 +136,6 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
                     return chartOfAccounts;
                 }
             });
-
-            //IEnumerable<ChartOfAccounts> chartOfAccounts;
-
-            //if (!_memoryCache.TryGetValue(CacheKeys.ApChartOfAccounts, out chartOfAccounts!))
-            //{
-            //    using (var cn = new NpgsqlConnection(await DbConn()))
-            //    {
-            //        if (cn.State != ConnectionState.Open)
-            //            await cn.OpenAsync(ct);
-
-            //        var sql = @"SELECT code,description,org FROM lookup_ap_chartofaccounts;";
-
-            //        chartOfAccounts = await cn.QueryAsync<ChartOfAccounts>(sql);
-
-            //        var cacheEntryOptions = new MemoryCacheEntryOptions()
-            //            .SetSlidingExpiration(TimeSpan.FromDays(CacheDurationInDays));
-
-            //        _memoryCache.Set(CacheKeys.ApChartOfAccounts, chartOfAccounts, cacheEntryOptions);
-            //    }
-            //}
-
-            //return chartOfAccounts;
         }
 
         public async Task<IEnumerable<ChartOfAccounts>> GetChartOfAccountsArReferenceData(CancellationToken ct)
@@ -201,28 +158,6 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
                     return chartOfAccounts;
                 }
             });
-
-            //IEnumerable<ChartOfAccounts> chartOfAccounts;
-
-            //if (!_memoryCache.TryGetValue(CacheKeys.ArChartOfAccounts, out chartOfAccounts!))
-            //{
-            //    using (var cn = new NpgsqlConnection(await DbConn()))
-            //    {
-            //        if (cn.State != ConnectionState.Open)
-            //            await cn.OpenAsync(ct);
-
-            //        var sql = @"SELECT code,description,org FROM lookup_ar_chartofaccounts;";
-
-            //        chartOfAccounts = await cn.QueryAsync<ChartOfAccounts>(sql);
-
-            //        var cacheEntryOptions = new MemoryCacheEntryOptions()
-            //            .SetSlidingExpiration(TimeSpan.FromDays(CacheDurationInDays));
-
-            //        _memoryCache.Set(CacheKeys.ArChartOfAccounts, chartOfAccounts, cacheEntryOptions);
-            //    }
-            //}
-
-            //return chartOfAccounts;
         }
 
         public async Task<IEnumerable<AccountAr>> GetArMainAccountsReferenceData(CancellationToken ct)
@@ -245,28 +180,6 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
                     return accountsAr;
                 }
             });
-
-            //IEnumerable<AccountAr> accountsAr;
-
-            //if (!_memoryCache.TryGetValue(CacheKeys.AccountsAr, out accountsAr!))
-            //{
-            //    using (var cn = new NpgsqlConnection(await DbConn()))
-            //    {
-            //        if (cn.State != ConnectionState.Open)
-            //            await cn.OpenAsync(ct);
-
-            //        var sql = @"SELECT code,description,org,type FROM lookup_accounts_ar;";
-
-            //        accountsAr = await cn.QueryAsync<AccountAr>(sql);
-
-            //        var cacheEntryOptions = new MemoryCacheEntryOptions()
-            //            .SetSlidingExpiration(TimeSpan.FromDays(CacheDurationInDays));
-
-            //        _memoryCache.Set(CacheKeys.AccountsAr, accountsAr, cacheEntryOptions);
-            //    }
-            //}
-
-            //return accountsAr;
         }
 
         public async Task<IEnumerable<FundCode>> GetFilteredFundcodes(string org, CancellationToken ct)
@@ -289,28 +202,6 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
                     return fundCodes.Where(x => x.Org.ToLower() == org.ToLower()).AsEnumerable();
                 }
             });
-
-            //IEnumerable<FundCode> fundCodes;
-
-            //if (!_memoryCache.TryGetValue(CacheKeys.FundCodes, out fundCodes!))
-            //{
-            //    using (var cn = new NpgsqlConnection(await DbConn()))
-            //    {
-            //        if (cn.State != ConnectionState.Open)
-            //            await cn.OpenAsync(ct);
-
-            //        var sql = @"SELECT code,description,org FROM lookup_fundcodes;";
-
-            //        fundCodes = await cn.QueryAsync<FundCode>(sql);
-
-            //        var cacheEntryOptions = new MemoryCacheEntryOptions()
-            //            .SetSlidingExpiration(TimeSpan.FromDays(CacheDurationInDays));
-
-            //        _memoryCache.Set(CacheKeys.FundCodes, fundCodes, cacheEntryOptions);
-            //    }
-            //}
-
-            //return fundCodes.Where(x => x.Org.ToLower() == org.ToLower()).AsEnumerable();
         }
 
         public async Task<IEnumerable<AccountAp>> GetApMainAccountsReferenceData(CancellationToken ct)
@@ -333,28 +224,6 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
                     return accountsAp;
                 }
             });
-
-            //IEnumerable<AccountAp> accountsAp;
-
-            //if (!_memoryCache.TryGetValue(CacheKeys.AccountsAp, out accountsAp!))
-            //{
-            //    using (var cn = new NpgsqlConnection(await DbConn()))
-            //    {
-            //        if (cn.State != ConnectionState.Open)
-            //            await cn.OpenAsync(ct);
-
-            //        var sql = @"SELECT code,description,org FROM lookup_accounts_ap;";
-
-            //        accountsAp = await cn.QueryAsync<AccountAp>(sql);
-
-            //        var cacheEntryOptions = new MemoryCacheEntryOptions()
-            //            .SetSlidingExpiration(TimeSpan.FromDays(CacheDurationInDays));
-
-            //        _memoryCache.Set(CacheKeys.AccountsAp, accountsAp, cacheEntryOptions);
-            //    }
-            //}
-
-            //return accountsAp;
         }
 
         public async Task<IEnumerable<SchemeType>> GetSchemeCodesReferenceData(CancellationToken ct)
