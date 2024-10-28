@@ -36,6 +36,11 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
         /// </summary>
         public const string AccountsAr = "_AccountsAr";
 
+        /// <summary>
+        /// from the lookup_accounts_ap table
+        /// </summary>
+        public const string AccountsAp = "_AccountsAp";
+
         public const string FundCodes = "_FundCodes";
     }
 }

@@ -214,5 +214,30 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
 
             return fundCodes.Where(x => x.Org.ToLower() == org.ToLower()).AsEnumerable();
         }
+
+        public async Task<IEnumerable<AccountAp>> GetApMainAccountsReferenceData(CancellationToken ct)
+        {
+            IEnumerable<AccountAp> accountsAp;
+
+            if (!_memoryCache.TryGetValue(CacheKeys.AccountsAp, out accountsAp!))
+            {
+                using (var cn = new NpgsqlConnection(await DbConn()))
+                {
+                    if (cn.State != ConnectionState.Open)
+                        await cn.OpenAsync(ct);
+
+                    var sql = @"SELECT code,description,org FROM lookup_accounts_ap;";
+
+                    accountsAp = await cn.QueryAsync<AccountAp>(sql);
+
+                    var cacheEntryOptions = new MemoryCacheEntryOptions()
+                        .SetSlidingExpiration(TimeSpan.FromDays(CacheDurationInDays));
+
+                    _memoryCache.Set(CacheKeys.AccountsAp, accountsAp, cacheEntryOptions);
+                }
+            }
+
+            return accountsAp;
+        }
     }
 }

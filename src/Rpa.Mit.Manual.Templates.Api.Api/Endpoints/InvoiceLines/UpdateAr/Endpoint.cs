@@ -1,7 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-using InvoiceLines.Update;
-
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
@@ -17,10 +15,10 @@ namespace UpdateInvoiceLineAr
         private readonly ILogger<UpdateInvoiceLineArEndpoint> _arLogger;
 
         public UpdateInvoiceLineArEndpoint(
-            ILogger<UpdateInvoiceLineArEndpoint> logger,
+            ILogger<UpdateInvoiceLineArEndpoint> arLogger,
             IInvoiceLineRepo iInvoiceLineRepo)
         {
-            _arLogger = logger;
+            _arLogger = arLogger;
             _iInvoiceLineRepo = iInvoiceLineRepo;
         }
 

@@ -66,9 +66,12 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
                     bulkUploadInvoice.BulkUploadApHeaderLines!.Add(bulkUploadHeaderLine);
 
+                    var description = string.Empty;
+
+                    // this is mainaccount/schemecode/deliverybody
                     var descriptionQuery = row[22].ToString() + "/" + row[23].ToString() + "/" + row[25].ToString();
 
-                    var description = chartOfAccounts.First(c => c.Code == descriptionQuery).Description;
+                    var description = chartOfAccounts.Single(c => c.Code == descriptionQuery).Description;
 
                     if (string.IsNullOrEmpty(description))
                     {
