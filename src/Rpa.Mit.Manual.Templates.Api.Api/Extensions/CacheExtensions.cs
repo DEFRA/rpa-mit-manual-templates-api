@@ -1,7 +1,10 @@
-﻿using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Extensions
 {
+    [ExcludeFromCodeCoverage]
     public static class CacheExtensions
     {
         public static T Get<T>(this ICacheManager cacheManager, string key, Func<T> acquire)

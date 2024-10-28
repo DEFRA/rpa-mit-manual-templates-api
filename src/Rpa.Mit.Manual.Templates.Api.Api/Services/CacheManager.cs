@@ -1,4 +1,5 @@
-﻿using System.Runtime.Caching;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.Caching;
 
 using Microsoft.Extensions.Caching.Memory;
 
@@ -8,6 +9,7 @@ using MemoryCache = System.Runtime.Caching.MemoryCache;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Services
 {
+    [ExcludeFromCodeCoverage]
     public class CacheManager : ICacheManager
     {
         private static ObjectCache Cache

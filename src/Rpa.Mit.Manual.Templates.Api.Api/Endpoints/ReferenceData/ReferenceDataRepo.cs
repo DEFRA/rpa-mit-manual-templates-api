@@ -18,17 +18,14 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
     [ExcludeFromCodeCoverage]
     public class ReferenceDataRepo : BaseData, IReferenceDataRepo
     {
-        private const int CacheDurationInDays = 60;
-        private readonly IMemoryCache _memoryCache;
         private readonly ICacheManager _iCacheManager;
+
 
         public ReferenceDataRepo(
             IOptions<PostGres> options,
-            ICacheManager iCacheManager,
-             IMemoryCache memoryCache) : base(options)
+            ICacheManager iCacheManager) : base(options)
         {
             _iCacheManager = iCacheManager;
-            _memoryCache = memoryCache;
         }     
 
         public async Task<ReferenceData> GetAllReferenceData(CancellationToken ct)
