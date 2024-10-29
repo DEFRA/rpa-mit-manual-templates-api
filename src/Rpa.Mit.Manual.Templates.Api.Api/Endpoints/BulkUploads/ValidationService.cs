@@ -81,5 +81,44 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
         #endregion
 
+        #region Chart Of Accounts Validation
+
+
+        public string? GetChartOfAccountDescription(
+                                                    IEnumerable<ChartOfAccounts> chartOfAccounts, 
+                                                    IEnumerable<AccountAr> accountsAp, 
+                                                    IEnumerable<SchemeType> schemeTypes, 
+                                                    IEnumerable<DeliveryBody> deliveryBodies, 
+                                                    string mainAccount, 
+                                                    string schemeCode, 
+                                                    string deliveryBodyCode)
+        {
+            var descriptionQuery = mainAccount + "/" + schemeCode + "/" + deliveryBodyCode;
+
+            var chartOfAccount = chartOfAccounts.FirstOrDefault(c => c.Code == descriptionQuery);
+            if (chartOfAccount != null)
+            {
+                return chartOfAccount.Description;
+            }
+            else
+            {
+                var mainAccounto = accountsAp.FirstOrDefault(c => c.Code == mainAccount);
+                if (mainAccounto == null) return null;
+                var macDesc = mainAccounto.Description;
+
+                var scsq = schemeTypes.FirstOrDefault(c => c.Code == schemeCode);
+                if (scsq == null) return null;
+                var scsDesc = scsq.Description;
+
+                var dbsd = deliveryBodies.FirstOrDefault(c => c.Code == deliveryBodyCode);
+                if (dbsd == null) return null;
+                var dbsDesc = dbsd.Description;
+
+                return macDesc + "/" + scsDesc + "/" + dbsDesc;
+            }
+        }
+
+        #endregion
+
     }
 }

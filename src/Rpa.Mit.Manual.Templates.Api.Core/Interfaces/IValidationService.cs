@@ -7,5 +7,15 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         Task<bool> ApBulkUploadIsValid(BulkUploadApDataset bulkUploadApDataset, string org, CancellationToken ct);
 
         Task<bool> ArBulkUploadIsValid(BulkUploadArDataset bulkUploadArDataset, string org, CancellationToken ct);
+
+
+        string? GetChartOfAccountDescription(
+                                                IEnumerable<ChartOfAccounts> chartOfAccounts,
+                                                IEnumerable<AccountAr> accountsAp,
+                                                IEnumerable<SchemeType> schemeTypes,
+                                                IEnumerable<DeliveryBody> deliveryBodies,
+                                                string mainAccount,
+                                                string schemeCode,
+                                                string deliveryBodyCode);
     }
 }

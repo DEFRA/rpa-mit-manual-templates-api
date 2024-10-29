@@ -157,6 +157,28 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
             });
         }
 
+        public async Task<IEnumerable<AccountAr>> GetApMainAccountsReferenceData(CancellationToken ct)
+        {
+            string key = CacheKeys.AccountsAp;
+
+            IEnumerable<AccountAr> accountsAp;
+
+            return await _iCacheManager.Get(key, async () =>
+            {
+                using (var cn = new NpgsqlConnection(await DbConn()))
+                {
+                    if (cn.State != ConnectionState.Open)
+                        await cn.OpenAsync(ct);
+
+                    var sql = @"SELECT code,description,org FROM lookup_accounts_ap;";
+
+                    accountsAp = await cn.QueryAsync<AccountAr>(sql);
+
+                    return accountsAp;
+                }
+            });
+        }
+
         public async Task<IEnumerable<AccountAr>> GetArMainAccountsReferenceData(CancellationToken ct)
         {
             string key = CacheKeys.AccountsAr;
@@ -197,28 +219,6 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
                     fundCodes = await cn.QueryAsync<FundCode>(sql);
 
                     return fundCodes.Where(x => x.Org.ToLower() == org.ToLower()).AsEnumerable();
-                }
-            });
-        }
-
-        public async Task<IEnumerable<AccountAp>> GetApMainAccountsReferenceData(CancellationToken ct)
-        {
-            string key = CacheKeys.AccountsAp;
-
-            IEnumerable<AccountAp> accountsAp;
-
-            return await _iCacheManager.Get(key, async () =>
-            {
-                using (var cn = new NpgsqlConnection(await DbConn()))
-                {
-                    if (cn.State != ConnectionState.Open)
-                        await cn.OpenAsync(ct);
-
-                    var sql = @"SELECT code,description,org FROM lookup_accounts_ap;";
-
-                    accountsAp = await cn.QueryAsync<AccountAp>(sql);
-
-                    return accountsAp;
                 }
             });
         }

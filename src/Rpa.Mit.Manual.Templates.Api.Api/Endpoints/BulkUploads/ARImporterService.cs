@@ -1,8 +1,6 @@
 ﻿using System.Data;
 using System.Diagnostics.CodeAnalysis;
 
-using Microsoft.Extensions.Caching.Memory;
-
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
@@ -15,11 +13,12 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
     public class ArImporterService : IArImporterService
     {
         private readonly IReferenceDataRepo _iReferenceDataRepo;
+        private readonly IValidationService _iValidationService;
 
-        public ArImporterService(
-            IReferenceDataRepo iReferenceDataRepo)
+        public ArImporterService(IReferenceDataRepo iReferenceDataRepo, IValidationService iValidationService)
         {
             _iReferenceDataRepo = iReferenceDataRepo;
+            _iValidationService = iValidationService;
         }
 
 
@@ -36,8 +35,11 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
             var i = 0;
 
-            // get all our chartofaccounts before we enter the loop
+            // get all our chartofaccounts etc before we enter the loop
             var chartOfAccounts = await _iReferenceDataRepo.GetChartOfAccountsArReferenceData(ct);
+            var mainAccounts = await _iReferenceDataRepo.GetArMainAccountsReferenceData(ct);
+            var schemeCodes = await _iReferenceDataRepo.GetSchemeCodesReferenceData(ct);
+            var deliveryBodies = await _iReferenceDataRepo.GetDeliveryBodiesReferenceData(ct);
 
             foreach (DataRow row in data.Rows)
             {
@@ -73,16 +75,15 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
                     bulkUploadInvoice.BulkUploadArHeaderLines!.Add(bulkUploadHeaderLine);
 
-                    var descriptionQuery = row[22].ToString() + "/" + row[23].ToString() + "/" + row[25].ToString();
 
-                    var description = chartOfAccounts.First(c => c.Code == descriptionQuery).Description;
+                    var description = _iValidationService.GetChartOfAccountDescription(chartOfAccounts, mainAccounts, schemeCodes, deliveryBodies, row[22].ToString()!, row[23].ToString()!, row[25].ToString()!);
 
                     if (string.IsNullOrEmpty(description))
                     {
                         throw new Exception("Invalid account/scheme/deliverybody combination");
                     }
 
-                    var debtType = await GetDebtType(org, row[22].ToString()!);
+                    var debtType = GetDebtType(mainAccounts, org, row[22].ToString()!);
 
                     var bulkUploadDetailLine = new BulkUploadArDetailLine
                     {
@@ -103,11 +104,9 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 }
                 else if (!string.IsNullOrEmpty(row[19].ToString()))
                 {
-                    var descriptionQuery = row[22].ToString() + "/" + row[23].ToString() + "/" + row[25].ToString();
-                    var invReqId = row[17].ToString() + "_" + row[18].ToString();
-                    var debtType = await GetDebtType(org, row[22].ToString()!);
+                    var debtType = GetDebtType(mainAccounts, org, row[22].ToString()!);
 
-                    var description = chartOfAccounts.First(c => c.Code == descriptionQuery).Description;
+                    var description = _iValidationService.GetChartOfAccountDescription(chartOfAccounts, mainAccounts, schemeCodes, deliveryBodies, row[22].ToString()!, row[23].ToString()!, row[25].ToString()!);
 
                     if (string.IsNullOrEmpty(description))
                     {
@@ -117,7 +116,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     var bulkUploadDetailLine = new BulkUploadArDetailLine
                     {
                         Id = Guid.NewGuid(),
-                        InvoiceRequestId = invReqId,
+                        InvoiceRequestId = row[17].ToString() + "_" + row[18].ToString(),
                         Value = decimal.Parse(row[19].ToString()!),
                         FundCode = row[21].ToString()!,
                         MainAccount = row[22].ToString()!,
@@ -172,13 +171,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
         /// <param name="org"></param>
         /// <param name="mainAccount"></param>
         /// <returns></returns>
-        private async Task<string> GetDebtType(string org, string mainAccount)
-        {
-            var r = await _iReferenceDataRepo.GetArMainAccountsReferenceData(CancellationToken.None);
-
-            var debtType = r.Single(x => x.Org == org && x.Code == mainAccount);
-
-            return debtType.Type;
-        }
+        private static string GetDebtType(IEnumerable<AccountAr> mainAccounts, string org, string mainAccount)
+                                                        => mainAccounts.Single(x => x.Org == org && x.Code == mainAccount).Type!;
     }
 }

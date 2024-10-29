@@ -1,6 +1,5 @@
 ﻿using System.Data;
 using System.Diagnostics.CodeAnalysis;
-using System.Diagnostics.Eventing.Reader;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
@@ -16,10 +15,12 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
     public class ApImporterService : IApImporterService
     {
         private readonly IReferenceDataRepo _iReferenceDataRepo;
+        private readonly IValidationService _iValidationService;
 
-        public ApImporterService(IReferenceDataRepo iReferenceDataRepo)
+        public ApImporterService(IReferenceDataRepo iReferenceDataRepo, IValidationService iValidationService)
         {
             _iReferenceDataRepo = iReferenceDataRepo;
+            _iValidationService = iValidationService;
         }
 
         public async Task<BulkUploadApDataset> ImportAPData(DataTable data, CancellationToken ct)
@@ -70,7 +71,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
                     bulkUploadInvoice.BulkUploadApHeaderLines!.Add(bulkUploadHeaderLine);
 
-                    var description = GetChartOfAccountDescription(chartOfAccounts, mainAccounts, schemeCodes, deliveryBodies, row[22].ToString()!, row[23].ToString()!, row[25].ToString()!);
+                    var description = _iValidationService.GetChartOfAccountDescription(chartOfAccounts, mainAccounts, schemeCodes, deliveryBodies, row[22].ToString()!, row[23].ToString()!, row[25].ToString()!);
 
                     if (string.IsNullOrEmpty(description))
                     {
@@ -96,7 +97,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 }
                 else if (!string.IsNullOrEmpty(row[19].ToString()))
                 {
-                    var description = GetChartOfAccountDescription(chartOfAccounts, mainAccounts, schemeCodes, deliveryBodies, row[22].ToString()!, row[23].ToString()!, row[25].ToString()!);
+                    var description = _iValidationService.GetChartOfAccountDescription(chartOfAccounts, mainAccounts, schemeCodes, deliveryBodies, row[22].ToString()!, row[23].ToString()!, row[25].ToString()!);
 
                     if (string.IsNullOrEmpty(description))
                     {
@@ -154,40 +155,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             invoice.DeliveryBody = row[25].ToString()!;
 
             return invoice;
-        }
-
-        private static string? GetChartOfAccountDescription(
-            IEnumerable<ChartOfAccounts> chartOfAccounts,
-            IEnumerable<AccountAp> accountsAp,
-            IEnumerable<SchemeType> schemeTypes,
-            IEnumerable<DeliveryBody> deliveryBodies,
-            string mainAccount, 
-            string schemeCode, 
-            string deliveryBodyCode)
-        {
-            var descriptionQuery = mainAccount + "/" + schemeCode + "/" + deliveryBodyCode;
-
-            var chartOfAccount = chartOfAccounts.FirstOrDefault(c => c.Code == descriptionQuery);
-            if (chartOfAccount != null)    
-            {
-                return chartOfAccount.Description;
-            }
-            else
-            {
-                var mainAccounto = accountsAp.FirstOrDefault(c => c.Code == mainAccount);
-                if (mainAccounto == null) return null;
-                var macDesc = mainAccounto.Description;
-
-                var scsq = schemeTypes.FirstOrDefault(c => c.Code == schemeCode);
-                if (scsq == null) return null;
-                var scsDesc = scsq.Description;
-
-                var dbsd = deliveryBodies.FirstOrDefault(c => c.Code == deliveryBodyCode);
-                if (dbsd == null) return null;
-                var dbsDesc = dbsd.Description;
-
-                return macDesc + "/" + scsDesc + "/" + dbsDesc;
-            }
         }
     }
 }

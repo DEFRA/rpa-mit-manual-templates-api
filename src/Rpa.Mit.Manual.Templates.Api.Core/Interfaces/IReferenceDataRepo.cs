@@ -35,11 +35,12 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         public Task<IEnumerable<ChartOfAccounts>> GetChartOfAccountsArReferenceData(CancellationToken ct);
 
         /// <summary>
-        /// cached set of lookup_accounts_ap data
+        /// cached set of lookup_accounts_ap data.
+        /// returns a list of AR accounts for simplification during validation of bulk uploads
         /// </summary>
         /// <param name="ct"></param>
         /// <returns></returns>
-        public Task<IEnumerable<AccountAp>> GetApMainAccountsReferenceData(CancellationToken ct);
+        public Task<IEnumerable<AccountAr>> GetApMainAccountsReferenceData(CancellationToken ct);
 
         /// <summary>
         /// cached set of lookup_accounts_ar data
