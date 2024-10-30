@@ -66,7 +66,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
             await ep.HandleAsync(invoiceRequest, default);
             var response = ep.Response;
 
-            Assert.Equal("Error adding new invoice", response.Message);
+            Assert.Equal("ThrowError() called! - Error adding new invoice!", response.Message);
             Assert.Null(response.Invoice);
         }
 
