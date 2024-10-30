@@ -70,6 +70,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <param name="approver"></param>
         /// <param name="ct"></param>
         /// <returns></returns>
-        Task<bool> UpdateInvoiceRequestApprovalStatus(List<string> invoiceRequestIds, string approver, CancellationToken ct);
+        Task<bool> UpdateInvoiceRequestApprovalStatus(List<string> invoiceRequestIds, Guid invoiceId, string approver, CancellationToken ct);
     }
 }

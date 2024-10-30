@@ -84,7 +84,7 @@ namespace ApproveInvoiceAr
                 }
 
                 // now update our db with the results of approval
-                await _iApprovalsRepo.UpdateInvoiceRequestApprovalStatus(approvals, User.Identity?.Name!, ct);
+                await _iApprovalsRepo.UpdateInvoiceRequestApprovalStatus(approvals, r.Id, User.Identity?.Name!, ct);
 
                 if (idx == invoiceRequestsForAzure.Count())
                 {

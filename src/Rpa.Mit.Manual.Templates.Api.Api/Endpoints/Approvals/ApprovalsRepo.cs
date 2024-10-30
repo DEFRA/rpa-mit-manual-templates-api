@@ -211,7 +211,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
             }
         }
 
-        public async Task<bool> UpdateInvoiceRequestApprovalStatus(List<string> invoiceRequestIds, string approver, CancellationToken ct)
+        public async Task<bool> UpdateInvoiceRequestApprovalStatus(List<string> invoiceRequestIds, Guid invoiceId, string approver, CancellationToken ct)
         {
             using (var cn = new NpgsqlConnection(await DbConn()))
             {
@@ -222,12 +222,12 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
 
                 StringBuilder sb = new StringBuilder();
 
+                sb.AppendFormat("UPDATE invoices SET approveremail='{0}',dateapproved='{1}' WHERE id='{2}';", approver, dateApproved, invoiceId);
+
                 foreach (string invoiceRequestId in invoiceRequestIds)
                 {
                     sb.AppendFormat("UPDATE invoicerequests SET approver='{0}',dateapproved='{1}' WHERE invoicerequestid='{2}';", approver, dateApproved, invoiceRequestId);
                 }
-
-                //var sql = "UPDATE invoicerequests SET approver=@approver,dateapproved=@dateApproved WHERE invoicerequestid=@invoiceRequestId";
 
                 await cn.ExecuteAsync(sb.ToString());
 
