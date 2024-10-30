@@ -62,5 +62,14 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <param name="ct"></param>
         /// <returns></returns>
         Task<IEnumerable<InvoiceRequestArForAzure>> GetInvoiceRequestsArForAzure(Guid invoiceId, CancellationToken ct);
+
+        /// <summary>
+        /// update a list of invoice requests with the fact that they have been approved
+        /// </summary>
+        /// <param name="approvals"></param>
+        /// <param name="approver"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        Task<bool> UpdateInvoiceRequestApprovalStatus(List<string> invoiceRequestIds, string approver, CancellationToken ct);
     }
 }

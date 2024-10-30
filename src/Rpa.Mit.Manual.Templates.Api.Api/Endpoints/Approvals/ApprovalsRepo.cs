@@ -1,8 +1,11 @@
 ﻿using System.Data;
 using System.Diagnostics.CodeAnalysis;
+using System.Text;
+
 using Dapper;
 
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Primitives;
 
 using Npgsql;
 
@@ -205,6 +208,30 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
                 }
 
                 return invoiceRequestsAr;
+            }
+        }
+
+        public async Task<bool> UpdateInvoiceRequestApprovalStatus(List<string> invoiceRequestIds, string approver, CancellationToken ct)
+        {
+            using (var cn = new NpgsqlConnection(await DbConn()))
+            {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync();
+
+                var dateApproved = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fffffff");
+
+                StringBuilder sb = new StringBuilder();
+
+                foreach (string invoiceRequestId in invoiceRequestIds)
+                {
+                    sb.AppendFormat("UPDATE invoicerequests SET approver='{0}',dateapproved='{1}' WHERE invoicerequestid='{2}';", approver, dateApproved, invoiceRequestId);
+                }
+
+                //var sql = "UPDATE invoicerequests SET approver=@approver,dateapproved=@dateApproved WHERE invoicerequestid=@invoiceRequestId";
+
+                await cn.ExecuteAsync(sb.ToString());
+
+                return true;
             }
         }
     }

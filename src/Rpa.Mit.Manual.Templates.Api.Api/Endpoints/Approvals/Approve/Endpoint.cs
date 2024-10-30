@@ -52,50 +52,46 @@ namespace ApproveInvoice
             ApproveInvoiceResponse response = new();
             response.Result = true;
 
-            if (string.IsNullOrEmpty(_options.CONNECTION) || string.IsNullOrEmpty(_options.TOPIC))
-            {
-                response.Result = false;
-                response.Message = "No values for Servicebus connection given.";
-                await SendAsync(response, 400, cancellation: ct);
-            }
-
             try
             {
-                InvoiceApproval approval = await MapToEntityAsync(r, ct);
-
-                if (await _iApprovalsRepo.ApproveInvoice(approval, ct))
+                if (string.IsNullOrEmpty(_options.CONNECTION) || string.IsNullOrEmpty(_options.TOPIC))
                 {
-                    // get the invoice requests and lines for sending to payment hub
-                    var invoiceRequests = await _iApprovalsRepo.GetInvoiceRequestsForAzure(r.Id, ct);
-                    int idx = 0;
+                    ThrowError("No values for Servicebus connection given.!");
+                }
 
-                    foreach (InvoiceRequestForAzure request in invoiceRequests)
+                // get the invoice requests and lines for sending to payment hub
+                var invoiceRequests = await _iApprovalsRepo.GetInvoiceRequestsForAzure(r.Id, ct);
+                int idx = 0;
+                List<string> approvals = new List<string>();
+
+                foreach (InvoiceRequestForAzure request in invoiceRequests)
+                {
+                    // create the json
+                    var invoiceRequestJson = _iPaymentHubJsonGenerator.GenerateInvoiceRequestJson<InvoiceRequestForAzure>(request, ct);
+
+                    if (string.IsNullOrEmpty(invoiceRequestJson))
                     {
-                        // create the json
-                        var invoiceRequestJson = _iPaymentHubJsonGenerator.GenerateInvoiceRequestJson<InvoiceRequestForAzure>(request, ct);
-
-                        if (string.IsNullOrEmpty(invoiceRequestJson))
-                        {
-                            response.Result = false;
-                            response.Message += "Error creating payment hub json for invoice request " + request.InvoiceRequestId;
-                        }
-                        else
-                        {
-                            await _iServiceBusProvider.SendInvoiceRequestJson(invoiceRequestJson);
-                            idx++;
-                        }
+                        response.Result = false;
+                        response.Message += "Error creating payment hub json for invoice request " + request.InvoiceRequestId + "||";
                     }
-
-                    if (idx == invoiceRequests.Count())
+                    else
                     {
-                        response.Message += "All invoices approved and data sent to Payment Hub.";
+                        await _iServiceBusProvider.SendInvoiceRequestJson(invoiceRequestJson);
+                        approvals.Add(request.InvoiceRequestId);
+                        idx++;
                     }
+                }
+
+                // now update our db with the results of approval
+                await _iApprovalsRepo.UpdateInvoiceRequestApprovalStatus(approvals, User.Identity?.Name!, ct);
+
+                if (idx == invoiceRequests.Count())
+                {
+                    response.Message += "All invoices approved and data sent to Payment Hub.";
                 }
                 else
                 {
-                    response.Result = false;
-                    response.Message = "Error approving invoices. None sent to payment hub.";
-                    await SendAsync(response, 400, cancellation: ct);
+                    response.Message += "Some invoices failed approval. The list of failures is here and the rest have been sent to the Payment Hub.";
                 }
 
                 await SendAsync(response, 200, cancellation: ct);

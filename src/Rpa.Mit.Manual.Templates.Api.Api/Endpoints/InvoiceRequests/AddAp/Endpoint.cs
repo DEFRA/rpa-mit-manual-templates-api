@@ -36,13 +36,12 @@ namespace InvoiceRequests.Add
                 if(await _iInvoiceRequestRepo.AddInvoiceRequest(invoiceRequest, ct))
                 {
                     response.InvoiceRequest = invoiceRequest;
+                    await SendAsync(response, 200, cancellation: ct);
                 }
                 else
                 {
                     ThrowError("Error adding new invoice request");
                 }
-
-                await SendAsync(response, 200, cancellation: ct);
             }
             catch (Exception ex)
             {

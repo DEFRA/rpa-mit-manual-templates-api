@@ -41,9 +41,7 @@ namespace Invoices.Delete
                 }
                 else
                 {
-                    response.Message = "Error deleting invoice";
-
-                    await SendAsync(response, 400,cancellation: ct);
+                    ThrowError("Error deleting invoice!");
                 }
             }
             catch (Exception ex)

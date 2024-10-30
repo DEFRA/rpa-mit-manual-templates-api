@@ -50,8 +50,7 @@ namespace Invoices.Add
                 }
                 else
                 {
-                    response.Message = "Error adding new invoice";
-                    await SendAsync(response, 400, cancellation: ct);
+                    ThrowError("Error adding new invoice!");
                 }
             }
             catch (Exception ex)
