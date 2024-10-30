@@ -3,7 +3,6 @@
 using Microsoft.Extensions.Options;
 
 using Rpa.Mit.Manual.Templates.Api;
-using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
@@ -14,7 +13,7 @@ namespace ApproveInvoiceAr
     /// approve an AR invoice
     /// </summary>
     [ExcludeFromCodeCoverage]
-    internal sealed class ApproveInvoiceArEndpoint : EndpointWithMapping<ApproveInvoiceArRequest, ApproveInvoiceArResponse, InvoiceApproval>
+    internal sealed class ApproveInvoiceArEndpoint : Endpoint<ApproveInvoiceArRequest, ApproveInvoiceArResponse>
     {
         private readonly PaymentHub _options;
         private readonly IServiceBusProvider _iServiceBusProvider;
@@ -56,41 +55,44 @@ namespace ApproveInvoiceAr
 
             try
             {
-                InvoiceApproval mappedApproval = await MapToEntityAsync(r, ct);
-
-                if (await _iApprovalsRepo.ApproveInvoice(mappedApproval, ct))
+                if (string.IsNullOrEmpty(_options.CONNECTION) || string.IsNullOrEmpty(_options.TOPIC))
                 {
-                    // get the AR invoice requests and lines for sending to payment hub
-                    var invoiceRequestsForAzure = await _iApprovalsRepo.GetInvoiceRequestsArForAzure(r.Id, ct);
-                    int idx = 0;
+                    ThrowError("No values for Servicebus connection given.!");
+                }
 
-                    foreach (InvoiceRequestArForAzure request in invoiceRequestsForAzure)
+                // get the AR invoice requests and lines for sending to payment hub
+                var invoiceRequestsForAzure = await _iApprovalsRepo.GetInvoiceRequestsArForAzure(r.Id, ct);
+                int idx = 0;
+                List<string> approvals = new List<string>();
+
+                foreach (InvoiceRequestArForAzure request in invoiceRequestsForAzure)
+                {
+                    // create the json
+                    var invoiceRequestJson = _iPaymentHubJsonGenerator.GenerateInvoiceRequestJson<InvoiceRequestArForAzure>(request, ct);
+
+                    if (string.IsNullOrEmpty(invoiceRequestJson))
                     {
-                        // create the json
-                        var invoiceRequestForAzureJson = _iPaymentHubJsonGenerator.GenerateInvoiceRequestJson<InvoiceRequestArForAzure>(request, ct);
-
-                        if (string.IsNullOrEmpty(invoiceRequestForAzureJson))
-                        {
-                            response.Result = false;
-                            response.Message += "Error creating payment hub json with invoice request " + request.InvoiceRequestId;
-                        }
-                        else
-                        {
-                            await _iServiceBusProvider.SendInvoiceRequestJson(invoiceRequestForAzureJson);
-                            idx++;
-                        }
+                        response.Result = false;
+                        response.Message += "Error creating payment hub json for invoice request " + request.InvoiceRequestId + "||";
                     }
-
-                    if (idx == invoiceRequestsForAzure.Count())
+                    else
                     {
-                        response.Message += "All invoices approved and data sent to Payment Hub.";
+                        await _iServiceBusProvider.SendInvoiceRequestJson(invoiceRequestJson);
+                        approvals.Add(request.InvoiceRequestId);
+                        idx++;
                     }
+                }
+
+                // now update our db with the results of approval
+                await _iApprovalsRepo.UpdateInvoiceRequestApprovalStatus(approvals, User.Identity?.Name!, ct);
+
+                if (idx == invoiceRequestsForAzure.Count())
+                {
+                    response.Message += "All invoices approved and data sent to Payment Hub.";
                 }
                 else
                 {
-                    response.Result = false;
-                    response.Message = "Error approving invoices. Nothimng has been sent to the payment hub.";
-                    await SendAsync(response, 400, cancellation: ct);
+                    response.Message += "Some invoices failed approval. The list of failures is here and the rest have been approved and sent to the Payment Hub.";
                 }
 
                 await SendAsync(response, 200, cancellation: ct);
@@ -103,17 +105,6 @@ namespace ApproveInvoiceAr
 
                 await SendAsync(response, 500, CancellationToken.None);
             }
-        }
-
-        public sealed override async Task<InvoiceApproval> MapToEntityAsync(ApproveInvoiceArRequest r, CancellationToken ct = default)
-        {
-            var mappedInvoiceApproval = await Task.FromResult(new InvoiceApproval());
-
-            mappedInvoiceApproval.ApproverEmail = User.Identity?.Name!;
-            mappedInvoiceApproval.DateApproved = DateTime.UtcNow;
-            mappedInvoiceApproval.Id = r.Id;
-
-            return mappedInvoiceApproval;
         }
     }
 }

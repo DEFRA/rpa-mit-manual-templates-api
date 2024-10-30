@@ -3,9 +3,7 @@
 using Microsoft.Extensions.Options;
 
 using Rpa.Mit.Manual.Templates.Api;
-using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure;
-using Rpa.Mit.Manual.Templates.Api.Core.Enums;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
 
@@ -15,7 +13,7 @@ namespace ApproveInvoice
     /// approve an AP invoice
     /// </summary>
     [ExcludeFromCodeCoverage]
-    internal sealed class ApproveInvoiceEndpoint : EndpointWithMapping<ApproveInvoiceRequest, ApproveInvoiceResponse, InvoiceApproval>
+    internal sealed class ApproveInvoiceEndpoint : Endpoint<ApproveInvoiceRequest, ApproveInvoiceResponse>
     {
         private readonly PaymentHub _options;
         private readonly IApprovalsRepo _iApprovalsRepo;
@@ -91,7 +89,7 @@ namespace ApproveInvoice
                 }
                 else
                 {
-                    response.Message += "Some invoices failed approval. The list of failures is here and the rest have been sent to the Payment Hub.";
+                    response.Message += "Some invoices failed approval. The list of failures is here and the rest have been approved and sent to the Payment Hub.";
                 }
 
                 await SendAsync(response, 200, cancellation: ct);
@@ -104,18 +102,6 @@ namespace ApproveInvoice
 
                 await SendAsync(response, 500, CancellationToken.None);
             }
-        }
-
-        public sealed override async Task<InvoiceApproval> MapToEntityAsync(ApproveInvoiceRequest r, CancellationToken ct = default)
-        {
-            var invoiceApproval = await Task.FromResult(new InvoiceApproval());
-
-            invoiceApproval.ApproverEmail = User.Identity?.Name!;
-            invoiceApproval.DateApproved = DateTime.UtcNow;
-            invoiceApproval.Id = r.Id;
-            invoiceApproval.Status = InvoiceStatuses.Approved;
-
-            return invoiceApproval;
         }
     }
 }
