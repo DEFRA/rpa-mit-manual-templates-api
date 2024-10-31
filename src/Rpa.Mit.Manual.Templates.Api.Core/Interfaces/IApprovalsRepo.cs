@@ -64,7 +64,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         Task<IEnumerable<InvoiceRequestArForAzure>> GetInvoiceRequestsArForAzure(Guid invoiceId, CancellationToken ct);
 
         /// <summary>
-        /// update a list of invoice requests with the fact that they have been approved
+        /// update a list of invoice requests, together with the parent invoice table, with the fact that they have been approved
         /// </summary>
         /// <param name="approvals"></param>
         /// <param name="approver"></param>

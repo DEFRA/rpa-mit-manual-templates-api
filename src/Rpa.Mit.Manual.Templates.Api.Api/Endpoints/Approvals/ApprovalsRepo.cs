@@ -5,7 +5,6 @@ using System.Text;
 using Dapper;
 
 using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Primitives;
 
 using Npgsql;
 

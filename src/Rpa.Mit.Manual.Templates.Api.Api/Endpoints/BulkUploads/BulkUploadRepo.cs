@@ -30,11 +30,10 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 {
                     try
                     {
-                        var sql = @"INSERT INTO Invoices (Id, SchemeType, Reference, Value, Status, CreatedBy, Created, PaymentType, AccountType, DeliveryBody, SecondaryQuestion, ApprovalGroup)
-                                VALUES (@Id, @SchemeType, @Reference, @Value, @Status, @CreatedBy, @Created, @PaymentType, @AccountType, @DeliveryBody, @SecondaryQuestion, @ApprovalGroup)";
+                        var sql = @"INSERT INTO Invoices (Id, SchemeType, Reference, Status, CreatedBy, Created, PaymentType, AccountType, DeliveryBody, SecondaryQuestion, ApprovalGroup)
+                                VALUES (@Id, @SchemeType, @Reference, @Status, @CreatedBy, @Created, @PaymentType, @AccountType, @DeliveryBody, @SecondaryQuestion, @ApprovalGroup)";
 
                         await cn.ExecuteAsync(sql, bulkUploadApDataset.BulkUploadInvoice);
-
 
                         var sql1 = "INSERT INTO invoicerequests (invoicerequestid, invoiceid, ledger, frn, sbi, vendor, agreementnumber,marketingyear, currency, description, duedate, claimreferencenumber, claimreference )" +
                              " VALUES (@InvoiceRequestId, @InvoiceId, @Ledger, @Frn, @Sbi, @Vendor,  @AgreementNumber,  @marketingyear, @PaymentType, @Description, @DueDate, @claimreferencenumber, @claimreference)";
@@ -107,7 +106,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 }
                 else
                 {
-                    // delete everything...
+                    // delete everything...set up cascading deletes in postgres????????????
                     using (var transaction = await cn.BeginTransactionAsync(ct))
                     {
                         try
@@ -167,8 +166,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 {
                     try
                     {
-                        var sql = @"INSERT INTO Invoices (Id, SchemeType, Reference, Value, Status, CreatedBy, Created, PaymentType, AccountType, DeliveryBody, SecondaryQuestion, ApprovalGroup)
-                                VALUES (@Id, @SchemeType, @Reference, @Value, @Status, @CreatedBy, @Created, @PaymentType, @AccountType, @DeliveryBody, @SecondaryQuestion, @ApprovalGroup)";
+                        var sql = @"INSERT INTO Invoices (Id, SchemeType, Reference, Status, CreatedBy, Created, PaymentType, AccountType, DeliveryBody, SecondaryQuestion, ApprovalGroup)
+                                VALUES (@Id, @SchemeType, @Reference, @Status, @CreatedBy, @Created, @PaymentType, @AccountType, @DeliveryBody, @SecondaryQuestion, @ApprovalGroup)";
 
                         await cn.ExecuteAsync(sql, bulkUploadArDataset.BulkUploadInvoice);
 
