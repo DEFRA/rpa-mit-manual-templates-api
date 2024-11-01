@@ -17,20 +17,20 @@ namespace ApproveInvoiceAr
     {
         private readonly PaymentHub _options;
         private readonly IServiceBusProvider _iServiceBusProvider;
-        private readonly IApprovalsRepo _iApprovalsRepo;
+        private readonly IInvoiceRequestRepo _iInvoiceRequestRepo;
         private readonly ILogger<ApproveInvoiceArEndpoint> _logger;
         private readonly IPaymentHubJsonGenerator _iPaymentHubJsonGenerator;
 
         public ApproveInvoiceArEndpoint(
                                         IOptions<PaymentHub> options,
-                                        IApprovalsRepo iApprovalsRepo,
+                                         IInvoiceRequestRepo iInvoiceRequestRepo,
                                         IServiceBusProvider iServiceBusProvider,
                                         ILogger<ApproveInvoiceArEndpoint> logger,
                                         IPaymentHubJsonGenerator iPaymentHubJsonGenerator)
         {
             _logger = logger;
             _options = options.Value;
-            _iApprovalsRepo = iApprovalsRepo;
+            _iInvoiceRequestRepo = iInvoiceRequestRepo;
             _iPaymentHubJsonGenerator = iPaymentHubJsonGenerator;
             _iServiceBusProvider = iServiceBusProvider;
         }
@@ -61,7 +61,7 @@ namespace ApproveInvoiceAr
                 }
 
                 // get the AR invoice requests and lines for sending to payment hub
-                var invoiceRequestsForAzure = await _iApprovalsRepo.GetInvoiceRequestsArForAzure(r.Id, ct);
+                var invoiceRequestsForAzure = await _iInvoiceRequestRepo.GetInvoiceRequestsArForAzure(r.Id, ct);
                 int idx = 0;
                 List<string> approvals = new List<string>();
 
@@ -84,7 +84,7 @@ namespace ApproveInvoiceAr
                 }
 
                 // now update our db with the results of approval
-                await _iApprovalsRepo.UpdateInvoiceRequestApprovalStatus(approvals, r.Id, User.Identity?.Name!, ct);
+                await _iInvoiceRequestRepo.UpdateInvoiceRequestApprovalStatus(approvals, r.Id, User.Identity?.Name!, ct);
 
                 if (idx == invoiceRequestsForAzure.Count())
                 {

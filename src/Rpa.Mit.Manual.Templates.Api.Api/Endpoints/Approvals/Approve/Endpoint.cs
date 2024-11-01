@@ -16,7 +16,7 @@ namespace ApproveInvoice
     internal sealed class ApproveInvoiceEndpoint : Endpoint<ApproveInvoiceRequest, ApproveInvoiceResponse>
     {
         private readonly PaymentHub _options;
-        private readonly IApprovalsRepo _iApprovalsRepo;
+        private readonly IInvoiceRequestRepo _iInvoiceRequestRepo;
 
         private readonly IServiceBusProvider _iServiceBusProvider;
         private readonly IPaymentHubJsonGenerator _iPaymentHubJsonGenerator;
@@ -26,14 +26,14 @@ namespace ApproveInvoice
             IOptions<PaymentHub> options,
 
             ILogger<ApproveInvoiceEndpoint> logger,
-            IApprovalsRepo iApprovalsRepo,
+            IInvoiceRequestRepo iInvoiceRequestRepo,
             IServiceBusProvider iServiceBusProvider,
             IPaymentHubJsonGenerator iPaymentHubJsonGenerator)
         {
             _options = options.Value;
             _logger = logger;
 
-            _iApprovalsRepo = iApprovalsRepo;
+            _iInvoiceRequestRepo = iInvoiceRequestRepo;
             _iServiceBusProvider = iServiceBusProvider;
             _iPaymentHubJsonGenerator = iPaymentHubJsonGenerator;
         }
@@ -58,7 +58,8 @@ namespace ApproveInvoice
                 }
 
                 // get the invoice requests and lines for sending to payment hub
-                var invoiceRequests = await _iApprovalsRepo.GetInvoiceRequestsForAzure(r.Id, ct);
+                var invoiceRequests = await _iInvoiceRequestRepo.GetInvoiceRequestsForAzure(r.Id, ct);
+
                 int idx = 0;
                 List<string> approvals = new List<string>();
 
@@ -81,7 +82,7 @@ namespace ApproveInvoice
                 }
 
                 // now update our db with the results of approval
-                await _iApprovalsRepo.UpdateInvoiceRequestApprovalStatus(approvals, r.Id, User.Identity?.Name!, ct);
+                await _iInvoiceRequestRepo.UpdateInvoiceRequestApprovalStatus(approvals, r.Id, User.Identity?.Name!, ct);
 
                 if (idx == invoiceRequests.Count())
                 {

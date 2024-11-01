@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Net.Mime;
 
 using Azure.Messaging.ServiceBus;
 
@@ -18,7 +19,16 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.MitAzure
         {
             ServiceBusMessage message = new ServiceBusMessage(msg);
 
-            await _serviceBusSender.SendMessageAsync(message);
+            try
+            {
+                await _serviceBusSender.SendMessageAsync(message);
+            }
+            catch (Exception ex) when (ex is ArgumentException ||
+                                 ex is ServiceBusException ||
+                                 ex is UnauthorizedAccessException)
+            {
+                throw new Exception("Service Bus Exception occurred with sending message to Payment Hub", ex);
+            }
         }
     }
 }
