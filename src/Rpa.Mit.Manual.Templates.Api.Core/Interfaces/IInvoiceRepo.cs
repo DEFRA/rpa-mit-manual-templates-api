@@ -28,7 +28,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         Task<IEnumerable<Invoice>> GetAllInvoices( CancellationToken ct);
 
         /// <summary>
-        /// deletes an invoice and all its children
+        /// deletes an invoice and all its children.
+        /// the database has cascading deletes configured for this so only need to delete the parent
         /// </summary>
         /// <param name="invoiceId"></param>
         /// <param name="ct"></param>

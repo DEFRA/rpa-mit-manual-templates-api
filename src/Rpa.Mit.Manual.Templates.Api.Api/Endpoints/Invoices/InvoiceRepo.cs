@@ -41,50 +41,11 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
 
-                using (var transaction = await cn.BeginTransactionAsync(ct))
-                {
-                    try
-                    {
-                        // get all invoicerequest ids
-                        var invoiceRequestIds = await cn.QueryAsync<string>(
-                            "SELECT invoicerequestid FROM invoicerequests WHERE invoiceid = @InvoiceId",
-                            new { InvoiceId = invoiceId },
-                            transaction: transaction);
+                await cn.ExecuteAsync(
+                        "DELETE FROM invoices WHERE id = @invoiceId",
+                        new { invoiceId });
 
-                        // for each invoiceRequestId, delete all invoice lines
-                        foreach (string invoiceRequestId in invoiceRequestIds)
-                        {
-                            await cn.ExecuteAsync(
-                                    "DELETE FROM invoicelines WHERE invoicerequestid = @invoiceRequestId",
-                                    new { invoiceRequestId},
-                                    transaction: transaction);
-                        }
-
-                        // for each invoiceRequestId, delete the invoice request
-                        foreach (string invoiceRequestId in invoiceRequestIds)
-                        {
-                            await cn.ExecuteAsync(
-                                    "DELETE FROM invoicerequests WHERE invoicerequestid = @invoiceRequestId",
-                                    new { invoiceRequestId },
-                                    transaction: transaction);
-                        }
-
-                        // finally, delete the invoice header
-                        await cn.ExecuteAsync(
-                                "DELETE FROM invoices WHERE id = @invoiceId",
-                                new { invoiceId },
-                                transaction: transaction);
-
-                        await transaction.CommitAsync(ct);
-
-                        return true;
-                    }
-                    catch
-                    {
-                        await transaction.RollbackAsync(ct);
-                        throw;
-                    }
-                }
+                return true;
             }
         }
 
@@ -95,7 +56,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
 
-                var sql = "SELECT id,schemetype,data,reference,value,status,approverid,approveremail,approvedby,approved,createdby, updatedby, created, updated,paymenttype,accounttype,deliverybody FROM invoices";
+                var sql = "SELECT id,schemetype,reference,status,approverid,approveremail,approvedby,approved,createdby, updatedby, created, updated,paymenttype,accounttype,deliverybody FROM invoices";
 
 
                 return await cn.QueryAsync<Invoice>(sql);
@@ -112,7 +73,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
                 var invoice = new Invoice();
 
                 var sql = @"
-                            SELECT id,schemetype,data,reference,value,status,approverid,approveremail,approvedby,approved,createdby, updatedby, created, updated,paymenttype,accounttype,deliverybody FROM invoices WHERE Id = @invoiceid;
+                            SELECT id,schemetype,reference,status,approverid,approveremail,approvedby,approved,createdby, updatedby, created, updated,paymenttype,accounttype,deliverybody FROM invoices WHERE Id = @invoiceid;
                             SELECT value FROM public.invoicelines WHERE invoicerequestid IN (SELECT invoicerequestid FROM invoicerequests WHERE invoiceid=@invoiceid);
                         ";
 
