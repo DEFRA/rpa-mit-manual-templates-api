@@ -18,72 +18,102 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Admin.Approvers
         public ApproversAdminRepo(IOptions<PostGres> options) : base(options)
         { }
 
-        public async Task<AdminApprover> Getlookup_approver(string email, string deliverybody)
+        public async Task<AdminApprover> Get(string email, string deliverybody, CancellationToken ct)
         {
-            using (IDbConnection db = new NpgsqlConnection(await DbConn()))
+            using (var cn = new NpgsqlConnection(await DbConn()))
             {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
                 const string getQuery = "SELECT email,threshold,deliverybody,schemecode FROM lookup_approvers WHERE email = @email, deliverybody = @deliverybody";
-                return await db.QuerySingleAsync<AdminApprover>(getQuery, new { email, deliverybody });
+                
+                return await cn.QuerySingleAsync<AdminApprover>(getQuery, new { email, deliverybody });
             }
         }
 
-        public async Task<IEnumerable<AdminApprover>> FindAlllookup_approvers()
+        public async Task<IEnumerable<AdminApprover>> GetAll(CancellationToken ct)
         {
-            using (IDbConnection db = new NpgsqlConnection(await DbConn()))
+            using (var cn = new NpgsqlConnection(await DbConn()))
             {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
                 const string findAllQuery = "SELECT email,threshold,deliverybody,schemecode FROM lookup_approvers";
-                var results = await db.QueryAsync<AdminApprover>(findAllQuery);
+
+                var results = await cn.QueryAsync<AdminApprover>(findAllQuery);
+
                 return results;
             }
         }
 
-        public async Task<IEnumerable<AdminApprover>> Findlookup_approversByAll(string email, string deliverybody, string schemecode, int? threshold)
+        public async Task<IEnumerable<AdminApprover>> GetByAll(string email, string deliverybody, string schemecode, int? threshold, CancellationToken ct)
         {
-            using (IDbConnection db = new NpgsqlConnection(await DbConn()))
+            using (var cn = new NpgsqlConnection(await DbConn()))
             {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
                 const string findByAllQuery = "SELECT email,threshold,deliverybody,schemecode FROM lookup_approvers WHERE (@email IS NULL OR email = @email), (@deliverybody IS NULL OR deliverybody = @deliverybody), (@schemecode IS NULL OR schemecode = @schemecode), (@threshold IS NULL OR threshold = @threshold)";
-                var results = await db.QueryAsync<AdminApprover>(findByAllQuery, new { email, deliverybody, schemecode, threshold });
+                var results = await cn.QueryAsync<AdminApprover>(findByAllQuery, new { email, deliverybody, schemecode, threshold });
                 return results;
             }
         }
 
-        public async Task<IEnumerable<AdminApprover>> Findlookup_approversByAny(string email, string deliverybody, string schemecode, int? threshold)
+        public async Task<IEnumerable<AdminApprover>> GetByAny(string email, string deliverybody, string schemecode, int? threshold, CancellationToken ct)
         {
-            using (IDbConnection db = new NpgsqlConnection(await DbConn()))
+            using (var cn = new NpgsqlConnection(await DbConn()))
             {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
                 const string findByAnyQuery = "SELECT email,threshold,deliverybody,schemecode FROM lookup_approvers WHERE (@email IS NOT NULL AND email = @email), (@deliverybody IS NOT NULL AND deliverybody = @deliverybody), (@schemecode IS NOT NULL AND schemecode = @schemecode), (@threshold IS NOT NULL AND threshold = @threshold)";
-                var results = await db.QueryAsync<AdminApprover>(findByAnyQuery, new { email, deliverybody, schemecode, threshold });
+                
+                var results = await cn.QueryAsync<AdminApprover>(findByAnyQuery, new { email, deliverybody, schemecode, threshold });
+
                 return results;
             }
         }
 
-        public async Task<int> Createlookup_approver(string email, string deliverybody, string schemecode, int? threshold)
+        public async Task<bool> Create(AdminApprover adminApprover, CancellationToken ct)
         {
-            using (IDbConnection db = new NpgsqlConnection(await DbConn()))
+            using (var cn = new NpgsqlConnection(await DbConn()))
             {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
                 const string insertQuery = "INSERT INTO lookup_approvers (email, deliverybody, schemecode, threshold) VALUES (@email, @deliverybody, @schemecode, @threshold)";
-                var rowsAffected = await db.ExecuteScalarAsync<int>(insertQuery, new { email, deliverybody, schemecode, threshold });
-                return rowsAffected;
+                var rowsAffected = await cn.ExecuteScalarAsync<int>(insertQuery, new { adminApprover });
+                return rowsAffected == 1;
             }
         }
 
-        public async Task<int> Updatelookup_approver(string email, string deliverybody, string schemecode, int? threshold)
+        public async Task<bool> Update(string email, string deliverybody, string schemecode, int? threshold, CancellationToken ct)
         {
-            using (IDbConnection db = new NpgsqlConnection(await DbConn()))
+            using (var cn = new NpgsqlConnection(await DbConn()))
             {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
                 const string updateQuery = "UPDATE lookup_approvers SET email = @email, deliverybody = @deliverybody, schemecode = @schemecode, threshold = @threshold WHERE email = @email, deliverybody = @deliverybody";
-                var rowsAffected = await db.ExecuteScalarAsync<int>(updateQuery, new { email, deliverybody });
-                return rowsAffected;
+                
+                var rowsAffected = await cn.ExecuteScalarAsync<int>(updateQuery, new { email, deliverybody });
+
+                return rowsAffected == 1;
             }
         }
 
-        public async Task<int> Deletelookup_approver(string email, string deliverybody, string schemecode, int? threshold)
+        public async Task<bool> Delete(string email, string deliverybody, CancellationToken ct)
         {
-            using (IDbConnection db = new NpgsqlConnection(await DbConn()))
+            using (var cn = new NpgsqlConnection(await DbConn()))
             {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
                 const string deleteQuery = "DELETE lookup_approvers WHERE email = @email, deliverybody = @deliverybody";
-                var rowsAffected = await db.ExecuteScalarAsync<int>(deleteQuery, new { email, deliverybody });
-                return rowsAffected;
+
+                var rowsAffected = await cn.ExecuteScalarAsync<int>(deleteQuery, new { email, deliverybody });
+
+                return rowsAffected == 1;
             }
         }
     }

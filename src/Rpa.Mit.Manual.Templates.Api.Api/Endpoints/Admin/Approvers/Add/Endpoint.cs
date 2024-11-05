@@ -2,10 +2,10 @@
 
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
-namespace Approvers
+namespace AdminAdd
 {
     [ExcludeFromCodeCoverage]
-    internal sealed class Endpoint : EndpointWithoutRequest<Response>
+    internal sealed class Endpoint : Endpoint<Request, Response>
     {
         private readonly IApproversAdminRepo _iApproversAdminRepo;
         private readonly ILogger<Endpoint> _logger;
@@ -20,16 +20,16 @@ namespace Approvers
 
         public override void Configure()
         {
-            Get("admin/approvers/getall");
+            Get("admin/approvers/add");
         }
 
-        public override async Task HandleAsync(CancellationToken ct)
+        public override async Task HandleAsync(Request r, CancellationToken ct)
         {
             Response response = new();
 
             try
             {
-                response.AdminApprovers = await _iApproversAdminRepo.GetAll(ct);
+                response.Result = await _iApproversAdminRepo.Create(r.AdminApprover, ct);
 
                 await SendAsync(response, 200, cancellation: ct);
             }
