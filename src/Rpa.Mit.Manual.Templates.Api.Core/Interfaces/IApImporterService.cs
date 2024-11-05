@@ -6,7 +6,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
 {
     public interface IApImporterService
     {
-        Task<BulkUploadApDataset> ImportAPData(DataTable data, CancellationToken ct);
+        Task<BulkUploadImportResult<BulkUploadApDataset, string>> ImportAPData(DataTable data, CancellationToken ct);
     }
 
     public interface IArImporterService

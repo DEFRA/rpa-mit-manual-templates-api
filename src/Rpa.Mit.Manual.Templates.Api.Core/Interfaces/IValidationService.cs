@@ -4,6 +4,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
 {
     public interface IValidationService
     {
+        //Task<bool> ValidateUpload<T>(T bulkUploadDataset, string org, CancellationToken ct) where T : class;
+
         Task<bool> ApBulkUploadIsValid(BulkUploadApDataset bulkUploadApDataset, string org, CancellationToken ct);
 
         Task<bool> ArBulkUploadIsValid(BulkUploadArDataset bulkUploadArDataset, string org, CancellationToken ct);

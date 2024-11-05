@@ -1,5 +1,8 @@
 ﻿using System.Data;
 using System.Diagnostics.CodeAnalysis;
+using System.Text;
+
+using Microsoft.AspNetCore.Http.HttpResults;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
@@ -23,7 +26,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             _iValidationService = iValidationService;
         }
 
-        public async Task<BulkUploadApDataset> ImportAPData(DataTable data, CancellationToken ct)
+        public async Task<BulkUploadImportResult<BulkUploadApDataset, string>> ImportAPData(DataTable data, CancellationToken ct)
         {
             // row 0, col 1 and row 0, col 16 have the 2 titles
             // row 1 is placeholder/empty
@@ -33,6 +36,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             BulkUploadApDataset bulkUploadApDataset = new();
             BulkUploadInvoice bulkUploadInvoice = new();
             decimal totalUploadedValue = 0.0M;
+
+            StringBuilder errors = new StringBuilder();
 
             var i = 0;
 
@@ -75,25 +80,28 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
                     if (string.IsNullOrEmpty(description))
                     {
-                        throw new Exception("Invalid account/scheme/deliverybody combination");
+                        errors.AppendFormat("Error in Line {0} Invalid account/scheme/deliverybody combination", i.ToString());
+
+                        // throw new Exception("Invalid account/scheme/deliverybody combination");
                     }
-
-
-                    var bulkUploadDetailLine = new BulkUploadApDetailLine
+                    else
                     {
-                        Id = Guid.NewGuid(),
-                        InvoiceRequestId = row[17].ToString() + "_" + row[18].ToString(),
-                        Value = decimal.Parse(row[19].ToString()!),
-                        FundCode = row[21].ToString()!,
-                        MainAccount = row[22].ToString()!,
-                        SchemeCode = row[23].ToString()!,
-                        DeliveryBodyCode = row[25].ToString()!,
-                        MarketingYear = row[24].ToString()!,
-                        Description = description
-                    };
+                        var bulkUploadDetailLine = new BulkUploadApDetailLine
+                        {
+                            Id = Guid.NewGuid(),
+                            InvoiceRequestId = row[17].ToString() + "_" + row[18].ToString(),
+                            Value = decimal.Parse(row[19].ToString()!),
+                            FundCode = row[21].ToString()!,
+                            MainAccount = row[22].ToString()!,
+                            SchemeCode = row[23].ToString()!,
+                            DeliveryBodyCode = row[25].ToString()!,
+                            MarketingYear = row[24].ToString()!,
+                            Description = description
+                        };
 
-                    // for the databasee
-                    bulkUploadApDataset.BulkUploadDetailLines!.Add(bulkUploadDetailLine);
+                        // for the databasee
+                        bulkUploadApDataset.BulkUploadDetailLines!.Add(bulkUploadDetailLine);
+                    }
                 }
                 else if (!string.IsNullOrEmpty(row[19].ToString()))
                 {
@@ -101,47 +109,58 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
                     if (string.IsNullOrEmpty(description))
                     {
-                        throw new Exception("Invalid account/scheme/deliverybody combination");
+                        errors.AppendFormat("Error in Line {0} Invalid account/scheme/deliverybody combination", i.ToString());
+
+                        //throw new Exception("Invalid account/scheme/deliverybody combination");
                     }
-
-                    var invoiceRequestId = row[17].ToString() + "_" + row[18].ToString();
-
-                    var bulkUploadDetailLine = new BulkUploadApDetailLine
+                    else
                     {
-                        Id = Guid.NewGuid(),
-                        InvoiceRequestId = invoiceRequestId,
-                        Value = decimal.Parse(row[19].ToString()!),
-                        FundCode = row[21].ToString()!,
-                        SchemeCode = row[23].ToString()!,
-                        MainAccount = row[22].ToString()!,
-                        MarketingYear = row[24].ToString()!,
-                        DeliveryBodyCode = row[25].ToString()!,
-                        Description = description
-                    };
+                        var invoiceRequestId = row[17].ToString() + "_" + row[18].ToString();
 
-                    // this for the database
-                    bulkUploadApDataset.BulkUploadDetailLines!.Add(bulkUploadDetailLine);
+                        var bulkUploadDetailLine = new BulkUploadApDetailLine
+                        {
+                            Id = Guid.NewGuid(),
+                            InvoiceRequestId = invoiceRequestId,
+                            Value = decimal.Parse(row[19].ToString()!),
+                            FundCode = row[21].ToString()!,
+                            SchemeCode = row[23].ToString()!,
+                            MainAccount = row[22].ToString()!,
+                            MarketingYear = row[24].ToString()!,
+                            DeliveryBodyCode = row[25].ToString()!,
+                            Description = description
+                        };
+
+                        // this for the database
+                        bulkUploadApDataset.BulkUploadDetailLines!.Add(bulkUploadDetailLine);
+                    }
                 }
             }
 
-            // nest the data for returning json
-            foreach (var parent in bulkUploadInvoice.BulkUploadApHeaderLines!)
+            if (errors.Length > 0)
             {
-                parent.BulkUploadApDetailLines = bulkUploadApDataset.BulkUploadDetailLines
-                    .Where(c => c.InvoiceRequestId == parent.InvoiceRequestId)
-                    .ToList();
-
-                // total up the value of the detail lines for the parent invoice request
-                parent.TotalAmount = parent.BulkUploadApDetailLines.Select(c => c.Value).Sum();
-
-                totalUploadedValue += parent.TotalAmount;
+                return errors.ToString();
             }
+            else
+            {
+                // nest the data for returning json
+                foreach (var parent in bulkUploadInvoice.BulkUploadApHeaderLines!)
+                {
+                    parent.BulkUploadApDetailLines = bulkUploadApDataset.BulkUploadDetailLines
+                        .Where(c => c.InvoiceRequestId == parent.InvoiceRequestId)
+                        .ToList();
 
-            bulkUploadApDataset.InvoiceTotal = totalUploadedValue;
-            bulkUploadApDataset.NumberOfInvoices = bulkUploadApDataset.BulkUploadDetailLines.Count;
-            bulkUploadApDataset.BulkUploadInvoice = bulkUploadInvoice;
+                    // total up the value of the detail lines for the parent invoice request
+                    parent.TotalAmount = parent.BulkUploadApDetailLines.Select(c => c.Value).Sum();
 
-            return bulkUploadApDataset;
+                    totalUploadedValue += parent.TotalAmount;
+                }
+
+                bulkUploadApDataset.InvoiceTotal = totalUploadedValue;
+                bulkUploadApDataset.NumberOfInvoices = bulkUploadApDataset.BulkUploadDetailLines.Count;
+                bulkUploadApDataset.BulkUploadInvoice = bulkUploadInvoice;
+
+                return bulkUploadApDataset;
+            }
         }
 
         private static async Task<BulkUploadInvoice> CreateNewInvoice(DataRow row)

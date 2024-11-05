@@ -67,25 +67,34 @@ namespace BulkUploads.AddAp
                     
                         if (dataTables["AP"]?.Rows.Count > 4)
                         {
-                            var bulkUploadApDataset = await _iApImporterService.ImportAPData(dataTables["AP"]!, ct);
+                            // import into our class structure
+                            var importResult = await _iApImporterService.ImportAPData(dataTables["AP"]!, ct);
 
-                            // now validate the import
-                            var isValid = await _iValidationService.ApBulkUploadIsValid(bulkUploadApDataset, r.Org, ct);
-
-                            if (!isValid)
+                            if (importResult.Error.Length > 0)
                             {
-                                ThrowError("The supplied data are invalid!");
+                                response.Message = importResult.Error;
+                            }
+                            else
+                            {
+                                // now validate the import
+                                var isValid = await _iValidationService.ApBulkUploadIsValid(importResult.BulkUploadImport, r.Org, ct);
+
+                                if (!isValid)
+                                {
+                                    ThrowError("The supplied data are invalid!");
+                                }
+
+                                importResult.BulkUploadImport.BulkUploadInvoice!.CreatedBy = userEmail;
+
+                                if (await _iBulkUploadRepo.AddApBulkUpload(importResult.BulkUploadImport, ct))
+                                {
+                                    // email the originator that their file has been successfully uploaded.
+                                    await _iEmailService.EmailBulkUploadSuccess(userEmail, fileName, importResult.BulkUploadImport.BulkUploadInvoice.Id, ct);
+
+                                    response.BulkUploadApDataset = importResult.BulkUploadImport;
+                                }
                             }
 
-                            bulkUploadApDataset.BulkUploadInvoice!.CreatedBy = userEmail;
-
-                            if (await _iBulkUploadRepo.AddApBulkUpload(bulkUploadApDataset, ct))
-                            {
-                                // email the originator that their file has been successfully uploaded.
-                                await _iEmailService.EmailBulkUploadSuccess(userEmail, fileName, bulkUploadApDataset.BulkUploadInvoice.Id, ct);
-
-                                response.BulkUploadApDataset = bulkUploadApDataset;
-                            }
                         }
                         else
                         {
