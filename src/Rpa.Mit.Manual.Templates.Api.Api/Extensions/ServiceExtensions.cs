@@ -9,6 +9,7 @@ using Rpa.Mit.Manual.Templates.Api.Api.Azure;
 using Rpa.Mit.Manual.Templates.Api.Api.Services;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
 using Rpa.Mit.Manual.Templates.Api.Api.MitAzure;
+using Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Admin.Approvers;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Extensions;
 [ExcludeFromCodeCoverage]
@@ -16,6 +17,9 @@ public static class ServiceExtensions
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
+        
+        services.AddTransient<IApproversAdminRepo, ApproversAdminRepo>();
+
         services.AddTransient<IApprovalsRepo, ApprovalsRepo>(); 
         services.AddTransient<IApproversRepo, ApproversRepo>();
         services.AddTransient<IBulkUploadRepo, BulkUploadRepo>();
