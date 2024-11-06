@@ -215,7 +215,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
             using (var cn = new NpgsqlConnection(await DbConn()))
             {
                 if (cn.State != ConnectionState.Open)
-                    await cn.OpenAsync();
+                    await cn.OpenAsync(ct);
 
                 var dateApproved = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fffffff");
 
