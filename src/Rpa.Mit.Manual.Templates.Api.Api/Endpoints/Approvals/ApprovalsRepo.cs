@@ -94,40 +94,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
             }
         }
 
-        public async Task<IEnumerable<InvoiceRequestForAzure>> GetInvoiceRequestsForAzure(Guid invoiceId, CancellationToken ct)
-        {
-            using (var cn = new NpgsqlConnection(await DbConn()))
-            {
-                if (cn.State != ConnectionState.Open)
-                    await cn.OpenAsync(ct);
-
-                var invSql = "SELECT schemetype,reference,deliverybody FROM invoices WHERE id = @invoiceId";
-                var invParameters = new { invoiceId };
-                var invoice = await cn.QuerySingleAsync<Invoice>(invSql, invParameters);
-
-                var prSql = "SELECT invoicerequestid,ledger,frn,currency,marketingyear,claimreference AS invoiceNumber FROM invoicerequests WHERE invoiceid = @invoiceId";
-                var prParameters = new { invoiceId };
-                var invoiceRequests = await cn.QueryAsync<InvoiceRequestForAzure>(prSql, prParameters);
-
-                foreach (InvoiceRequestForAzure invoiceRequest in invoiceRequests)
-                {
-                    invoiceRequest.invoiceNumber = invoiceId.ToString();
-                    invoiceRequest.deliveryBody = invoice.DeliveryBody;
-                    invoiceRequest.agreementNumber = "TEST-AFBA-29E2";
-                    invoiceRequest.paymentRequestNumber = 10;
-
-                    // get the invoice lines
-                    var invLineSql = "SELECT value, description, fundcode, mainaccount AS accountCode, schemecode, marketingyear, deliverybodycode FROM invoicelines WHERE invoicerequestid = @invoicerequestid";
-                    var invLineParameters = new { invoicerequestid = invoiceRequest.InvoiceRequestId };
-                    invoiceRequest.invoiceLines = await cn.QueryAsync<InvoiceLineForAzure>(invLineSql, invLineParameters);
-
-                    invoiceRequest.value = invoiceRequest.invoiceLines.Sum(x => x.value);
-                }
-
-                return invoiceRequests;
-            }
-        }
-
         public async Task<bool> RejectInvoice(InvoiceRejection invoiceRejection, CancellationToken ct)
         {
             using (var cn = new NpgsqlConnection(await DbConn()))
@@ -176,6 +142,41 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
             }
         }
 
+        public async Task<IEnumerable<InvoiceRequestForAzure>> GetInvoiceRequestsForAzure(Guid invoiceId, CancellationToken ct)
+        {
+            using (var cn = new NpgsqlConnection(await DbConn()))
+            {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
+                var invSqlAp = "SELECT schemetype,reference,deliverybody FROM invoices WHERE id = @invoiceId";
+                var invParametersAp = new { invoiceId };
+                var invoice = await cn.QuerySingleAsync<Invoice>(invSqlAp, invParametersAp);
+
+                var prSqlAp = "SELECT invoicerequestid,ledger,frn,currency,marketingyear,claimreference AS invoiceNumber FROM invoicerequests WHERE invoiceid = @invoiceId";
+                var prParametersAr = new { invoiceId };
+                var invoiceRequestsAp = await cn.QueryAsync<InvoiceRequestForAzure>(prSqlAp, prParametersAr);
+
+                foreach (InvoiceRequestForAzure invoiceRequestAp in invoiceRequestsAp)
+                {
+                    invoiceRequestAp.invoiceNumber = invoiceId.ToString();
+                    invoiceRequestAp.deliveryBody = invoice.DeliveryBody;
+                    invoiceRequestAp.agreementNumber = "TEST-AP";
+                    invoiceRequestAp.paymentRequestNumber = 10;
+
+                    // get the invoice lines
+                    var invLineSqlAp = "SELECT value, description, fundcode, mainaccount AS accountCode, schemecode, marketingyear, deliverybodycode FROM invoicelines WHERE invoicerequestid = @invoicerequestid";
+                    var invLineParametersAp = new { invoicerequestid = invoiceRequestAp.InvoiceRequestId };
+                    invoiceRequestAp.invoiceLinesAp = await cn.QueryAsync<InvoiceLineForAzure>(invLineSqlAp, invLineParametersAp);
+
+                    invoiceRequestAp.value = invoiceRequestAp.invoiceLinesAp.Sum(x => x.value);
+                }
+
+                return invoiceRequestsAp;
+            }
+        }
+
+
         public async Task<IEnumerable<InvoiceRequestArForAzure>> GetInvoiceRequestsArForAzure(Guid invoiceId, CancellationToken ct)
         {
             using (var cn = new NpgsqlConnection(await DbConn()))
@@ -195,7 +196,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
                 {
                     invoiceRequestAr.invoiceNumber = invoiceId.ToString();
                     invoiceRequestAr.deliveryBody = invoice.DeliveryBody;
-                    invoiceRequestAr.agreementNumber = "TEST-AFBA-29E2";
+                    invoiceRequestAr.agreementNumber = "TEST-AR";
                     invoiceRequestAr.paymentRequestNumber = 1;
 
                     // get the invoice lines

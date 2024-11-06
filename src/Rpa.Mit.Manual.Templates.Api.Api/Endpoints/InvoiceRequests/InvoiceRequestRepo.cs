@@ -299,9 +299,9 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests
                     // get the invoice lines
                     var invLineSql = "SELECT value, description, fundcode, mainaccount AS accountCode, schemecode, marketingyear, deliverybodycode FROM invoicelines WHERE invoicerequestid = @invoicerequestid";
                     var invLineParameters = new { invoicerequestid = invoiceRequestAp.InvoiceRequestId };
-                    invoiceRequestAp.invoiceLines = await cn.QueryAsync<InvoiceLineForAzure>(invLineSql, invLineParameters);
+                    invoiceRequestAp.invoiceLinesAp = await cn.QueryAsync<InvoiceLineForAzure>(invLineSql, invLineParameters);
 
-                    invoiceRequestAp.value = invoiceRequestAp.invoiceLines.Sum(x => x.value);
+                    invoiceRequestAp.value = invoiceRequestAp.invoiceLinesAp.Sum(x => x.value);
                 }
 
                 return invoiceRequestsAp;

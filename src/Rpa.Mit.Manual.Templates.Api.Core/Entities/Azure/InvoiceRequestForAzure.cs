@@ -9,6 +9,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure
     [ExcludeFromCodeCoverage]
     public sealed record InvoiceRequestForAzure : InvoiceRequestForAzureBase
     {
-        public IEnumerable<InvoiceLineForAzure> invoiceLines { get; set; } = Enumerable.Empty<InvoiceLineForAzure>();
+        public IEnumerable<InvoiceLineForAzure> invoiceLinesAp { get; set; } = Enumerable.Empty<InvoiceLineForAzure>();
     }
 }
