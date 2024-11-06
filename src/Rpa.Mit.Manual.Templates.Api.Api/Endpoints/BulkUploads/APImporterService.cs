@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
+using System.Xml.Schema;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
@@ -32,10 +33,9 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             // row 3 = start of data
 
             BulkUploadApDataset bulkUploadApDataset = new();
-            BulkUploadInvoice bulkUploadInvoice = new();
             decimal totalUploadedValue = 0.0M;
 
-            StringBuilder errors = new StringBuilder();
+            StringBuilder errors = new();
 
             var i = 0;
 
@@ -45,17 +45,14 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             var schemeCodes = await _iReferenceDataRepo.GetSchemeCodesReferenceData(ct);
             var deliveryBodies = await _iReferenceDataRepo.GetDeliveryBodiesReferenceData(ct);
 
+            BulkUploadInvoice bulkUploadInvoice = await CreateNewInvoice(data.Rows[4]);
+
             foreach (DataRow row in data.Rows)
             {
                 i++;
+
                 if (i < 4)
                     continue;
-
-                if (i == 4)
-                {
-                    // build the invoice
-                    bulkUploadInvoice = await CreateNewInvoice(row);
-                }
 
                 if (!string.IsNullOrEmpty(row[2].ToString()))
                 {
