@@ -71,7 +71,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     }
                     else
                     {
-                        var bulkUploadDetailLine = CreateBulkUploadApDetailLineFromRow(row);
+                        var bulkUploadDetailLine = CreateBulkUploadApDetailLineFromRow(row, description);
 
                         // for the databasee
                         bulkUploadApDataset.BulkUploadDetailLines!.Add(bulkUploadDetailLine);
@@ -87,7 +87,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     }
                     else
                     {
-                        var bulkUploadDetailLine = CreateBulkUploadApDetailLineFromRow(row);
+                        var bulkUploadDetailLine = CreateBulkUploadApDetailLineFromRow(row, description);
 
                         // this for the database
                         bulkUploadApDataset.BulkUploadDetailLines!.Add(bulkUploadDetailLine);
@@ -122,7 +122,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             }
         }
 
-        private BulkUploadApDetailLine CreateBulkUploadApDetailLineFromRow(DataRow row)
+        private BulkUploadApDetailLine CreateBulkUploadApDetailLineFromRow(DataRow row, string description)
         {
             var bulkUploadDetailLine = new BulkUploadApDetailLine
             {
