@@ -13,7 +13,7 @@ namespace BulkUploads.AddAp
         /// <summary>
         /// this is the initial org selection
         /// </summary>
-        public string Org { get; set; } = string.Empty;
+        public required string Org { get; set; }
 
         public string SchemeInvoiceTemplate { get; set; } = string.Empty;
 

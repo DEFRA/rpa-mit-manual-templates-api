@@ -2,8 +2,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
-using Microsoft.AspNetCore.Http.HttpResults;
-
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
@@ -61,18 +59,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
                 if (!string.IsNullOrEmpty(row[2].ToString()))
                 {
-                    var bulkUploadHeaderLine = new BulkUploadApHeaderLine
-                    {
-                        Ledger = "AP",
-                        InvoiceId = bulkUploadInvoice!.Id,
-                        InvoiceRequestId = row[2].ToString() + "_" + row[3].ToString(),
-                        ClaimReferenceNumber = row[2].ToString()!,
-                        ClaimReference = row[3].ToString()!,
-                        PaymentType = row[6].ToString()!,
-                        Frn = row[4].ToString()!,
-                        MarketingYear = row[24].ToString()!,
-                        Description = row[7].ToString()!
-                    };
+                    var bulkUploadHeaderLine = CreateBulkUploadApHeaderLineFromRow(bulkUploadInvoice!.Id, row);
 
                     bulkUploadInvoice.BulkUploadApHeaderLines!.Add(bulkUploadHeaderLine);
 
@@ -81,23 +68,10 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     if (string.IsNullOrEmpty(description))
                     {
                         errors.AppendFormat("Error in Line {0} Invalid account/scheme/deliverybody combination", i.ToString());
-
-                        // throw new Exception("Invalid account/scheme/deliverybody combination");
                     }
                     else
                     {
-                        var bulkUploadDetailLine = new BulkUploadApDetailLine
-                        {
-                            Id = Guid.NewGuid(),
-                            InvoiceRequestId = row[17].ToString() + "_" + row[18].ToString(),
-                            Value = decimal.Parse(row[19].ToString()!),
-                            FundCode = row[21].ToString()!,
-                            MainAccount = row[22].ToString()!,
-                            SchemeCode = row[23].ToString()!,
-                            DeliveryBodyCode = row[25].ToString()!,
-                            MarketingYear = row[24].ToString()!,
-                            Description = description
-                        };
+                        var bulkUploadDetailLine = CreateBulkUploadApDetailLineFromRow(row);
 
                         // for the databasee
                         bulkUploadApDataset.BulkUploadDetailLines!.Add(bulkUploadDetailLine);
@@ -110,25 +84,10 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     if (string.IsNullOrEmpty(description))
                     {
                         errors.AppendFormat("Error in Line {0} Invalid account/scheme/deliverybody combination", i.ToString());
-
-                        //throw new Exception("Invalid account/scheme/deliverybody combination");
                     }
                     else
                     {
-                        var invoiceRequestId = row[17].ToString() + "_" + row[18].ToString();
-
-                        var bulkUploadDetailLine = new BulkUploadApDetailLine
-                        {
-                            Id = Guid.NewGuid(),
-                            InvoiceRequestId = invoiceRequestId,
-                            Value = decimal.Parse(row[19].ToString()!),
-                            FundCode = row[21].ToString()!,
-                            SchemeCode = row[23].ToString()!,
-                            MainAccount = row[22].ToString()!,
-                            MarketingYear = row[24].ToString()!,
-                            DeliveryBodyCode = row[25].ToString()!,
-                            Description = description
-                        };
+                        var bulkUploadDetailLine = CreateBulkUploadApDetailLineFromRow(row);
 
                         // this for the database
                         bulkUploadApDataset.BulkUploadDetailLines!.Add(bulkUploadDetailLine);
@@ -161,6 +120,42 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
                 return bulkUploadApDataset;
             }
+        }
+
+        private BulkUploadApDetailLine CreateBulkUploadApDetailLineFromRow(DataRow row)
+        {
+            var bulkUploadDetailLine = new BulkUploadApDetailLine
+            {
+                Id = Guid.NewGuid(),
+                InvoiceRequestId = row[17].ToString() + "_" + row[18].ToString(),
+                Value = decimal.Parse(row[19].ToString()!),
+                FundCode = row[21].ToString()!,
+                MainAccount = row[22].ToString()!,
+                SchemeCode = row[23].ToString()!,
+                DeliveryBodyCode = row[25].ToString()!,
+                MarketingYear = row[24].ToString()!,
+                Description = description
+            };
+
+            return bulkUploadDetailLine;
+        }
+
+        private BulkUploadApHeaderLine CreateBulkUploadApHeaderLineFromRow(Guid invoiceId, DataRow row)
+        {
+            var bulkUploadHeaderLine = new BulkUploadApHeaderLine
+            {
+                Ledger = "AP",
+                InvoiceId = invoiceId,
+                InvoiceRequestId = row[2].ToString() + "_" + row[3].ToString(),
+                ClaimReferenceNumber = row[2].ToString()!,
+                ClaimReference = row[3].ToString()!,
+                PaymentType = row[6].ToString()!,
+                Frn = row[4].ToString()!,
+                MarketingYear = row[24].ToString()!,
+                Description = row[7].ToString()!
+            };
+
+            return bulkUploadHeaderLine;
         }
 
         private static async Task<BulkUploadInvoice> CreateNewInvoice(DataRow row)
