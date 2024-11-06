@@ -65,12 +65,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     }
                     else
                     {
-                        var bulkUploadDetailLine = CreateBulkUploadApDetailLineFromRow(row, description);
-
-                        if (!await _iValidationService.FundCodeIsValid(fundCodes, bulkUploadDetailLine.FundCode, org, ct))
-                        { 
-                            errors.AppendFormat("Invalid fund code in Line {0}", i.ToString()); 
-                        }
+                        var bulkUploadDetailLine = await CreateBulkUploadApDetailLineFromRow(fundCodes, row, errors, description, org, i, ct);
 
                         // for the databasee
                         bulkUploadApDataset.BulkUploadDetailLines!.Add(bulkUploadDetailLine);
@@ -86,12 +81,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     }
                     else
                     {
-                        var bulkUploadDetailLine = CreateBulkUploadApDetailLineFromRow(row, description);
-
-                        if (!await _iValidationService.FundCodeIsValid(fundCodes, bulkUploadDetailLine.FundCode, org, ct))
-                        {
-                            errors.AppendFormat("Invalid fund code in Line {0}", i.ToString());
-                        }
+                        var bulkUploadDetailLine = await CreateBulkUploadApDetailLineFromRow(fundCodes, row, errors, description, org, i, ct);
 
                         // this for the database
                         bulkUploadApDataset.BulkUploadDetailLines!.Add(bulkUploadDetailLine);
@@ -135,7 +125,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             }
         }
 
-        private static BulkUploadApDetailLine CreateBulkUploadApDetailLineFromRow(DataRow row, string description)
+        private async Task<BulkUploadApDetailLine> CreateBulkUploadApDetailLineFromRow(IEnumerable<FundCode> fundCodes, DataRow row, StringBuilder errors, string description, string org, int i, CancellationToken ct)
         {
             var bulkUploadDetailLine = new BulkUploadApDetailLine
             {
@@ -149,6 +139,11 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 MarketingYear = row[24].ToString()!,
                 Description = description
             };
+
+            if (!await _iValidationService.FundCodeIsValid(fundCodes, bulkUploadDetailLine.FundCode, org, ct))
+            {
+                errors.AppendFormat("Invalid fund code in Line {0}", i.ToString());
+            }
 
             return bulkUploadDetailLine;
         }
