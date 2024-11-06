@@ -70,7 +70,7 @@ namespace BulkUploads.AddAp
                             // import into our class structure
                             var importResult = await _iApImporterService.ImportAPData(dataTables["AP"]!, ct);
 
-                            if (importResult.Error.Length > 0)
+                            if (!string.IsNullOrEmpty(importResult.Error))
                             {
                                 response.Message = importResult.Error;
                             }
