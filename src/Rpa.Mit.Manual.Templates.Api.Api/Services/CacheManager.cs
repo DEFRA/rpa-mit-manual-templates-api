@@ -31,7 +31,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
             }
 
             CacheItemPolicy policy = new CacheItemPolicy();
-            policy.AbsoluteExpiration = DateTime.Now + TimeSpan.FromMinutes(cacheTime);
+            policy.AbsoluteExpiration = DateTime.Now + TimeSpan.FromHours(cacheTime);
 
             Cache.Add(new CacheItem(key, data), policy);
         }

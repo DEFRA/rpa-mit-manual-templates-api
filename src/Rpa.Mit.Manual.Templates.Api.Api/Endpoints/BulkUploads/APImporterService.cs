@@ -53,7 +53,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
                 if (!string.IsNullOrEmpty(row[2].ToString()))
                 {
-                    var bulkUploadHeaderLine = CreateBulkUploadApHeaderLineFromRow(bulkUploadInvoice!.Id, row);
+                    var bulkUploadHeaderLine = CreateHeaderLineFromRow(bulkUploadInvoice!.Id, row);
 
                     bulkUploadInvoice.BulkUploadApHeaderLines!.Add(bulkUploadHeaderLine);
 
@@ -65,7 +65,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     }
                     else
                     {
-                        var bulkUploadDetailLine = await CreateBulkUploadApDetailLineFromRow(fundCodes, row, errors, description, org, i, ct);
+                        var bulkUploadDetailLine = await CreateInvoiceLineFromRow(fundCodes, row, errors, description, org, i, ct);
 
                         // for the databasee
                         bulkUploadApDataset.BulkUploadDetailLines!.Add(bulkUploadDetailLine);
@@ -81,7 +81,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     }
                     else
                     {
-                        var bulkUploadDetailLine = await CreateBulkUploadApDetailLineFromRow(fundCodes, row, errors, description, org, i, ct);
+                        var bulkUploadDetailLine = await CreateInvoiceLineFromRow(fundCodes, row, errors, description, org, i, ct);
 
                         // this for the database
                         bulkUploadApDataset.BulkUploadDetailLines!.Add(bulkUploadDetailLine);
@@ -125,7 +125,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             }
         }
 
-        private async Task<BulkUploadApDetailLine> CreateBulkUploadApDetailLineFromRow(IEnumerable<FundCode> fundCodes, DataRow row, StringBuilder errors, string description, string org, int i, CancellationToken ct)
+        private async Task<BulkUploadApDetailLine> CreateInvoiceLineFromRow(IEnumerable<FundCode> fundCodes, DataRow row, StringBuilder errors, string description, string org, int i, CancellationToken ct)
         {
             var bulkUploadDetailLine = new BulkUploadApDetailLine
             {
@@ -148,7 +148,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             return bulkUploadDetailLine;
         }
 
-        private static BulkUploadApHeaderLine CreateBulkUploadApHeaderLineFromRow(Guid invoiceId, DataRow row)
+        private static BulkUploadApHeaderLine CreateHeaderLineFromRow(Guid invoiceId, DataRow row)
         {
             var bulkUploadHeaderLine = new BulkUploadApHeaderLine
             {
