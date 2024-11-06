@@ -13,7 +13,6 @@ namespace BulkUploads.AddAp
     {
         private readonly IBulkUploadRepo _iBulkUploadRepo;
         private readonly IApImporterService _iApImporterService;
-        private readonly IValidationService _iValidationService;
         private readonly IEmailService _iEmailService;
         private readonly ILogger<AddBulkUploadsApEndpoint> _logger;
 
@@ -21,14 +20,12 @@ namespace BulkUploads.AddAp
             IEmailService iEmailService,    
             ILogger<AddBulkUploadsApEndpoint> logger,
             IBulkUploadRepo iBulkUploadRepo,
-            IApImporterService iApImporterService,
-            IValidationService iValidationService)
+            IApImporterService iApImporterService)
         {
             _logger = logger;
             _iBulkUploadRepo = iBulkUploadRepo;
             _iEmailService = iEmailService;
             _iApImporterService = iApImporterService;
-            _iValidationService = iValidationService;
         }
 
         public override void Configure()
@@ -76,14 +73,6 @@ namespace BulkUploads.AddAp
                             }
                             else
                             {
-                                // now validate the import
-                                //var isValid = await _iValidationService.ApBulkUploadIsValid(importResult.BulkUploadImport, r.Org, ct);
-
-                                //if (!isValid)
-                                //{
-                                //    ThrowError("The supplied data are invalid!");
-                                //}
-
                                 importResult.BulkUploadImport.BulkUploadInvoice!.CreatedBy = userEmail;
 
                                 if (await _iBulkUploadRepo.AddApBulkUpload(importResult.BulkUploadImport, ct))
@@ -94,7 +83,6 @@ namespace BulkUploads.AddAp
                                     response.BulkUploadApDataset = importResult.BulkUploadImport;
                                 }
                             }
-
                         }
                         else
                         {

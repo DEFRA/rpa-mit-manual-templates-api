@@ -69,10 +69,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
                         var isValid = await _iValidationService.FundCodeIsValid(bulkUploadDetailLine.FundCode, org, ct);
 
-                        if (!isValid)
-                        { 
-                            errors.AppendFormat("Invalid fund code in Line {0}", i.ToString()); 
-                        }
+
 
                         // for the databasee
                         bulkUploadApDataset.BulkUploadDetailLines!.Add(bulkUploadDetailLine);
@@ -92,10 +89,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
                         var isValid = await _iValidationService.FundCodeIsValid(bulkUploadDetailLine.FundCode, org, ct);
 
-                        if (!isValid)
-                        {
-                            errors.AppendFormat("Invalid fund code in Line {0}", i.ToString());
-                        }
 
                         // this for the database
                         bulkUploadApDataset.BulkUploadDetailLines!.Add(bulkUploadDetailLine);
