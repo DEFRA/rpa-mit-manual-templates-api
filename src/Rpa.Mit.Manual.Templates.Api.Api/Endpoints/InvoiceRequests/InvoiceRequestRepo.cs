@@ -293,7 +293,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests
                 {
                     invoiceRequestAp.invoiceNumber = invoiceId.ToString();
                     invoiceRequestAp.deliveryBody = invoice.DeliveryBody;
-                    invoiceRequestAp.agreementNumber = "TEST-AFBA-29E2";
+                    invoiceRequestAp.agreementNumber = "TEST-AP;
                     invoiceRequestAp.paymentRequestNumber = 10;
 
                     // get the invoice lines
@@ -327,7 +327,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests
                 {
                     invoiceRequestAr.invoiceNumber = invoiceId.ToString();
                     invoiceRequestAr.deliveryBody = invoice.DeliveryBody;
-                    invoiceRequestAr.agreementNumber = "TEST-AFBA-29E2";
+                    invoiceRequestAr.agreementNumber = "TEST-AR";
                     invoiceRequestAr.paymentRequestNumber = 1;
 
                     // get the invoice lines
