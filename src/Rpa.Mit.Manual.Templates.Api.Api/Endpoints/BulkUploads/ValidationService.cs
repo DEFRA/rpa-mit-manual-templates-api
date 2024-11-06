@@ -23,15 +23,14 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
             var fundCodeIsValid = await FundCodeIsValid(bulkUploadApDataset.BulkUploadDetailLines, org, ct);
 
-
             return fundCodeIsValid;
         }
 
 
-        public async Task<bool> FundCodeIsValid(string fundcode, string org, CancellationToken ct)
+        public async Task<bool> FundCodeIsValid(IEnumerable<FundCode> fundCodes, string fundcode, string org, CancellationToken ct)
         {
-            var fundCodes = await _iReferenceDataRepo.GetFilteredFundcodes(org, ct);
-            
+            await Task.CompletedTask;
+
             return fundCodes.Any(p => p.Code.Contains(fundcode));
         }
 
