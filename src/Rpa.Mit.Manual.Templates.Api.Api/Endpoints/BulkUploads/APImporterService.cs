@@ -33,8 +33,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             // row 3 = start of data
 
             BulkUploadApDataset bulkUploadApDataset = new();
-            decimal totalUploadedValue = 0.0M;
-
             StringBuilder errors = new();
 
             var i = 0;
@@ -92,12 +90,19 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 }
             }
 
+            return ImportResult(errors, bulkUploadInvoice, bulkUploadApDataset);
+        }
+
+        private BulkUploadImportResult<BulkUploadApDataset, string> ImportResult(StringBuilder errors, BulkUploadInvoice bulkUploadInvoice, BulkUploadApDataset bulkUploadApDataset)
+        {
             if (errors.Length > 0)
             {
                 return errors.ToString();
             }
             else
             {
+                decimal totalUploadedValue = 0.0M;
+
                 // nest the data for returning json
                 foreach (var parent in bulkUploadInvoice.BulkUploadApHeaderLines!)
                 {
