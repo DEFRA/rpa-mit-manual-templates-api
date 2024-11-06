@@ -91,7 +91,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <param name="invoiceRequest"></param>
         /// <param name="ct"></param>
         /// <returns></returns>
-        Task<bool> UpdateInvoiceRequestWithPaymentHubResponse(PaymentHubResponseForDatabase paymentHubResponseForDatabase);
+        Task<bool> UpdateInvoiceRequestWithPaymentHubResponse(PaymentHubResponseForDatabase paymentHubResponseForDatabase, CancellationToken ct);
 
         /// <summary>
         /// gets a list of invoice requests that have errored in the payment hub.

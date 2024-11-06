@@ -162,12 +162,12 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests
             }
         }
 
-        public async Task<bool> UpdateInvoiceRequestWithPaymentHubResponse(PaymentHubResponseForDatabase paymentHubResponseForDatabase)
+        public async Task<bool> UpdateInvoiceRequestWithPaymentHubResponse(PaymentHubResponseForDatabase paymentHubResponseForDatabase, CancellationToken ct)
         {
             using (var cn = new NpgsqlConnection(await DbConn()))
             {
                 if (cn.State != ConnectionState.Open)
-                    await cn.OpenAsync();
+                    await cn.OpenAsync(ct);
 
                 var sql = "UPDATE invoicerequests SET paymenthubdateprocessed=@paymenthubdateprocessed,paymenthuberror=@error,paymenthubaccepted=@accepted WHERE invoicerequestid=@invoicerequestid";
 
