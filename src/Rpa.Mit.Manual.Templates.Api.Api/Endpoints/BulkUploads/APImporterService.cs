@@ -67,7 +67,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     {
                         var bulkUploadDetailLine = CreateBulkUploadApDetailLineFromRow(row, description);
 
-                        var isValid = await _iValidationService.FundCodeIsValid(bulkUploadDetailLine.FundCode, org, ct);
+                        //var isValid = await _iValidationService.FundCodeIsValid(bulkUploadDetailLine.FundCode, org, ct);
 
 
 
@@ -87,7 +87,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     {
                         var bulkUploadDetailLine = CreateBulkUploadApDetailLineFromRow(row, description);
 
-                        var isValid = await _iValidationService.FundCodeIsValid(bulkUploadDetailLine.FundCode, org, ct);
+                        //var isValid = await _iValidationService.FundCodeIsValid(bulkUploadDetailLine.FundCode, org, ct);
 
 
                         // this for the database
