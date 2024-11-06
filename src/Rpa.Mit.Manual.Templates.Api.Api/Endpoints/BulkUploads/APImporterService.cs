@@ -122,7 +122,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             }
         }
 
-        private BulkUploadApDetailLine CreateBulkUploadApDetailLineFromRow(DataRow row, string description)
+        private static BulkUploadApDetailLine CreateBulkUploadApDetailLineFromRow(DataRow row, string description)
         {
             var bulkUploadDetailLine = new BulkUploadApDetailLine
             {
@@ -140,7 +140,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             return bulkUploadDetailLine;
         }
 
-        private BulkUploadApHeaderLine CreateBulkUploadApHeaderLineFromRow(Guid invoiceId, DataRow row)
+        private static BulkUploadApHeaderLine CreateBulkUploadApHeaderLineFromRow(Guid invoiceId, DataRow row)
         {
             var bulkUploadHeaderLine = new BulkUploadApHeaderLine
             {

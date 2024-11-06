@@ -15,12 +15,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             _iReferenceDataRepo = iReferenceDataRepo;
         }
 
-        //public async Task<bool> ValidateUpload<T>(T bulkUploadDataset, string org, CancellationToken ct) where T : class
-        //{
-        //    var fundCodeIsValid = await FundCodeIsValid(bulkUploadDataset.BulkUploadDetailLines, org, ct);
-
-        //    return true;
-        //}
 
         #region AP Validation
 
@@ -41,22 +35,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
         /// <param name="ct"></param>
         /// <returns></returns>
         private async Task<bool> FundCodeIsValid(IEnumerable<BulkUploadApDetailLine> bulkUploadDetailLines, string org, CancellationToken ct)
-        {
-            var isValid = true;
-
-            var fundCodes = await _iReferenceDataRepo.GetFilteredFundcodes(org, ct);
-
-            foreach (BulkUploadApDetailLine detailLine in bulkUploadDetailLines)
-            {
-                isValid = fundCodes.Any(p => p.Code.Contains(detailLine.FundCode));
-
-                if (!isValid) { break; }
-            }
-
-            return isValid;
-        }
-
-        private async Task<bool> FrnIsValid(IEnumerable<BulkUploadApDetailLine> bulkUploadDetailLines, string org, CancellationToken ct)
         {
             var isValid = true;
 
