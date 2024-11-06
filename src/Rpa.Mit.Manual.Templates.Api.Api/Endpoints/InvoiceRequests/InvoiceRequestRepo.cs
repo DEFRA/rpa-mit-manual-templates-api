@@ -293,7 +293,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests
                 {
                     invoiceRequestAp.invoiceNumber = invoiceId.ToString();
                     invoiceRequestAp.deliveryBody = invoice.DeliveryBody;
-                    invoiceRequestAp.agreementNumber = "TEST-AP;
+                    invoiceRequestAp.agreementNumber = "TEST-AP";
                     invoiceRequestAp.paymentRequestNumber = 10;
 
                     // get the invoice lines
