@@ -68,7 +68,7 @@ namespace BulkUploads.AddAp
                         if (dataTables["AP"]?.Rows.Count > 4)
                         {
                             // import into our class structure
-                            var importResult = await _iApImporterService.ImportAPData(dataTables["AP"]!, ct);
+                            var importResult = await _iApImporterService.ImportAPData(dataTables["AP"]!, r.Org, ct);
 
                             if (!string.IsNullOrEmpty(importResult.Error))
                             {
@@ -77,12 +77,12 @@ namespace BulkUploads.AddAp
                             else
                             {
                                 // now validate the import
-                                var isValid = await _iValidationService.ApBulkUploadIsValid(importResult.BulkUploadImport, r.Org, ct);
+                                //var isValid = await _iValidationService.ApBulkUploadIsValid(importResult.BulkUploadImport, r.Org, ct);
 
-                                if (!isValid)
-                                {
-                                    ThrowError("The supplied data are invalid!");
-                                }
+                                //if (!isValid)
+                                //{
+                                //    ThrowError("The supplied data are invalid!");
+                                //}
 
                                 importResult.BulkUploadImport.BulkUploadInvoice!.CreatedBy = userEmail;
 

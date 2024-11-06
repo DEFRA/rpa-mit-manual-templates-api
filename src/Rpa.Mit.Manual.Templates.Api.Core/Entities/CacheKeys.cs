@@ -42,5 +42,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
         public const string AccountsAp = "_AccountsAp";
 
         public const string FundCodes = "_FundCodes";
+
+        public const string FundCodesFiltered = "_FundCodesFiltered";
     }
 }

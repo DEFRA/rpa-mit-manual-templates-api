@@ -1,7 +1,6 @@
 ﻿using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
-using System.Xml.Schema;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
@@ -9,7 +8,6 @@ using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 {
-
     /// <summary>
     /// Accounts Payable Importer
     /// </summary>
@@ -25,7 +23,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             _iValidationService = iValidationService;
         }
 
-        public async Task<BulkUploadImportResult<BulkUploadApDataset, string>> ImportAPData(DataTable data, CancellationToken ct)
+        public async Task<BulkUploadImportResult<BulkUploadApDataset, string>> ImportAPData(DataTable data, string org, CancellationToken ct)
         {
             // row 0, col 1 and row 0, col 16 have the 2 titles
             // row 1 is placeholder/empty
@@ -42,6 +40,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             var mainAccounts = await _iReferenceDataRepo.GetApMainAccountsReferenceData(ct);
             var schemeCodes = await _iReferenceDataRepo.GetSchemeCodesReferenceData(ct);
             var deliveryBodies = await _iReferenceDataRepo.GetDeliveryBodiesReferenceData(ct);
+            //var fundCodes = await _iReferenceDataRepo.GetFundcodes(ct);
 
             BulkUploadInvoice bulkUploadInvoice = await CreateNewInvoice(data.Rows[4]);
 
@@ -68,6 +67,13 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     {
                         var bulkUploadDetailLine = CreateBulkUploadApDetailLineFromRow(row, description);
 
+                        var isValid = await _iValidationService.FundCodeIsValid(bulkUploadDetailLine.FundCode, org, ct);
+
+                        if (!isValid)
+                        { 
+                            errors.AppendFormat("Invalid fund code in Line {0}", i.ToString()); 
+                        }
+
                         // for the databasee
                         bulkUploadApDataset.BulkUploadDetailLines!.Add(bulkUploadDetailLine);
                     }
@@ -84,6 +90,13 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     {
                         var bulkUploadDetailLine = CreateBulkUploadApDetailLineFromRow(row, description);
 
+                        var isValid = await _iValidationService.FundCodeIsValid(bulkUploadDetailLine.FundCode, org, ct);
+
+                        if (!isValid)
+                        {
+                            errors.AppendFormat("Invalid fund code in Line {0}", i.ToString());
+                        }
+
                         // this for the database
                         bulkUploadApDataset.BulkUploadDetailLines!.Add(bulkUploadDetailLine);
                     }
@@ -93,7 +106,9 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             return ImportResult(errors, bulkUploadInvoice, bulkUploadApDataset);
         }
 
-        private BulkUploadImportResult<BulkUploadApDataset, string> ImportResult(StringBuilder errors, BulkUploadInvoice bulkUploadInvoice, BulkUploadApDataset bulkUploadApDataset)
+        #region private methods
+
+        private static BulkUploadImportResult<BulkUploadApDataset, string> ImportResult(StringBuilder errors, BulkUploadInvoice bulkUploadInvoice, BulkUploadApDataset bulkUploadApDataset)
         {
             if (errors.Length > 0)
             {
@@ -172,5 +187,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
             return invoice;
         }
+
+        #endregion
     }
 }

@@ -27,6 +27,14 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             return fundCodeIsValid;
         }
 
+
+        public async Task<bool> FundCodeIsValid(string fundcode, string org, CancellationToken ct)
+        {
+            var fundCodes = await _iReferenceDataRepo.GetFilteredFundcodes(org, ct);
+            
+            return fundCodes.Any(p => p.Code.Contains(fundcode));
+        }
+
         /// <summary>
         /// iterate the uploaded detailLines. if there is any single one which doesn't contain a relevant fund code, bail.
         /// </summary>

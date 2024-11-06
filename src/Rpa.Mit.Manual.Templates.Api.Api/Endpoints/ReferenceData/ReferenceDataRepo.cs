@@ -201,9 +201,27 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
             });
         }
 
-        public async Task<IEnumerable<FundCode>> GetFilteredFundcodes(string org, CancellationToken ct)
+        public async Task<IEnumerable<FundCode>> GetFundcodes(CancellationToken ct)
         {
             string key = CacheKeys.FundCodes;
+
+            return await _iCacheManager.Get(key, async () =>
+            {
+                using (var cn = new NpgsqlConnection(await DbConn()))
+                {
+                    if (cn.State != ConnectionState.Open)
+                        await cn.OpenAsync(ct);
+
+                    var sql = @"SELECT code,description,org FROM lookup_fundcodes;";
+
+                    return await cn.QueryAsync<FundCode>(sql);
+                }
+            });
+        }
+
+        public async Task<IEnumerable<FundCode>> GetFilteredFundcodes(string org, CancellationToken ct)
+        {
+            string key = CacheKeys.FundCodesFiltered;
 
             IEnumerable<FundCode> fundCodes;
 
