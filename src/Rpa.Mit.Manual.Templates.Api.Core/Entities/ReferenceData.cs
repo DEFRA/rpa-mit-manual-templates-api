@@ -23,7 +23,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
         public IEnumerable<FundCode> FundCodes { get; set; } = Enumerable.Empty<FundCode>();
 
         public IEnumerable<AccountAp> AccountAps { get; set; } = Enumerable.Empty<AccountAp>();
-        public IEnumerable<AccountAr> AccountArs { get; set; } = Enumerable.Empty<AccountAr>();
+        public IEnumerable<MainAccount> AccountArs { get; set; } = Enumerable.Empty<MainAccount>();
 
         public IEnumerable<ChartOfAccounts> ChartOfAccountsAp { get; set; } = Enumerable.Empty<ChartOfAccounts>();
         public IEnumerable<ChartOfAccounts> ChartOfAccountsAr { get; set; } = Enumerable.Empty<ChartOfAccounts>();

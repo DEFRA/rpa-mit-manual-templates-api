@@ -53,7 +53,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
                 if (!string.IsNullOrEmpty(row[2].ToString()))
                 {
-                    var bulkUploadHeaderLine = CreateHeaderLineFromRow(bulkUploadInvoice!.Id, row);
+                    var bulkUploadHeaderLine = await CreateHeaderLineFromRow(bulkUploadInvoice!.Id, row, errors, i, ct);
 
                     bulkUploadInvoice.BulkUploadApHeaderLines!.Add(bulkUploadHeaderLine);
 
@@ -65,7 +65,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     }
                     else
                     {
-                        var bulkUploadDetailLine = await CreateInvoiceLineFromRow(fundCodes, row, errors, description, org, i, ct);
+                        var bulkUploadDetailLine = await CreateInvoiceLineFromRow(fundCodes, mainAccounts, row, errors, description, org, i, ct);
 
                         // for the databasee
                         bulkUploadApDataset.BulkUploadDetailLines!.Add(bulkUploadDetailLine);
@@ -81,7 +81,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     }
                     else
                     {
-                        var bulkUploadDetailLine = await CreateInvoiceLineFromRow(fundCodes, row, errors, description, org, i, ct);
+                        var bulkUploadDetailLine = await CreateInvoiceLineFromRow(fundCodes, mainAccounts, row, errors, description, org, i, ct);
 
                         // this for the database
                         bulkUploadApDataset.BulkUploadDetailLines!.Add(bulkUploadDetailLine);
@@ -125,7 +125,15 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             }
         }
 
-        private async Task<BulkUploadApDetailLine> CreateInvoiceLineFromRow(IEnumerable<FundCode> fundCodes, DataRow row, StringBuilder errors, string description, string org, int i, CancellationToken ct)
+        private async Task<BulkUploadApDetailLine> CreateInvoiceLineFromRow(
+            IEnumerable<FundCode> fundCodes,
+            IEnumerable<MainAccount> mainAccounts,
+            DataRow row, 
+            StringBuilder errors, 
+            string description, 
+            string org, 
+            int i, 
+            CancellationToken ct)
         {
             var bulkUploadDetailLine = new BulkUploadApDetailLine
             {
@@ -145,10 +153,20 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 errors.AppendFormat("Invalid fund code in Line {0}", i.ToString());
             }
 
+            if (!await _iValidationService.MainAccountIsValid(mainAccounts, bulkUploadDetailLine.MainAccount, org, ct))
+            {
+                errors.AppendFormat("Invalid main account in Line {0}", i.ToString());
+            }
+
             return bulkUploadDetailLine;
         }
 
-        private static BulkUploadApHeaderLine CreateHeaderLineFromRow(Guid invoiceId, DataRow row)
+        private async Task<BulkUploadApHeaderLine> CreateHeaderLineFromRow(
+            Guid invoiceId, 
+            DataRow row,
+            StringBuilder errors,
+            int i,
+            CancellationToken ct)
         {
             var bulkUploadHeaderLine = new BulkUploadApHeaderLine
             {
@@ -162,6 +180,12 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 MarketingYear = row[24].ToString()!,
                 Description = row[7].ToString()!
             };
+
+
+            if (!await _iValidationService.InvoiceRequestIdHasCorrectLength(bulkUploadHeaderLine.InvoiceRequestId, ct))
+            {
+                errors.AppendFormat("Invoice Request Id has incorrect length in Line {0}", i.ToString());
+            }
 
             return bulkUploadHeaderLine;
         }

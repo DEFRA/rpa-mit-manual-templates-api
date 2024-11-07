@@ -171,7 +171,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
         /// <param name="org"></param>
         /// <param name="mainAccount"></param>
         /// <returns></returns>
-        private static string GetDebtType(IEnumerable<AccountAr> mainAccounts, string org, string mainAccount)
+        private static string GetDebtType(IEnumerable<MainAccount> mainAccounts, string org, string mainAccount)
                                                         => mainAccounts.Single(x => x.Org == org && x.Code == mainAccount).Type!;
     }
 }

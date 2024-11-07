@@ -18,11 +18,26 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
         #region AP Validation
 
+        //TODO: rework properly
         public async Task<bool> FundCodeIsValid(IEnumerable<FundCode> fundCodes, string fundcode, string org, CancellationToken ct)
         {
-            await Task.CompletedTask;
+            bool result;
 
-            return fundCodes.Any(p => p.Code.Contains(fundcode));
+            return await Task.Run(() => result = fundCodes.Any(p => p.Code.Contains(fundcode) && p.Org == org));
+        }
+
+        public async Task<bool> MainAccountIsValid(IEnumerable<MainAccount> mainAccounts, string mainAccount, string org, CancellationToken ct)
+        {
+            bool result;
+
+            return await Task.Run(() => result = mainAccounts.Any(p => p.Code == mainAccount &&  p.Org == org));
+        }
+
+        public async Task<bool> InvoiceRequestIdHasCorrectLength(string invoiceRequestId, CancellationToken ct)
+        {
+            bool result;
+
+            return await Task.Run(() => result = invoiceRequestId.Length == 20);
         }
 
         #endregion
@@ -62,7 +77,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
         public string? GetChartOfAccountDescription(
                                                     IEnumerable<ChartOfAccounts> chartOfAccounts, 
-                                                    IEnumerable<AccountAr> accountsAp, 
+                                                    IEnumerable<MainAccount> accountsAp, 
                                                     IEnumerable<SchemeType> schemeTypes, 
                                                     IEnumerable<DeliveryBody> deliveryBodies, 
                                                     string mainAccount, 

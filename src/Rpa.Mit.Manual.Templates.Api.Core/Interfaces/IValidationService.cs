@@ -6,12 +6,22 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
     {
         Task<bool> FundCodeIsValid(IEnumerable<FundCode> fundCodes, string fundcode, string org, CancellationToken ct);
 
+        Task<bool> MainAccountIsValid(IEnumerable<MainAccount> mainAccounts, string mainAccount, string org, CancellationToken ct);
+
+        /// <summary>
+        /// requires a length of 20
+        /// </summary>
+        /// <param name="invoiceRequestId"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        Task<bool> InvoiceRequestIdHasCorrectLength(string invoiceRequestId, CancellationToken ct);
+
         Task<bool> ArBulkUploadIsValid(BulkUploadArDataset bulkUploadArDataset, string org, CancellationToken ct);
 
 
         string? GetChartOfAccountDescription(
                                                 IEnumerable<ChartOfAccounts> chartOfAccounts,
-                                                IEnumerable<AccountAr> accountsAp,
+                                                IEnumerable<MainAccount> accountsAp,
                                                 IEnumerable<SchemeType> schemeTypes,
                                                 IEnumerable<DeliveryBody> deliveryBodies,
                                                 string mainAccount,

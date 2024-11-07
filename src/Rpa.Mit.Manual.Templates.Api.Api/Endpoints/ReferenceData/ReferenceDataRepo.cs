@@ -68,7 +68,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
                     referenceData.MarketingYears = await res.ReadAsync<MarketingYear>();
                     referenceData.FundCodes = await res.ReadAsync<FundCode>();
                     referenceData.AccountAps = await res.ReadAsync<AccountAp>();
-                    referenceData.AccountArs = await res.ReadAsync<AccountAr>();
+                    referenceData.AccountArs = await res.ReadAsync<MainAccount>();
 
                     referenceData.ChartOfAccountsAp = await res.ReadAsync<ChartOfAccounts>();
                     referenceData.ChartOfAccountsAr = await res.ReadAsync<ChartOfAccounts>();
@@ -157,11 +157,11 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
             });
         }
 
-        public async Task<IEnumerable<AccountAr>> GetApMainAccountsReferenceData(CancellationToken ct)
+        public async Task<IEnumerable<MainAccount>> GetApMainAccountsReferenceData(CancellationToken ct)
         {
             string key = CacheKeys.AccountsAp;
 
-            IEnumerable<AccountAr> accountsAp;
+            IEnumerable<MainAccount> accountsAp;
 
             return await _iCacheManager.Get(key, async () =>
             {
@@ -172,18 +172,18 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
 
                     var sql = @"SELECT code,description,org FROM lookup_accounts_ap;";
 
-                    accountsAp = await cn.QueryAsync<AccountAr>(sql);
+                    accountsAp = await cn.QueryAsync<MainAccount>(sql);
 
                     return accountsAp;
                 }
             });
         }
 
-        public async Task<IEnumerable<AccountAr>> GetArMainAccountsReferenceData(CancellationToken ct)
+        public async Task<IEnumerable<MainAccount>> GetArMainAccountsReferenceData(CancellationToken ct)
         {
             string key = CacheKeys.AccountsAr;
 
-            IEnumerable<AccountAr> accountsAr;
+            IEnumerable<MainAccount> accountsAr;
 
             return await _iCacheManager.Get(key, async () =>
             {
@@ -194,7 +194,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
 
                     var sql = @"SELECT code,description,org,type FROM lookup_accounts_ar;";
 
-                    accountsAr = await cn.QueryAsync<AccountAr>(sql);
+                    accountsAr = await cn.QueryAsync<MainAccount>(sql);
 
                     return accountsAr;
                 }

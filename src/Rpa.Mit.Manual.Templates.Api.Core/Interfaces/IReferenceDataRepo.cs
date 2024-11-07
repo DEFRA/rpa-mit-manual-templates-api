@@ -40,14 +40,14 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// </summary>
         /// <param name="ct"></param>
         /// <returns></returns>
-        public Task<IEnumerable<AccountAr>> GetApMainAccountsReferenceData(CancellationToken ct);
+        public Task<IEnumerable<MainAccount>> GetApMainAccountsReferenceData(CancellationToken ct);
 
         /// <summary>
         /// cached set of lookup_accounts_ar data
         /// </summary>
         /// <param name="ct"></param>
         /// <returns></returns>
-        public Task<IEnumerable<AccountAr>> GetArMainAccountsReferenceData(CancellationToken ct);
+        public Task<IEnumerable<MainAccount>> GetArMainAccountsReferenceData(CancellationToken ct);
 
 
         /// <summary>
