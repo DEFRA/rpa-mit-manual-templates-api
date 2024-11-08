@@ -16,6 +16,13 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <returns></returns>
         Task<bool> InvoiceRequestIdHasCorrectLength(string invoiceRequestId, CancellationToken ct);
 
+        /// <summary>
+        /// Test Invoice Request amount - is within range set by Finance < Abs(1 billion) (this is the total for each Invoice Request)
+        /// </summary>
+        /// <param name="invoiceRequestAmount"></param>
+        /// <returns></returns>
+        Task<bool> InvoiceRequestAmountIsOk(decimal invoiceRequestAmount);
+
 
         /// <summary>
         /// 

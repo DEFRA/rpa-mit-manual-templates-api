@@ -46,18 +46,26 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
             if(await Task.Run(() => int.TryParse(customerId, out cId)))
             {
-                // If dBody = "SPS" Or dBody = "DF" Or strOrg = "RDT" Then 'SBI or FRN allowed so id length must be integer greater than 8 and less than 11
+                // If schemeInvoiceTemplate = "SPS" Or schemeInvoiceTemplate = "DF" Or org = "RDT" Then 'SBI or FRN allowed so id length must be integer greater than 8 and less than 11
                 if (schemeInvoiceTemplate == "SPS" || schemeInvoiceTemplate == "DF" || org == "RDT")
                 {
                     return cId.ToString().Length > 8 && cId.ToString().Length < 11;
                 }
 
+                // if org = "NE" then Vendor ID or FRN is allowed else only FRN is allowed
                 return org == "NE" ?  cId.ToString().Length > 5 && cId.ToString().Length < 11: cId.ToString().Length == 10;
             }
             else
             {
                 return false;
             }
+        }
+
+        public async Task<bool> InvoiceRequestAmountIsOk(decimal invoiceRequestAmount)
+        {
+            bool result;
+
+            return await Task.Run(() => result = invoiceRequestAmount < -999999999 || invoiceRequestAmount > 999999999);
         }
 
         #endregion
