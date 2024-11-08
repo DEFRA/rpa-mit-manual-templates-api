@@ -49,31 +49,10 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 // If dBody = "SPS" Or dBody = "DF" Or strOrg = "RDT" Then 'SBI or FRN allowed so id length must be integer greater than 8 and less than 11
                 if (schemeInvoiceTemplate == "SPS" || schemeInvoiceTemplate == "DF" || org == "RDT")
                 {
-                    if (cId.ToString().Length > 8 && cId.ToString().Length < 11)
-                    {
-                        return true;
-                    }
-
-                    return false;
+                    return cId.ToString().Length > 8 && cId.ToString().Length < 11;
                 }
-                else if(org == "NE") // Vendor ID or FRN is allowed - integer and longer than 5 and shorter than 11 digits
-                {
-                    if (cId.ToString().Length > 5 && cId.ToString().Length < 11)
-                    {
-                        return true;
-                    }
 
-                    return false;
-                }
-                else   // Only FRN is allowed -  integer 10 digits long
-                {
-                    if (cId.ToString().Length == 10)
-                    {
-                        return true;
-                    }
-
-                    return false;
-                }
+                return org == "NE" ?  cId.ToString().Length > 5 && cId.ToString().Length < 11: cId.ToString().Length == 10;
             }
             else
             {
