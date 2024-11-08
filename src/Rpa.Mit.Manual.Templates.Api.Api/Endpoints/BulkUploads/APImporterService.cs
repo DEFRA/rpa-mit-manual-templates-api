@@ -23,7 +23,11 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             _iValidationService = iValidationService;
         }
 
-        public async Task<BulkUploadImportResult<BulkUploadApDataset, string>> ImportAPData(DataTable data, string org, CancellationToken ct)
+        public async Task<BulkUploadImportResult<BulkUploadApDataset, string>> ImportAPData(
+            DataTable data, 
+            string org, 
+            string schemeInvoiceTemplate, 
+            CancellationToken ct)
         {
             // row 0, col 1 and row 0, col 16 have the 2 titles
             // row 1 is placeholder/empty
@@ -53,7 +57,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
                 if (!string.IsNullOrEmpty(row[2].ToString()))
                 {
-                    var bulkUploadHeaderLine = await CreateHeaderLineFromRow(bulkUploadInvoice!.Id, row, errors, i, ct);
+                    var bulkUploadHeaderLine = await CreateHeaderLineFromRow(bulkUploadInvoice!.Id, row, org, schemeInvoiceTemplate, i, ct);
 
                     bulkUploadInvoice.BulkUploadApHeaderLines!.Add(bulkUploadHeaderLine);
 
@@ -162,13 +166,17 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 bulkUploadDetailLine.Error.AppendFormat("Invalid main account in Line {0}", i.ToString());
             }
 
+
+
+
             return bulkUploadDetailLine;
         }
 
         private async Task<BulkUploadApHeaderLine> CreateHeaderLineFromRow(
             Guid invoiceId, 
             DataRow row,
-            StringBuilder errors,
+            string org,
+            string schemeInvoiceTemplate,
             int i,
             CancellationToken ct)
         {
@@ -182,13 +190,19 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 PaymentType = row[6].ToString()!,
                 Frn = row[4].ToString()!,
                 MarketingYear = row[24].ToString()!,
-                Description = row[7].ToString()!
+                Description = row[7].ToString()!,
+                Error = new StringBuilder()
             };
 
 
             if (!await _iValidationService.InvoiceRequestIdHasCorrectLength(bulkUploadHeaderLine.InvoiceRequestId, ct))
             {
-                errors.AppendFormat("Invoice Request Id has incorrect length in Line {0}", i.ToString());
+                bulkUploadHeaderLine.Error.AppendFormat("Invoice Request Id has incorrect length in Line {0}", i.ToString());
+            }
+
+            if (!await _iValidationService.CustomerIdIsValid(bulkUploadHeaderLine.Frn, org, schemeInvoiceTemplate, ct))
+            {
+                bulkUploadHeaderLine.Error.AppendFormat("Invalid customer id in Line {0}", i.ToString());
             }
 
             return bulkUploadHeaderLine;

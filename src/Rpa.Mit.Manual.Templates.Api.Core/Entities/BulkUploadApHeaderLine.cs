@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Text;
 
 namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 {
@@ -38,6 +39,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
         public decimal TotalAmount { get; set; } = 0.0M;
 
         public string Description { get; set; } = string.Empty;
+
+        public StringBuilder? Error { get; set; }
 
         public List<BulkUploadApDetailLine>? BulkUploadApDetailLines { get; set; }
     }

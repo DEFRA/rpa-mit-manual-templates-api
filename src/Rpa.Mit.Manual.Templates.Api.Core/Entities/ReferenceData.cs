@@ -10,7 +10,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
         public IEnumerable<SchemeInvoiceTemplate> SchemeInvoiceTemplates { get; set; } = Enumerable.Empty<SchemeInvoiceTemplate>();
         public IEnumerable<SchemeInvoiceTemplateSecondaryQuestion> SchemeInvoiceTemplateSecondaryQuestions { get; set; } = Enumerable.Empty<SchemeInvoiceTemplateSecondaryQuestion>();
 
-        public IEnumerable<SchemeType> SchemeTypes { get; set; } = Enumerable.Empty<SchemeType>();
         public IEnumerable<PaymentType> PaymentTypes { get; set; } = Enumerable.Empty<PaymentType>();
         public IEnumerable<SchemeCode> SchemeCodes { get; set; } = Enumerable.Empty<SchemeCode>();
 

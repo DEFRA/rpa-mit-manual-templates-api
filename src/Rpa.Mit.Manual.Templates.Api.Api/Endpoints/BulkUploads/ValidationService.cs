@@ -40,14 +40,14 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             return await Task.Run(() => result = invoiceRequestId.Length == 20);
         }
 
-        public async Task<bool> CustomerIdIsValid(string customerId, string org, string deliveryBody, CancellationToken ct)
+        public async Task<bool> CustomerIdIsValid(string customerId, string org, string schemeInvoiceTemplate, CancellationToken ct)
         {
             int cId = 0;
 
             if(await Task.Run(() => int.TryParse(customerId, out cId)))
             {
                 // If dBody = "SPS" Or dBody = "DF" Or strOrg = "RDT" Then 'SBI or FRN allowed so id length must be integer greater than 8 and less than 11
-                if (deliveryBody == "SPS" || deliveryBody == "DF" || org == "RDT")
+                if (schemeInvoiceTemplate == "SPS" || schemeInvoiceTemplate == "DF" || org == "RDT")
                 {
                     if (cId.ToString().Length > 8 && cId.ToString().Length < 11)
                     {

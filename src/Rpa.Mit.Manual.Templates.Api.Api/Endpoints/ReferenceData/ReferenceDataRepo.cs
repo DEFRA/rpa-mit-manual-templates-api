@@ -42,7 +42,6 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
                         SELECT name, code, deliverybodycode FROM lookup_schemeinvoicetemplates;
                         SELECT id, name FROM lookup_schemeinvoicetemplatessecondaryrpaquestions;
                         SELECT code, description FROM lookup_paymenttypes;
-                        SELECT code, description FROM lookup_schemetypes;
                         SELECT code, description, org FROM lookup_schemecodes;
                         SELECT code, description FROM lookup_accountcodes;
                         SELECT code, description, org FROM lookup_deliverybodycodes;
@@ -61,7 +60,6 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
                     referenceData.SchemeInvoiceTemplates = await res.ReadAsync<SchemeInvoiceTemplate>();
                     referenceData.SchemeInvoiceTemplateSecondaryQuestions = await res.ReadAsync<SchemeInvoiceTemplateSecondaryQuestion>();
                     referenceData.PaymentTypes = await res.ReadAsync<PaymentType>();
-                    referenceData.SchemeTypes = await res.ReadAsync<SchemeType>();
                     referenceData.SchemeCodes = await res.ReadAsync<SchemeCode>();
                     referenceData.AccountCodes = await res.ReadAsync<AccountCode>();
                     referenceData.DeliveryBodies = await res.ReadAsync<DeliveryBody>();

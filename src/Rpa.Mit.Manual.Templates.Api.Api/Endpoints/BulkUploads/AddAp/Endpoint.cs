@@ -65,7 +65,7 @@ namespace BulkUploads.AddAp
                         if (dataTables["AP"]?.Rows.Count > 4)
                         {
                             // import into our class structure
-                            var importResult = await _iApImporterService.ImportAPData(dataTables["AP"]!, r.Org, ct);
+                            var importResult = await _iApImporterService.ImportAPData(dataTables["AP"]!, r.Org, r.SchemeInvoiceTemplate, ct);
 
                             if (!string.IsNullOrEmpty(importResult.Error))
                             {

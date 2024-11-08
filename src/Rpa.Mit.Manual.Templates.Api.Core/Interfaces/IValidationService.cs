@@ -23,7 +23,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <param name="customerId"></param>
         /// <param name="ct"></param>
         /// <returns></returns>
-        Task<bool> CustomerIdIsValid(string customerId, string org, string deliveryBody, CancellationToken ct);
+        Task<bool> CustomerIdIsValid(string customerId, string org, string schemeInvoiceTemplate, CancellationToken ct);
 
         Task<bool> ArBulkUploadIsValid(BulkUploadArDataset bulkUploadArDataset, string org, CancellationToken ct);
 
