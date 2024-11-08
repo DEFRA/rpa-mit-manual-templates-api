@@ -16,6 +16,23 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <returns></returns>
         Task<bool> InvoiceRequestIdHasCorrectLength(string invoiceRequestId, CancellationToken ct);
 
+        /// <summary>
+        /// check that there are no duplicate invoice request ids in the import
+        /// NB: this is handled by the database primary key and so not implemented here in code.
+        /// </summary>
+        /// <param name="invoiceRequestId"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        Task<bool> DataHasNoDuplicateInvoiceRequestIds();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        Task<bool> CustomerIdIsValid(string customerId, string org, string deliveryBody, CancellationToken ct);
+
         Task<bool> ArBulkUploadIsValid(BulkUploadArDataset bulkUploadArDataset, string org, CancellationToken ct);
 
 

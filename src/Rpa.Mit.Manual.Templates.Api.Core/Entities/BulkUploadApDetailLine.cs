@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Text;
 
 namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 {
@@ -26,5 +27,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
         ///  strDES = strACC & " / " & strSCH & " / " & strDB 
         /// </summary>
         public string Description { get; set; } = string.Empty;
+
+        public StringBuilder? Error { get; set; }
     }
 }

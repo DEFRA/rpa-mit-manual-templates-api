@@ -65,7 +65,9 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     }
                     else
                     {
-                        var bulkUploadDetailLine = await CreateInvoiceLineFromRow(fundCodes, mainAccounts, row, errors, description, org, i, ct);
+                        var bulkUploadDetailLine = await CreateInvoiceLineFromRow(fundCodes, mainAccounts, row, description, org, i, ct);
+                        
+                        errors.AppendFormat(bulkUploadDetailLine.Error!.ToString());
 
                         // for the databasee
                         bulkUploadApDataset.BulkUploadDetailLines!.Add(bulkUploadDetailLine);
@@ -81,7 +83,9 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     }
                     else
                     {
-                        var bulkUploadDetailLine = await CreateInvoiceLineFromRow(fundCodes, mainAccounts, row, errors, description, org, i, ct);
+                        var bulkUploadDetailLine = await CreateInvoiceLineFromRow(fundCodes, mainAccounts, row, description, org, i, ct);
+                        
+                        errors.AppendFormat(bulkUploadDetailLine.Error!.ToString());
 
                         // this for the database
                         bulkUploadApDataset.BulkUploadDetailLines!.Add(bulkUploadDetailLine);
@@ -129,7 +133,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             IEnumerable<FundCode> fundCodes,
             IEnumerable<MainAccount> mainAccounts,
             DataRow row, 
-            StringBuilder errors, 
             string description, 
             string org, 
             int i, 
@@ -145,17 +148,18 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 SchemeCode = row[23].ToString()!,
                 DeliveryBodyCode = row[25].ToString()!,
                 MarketingYear = row[24].ToString()!,
-                Description = description
+                Description = description,
+                Error = new StringBuilder()
             };
 
             if (!await _iValidationService.FundCodeIsValid(fundCodes, bulkUploadDetailLine.FundCode, org, ct))
             {
-                errors.AppendFormat("Invalid fund code in Line {0}", i.ToString());
+                bulkUploadDetailLine.Error.AppendFormat("Invalid fund code in Line {0}", i.ToString());
             }
 
             if (!await _iValidationService.MainAccountIsValid(mainAccounts, bulkUploadDetailLine.MainAccount, org, ct))
             {
-                errors.AppendFormat("Invalid main account in Line {0}", i.ToString());
+                bulkUploadDetailLine.Error.AppendFormat("Invalid main account in Line {0}", i.ToString());
             }
 
             return bulkUploadDetailLine;
