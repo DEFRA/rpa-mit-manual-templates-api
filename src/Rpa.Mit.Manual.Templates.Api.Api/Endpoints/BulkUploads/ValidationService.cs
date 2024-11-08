@@ -40,11 +40,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             return await Task.Run(() => result = invoiceRequestId.Length == 20);
         }
 
-        public async Task<bool> DataHasNoDuplicateInvoiceRequestIds()
-        {
-            return false;
-        }
-
         public async Task<bool> CustomerIdIsValid(string customerId, string org, string deliveryBody, CancellationToken ct)
         {
             int cId = 0;
