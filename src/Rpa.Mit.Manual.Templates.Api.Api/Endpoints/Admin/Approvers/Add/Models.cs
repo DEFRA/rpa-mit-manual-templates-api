@@ -11,7 +11,7 @@ namespace AdminAdd
         public required string Email { get; set; }
         public required string DeliveryBody { get; set; }
         public required string SchemeCode { get; set; }
-        public int? Threshold { get; set; }
+        public required int Threshold { get; set; }
 
         internal sealed class Validator : Validator<Request>
         {
