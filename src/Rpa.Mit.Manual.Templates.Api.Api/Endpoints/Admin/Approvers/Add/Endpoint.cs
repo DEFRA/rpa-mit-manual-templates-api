@@ -20,7 +20,7 @@ namespace AdminAdd
 
         public override void Configure()
         {
-            Get("admin/approvers/add");
+            Post("admin/approvers/add");
         }
 
         public override async Task HandleAsync(Request r, CancellationToken ct)
