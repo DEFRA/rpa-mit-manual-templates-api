@@ -111,7 +111,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Admin.Approvers
 
                 const string deleteQuery = "DELETE lookup_approvers WHERE email = @email, deliverybody = @deliverybody";
 
-                var rowsAffected = await cn.ExecuteScalarAsync<int>(deleteQuery, new { email, deliverybody });
+                var rowsAffected = await cn.ExecuteAsync(deleteQuery, new { email, deliverybody });
 
                 return rowsAffected == 1;
             }
