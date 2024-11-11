@@ -82,7 +82,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Admin.Approvers
                     await cn.OpenAsync(ct);
 
                 const string insertQuery = "INSERT INTO lookup_approvers (email, deliverybody, schemecode, threshold) VALUES (@Email, @DeliveryBody, @SchemeCode, @Threshold)";
-                var rowsAffected = await cn.ExecuteScalarAsync<int>(insertQuery, new { adminApprover });
+                var rowsAffected = await cn.ExecuteAsync(insertQuery, adminApprover);
                 return rowsAffected == 1;
             }
         }
