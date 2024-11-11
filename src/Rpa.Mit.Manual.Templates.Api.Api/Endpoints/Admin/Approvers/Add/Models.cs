@@ -7,7 +7,6 @@ namespace AdminAdd
     [ExcludeFromCodeCoverage]
     internal sealed class Request
     {
-
         public required string Email { get; set; }
         public required string DeliveryBody { get; set; }
         public required string SchemeCode { get; set; }
