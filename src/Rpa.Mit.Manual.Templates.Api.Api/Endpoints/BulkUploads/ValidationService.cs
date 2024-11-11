@@ -19,11 +19,16 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
         #region AP Validation
 
         //TODO: rework properly
-        public async Task<bool> FundCodeIsValid(IEnumerable<FundCode> fundCodes, string fundcode, string org, CancellationToken ct)
+        public async Task<bool> FundCodeIsValid(IEnumerable<FundCode> fundCodes, string fundcode, string mainAccount, CancellationToken ct)
         {
-            bool result;
-
-            return await Task.Run(() => result = fundCodes.Any(p => p.Code.Contains(fundcode) && p.Org == org));
+            if ((mainAccount == "SOS228" || mainAccount == "SOS229") && fundcode != "EXQ00")
+            {
+                return await Task.Run(() => false);
+            }
+            else
+            {
+                return await Task.Run(() => fundCodes.Any(p => p.Code.Contains(fundcode)));
+            }
         }
 
         public async Task<bool> MainAccountIsValid(IEnumerable<MainAccount> mainAccounts, string mainAccount, string org, CancellationToken ct)
@@ -65,7 +70,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
         {
             bool result;
 
-            return await Task.Run(() => result = invoiceRequestAmount < -999999999 || invoiceRequestAmount > 999999999);
+            return await Task.Run(() => result = invoiceRequestAmount < 0 || invoiceRequestAmount > 999999999);
         }
 
         #endregion

@@ -4,7 +4,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
 {
     public interface IValidationService
     {
-        Task<bool> FundCodeIsValid(IEnumerable<FundCode> fundCodes, string fundcode, string org, CancellationToken ct);
+        Task<bool> FundCodeIsValid(IEnumerable<FundCode> fundCodes, string fundcode, string mainAccount, CancellationToken ct);
 
         Task<bool> MainAccountIsValid(IEnumerable<MainAccount> mainAccounts, string mainAccount, string org, CancellationToken ct);
 
@@ -22,7 +22,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <param name="invoiceRequestAmount"></param>
         /// <returns></returns>
         Task<bool> InvoiceRequestAmountIsOk(decimal invoiceRequestAmount);
-
 
         /// <summary>
         /// 

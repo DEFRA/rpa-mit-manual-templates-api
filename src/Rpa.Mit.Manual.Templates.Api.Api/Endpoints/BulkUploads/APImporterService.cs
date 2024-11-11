@@ -97,40 +97,41 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 }
             }
 
-            return ImportResult(errors, bulkUploadInvoice, bulkUploadApDataset);
+            return await ImportResult(errors, bulkUploadInvoice, bulkUploadApDataset, i);
         }
 
         #region private methods
 
-        private static BulkUploadImportResult<BulkUploadApDataset, string> ImportResult(StringBuilder errors, BulkUploadInvoice bulkUploadInvoice, BulkUploadApDataset bulkUploadApDataset)
+        private async Task<BulkUploadImportResult<BulkUploadApDataset, string>> ImportResult(StringBuilder errors, BulkUploadInvoice bulkUploadInvoice, BulkUploadApDataset bulkUploadApDataset, int i)
         {
-            if (errors.Length > 0)
-            {
-                return errors.ToString();
-            }
-            else
-            {
-                decimal totalUploadedValue = 0.0M;
+            decimal totalUploadedValue = 0.0M;
 
-                // nest the data for returning json
-                foreach (var parent in bulkUploadInvoice.BulkUploadApHeaderLines!)
+            // nest the data for returning json
+            foreach (var parent in bulkUploadInvoice.BulkUploadApHeaderLines!)
+            {
+                parent.BulkUploadApDetailLines = bulkUploadApDataset.BulkUploadDetailLines
+                    .Where(c => c.InvoiceRequestId == parent.InvoiceRequestId)
+                    .ToList();
+
+                // total up the value of the detail lines for the parent invoice request
+                parent.TotalAmount = parent.BulkUploadApDetailLines.Select(c => c.Value).Sum();
+
+                // check that the total is a valid total
+                if (!await _iValidationService.InvoiceRequestAmountIsOk(parent.TotalAmount))
                 {
-                    parent.BulkUploadApDetailLines = bulkUploadApDataset.BulkUploadDetailLines
-                        .Where(c => c.InvoiceRequestId == parent.InvoiceRequestId)
-                        .ToList();
-
-                    // total up the value of the detail lines for the parent invoice request
-                    parent.TotalAmount = parent.BulkUploadApDetailLines.Select(c => c.Value).Sum();
-
-                    totalUploadedValue += parent.TotalAmount;
+                    errors.AppendFormat("Invalid invoice request amount in Line {0}.", i.ToString());
                 }
 
-                bulkUploadApDataset.InvoiceTotal = totalUploadedValue;
-                bulkUploadApDataset.NumberOfInvoices = bulkUploadApDataset.BulkUploadDetailLines.Count;
-                bulkUploadApDataset.BulkUploadInvoice = bulkUploadInvoice;
-
-                return bulkUploadApDataset;
+                totalUploadedValue += parent.TotalAmount;
             }
+
+            bulkUploadApDataset.InvoiceTotal = totalUploadedValue;
+            bulkUploadApDataset.NumberOfInvoices = bulkUploadApDataset.BulkUploadDetailLines.Count;
+            bulkUploadApDataset.BulkUploadInvoice = bulkUploadInvoice;
+
+            return errors.Length > 0 
+                ? (BulkUploadImportResult<BulkUploadApDataset, string>)errors.ToString() 
+                : (BulkUploadImportResult<BulkUploadApDataset, string>)bulkUploadApDataset;
         }
 
         private async Task<BulkUploadApDetailLine> CreateInvoiceLineFromRow(
@@ -156,7 +157,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 Error = new StringBuilder()
             };
 
-            if (!await _iValidationService.FundCodeIsValid(fundCodes, bulkUploadDetailLine.FundCode, org, ct))
+            if (!await _iValidationService.FundCodeIsValid(fundCodes, bulkUploadDetailLine.FundCode, bulkUploadDetailLine.MainAccount, ct))
             {
                 bulkUploadDetailLine.Error.AppendFormat("Invalid fund code in Line {0}", i.ToString());
             }
