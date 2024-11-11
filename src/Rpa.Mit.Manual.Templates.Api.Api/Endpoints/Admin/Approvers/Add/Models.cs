@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-using Rpa.Mit.Manual.Templates.Api.Core.Entities.Admin;
+
 
 namespace AdminAdd
 {
@@ -8,7 +8,10 @@ namespace AdminAdd
     internal sealed class Request
     {
 
-        public required AdminApprover AdminApprover { get; set; }
+        public required string Email { get; set; }
+        public required string DeliveryBody { get; set; }
+        public required string SchemeCode { get; set; }
+        public int? Threshold { get; set; }
 
         internal sealed class Validator : Validator<Request>
         {

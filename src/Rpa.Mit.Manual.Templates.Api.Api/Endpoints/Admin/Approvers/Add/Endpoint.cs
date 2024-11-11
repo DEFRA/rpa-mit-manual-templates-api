@@ -1,11 +1,13 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
+using Rpa.Mit.Manual.Templates.Api.Core.Entities.Admin;
+
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace AdminAdd
 {
     [ExcludeFromCodeCoverage]
-    internal sealed class Endpoint : Endpoint<Request, Response>
+    internal sealed class Endpoint : EndpointWithMapping<Request, Response, AdminApprover>
     {
         private readonly IApproversAdminRepo _iApproversAdminRepo;
         private readonly ILogger<Endpoint> _logger;
@@ -29,7 +31,9 @@ namespace AdminAdd
 
             try
             {
-                response.Result = await _iApproversAdminRepo.Create(r.AdminApprover, ct);
+                AdminApprover adminApprover = await MapToEntityAsync(r, ct);
+
+                response.Result = await _iApproversAdminRepo.Create(adminApprover, ct);
 
                 await SendAsync(response, 200, cancellation: ct);
             }
@@ -41,6 +45,18 @@ namespace AdminAdd
 
                 await SendAsync(response, 500, CancellationToken.None);
             }
+        }
+
+        public override async Task<AdminApprover> MapToEntityAsync(Request r, CancellationToken ct = default)
+        {
+            var adminApprover = await Task.FromResult(new AdminApprover());
+
+            adminApprover.Email = r.Email;
+            adminApprover.DeliveryBody = r.DeliveryBody;
+            adminApprover.SchemeCode = r.SchemeCode;
+            adminApprover.Threshold = r.Threshold;
+
+            return adminApprover;
         }
     }
 }
