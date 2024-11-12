@@ -1,7 +1,10 @@
-﻿using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace ApproversGetByAll
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class Endpoint : Endpoint<Request, Response>
     {
         private readonly IApproversAdminRepo _iApproversAdminRepo;

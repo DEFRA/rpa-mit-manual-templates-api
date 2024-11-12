@@ -47,8 +47,10 @@ namespace ApproveInvoice
         public override async Task HandleAsync(ApproveInvoiceRequest r, CancellationToken ct)
         {
 
-            ApproveInvoiceResponse response = new();
-            response.Result = true;
+            ApproveInvoiceResponse response = new()
+            {
+                Result = true
+            };
 
             try
             {
@@ -61,7 +63,7 @@ namespace ApproveInvoice
                 var invoiceRequests = await _iInvoiceRequestRepo.GetInvoiceRequestsForAzure(r.Id, ct);
 
                 int idx = 0;
-                List<string> approvals = new List<string>();
+                List<string> approvals = [];
 
                 foreach (InvoiceRequestForAzure request in invoiceRequests)
                 {

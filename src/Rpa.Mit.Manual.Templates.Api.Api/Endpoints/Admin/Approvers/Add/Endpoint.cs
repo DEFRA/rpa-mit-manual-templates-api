@@ -52,8 +52,8 @@ namespace AdminAdd
             var adminApprover = await Task.FromResult(new AdminApprover());
 
             adminApprover.Email = r.Email;
-            adminApprover.DeliveryBody = r.DeliveryBody;
             adminApprover.SchemeCode = r.SchemeCode;
+            adminApprover.DeliveryBody = r.DeliveryBody;
             adminApprover.Threshold = r.Threshold;
 
             return adminApprover;

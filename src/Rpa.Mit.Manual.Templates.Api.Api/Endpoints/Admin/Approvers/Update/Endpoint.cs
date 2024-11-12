@@ -1,8 +1,11 @@
-﻿using Rpa.Mit.Manual.Templates.Api.Core.Entities.Admin;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Rpa.Mit.Manual.Templates.Api.Core.Entities.Admin;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace UpdateApprover
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class Endpoint : EndpointWithMapping<Request, Response, AdminApprover>
     {
         private readonly IApproversAdminRepo _iApproversAdminRepo;

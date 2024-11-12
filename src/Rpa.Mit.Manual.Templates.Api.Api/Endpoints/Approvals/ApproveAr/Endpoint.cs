@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
+using ApproveInvoice;
+
 using Microsoft.Extensions.Options;
 
 using Rpa.Mit.Manual.Templates.Api;
@@ -43,8 +45,10 @@ namespace ApproveInvoiceAr
         public override async Task HandleAsync(ApproveInvoiceArRequest r, CancellationToken ct)
         {
 
-            ApproveInvoiceArResponse response = new();
-            response.Result = true;
+            ApproveInvoiceArResponse response = new()
+            {
+                Result = true
+            };
 
             if (string.IsNullOrEmpty(_options.CONNECTION) || string.IsNullOrEmpty(_options.TOPIC))
             {
