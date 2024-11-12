@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
+using ApproveInvoice;
+
 
 
 namespace AdminAdd
@@ -11,6 +13,14 @@ namespace AdminAdd
         public required string DeliveryBody { get; set; }
         public required string SchemeCode { get; set; }
         public required int Threshold { get; set; }
+
+        internal sealed class Validator : Validator<Request>
+        {
+            public Validator()
+            {
+                RuleFor(x => x.Email).EmailAddress();
+            }
+        }
     }
 
     [ExcludeFromCodeCoverage]
