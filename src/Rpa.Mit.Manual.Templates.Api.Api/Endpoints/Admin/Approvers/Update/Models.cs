@@ -9,14 +9,6 @@ namespace UpdateApprover
         public required string DeliveryBody { get; set; }
         public required string SchemeCode { get; set; }
         public required int Threshold { get; set; }
-
-        internal sealed class Validator : Validator<Request>
-        {
-            public Validator()
-            {
-
-            }
-        }
     }
 
     [ExcludeFromCodeCoverage]

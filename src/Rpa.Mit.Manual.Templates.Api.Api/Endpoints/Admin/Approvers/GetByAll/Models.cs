@@ -11,15 +11,6 @@ namespace ApproversGetByAll
         public string? DeliveryBody { get; set; }
         public string? SchemeCode { get; set; }
         public int? Threshold { get; set; }
-
-
-        internal sealed class Validator : Validator<Request>
-        {
-            public Validator()
-            {
-
-            }
-        }
     }
 
     [ExcludeFromCodeCoverage]

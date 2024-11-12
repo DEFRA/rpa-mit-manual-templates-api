@@ -8,14 +8,6 @@ namespace DeleteApprover
         public required string Email { get; set; }
 
         public required string DeliveryBody { get; set; }
-
-        internal sealed class Validator : Validator<Request>
-        {
-            public Validator()
-            {
-
-            }
-        }
     }
 
     [ExcludeFromCodeCoverage]
