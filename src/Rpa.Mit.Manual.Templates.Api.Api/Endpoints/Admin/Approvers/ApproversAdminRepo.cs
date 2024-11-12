@@ -53,7 +53,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Admin.Approvers
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
 
-                const string findByAllQuery = "SELECT email,threshold,deliverybody,schemecode FROM lookup_approvers WHERE (@email IS NULL OR email = @email), (@deliverybody IS NULL OR deliverybody = @deliverybody), (@schemecode IS NULL OR schemecode = @schemecode), (@threshold IS NULL OR threshold = @threshold)";
+                const string findByAllQuery = "SELECT email,threshold,deliverybody,schemecode FROM lookup_approvers WHERE (@email IS NULL OR email = @email) AND (@deliverybody IS NULL OR deliverybody = @deliverybody) AND (@schemecode IS NULL OR schemecode = @schemecode) AND (@threshold IS NULL OR threshold = @threshold)";
                 var results = await cn.QueryAsync<AdminApprover>(findByAllQuery, new { email, deliverybody, schemecode, threshold });
                 return results;
             }
@@ -87,16 +87,16 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Admin.Approvers
             }
         }
 
-        public async Task<bool> Update(string email, string deliverybody, string schemecode, int? threshold, CancellationToken ct)
+        public async Task<bool> Update(AdminApprover adminApprover, CancellationToken ct)
         {
             using (var cn = new NpgsqlConnection(await DbConn()))
             {
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
 
-                const string updateQuery = "UPDATE lookup_approvers SET email = @email, deliverybody = @deliverybody, schemecode = @schemecode, threshold = @threshold WHERE email = @email, deliverybody = @deliverybody";
+                const string updateQuery = "UPDATE lookup_approvers SET schemecode = @schemecode, threshold = @threshold WHERE email = @Email AND Deliverybody = @deliverybody";
                 
-                var rowsAffected = await cn.ExecuteScalarAsync<int>(updateQuery, new { email, deliverybody });
+                var rowsAffected = await cn.ExecuteAsync(updateQuery, adminApprover);
 
                 return rowsAffected == 1;
             }

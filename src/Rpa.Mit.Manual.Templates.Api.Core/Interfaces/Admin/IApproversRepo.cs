@@ -10,6 +10,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         Task<IEnumerable<AdminApprover>> GetByAll(string email, string deliverybody, string schemecode, int? threshold, CancellationToken ct);
         Task<IEnumerable<AdminApprover>> GetByAny(string email, string deliverybody, string schemecode, int? threshold, CancellationToken ct);
         Task<AdminApprover> Get(string email, string deliverybody, CancellationToken ct);
-        Task<bool> Update(string email, string deliverybody, string schemecode, int? threshold, CancellationToken ct);
+        Task<bool> Update(AdminApprover adminApprover, CancellationToken ct);
     }
 }
