@@ -109,7 +109,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Admin.Approvers
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
 
-                const string deleteQuery = "DELETE lookup_approvers WHERE email = @email, deliverybody = @deliverybody";
+                const string deleteQuery = "DELETE FROM lookup_approvers WHERE email = @Email AND deliverybody = @Deliverybody";
 
                 var rowsAffected = await cn.ExecuteAsync(deleteQuery, new { email, deliverybody });
 
