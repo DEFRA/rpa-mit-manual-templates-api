@@ -46,7 +46,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Admin.Approvers
             }
         }
 
-        public async Task<IEnumerable<AdminApprover>> GetByAll(string email, string deliverybody, string schemecode, int? threshold, CancellationToken ct)
+        public async Task<IEnumerable<AdminApprover>> GetByAll(string? email, string? deliverybody, string? schemecode, int? threshold, CancellationToken ct)
         {
             using (var cn = new NpgsqlConnection(await DbConn()))
             {
