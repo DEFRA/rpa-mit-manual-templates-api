@@ -13,20 +13,17 @@ namespace BulkUploads.AddAr
         private readonly IBulkUploadRepo _iBulkUploadRepo;
         private readonly IEmailService _iEmailService;
         private readonly IArImporterService _iArImporterService;
-        private readonly IValidationService _iValidationService;
         private readonly ILogger<AddBulkUploadsArEndpoint> _logger;
 
         public AddBulkUploadsArEndpoint(
             ILogger<AddBulkUploadsArEndpoint> logger,
             IBulkUploadRepo iBulkUploadRepo,        
             IArImporterService iArImporterService,
-            IValidationService iValidationService,
             IEmailService iEmailService)
         {
             _logger = logger;
             _iBulkUploadRepo = iBulkUploadRepo;
             _iArImporterService = iArImporterService;
-            _iValidationService = iValidationService;
             _iEmailService = iEmailService;
         }
 
@@ -66,24 +63,42 @@ namespace BulkUploads.AddAr
 
                         if (tables["AR"]?.Rows.Count > 4)
                         {
-                            var bulkUploadArDataset = await _iArImporterService.ImportARData(tables["AR"]!, r.Org, ct);
+                            var importResult = await _iArImporterService.ImportARData(tables["AR"]!, r.Org, r.SchemeInvoiceTemplate, ct);
 
-                            var isValid = await _iValidationService.ArBulkUploadIsValid(bulkUploadArDataset, r.Org, ct);
-
-                            if (!isValid)
+                            if (!string.IsNullOrEmpty(importResult.Error))
                             {
-                                ThrowError("The supplied data are invalid!");
+                                response.Message = importResult.Error;
+                            }
+                            else
+                            {
+                                importResult.BulkUploadImport.BulkUploadInvoice!.CreatedBy = userEmail;
+
+                                if (await _iBulkUploadRepo.AddArBulkUpload(importResult.BulkUploadImport, ct))
+                                {
+                                    // email the originator that their file has been successfully uploaded.
+                                    await _iEmailService.EmailBulkUploadSuccess(userEmail, fileName, importResult.BulkUploadImport.BulkUploadInvoice.Id, ct);
+
+                                    response.BulkUploadArDataset = importResult.BulkUploadImport;
+                                }
                             }
 
-                            bulkUploadArDataset.BulkUploadInvoice!.CreatedBy = userEmail;
 
-                            if (await _iBulkUploadRepo.AddArBulkUpload(bulkUploadArDataset, ct))
-                            {
-                                // email the originator that their file has been successfully uploaded.
-                                await _iEmailService.EmailBulkUploadSuccess(userEmail, fileName, bulkUploadArDataset.BulkUploadInvoice.Id, ct);
+                            //var isValid = await _iValidationService.ArBulkUploadIsValid(bulkUploadArDataset, r.Org, ct);
 
-                                response.BulkUploadArDataset = bulkUploadArDataset;
-                            }
+                            //if (!isValid)
+                            //{
+                            //    ThrowError("The supplied data are invalid!");
+                            //}
+
+                            //bulkUploadArDataset.BulkUploadInvoice!.CreatedBy = userEmail;
+
+                            //if (await _iBulkUploadRepo.AddArBulkUpload(bulkUploadArDataset, ct))
+                            //{
+                            //    // email the originator that their file has been successfully uploaded.
+                            //    await _iEmailService.EmailBulkUploadSuccess(userEmail, fileName, bulkUploadArDataset.BulkUploadInvoice.Id, ct);
+
+                            //    response.BulkUploadArDataset = bulkUploadArDataset;
+                            //}
                         }
                         else
                         {

@@ -12,7 +12,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
     /// Accounts Payable Importer
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class ApImporterService : IApImporterService
+    public class ApImporterService : IImporterService
     {
         private readonly IReferenceDataRepo _iReferenceDataRepo;
         private readonly IValidationService _iValidationService;
@@ -97,14 +97,15 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 }
             }
 
-            return await ImportResult(errors, bulkUploadInvoice, bulkUploadApDataset, i);
+            return await ImportResult(errors, bulkUploadInvoice, bulkUploadApDataset);
         }
 
         #region private methods
 
-        private async Task<BulkUploadImportResult<BulkUploadApDataset, string>> ImportResult(StringBuilder errors, BulkUploadInvoice bulkUploadInvoice, BulkUploadApDataset bulkUploadApDataset, int i)
+        private async Task<BulkUploadImportResult<BulkUploadApDataset, string>> ImportResult(StringBuilder errors, BulkUploadInvoice bulkUploadInvoice, BulkUploadApDataset bulkUploadApDataset)
         {
             decimal totalUploadedValue = 0.0M;
+            var iter = 0;
 
             // nest the data for returning json
             foreach (var parent in bulkUploadInvoice.BulkUploadApHeaderLines!)
@@ -116,10 +117,12 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 // total up the value of the detail lines for the parent invoice request
                 parent.TotalAmount = parent.BulkUploadApDetailLines.Select(c => c.Value).Sum();
 
+                iter++;
+
                 // check that the total is a valid total
                 if (!await _iValidationService.InvoiceRequestAmountIsOk(parent.TotalAmount))
                 {
-                    errors.AppendFormat("Invalid invoice request amount in Line {0}.", i.ToString());
+                    errors.AppendFormat("Invalid invoice request amount in Line {0}.", iter.ToString());
                 }
 
                 totalUploadedValue += parent.TotalAmount;
@@ -167,9 +170,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 bulkUploadDetailLine.Error.AppendFormat("Invalid main account in Line {0}", i.ToString());
             }
 
-
-
-
             return bulkUploadDetailLine;
         }
 
@@ -194,7 +194,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 Description = row[7].ToString()!,
                 Error = new StringBuilder()
             };
-
 
             if (!await _iValidationService.InvoiceRequestIdHasCorrectLength(bulkUploadHeaderLine.InvoiceRequestId, ct))
             {

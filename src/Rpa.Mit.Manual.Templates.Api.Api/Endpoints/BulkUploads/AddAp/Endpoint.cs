@@ -12,7 +12,7 @@ namespace BulkUploads.AddAp
     internal sealed class AddBulkUploadsApEndpoint : Endpoint<BulkUploadsApRequest, Response>
     {
         private readonly IBulkUploadRepo _iBulkUploadRepo;
-        private readonly IApImporterService _iApImporterService;
+        private readonly IImporterService _iApImporterService;
         private readonly IEmailService _iEmailService;
         private readonly ILogger<AddBulkUploadsApEndpoint> _logger;
 
@@ -20,7 +20,7 @@ namespace BulkUploads.AddAp
             IEmailService iEmailService,    
             ILogger<AddBulkUploadsApEndpoint> logger,
             IBulkUploadRepo iBulkUploadRepo,
-            IApImporterService iApImporterService)
+            IImporterService iApImporterService)
         {
             _logger = logger;
             _iBulkUploadRepo = iBulkUploadRepo;
