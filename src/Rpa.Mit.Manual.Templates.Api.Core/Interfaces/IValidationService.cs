@@ -34,7 +34,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         Task<bool> ArBulkUploadIsValid(BulkUploadArDataset bulkUploadArDataset, string org, CancellationToken ct);
 
 
-        string? GetChartOfAccountDescription(
+        string GetChartOfAccountDescription(
                                                 IEnumerable<ChartOfAccounts> chartOfAccounts,
                                                 IEnumerable<MainAccount> accountsAp,
                                                 IEnumerable<SchemeType> schemeTypes,

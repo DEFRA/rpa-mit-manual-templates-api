@@ -211,6 +211,11 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 Error = new StringBuilder()
             };
 
+            if (debtType == string.Empty)
+            {
+                bulkUploadDetailLine.Error.AppendFormat("Error retrieving debt type in Line {0}", i.ToString());
+            }
+
             if (!await _iValidationService.FundCodeIsValid(fundCodes, bulkUploadDetailLine.FundCode, bulkUploadDetailLine.MainAccount, ct))
             {
                 bulkUploadDetailLine.Error.AppendFormat("Invalid fund code in Line {0}", i.ToString());
@@ -232,9 +237,16 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
         /// <returns></returns>
         private static string GetDebtType(IEnumerable<MainAccount> mainAccounts, string org, string mainAccount)
         {
-            var r = mainAccounts.FirstOrDefault(x => x.Org == org && x.Code == mainAccount).Type!;
+            var debtType = mainAccounts.FirstOrDefault(x => x.Org == org && x.Code == mainAccount);
 
-            return r;
+            if (debtType == null)
+            {
+                return string.Empty;
+            }
+            else
+            {
+                return debtType.Type!;
+            }
         }
                                                 //        => mainAccounts.Single(x => x.Org == org && x.Code == mainAccount).Type!;
     }

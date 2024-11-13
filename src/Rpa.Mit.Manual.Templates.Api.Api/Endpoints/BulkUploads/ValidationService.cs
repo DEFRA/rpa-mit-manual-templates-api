@@ -96,7 +96,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
         #region Chart Of Accounts Validation
 
 
-        public string? GetChartOfAccountDescription(
+        public string GetChartOfAccountDescription(
                                                     IEnumerable<ChartOfAccounts> chartOfAccounts, 
                                                     IEnumerable<MainAccount> accountsAp, 
                                                     IEnumerable<SchemeType> schemeTypes, 
@@ -108,6 +108,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             var descriptionQuery = mainAccount + "/" + schemeCode + "/" + deliveryBodyCode;
 
             var chartOfAccount = chartOfAccounts.FirstOrDefault(c => c.Code == descriptionQuery);
+
             if (chartOfAccount != null)
             {
                 return chartOfAccount.Description;
@@ -115,15 +116,21 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             else
             {
                 var mainAccounto = accountsAp.FirstOrDefault(c => c.Code == mainAccount);
-                if (mainAccounto == null) return null;
+
+                if (mainAccounto == null) return "....";
+
                 var macDesc = mainAccounto.Description;
 
                 var scsq = schemeTypes.FirstOrDefault(c => c.Code == schemeCode);
-                if (scsq == null) return null;
+
+                if (scsq == null) return "....";
+
                 var scsDesc = scsq.Description;
 
                 var dbsd = deliveryBodies.FirstOrDefault(c => c.Code == deliveryBodyCode);
-                if (dbsd == null) return null;
+
+                if (dbsd == null) return "....";
+
                 var dbsDesc = dbsd.Description;
 
                 return macDesc + "/" + scsDesc + "/" + dbsDesc;
