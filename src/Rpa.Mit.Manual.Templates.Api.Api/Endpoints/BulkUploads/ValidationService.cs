@@ -99,7 +99,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
         public string GetChartOfAccountDescription(
                                                     IEnumerable<ChartOfAccounts> chartOfAccounts, 
                                                     IEnumerable<MainAccount> accountsAp, 
-                                                    IEnumerable<SchemeType> schemeTypes, 
+                                                    IEnumerable<SchemeCode> schemeCodes, 
                                                     IEnumerable<DeliveryBody> deliveryBodies, 
                                                     string mainAccount, 
                                                     string schemeCode, 
@@ -121,7 +121,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
                 var macDesc = mainAccounto.Description;
 
-                var scsq = schemeTypes.FirstOrDefault(c => c.Code == schemeCode);
+                var scsq = schemeCodes.FirstOrDefault(c => c.Code == schemeCode);
 
                 if (scsq == null) return "....";
 

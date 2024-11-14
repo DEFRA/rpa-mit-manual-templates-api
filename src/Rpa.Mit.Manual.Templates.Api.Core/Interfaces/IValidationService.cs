@@ -37,7 +37,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         string GetChartOfAccountDescription(
                                                 IEnumerable<ChartOfAccounts> chartOfAccounts,
                                                 IEnumerable<MainAccount> accountsAp,
-                                                IEnumerable<SchemeType> schemeTypes,
+                                                IEnumerable<SchemeCode> schemeCodes,
                                                 IEnumerable<DeliveryBody> deliveryBodies,
                                                 string mainAccount,
                                                 string schemeCode,

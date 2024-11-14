@@ -7,7 +7,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
     {
         public IEnumerable<DeliveryBodyInitial> InitialDeliveryBodies { get; set; } = Enumerable.Empty<DeliveryBodyInitial>();
         public IEnumerable<Organisation> Organisations { get; set; } = Enumerable.Empty<Organisation>();
-        public IEnumerable<SchemeInvoiceTemplate> SchemeInvoiceTemplates { get; set; } = Enumerable.Empty<SchemeInvoiceTemplate>();
+        public IEnumerable<SchemeType> SchemeTypes { get; set; } = Enumerable.Empty<SchemeType>();
         public IEnumerable<SchemeInvoiceTemplateSecondaryQuestion> SchemeInvoiceTemplateSecondaryQuestions { get; set; } = Enumerable.Empty<SchemeInvoiceTemplateSecondaryQuestion>();
 
         public IEnumerable<PaymentType> PaymentTypes { get; set; } = Enumerable.Empty<PaymentType>();

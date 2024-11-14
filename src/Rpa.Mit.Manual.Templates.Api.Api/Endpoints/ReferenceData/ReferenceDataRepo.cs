@@ -39,7 +39,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
 
                 var sql = @"
                         SELECT deliverybodydescription, code, accountcode, org FROM lookup_deliverybodyinitialselections;
-                        SELECT name, code, deliverybodycode FROM lookup_schemeinvoicetemplates;
+                        SELECT name, code, deliverybodycode FROM lookup_schemetypes;
                         SELECT id, name FROM lookup_schemeinvoicetemplatessecondaryrpaquestions;
                         SELECT code, description FROM lookup_paymenttypes;
                         SELECT code, description, org FROM lookup_schemecodes;
@@ -57,7 +57,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
                 using (var res = await cn.QueryMultipleAsync(sql))
                 {
                     referenceData.InitialDeliveryBodies = await res.ReadAsync<DeliveryBodyInitial>();
-                    referenceData.SchemeInvoiceTemplates = await res.ReadAsync<SchemeInvoiceTemplate>();
+                    referenceData.SchemeTypes = await res.ReadAsync<SchemeType>();
                     referenceData.SchemeInvoiceTemplateSecondaryQuestions = await res.ReadAsync<SchemeInvoiceTemplateSecondaryQuestion>();
                     referenceData.PaymentTypes = await res.ReadAsync<PaymentType>();
                     referenceData.SchemeCodes = await res.ReadAsync<SchemeCode>();
@@ -98,18 +98,18 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
             });
         }
 
-        public async Task<IEnumerable<SchemeType>> GetSchemeTypeReferenceData(CancellationToken ct)
-        {
-            using (var cn = new NpgsqlConnection(await DbConn()))
-            {
-                if (cn.State != ConnectionState.Open)
-                    await cn.OpenAsync(ct);
+        //public async Task<IEnumerable<SchemeType>> GetSchemeTypeReferenceData(CancellationToken ct)
+        //{
+        //    using (var cn = new NpgsqlConnection(await DbConn()))
+        //    {
+        //        if (cn.State != ConnectionState.Open)
+        //            await cn.OpenAsync(ct);
 
-                var sql = @"SELECT code, description FROM lookup_schemetypes;";
+        //        var sql = @"SELECT code, description FROM lookup_schemetypes;";
 
-                return await cn.QueryAsync<SchemeType>(sql);
-            }
-        }
+        //        return await cn.QueryAsync<SchemeType>(sql);
+        //    }
+        //}
 
         public async Task<IEnumerable<ChartOfAccounts>> GetChartOfAccountsApReferenceData(CancellationToken ct)
         {
@@ -239,11 +239,11 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
             });
         }
 
-        public async Task<IEnumerable<SchemeType>> GetSchemeCodesReferenceData(CancellationToken ct)
+        public async Task<IEnumerable<SchemeCode>> GetSchemeCodesReferenceData(CancellationToken ct)
         {
             string key = CacheKeys.SchemeCodesReferenceData;
 
-            IEnumerable<SchemeType> schemeCodes;
+            IEnumerable<SchemeCode> schemeCodes;
 
             return await _iCacheManager.Get(key, async () =>
             {
@@ -254,7 +254,7 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
 
                     var sql = @"SELECT code,description,org FROM lookup_schemecodes;";
 
-                    schemeCodes = await cn.QueryAsync<SchemeType>(sql);
+                    schemeCodes = await cn.QueryAsync<SchemeCode>(sql);
 
                     return schemeCodes;
                 }

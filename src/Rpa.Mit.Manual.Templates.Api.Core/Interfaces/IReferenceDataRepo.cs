@@ -11,7 +11,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <returns></returns>
         public Task<ReferenceData> GetAllReferenceData(CancellationToken ct);
 
-        public Task<IEnumerable<SchemeType>> GetSchemeTypeReferenceData(CancellationToken ct);
+        //public Task<IEnumerable<SchemeType>> GetSchemeTypeReferenceData(CancellationToken ct);
 
         /// <summary>
         /// loads the payment currency options. currently either EURO or GBP
@@ -69,7 +69,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// </summary>
         /// <param name="ct"></param>
         /// <returns></returns>
-        public Task<IEnumerable<SchemeType>> GetSchemeCodesReferenceData(CancellationToken ct);
+        public Task<IEnumerable<SchemeCode>> GetSchemeCodesReferenceData(CancellationToken ct);
 
         /// <summary>
         /// cached set of lookup_deliverybodycodes data
