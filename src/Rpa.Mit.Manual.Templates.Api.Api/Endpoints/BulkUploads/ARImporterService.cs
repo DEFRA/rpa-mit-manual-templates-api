@@ -69,7 +69,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     }
                     else
                     {
-                        var bulkUploadDetailLine = await CreateArInvoiceLineFromRow(fundCodes, mainAccounts, marketingYears, row, description, org, i, ct);
+                        var bulkUploadDetailLine = await CreateArInvoiceLineFromRow(fundCodes, mainAccounts, marketingYears, row, description, org, i);
 
                         errors.AppendFormat(bulkUploadDetailLine.Error!.ToString());
 
@@ -86,7 +86,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                         errors.AppendFormat("Error in Line {0} Invalid account/scheme/deliverybody combination", i.ToString());
                     }
 
-                    var bulkUploadDetailLine = await CreateArInvoiceLineFromRow(fundCodes, mainAccounts, marketingYears, row, description, org, i, ct);
+                    var bulkUploadDetailLine = await CreateArInvoiceLineFromRow(fundCodes, mainAccounts, marketingYears, row, description, org, i);
 
                     // this for the database
                     bulkUploadArDataset.BulkUploadDetailLines!.Add(bulkUploadDetailLine);
@@ -193,8 +193,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                                                                             DataRow row,
                                                                             string description,
                                                                             string org,
-                                                                            int i,
-                                                                            CancellationToken ct)
+                                                                            int i)
         {
             var debtType = GetDebtType(mainAccounts, org, row[22].ToString()!);
 
@@ -218,17 +217,17 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 bulkUploadDetailLine.Error.AppendFormat("Error retrieving debt type in Line {0}", i.ToString());
             }
 
-            if (!await _iValidationService.MarketingYearIsValid(marketingYears, bulkUploadDetailLine.MarketingYear, ct))
+            if (!await _iValidationService.MarketingYearIsValid(marketingYears, bulkUploadDetailLine.MarketingYear))
             {
                 bulkUploadDetailLine.Error.AppendFormat("Invalid marketing year in Line {0}", i.ToString());
             }
 
-            if (!await _iValidationService.FundCodeIsValid(fundCodes, bulkUploadDetailLine.FundCode, bulkUploadDetailLine.MainAccount, ct))
+            if (!await _iValidationService.FundCodeIsValid(fundCodes, bulkUploadDetailLine.FundCode, bulkUploadDetailLine.MainAccount))
             {
                 bulkUploadDetailLine.Error.AppendFormat("Invalid fund code in Line {0}", i.ToString());
             }
 
-            if (!await _iValidationService.MainAccountIsValid(mainAccounts, bulkUploadDetailLine.MainAccount, org, ct))
+            if (!await _iValidationService.MainAccountIsValid(mainAccounts, bulkUploadDetailLine.MainAccount, org))
             {
                 bulkUploadDetailLine.Error.AppendFormat("Invalid main account in Line {0}", i.ToString());
             }

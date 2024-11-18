@@ -4,9 +4,9 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
 {
     public interface IValidationService
     {
-        Task<bool> FundCodeIsValid(IEnumerable<FundCode> fundCodes, string fundcode, string mainAccount, CancellationToken ct);
+        Task<bool> FundCodeIsValid(IEnumerable<FundCode> fundCodes, string fundcode, string mainAccount);
 
-        Task<bool> MainAccountIsValid(IEnumerable<MainAccount> mainAccounts, string mainAccount, string org, CancellationToken ct);
+        Task<bool> MainAccountIsValid(IEnumerable<MainAccount> mainAccounts, string mainAccount, string org);
 
         /// <summary>
         /// requires a length of 20
@@ -31,7 +31,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <returns></returns>
         Task<bool> CustomerIdIsValid(string customerId, string org, string schemeType, CancellationToken ct);
 
-        Task<bool> MarketingYearIsValid(IEnumerable<MarketingYear> marketingYears, string org, CancellationToken ct);
+        Task<bool> MarketingYearIsValid(IEnumerable<MarketingYear> marketingYears, string org);
 
 
         string GetChartOfAccountDescription(

@@ -8,7 +8,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
     [ExcludeFromCodeCoverage]
     public class ValidationService : IValidationService
     {
-        public async Task<bool> FundCodeIsValid(IEnumerable<FundCode> fundCodes, string fundcode, string mainAccount, CancellationToken ct)
+        public async Task<bool> FundCodeIsValid(IEnumerable<FundCode> fundCodes, string fundcode, string mainAccount)
         {
             // test that the State Aid Main Accounts are Exchequer funded
             if ((mainAccount == "SOS228" || mainAccount == "SOS229") && fundcode != "EXQ00")
@@ -21,10 +21,10 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             }
         }
 
-        public async Task<bool> MarketingYearIsValid(IEnumerable<MarketingYear> marketingYears, string org, CancellationToken ct)
+        public async Task<bool> MarketingYearIsValid(IEnumerable<MarketingYear> marketingYears, string org)
             => await Task.Run(() => marketingYears.Any(p => p.Description.Contains(org)));
 
-        public async Task<bool> MainAccountIsValid(IEnumerable<MainAccount> mainAccounts, string mainAccount, string org, CancellationToken ct)
+        public async Task<bool> MainAccountIsValid(IEnumerable<MainAccount> mainAccounts, string mainAccount, string org)
             => await Task.Run(() => mainAccounts.Any(p => p.Code == mainAccount &&  p.Org == org));
 
         public async Task<bool> InvoiceRequestIdHasCorrectLength(string invoiceRequestId, CancellationToken ct) 
