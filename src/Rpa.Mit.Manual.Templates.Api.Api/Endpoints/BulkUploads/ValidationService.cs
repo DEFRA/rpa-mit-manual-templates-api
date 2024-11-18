@@ -17,13 +17,13 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             }
             else
             {
-                return await Task.Run(() => fundCodes.Any(p => p.Code.Contains(fundcode)));
+                return await Task.Run(() => fundCodes.Any(p => p.Code == fundcode));
             }
         }
 
-        public async Task<bool> MarketingYearIsValid(string customerId, string org, string schemeType, CancellationToken ct)
+        public async Task<bool> MarketingYearIsValid(IEnumerable<MarketingYear> marketingYears, string org, CancellationToken ct)
         {
-            return true;
+            return await Task.Run(() => marketingYears.Any(p => p.Code.Contains(org)));
         }
 
         public async Task<bool> MainAccountIsValid(IEnumerable<MainAccount> mainAccounts, string mainAccount, string org, CancellationToken ct)

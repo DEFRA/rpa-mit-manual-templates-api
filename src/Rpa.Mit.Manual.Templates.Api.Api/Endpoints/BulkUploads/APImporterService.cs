@@ -40,6 +40,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             var i = 0;
 
             // get all our chartofaccounts etc before we enter the loop
+            var marketingYears = await _iReferenceDataRepo.GetMarketingYears(ct);
             var chartOfAccounts = await _iReferenceDataRepo.GetChartOfAccountsApReferenceData(ct);
             var mainAccounts = await _iReferenceDataRepo.GetApMainAccountsReferenceData(ct);
             var schemeCodes = await _iReferenceDataRepo.GetSchemeCodesReferenceData(ct);
@@ -69,7 +70,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     }
                     else
                     {
-                        var bulkUploadDetailLine = await CreateInvoiceLineFromRow(fundCodes, mainAccounts, row, description, org, i, ct);
+                        var bulkUploadDetailLine = await CreateInvoiceLineFromRow(fundCodes, mainAccounts, marketingYears, row, description, org, i, ct);
                         
                         errors.AppendFormat(bulkUploadDetailLine.Error!.ToString());
 
@@ -87,7 +88,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     }
                     else
                     {
-                        var bulkUploadDetailLine = await CreateInvoiceLineFromRow(fundCodes, mainAccounts, row, description, org, i, ct);
+                        var bulkUploadDetailLine = await CreateInvoiceLineFromRow(fundCodes, mainAccounts, marketingYears, row, description, org, i, ct);
                         
                         errors.AppendFormat(bulkUploadDetailLine.Error!.ToString());
 
@@ -140,6 +141,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
         private async Task<BulkUploadApDetailLine> CreateInvoiceLineFromRow(
             IEnumerable<FundCode> fundCodes,
             IEnumerable<MainAccount> mainAccounts,
+            IEnumerable<MarketingYear> marketingYears,
             DataRow row, 
             string description, 
             string org, 
@@ -163,6 +165,11 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             if (!await _iValidationService.FundCodeIsValid(fundCodes, bulkUploadDetailLine.FundCode, bulkUploadDetailLine.MainAccount, ct))
             {
                 bulkUploadDetailLine.Error.AppendFormat("Invalid fund code in Line {0}", i.ToString());
+            }
+
+            if (!await _iValidationService.MarketingYearIsValid(marketingYears, bulkUploadDetailLine.MarketingYear, ct))
+            {
+                bulkUploadDetailLine.Error.AppendFormat("Invalid marketing year in Line {0}", i.ToString());
             }
 
             if (!await _iValidationService.MainAccountIsValid(mainAccounts, bulkUploadDetailLine.MainAccount, org, ct))

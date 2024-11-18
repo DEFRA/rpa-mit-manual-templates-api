@@ -39,6 +39,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             var i = 0;
 
             // get all our chartofaccounts etc before we enter the loop
+            var marketingYears = await _iReferenceDataRepo.GetMarketingYears(ct);
             var chartOfAccounts = await _iReferenceDataRepo.GetChartOfAccountsArReferenceData(ct);
             var mainAccounts = await _iReferenceDataRepo.GetArMainAccountsReferenceData(ct);
             var deliveryBodies = await _iReferenceDataRepo.GetDeliveryBodiesReferenceData(ct);
@@ -68,7 +69,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                     }
                     else
                     {
-                        var bulkUploadDetailLine = await CreateArInvoiceLineFromRow(fundCodes, mainAccounts, row, description, org, i, ct);
+                        var bulkUploadDetailLine = await CreateArInvoiceLineFromRow(fundCodes, mainAccounts, marketingYears, row, description, org, i, ct);
 
                         errors.AppendFormat(bulkUploadDetailLine.Error!.ToString());
 
@@ -85,7 +86,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                         errors.AppendFormat("Error in Line {0} Invalid account/scheme/deliverybody combination", i.ToString());
                     }
 
-                    var bulkUploadDetailLine = await CreateArInvoiceLineFromRow(fundCodes, mainAccounts, row, description, org, i, ct);
+                    var bulkUploadDetailLine = await CreateArInvoiceLineFromRow(fundCodes, mainAccounts, marketingYears, row, description, org, i, ct);
 
                     // this for the database
                     bulkUploadArDataset.BulkUploadDetailLines!.Add(bulkUploadDetailLine);
@@ -188,6 +189,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
         private async Task<BulkUploadArDetailLine> CreateArInvoiceLineFromRow(
                                                                             IEnumerable<FundCode> fundCodes,
                                                                             IEnumerable<MainAccount> mainAccounts,
+                                                                            IEnumerable<MarketingYear> marketingYears,
                                                                             DataRow row,
                                                                             string description,
                                                                             string org,
@@ -214,6 +216,11 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             if (debtType == string.Empty)
             {
                 bulkUploadDetailLine.Error.AppendFormat("Error retrieving debt type in Line {0}", i.ToString());
+            }
+
+            if (!await _iValidationService.MarketingYearIsValid(marketingYears, bulkUploadDetailLine.MarketingYear, ct))
+            {
+                bulkUploadDetailLine.Error.AppendFormat("Invalid marketing year in Line {0}", i.ToString());
             }
 
             if (!await _iValidationService.FundCodeIsValid(fundCodes, bulkUploadDetailLine.FundCode, bulkUploadDetailLine.MainAccount, ct))
