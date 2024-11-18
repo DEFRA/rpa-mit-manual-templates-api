@@ -21,9 +21,9 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             }
         }
 
-        public async Task<bool> IValidationService.MarketingYearIsValid(string customerId, string org, string schemeType, CancellationToken ct)
+        public async Task<bool> MarketingYearIsValid(string customerId, string org, string schemeType, CancellationToken ct)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public async Task<bool> MainAccountIsValid(IEnumerable<MainAccount> mainAccounts, string mainAccount, string org, CancellationToken ct)
