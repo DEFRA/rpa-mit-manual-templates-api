@@ -23,7 +23,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
         public async Task<bool> MarketingYearIsValid(IEnumerable<MarketingYear> marketingYears, string org, CancellationToken ct)
         {
-            return await Task.Run(() => marketingYears.Any(p => p.Code.Contains(org)));
+            return await Task.Run(() => marketingYears.Any(p => p.Description.Contains(org)));
         }
 
         public async Task<bool> MainAccountIsValid(IEnumerable<MainAccount> mainAccounts, string mainAccount, string org, CancellationToken ct)
