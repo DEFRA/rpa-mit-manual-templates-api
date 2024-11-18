@@ -11,7 +11,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <returns></returns>
         public Task<ReferenceData> GetAllReferenceData(CancellationToken ct);
 
-        //public Task<IEnumerable<SchemeType>> GetSchemeTypeReferenceData(CancellationToken ct);
 
         /// <summary>
         /// loads the payment currency options. currently either EURO or GBP

@@ -98,19 +98,6 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
             });
         }
 
-        //public async Task<IEnumerable<SchemeType>> GetSchemeTypeReferenceData(CancellationToken ct)
-        //{
-        //    using (var cn = new NpgsqlConnection(await DbConn()))
-        //    {
-        //        if (cn.State != ConnectionState.Open)
-        //            await cn.OpenAsync(ct);
-
-        //        var sql = @"SELECT code, description FROM lookup_schemetypes;";
-
-        //        return await cn.QueryAsync<SchemeType>(sql);
-        //    }
-        //}
-
         public async Task<IEnumerable<ChartOfAccounts>> GetChartOfAccountsApReferenceData(CancellationToken ct)
         {
             string key = CacheKeys.ApChartOfAccounts;
