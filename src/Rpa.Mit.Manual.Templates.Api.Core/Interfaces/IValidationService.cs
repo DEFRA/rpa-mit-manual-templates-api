@@ -31,8 +31,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <returns></returns>
         Task<bool> CustomerIdIsValid(string customerId, string org, string schemeInvoiceTemplate, CancellationToken ct);
 
-        Task<bool> ArBulkUploadIsValid(BulkUploadArDataset bulkUploadArDataset, string org, CancellationToken ct);
-
 
         string GetChartOfAccountDescription(
                                                 IEnumerable<ChartOfAccounts> chartOfAccounts,

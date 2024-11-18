@@ -14,7 +14,7 @@ namespace BulkUploads.AddAr
         /// </summary>
         public string Org { get; set; } = string.Empty;
 
-        public string SchemeInvoiceTemplate { get; set; } = string.Empty;
+        public string SchemeType { get; set; } = string.Empty;
 
         public required IFormFile File { get; set; }
 
@@ -27,10 +27,10 @@ namespace BulkUploads.AddAr
                     .NotEmpty()
                     .WithMessage("Org must have a value");
 
-                RuleFor(x => x.SchemeInvoiceTemplate)
+                RuleFor(x => x.SchemeType)
                     .NotNull()
                     .NotEmpty()
-                    .WithMessage("SchemeInvoiceTemplate must have a value");
+                    .WithMessage("SchemeType must have a value");
 
                 RuleFor(x => x.File)
                     .SetValidator(new FileValidator());

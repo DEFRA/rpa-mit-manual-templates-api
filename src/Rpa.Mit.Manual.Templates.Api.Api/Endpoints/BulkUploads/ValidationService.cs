@@ -15,12 +15,9 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             _iReferenceDataRepo = iReferenceDataRepo;
         }
 
-
-        #region AP Validation
-
-        //TODO: rework properly
         public async Task<bool> FundCodeIsValid(IEnumerable<FundCode> fundCodes, string fundcode, string mainAccount, CancellationToken ct)
         {
+            // test that the State Aid Main Accounts are Exchequer funded
             if ((mainAccount == "SOS228" || mainAccount == "SOS229") && fundcode != "EXQ00")
             {
                 return await Task.Run(() => false);
@@ -61,37 +58,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
         public async Task<bool> InvoiceRequestAmountIsOk(decimal invoiceRequestAmount) 
             => await Task.Run(() => invoiceRequestAmount > -999999999 && invoiceRequestAmount < 999999999);
 
-        #endregion
-
-
-        #region AR Validation
-
-        public async Task<bool> ArBulkUploadIsValid(BulkUploadArDataset bulkUploadArDataset, string org, CancellationToken ct)
-        {
-
-            var mainAccountIsValid = await MainAccountIsValid(bulkUploadArDataset.BulkUploadDetailLines, org, ct);
-
-
-            return mainAccountIsValid;
-        }
-
-        private async Task<bool> MainAccountIsValid(IEnumerable<BulkUploadApDetailLine> bulkUploadDetailLines, string org, CancellationToken ct)
-        {
-            var isValid = true;
-
-            var mainAccounts = await _iReferenceDataRepo.GetArMainAccountsReferenceData(ct);
-
-            foreach (BulkUploadApDetailLine detailLine in bulkUploadDetailLines)
-            {
-                isValid = mainAccounts.Any(p => p.Org == org);
-
-                if (!isValid) { break; }
-            }
-
-            return isValid;
-        }
-
-        #endregion
 
         #region Chart Of Accounts Validation
 

@@ -29,7 +29,7 @@ namespace BulkUploads.AddAp
                 RuleFor(x => x.SchemeType)
                     .NotNull()
                     .NotEmpty()
-                    .WithMessage("SchemeInvoiceTemplate must have a value");
+                    .WithMessage("SchemeType must have a value");
 
                 RuleFor(x => x.File)
                     .SetValidator(new FileValidator());

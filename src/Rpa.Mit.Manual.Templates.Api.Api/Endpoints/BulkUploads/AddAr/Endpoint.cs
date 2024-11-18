@@ -63,7 +63,7 @@ namespace BulkUploads.AddAr
 
                         if (tables["AR"]?.Rows.Count > 4)
                         {
-                            var importResult = await _iArImporterService.ImportARData(tables["AR"]!, r.Org, r.SchemeInvoiceTemplate, ct);
+                            var importResult = await _iArImporterService.ImportARData(tables["AR"]!, r.Org, r.SchemeType, ct);
 
                             if (!string.IsNullOrEmpty(importResult.Error))
                             {
