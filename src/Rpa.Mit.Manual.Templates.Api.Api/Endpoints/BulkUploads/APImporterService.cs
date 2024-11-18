@@ -26,7 +26,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
         public async Task<BulkUploadImportResult<BulkUploadApDataset, string>> ImportAPData(
             DataTable data, 
             string org, 
-            string schemeInvoiceTemplate, 
+            string schemeType, 
             CancellationToken ct)
         {
             // row 0, col 1 and row 0, col 16 have the 2 titles
@@ -57,7 +57,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
 
                 if (!string.IsNullOrEmpty(row[2].ToString()))
                 {
-                    var bulkUploadHeaderLine = await CreateHeaderLineFromRow(bulkUploadInvoice!.Id, row, org, schemeInvoiceTemplate, i, ct);
+                    var bulkUploadHeaderLine = await CreateHeaderLineFromRow(bulkUploadInvoice!.Id, row, org, schemeType, i, ct);
 
                     bulkUploadInvoice.BulkUploadApHeaderLines!.Add(bulkUploadHeaderLine);
 

@@ -15,7 +15,7 @@ namespace BulkUploads.AddAp
         /// </summary>
         public required string Org { get; set; }
 
-        public string SchemeInvoiceTemplate { get; set; } = string.Empty;
+        public string SchemeType { get; set; } = string.Empty;
 
         internal sealed class BulkUploadsApValidator : Validator<BulkUploadsApRequest>
         {
@@ -26,7 +26,7 @@ namespace BulkUploads.AddAp
                     .NotEmpty()
                     .WithMessage("Org must have a value");
 
-                RuleFor(x => x.SchemeInvoiceTemplate)
+                RuleFor(x => x.SchemeType)
                     .NotNull()
                     .NotEmpty()
                     .WithMessage("SchemeInvoiceTemplate must have a value");
