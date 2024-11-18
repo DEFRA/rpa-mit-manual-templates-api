@@ -204,6 +204,24 @@ namespace Rpa.Mit.Manual.Templates.Api.ReferenceDataEndPoint
             });
         }
 
+        public async Task<IEnumerable<MarketingYear>> GetMarketingYears(CancellationToken ct)
+        {
+            string key = CacheKeys.MarketingYears;
+
+            return await _iCacheManager.Get(key, async () =>
+            {
+                using (var cn = new NpgsqlConnection(await DbConn()))
+                {
+                    if (cn.State != ConnectionState.Open)
+                        await cn.OpenAsync(ct);
+
+                    var sql = @"SELECT code, description FROM lookup_marketingyearcodes;";
+
+                    return await cn.QueryAsync<MarketingYear>(sql);
+                }
+            });
+        }
+
         public async Task<IEnumerable<FundCode>> GetFilteredFundcodes(string org, CancellationToken ct)
         {
             string key = CacheKeys.FundCodesFiltered;

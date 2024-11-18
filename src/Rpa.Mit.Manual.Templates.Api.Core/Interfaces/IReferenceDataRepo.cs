@@ -48,13 +48,19 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <returns></returns>
         public Task<IEnumerable<MainAccount>> GetArMainAccountsReferenceData(CancellationToken ct);
 
-
         /// <summary>
         /// gets a list of fundcodes for validation purposes
         /// </summary>
         /// <param name="ct"></param>
         /// <returns></returns>
         public Task<IEnumerable<FundCode>> GetFundcodes(CancellationToken ct);
+
+        /// <summary>
+        /// gets a list of marketing years for validation purposes
+        /// </summary>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        Task<IEnumerable<MarketingYear>> GetMarketingYears(CancellationToken ct);
 
         /// <summary>
         /// gets a list of filtered fundcodes for validation purposes, filtered on org

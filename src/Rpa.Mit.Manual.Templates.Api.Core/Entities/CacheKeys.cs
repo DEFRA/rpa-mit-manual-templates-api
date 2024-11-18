@@ -23,8 +23,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
 
         public const string DeliveryBodiesInitialReferenceData = "_DeliveryBodiesInitialReferenceData";
 
-        public const string MarketingYearsReferenceData = "_MarketingYearsReferenceData";
-
         public const string FundCodesReferenceData = "_FundCodesReferenceData";
 
         public const string ApChartOfAccounts = "_ApChartOfAccounts";
@@ -42,6 +40,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities
         public const string AccountsAp = "_AccountsAp";
 
         public const string FundCodes = "_FundCodes";
+
+        public const string MarketingYears = "_MarketingYears";
 
         public const string FundCodesFiltered = "_FundCodesFiltered";
     }

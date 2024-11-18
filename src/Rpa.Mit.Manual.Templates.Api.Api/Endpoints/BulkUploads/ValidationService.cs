@@ -8,13 +8,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
     [ExcludeFromCodeCoverage]
     public class ValidationService : IValidationService
     {
-        private readonly IReferenceDataRepo _iReferenceDataRepo;
-
-        public ValidationService(IReferenceDataRepo iReferenceDataRepo)
-        {
-            _iReferenceDataRepo = iReferenceDataRepo;
-        }
-
         public async Task<bool> FundCodeIsValid(IEnumerable<FundCode> fundCodes, string fundcode, string mainAccount, CancellationToken ct)
         {
             // test that the State Aid Main Accounts are Exchequer funded
@@ -28,20 +21,25 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             }
         }
 
+        public async Task<bool> IValidationService.MarketingYearIsValid(string customerId, string org, string schemeType, CancellationToken ct)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<bool> MainAccountIsValid(IEnumerable<MainAccount> mainAccounts, string mainAccount, string org, CancellationToken ct)
             => await Task.Run(() => mainAccounts.Any(p => p.Code == mainAccount &&  p.Org == org));
 
         public async Task<bool> InvoiceRequestIdHasCorrectLength(string invoiceRequestId, CancellationToken ct) 
             => await Task.Run(() => invoiceRequestId.Length == 20);
 
-        public async Task<bool> CustomerIdIsValid(string customerId, string org, string schemeInvoiceTemplate, CancellationToken ct)
+        public async Task<bool> CustomerIdIsValid(string customerId, string org, string schemeType, CancellationToken ct)
         {
             int cId = 0;
 
             if(await Task.Run(() => int.TryParse(customerId, out cId)))
             {
                 // If schemeInvoiceTemplate = "SPS" Or schemeInvoiceTemplate = "DF" Or org = "RDT" Then 'SBI or FRN allowed so id length must be integer greater than 8 and less than 11
-                if (schemeInvoiceTemplate == "SPS" || schemeInvoiceTemplate == "DF" || org == "RDT")
+                if (schemeType == "SPS" || schemeType == "DF" || org == "RDT")
                 {
                     return cId.ToString().Length > 8 && cId.ToString().Length < 11;
                 }
@@ -102,6 +100,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 return macDesc + "/" + scsDesc + "/" + dbsDesc;
             }
         }
+
 
         #endregion
 
