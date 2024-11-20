@@ -98,13 +98,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 }
             }
 
-            return await ImportResult(errors, bulkUploadInvoice, bulkUploadApDataset);
-        }
-
-        #region private methods
-
-        private async Task<BulkUploadImportResult<BulkUploadApDataset, string>> ImportResult(StringBuilder errors, BulkUploadInvoice bulkUploadInvoice, BulkUploadApDataset bulkUploadApDataset)
-        {
             decimal totalUploadedValue = 0.0M;
             var iter = 0;
 
@@ -133,10 +126,13 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             bulkUploadApDataset.NumberOfInvoices = bulkUploadApDataset.BulkUploadDetailLines.Count;
             bulkUploadApDataset.BulkUploadInvoice = bulkUploadInvoice;
 
-            return errors.Length > 0 
-                ? (BulkUploadImportResult<BulkUploadApDataset, string>)errors.ToString() 
+            return errors.Length > 0
+                ? (BulkUploadImportResult<BulkUploadApDataset, string>)errors.ToString()
                 : (BulkUploadImportResult<BulkUploadApDataset, string>)bulkUploadApDataset;
         }
+
+        #region private methods
+
 
         private async Task<BulkUploadApDetailLine> CreateInvoiceLineFromRow(
             IEnumerable<FundCode> fundCodes,
