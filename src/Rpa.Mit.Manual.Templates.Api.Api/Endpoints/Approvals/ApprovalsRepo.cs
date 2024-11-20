@@ -44,7 +44,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
                 // filter against logged-in approver
                 var sql = "SELECT id,schemetype,reference,status,createdby,created,paymenttype,accounttype,deliverybody FROM invoices WHERE approveremail = @approverEmail";
 
-                var invoices = await cn.QueryAsync<Invoice>(sql, approverEmail);
+                var invoices = await cn.QueryAsync<Invoice>(sql, new { approverEmail });
 
                 // get the values of child invoice requests and sum them
                 foreach (var invoice in invoices)
