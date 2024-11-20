@@ -32,13 +32,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             return await Task.Run(() => marketingYears.Any(p => p.Code == year));
         }
 
-
-        public async Task<bool> MainAccountIsValid(IEnumerable<MainAccount> mainAccounts, string mainAccount, string org)
-            => await Task.Run(() => mainAccounts.Any(p => p.Code == mainAccount &&  p.Org == org));
-
-        public async Task<bool> InvoiceRequestIdHasCorrectLength(string invoiceRequestId, CancellationToken ct) 
-            => await Task.Run(() => invoiceRequestId.Length == 20);
-
         public async Task<bool> CustomerIdIsValid(string customerId, string org, string schemeType, CancellationToken ct)
         {
             int cId = 0;
@@ -60,8 +53,8 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             }
         }
 
-        public async Task<bool> InvoiceRequestAmountIsOk(decimal invoiceRequestAmount) 
-            => await Task.Run(() => invoiceRequestAmount > -999999999 && invoiceRequestAmount < 999999999);
+       // public async Task<bool> InvoiceRequestAmountIsOk(decimal invoiceRequestAmount) 
+       //     => await Task.Run(() => invoiceRequestAmount > -999999999 && invoiceRequestAmount < 999999999);
 
 
         #region Chart Of Accounts Validation

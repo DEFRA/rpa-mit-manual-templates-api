@@ -115,7 +115,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 parent.TotalAmount = parent.BulkUploadArDetailLines.Select(c => c.Value).Sum();
 
                 // check that the total is a valid total
-                if (!await _iValidationService.InvoiceRequestAmountIsOk(parent.TotalAmount))
+                if (parent.TotalAmount < -999999999 || parent.TotalAmount > 999999999)
                 {
                     errors.AppendFormat("Invalid invoice request amount in Line {0}.", iter.ToString());
                 }
@@ -172,8 +172,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 Error = new StringBuilder()
             };
 
-
-            if (!await _iValidationService.InvoiceRequestIdHasCorrectLength(bulkUploadHeaderLine.InvoiceRequestId, ct))
+            if (bulkUploadHeaderLine.InvoiceRequestId.Length != 20)
             {
                 bulkUploadHeaderLine.Error.AppendFormat("Invoice Request Id has incorrect length in Line {0}", i.ToString());
             }
