@@ -53,9 +53,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             }
         }
 
-       // public async Task<bool> InvoiceRequestAmountIsOk(decimal invoiceRequestAmount) 
-       //     => await Task.Run(() => invoiceRequestAmount > -999999999 && invoiceRequestAmount < 999999999);
-
 
         #region Chart Of Accounts Validation
 

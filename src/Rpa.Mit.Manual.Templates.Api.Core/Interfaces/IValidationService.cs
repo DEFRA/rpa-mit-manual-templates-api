@@ -6,14 +6,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
     {
         Task<bool> FundCodeIsValid(IEnumerable<FundCode> fundCodes, string fundcode, string mainAccount);
 
-
-        /// <summary>
-        /// Test Invoice Request amount - is within range set by Finance < Abs(1 billion) (this is the total for each Invoice Request)
-        /// </summary>
-        /// <param name="invoiceRequestAmount"></param>
-        /// <returns></returns>
-        //Task<bool> InvoiceRequestAmountIsOk(decimal invoiceRequestAmount);
-
         /// <summary>
         /// 
         /// </summary>
@@ -22,7 +14,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <returns></returns>
         Task<bool> CustomerIdIsValid(string customerId, string org, string schemeType, CancellationToken ct);
 
-        Task<bool> MarketingYearIsValid(IEnumerable<MarketingYear> marketingYears, string yea);
+        Task<bool> MarketingYearIsValid(IEnumerable<MarketingYear> marketingYears, string year);
 
 
         string GetChartOfAccountDescription(
