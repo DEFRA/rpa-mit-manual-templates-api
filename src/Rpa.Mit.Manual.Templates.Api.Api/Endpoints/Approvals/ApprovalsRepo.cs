@@ -77,7 +77,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
 
                 var invoice = await cn.QuerySingleAsync<Invoice>(sql, parameters);
 
-                var prSql = "SELECT invoiceid, invoicerequestid, frn, sbi, vendor, agreementnumber, currency, description, value, marketingyear, duedate FROM invoicerequests WHERE invoiceid = @Id";
+                var prSql = "SELECT invoiceid, invoicerequestid, frn, sbi, vendor, agreementnumber, currency, description, marketingyear, duedate FROM invoicerequests WHERE invoiceid = @Id";
                 var prParameters = new { invoice.Id };
                 invoice.InvoiceRequests = await cn.QueryAsync<InvoiceRequest>(prSql, prParameters);
 
@@ -125,7 +125,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
 
                 var invoice = await cn.QuerySingleAsync<InvoiceAr>(sql, parameters);
 
-                var prSql = "SELECT invoiceid,invoicerequestid,frn,sbi,vendor,agreementnumber,currency,description,value,marketingyear,duedate,claimreferencenumber,claimreference,invoiceid,paymenthuberror,paymenthubaccepted,paymenthubdateprocessed,paymenthuberroremailsent,leger,originalclaimreference,originalapinvoicesettlementdate,earliestdatepossiblerecovery,correctionreference FROM invoicerequests WHERE invoiceid = @Id";
+                var prSql = "SELECT invoiceid,invoicerequestid,frn,sbi,vendor,agreementnumber,currency,description,marketingyear,duedate,claimreferencenumber,claimreference,invoiceid,paymenthuberror,paymenthubaccepted,paymenthubdateprocessed,paymenthuberroremailsent,ledger,originalclaimreference,originalapinvoicesettlementdate,earliestdatepossiblerecovery,correctionreference FROM invoicerequests WHERE invoiceid = @Id";
                 var prParameters = new { invoice.Id };
                 invoice.InvoiceRequests = await cn.QueryAsync<InvoiceRequestAr>(prSql, prParameters);
 
