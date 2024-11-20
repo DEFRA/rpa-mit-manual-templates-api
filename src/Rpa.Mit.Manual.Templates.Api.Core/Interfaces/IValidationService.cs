@@ -31,7 +31,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <returns></returns>
         Task<bool> CustomerIdIsValid(string customerId, string org, string schemeType, CancellationToken ct);
 
-        Task<bool> MarketingYearIsValid(IEnumerable<MarketingYear> marketingYears, string org);
+        Task<bool> MarketingYearIsValid(IEnumerable<MarketingYear> marketingYears, string year);
 
 
         string GetChartOfAccountDescription(

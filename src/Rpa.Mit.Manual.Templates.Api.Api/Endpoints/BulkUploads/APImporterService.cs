@@ -171,7 +171,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 bulkUploadDetailLine.Error.AppendFormat("Invalid marketing year in Line {0}", i.ToString());
             }
 
-            if (!await _iValidationService.MainAccountIsValid(mainAccounts, bulkUploadDetailLine.MainAccount, org))
+            if (!mainAccounts.Any(p => p.Code == bulkUploadDetailLine.MainAccount && p.Org == org))
             {
                 bulkUploadDetailLine.Error.AppendFormat("Invalid main account in Line {0}", i.ToString());
             }

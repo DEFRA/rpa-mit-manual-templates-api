@@ -18,6 +18,9 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure
 
         public string agreementNumber { get; set; } = string.Empty;
 
+        /// <summary>
+        /// This is expected by the Payment Hub and for this system, the relevant value is "Manual"
+        /// </summary>
         public string sourceSystem { get; set; } = "Manual";
 
         public string frn { get; set; } = string.Empty;

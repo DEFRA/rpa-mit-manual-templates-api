@@ -21,8 +21,17 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
             }
         }
 
-        public async Task<bool> MarketingYearIsValid(IEnumerable<MarketingYear> marketingYears, string org)
-            => await Task.Run(() => marketingYears.Any(p => p.Description.Contains(org)));
+        public async Task<bool> MarketingYearIsValid(IEnumerable<MarketingYear> marketingYears, string year)
+        {
+            if (year.Length == 2)
+            {
+                // add 2000 to year to make it a 4-digit figure
+                year = (int.Parse(year) + 2000).ToString();
+            }
+
+            return await Task.Run(() => marketingYears.Any(p => p.Code == year));
+        }
+
 
         public async Task<bool> MainAccountIsValid(IEnumerable<MainAccount> mainAccounts, string mainAccount, string org)
             => await Task.Run(() => mainAccounts.Any(p => p.Code == mainAccount &&  p.Org == org));
