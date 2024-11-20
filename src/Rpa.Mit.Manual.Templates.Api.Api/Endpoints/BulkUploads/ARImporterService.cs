@@ -93,10 +93,10 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.BulkUploads
                 }
             }
 
-            return await ImportResult(errors, bulkUploadInvoice, bulkUploadArDataset);
+            return ImportResult(errors, bulkUploadInvoice, bulkUploadArDataset);
         }
 
-        private async Task<BulkUploadImportResult<BulkUploadArDataset, string>> ImportResult(StringBuilder errors, BulkUploadInvoice bulkUploadInvoice, BulkUploadArDataset bulkUploadArDataset)
+        private BulkUploadImportResult<BulkUploadArDataset, string> ImportResult(StringBuilder errors, BulkUploadInvoice bulkUploadInvoice, BulkUploadArDataset bulkUploadArDataset)
         {
             decimal totalUploadedValue = 0.0M;
 
