@@ -41,10 +41,14 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Approvals
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
 
-                // filter against logged-in approver
-                var sql = "SELECT id,schemetype,reference,status,createdby,created,paymenttype,accounttype,deliverybody FROM invoices WHERE approveremail = @approverEmail";
+                // first get list of delivery bodies for the logged in approver
+                var sqlDeliveryBody = "SELECT deliverybody FROM lookup_approvers WHERE email = @approverEmail";
+                var deliveryBodies = await cn.QueryAsync<string>(sqlDeliveryBody, new { approverEmail });
 
-                var invoices = await cn.QueryAsync<Invoice>(sql, new { approverEmail });
+                // filter against logged-in approver
+                var sql = "SELECT id,schemetype,reference,status,createdby,created,paymenttype,accounttype,deliverybody FROM invoices WHERE deliverybody = any(@deliveryBodies)";
+
+                var invoices = await cn.QueryAsync<Invoice>(sql, new { deliveryBodies });
 
                 // get the values of child invoice requests and sum them
                 foreach (var invoice in invoices)
