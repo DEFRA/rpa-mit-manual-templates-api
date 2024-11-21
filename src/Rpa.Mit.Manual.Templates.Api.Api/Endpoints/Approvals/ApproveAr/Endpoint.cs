@@ -1,11 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
-using ApproveInvoice;
-
-using Microsoft.Extensions.Options;
-
-using Rpa.Mit.Manual.Templates.Api;
 using Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
@@ -18,21 +13,18 @@ namespace ApproveInvoiceAr
     [ExcludeFromCodeCoverage]
     internal sealed class ApproveInvoiceArEndpoint : Endpoint<ApproveInvoiceArRequest, ApproveInvoiceArResponse>
     {
-        private readonly PaymentHub _options;
         private readonly IServiceBusProvider _iServiceBusProvider;
         private readonly IInvoiceRequestRepo _iInvoiceRequestRepo;
         private readonly ILogger<ApproveInvoiceArEndpoint> _logger;
         private readonly IPaymentHubJsonGenerator _iPaymentHubJsonGenerator;
 
         public ApproveInvoiceArEndpoint(
-                                        IOptions<PaymentHub> options,
-                                         IInvoiceRequestRepo iInvoiceRequestRepo,
+                                        IInvoiceRequestRepo iInvoiceRequestRepo,
                                         IServiceBusProvider iServiceBusProvider,
                                         ILogger<ApproveInvoiceArEndpoint> logger,
                                         IPaymentHubJsonGenerator iPaymentHubJsonGenerator)
         {
             _logger = logger;
-            _options = options.Value;
             _iInvoiceRequestRepo = iInvoiceRequestRepo;
             _iPaymentHubJsonGenerator = iPaymentHubJsonGenerator;
             _iServiceBusProvider = iServiceBusProvider;
@@ -59,13 +51,6 @@ namespace ApproveInvoiceAr
                 Result = true
             };
 
-            if (string.IsNullOrEmpty(_options.CONNECTION) || string.IsNullOrEmpty(_options.TOPIC))
-            {
-                response.Result = false;
-                response.Message = "No values for Servicebus connection given.";
-                await SendAsync(response, 400, cancellation: ct);
-            }
-
             try
             {
                 if (string.IsNullOrEmpty(_options.CONNECTION) || string.IsNullOrEmpty(_options.TOPIC))
@@ -76,7 +61,8 @@ namespace ApproveInvoiceAr
                 // get the AR invoice requests and lines for sending to payment hub
                 var invoiceRequestsForAzure = await _iInvoiceRequestRepo.GetInvoiceRequestsArForAzure(r.Id, ct);
                 int idx = 0;
-                List<string> approvals = new List<string>();
+
+                List<string> approvals = [];
 
                 foreach (InvoiceRequestArForAzure request in invoiceRequestsForAzure)
                 {
@@ -90,14 +76,14 @@ namespace ApproveInvoiceAr
                     }
                     else
                     {
-                        if (!await _iServiceBusProvider.SendInvoiceRequestJson(invoiceRequestJson))
-                        {
-                            sb.AppendFormat("Error sending json for Invoice Request {0} to Payment Hub", request.InvoiceRequestId);
-                        }
-                        else
+                        if (await _iServiceBusProvider.SendInvoiceRequestJson(invoiceRequestJson))
                         {
                             approvals.Add(request.InvoiceRequestId);
                             idx++;
+                        }
+                        else
+                        {
+                            sb.AppendFormat("Error sending json for Invoice Request {0} to Payment Hub", request.InvoiceRequestId);
                         }
                     }
                 }

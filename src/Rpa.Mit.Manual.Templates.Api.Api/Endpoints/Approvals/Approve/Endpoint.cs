@@ -1,9 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
-using Microsoft.Extensions.Options;
-
-using Rpa.Mit.Manual.Templates.Api;
 using Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
@@ -16,24 +13,18 @@ namespace ApproveInvoice
     [ExcludeFromCodeCoverage]
     internal sealed class ApproveInvoiceEndpoint : Endpoint<ApproveInvoiceRequest, ApproveInvoiceResponse>
     {
-        private readonly PaymentHub _options;
         private readonly IInvoiceRequestRepo _iInvoiceRequestRepo;
-
         private readonly IServiceBusProvider _iServiceBusProvider;
         private readonly IPaymentHubJsonGenerator _iPaymentHubJsonGenerator;
         private readonly ILogger<ApproveInvoiceEndpoint> _logger;
 
         public ApproveInvoiceEndpoint(
-            IOptions<PaymentHub> options,
-
             ILogger<ApproveInvoiceEndpoint> logger,
             IInvoiceRequestRepo iInvoiceRequestRepo,
             IServiceBusProvider iServiceBusProvider,
             IPaymentHubJsonGenerator iPaymentHubJsonGenerator)
         {
-            _options = options.Value;
             _logger = logger;
-
             _iInvoiceRequestRepo = iInvoiceRequestRepo;
             _iServiceBusProvider = iServiceBusProvider;
             _iPaymentHubJsonGenerator = iPaymentHubJsonGenerator;
@@ -63,15 +54,11 @@ namespace ApproveInvoice
 
             try
             {
-                if (string.IsNullOrEmpty(_options.CONNECTION) || string.IsNullOrEmpty(_options.TOPIC))
-                {
-                    ThrowError("No values for Servicebus connection given.!");
-                }
-
                 // get the invoice requests and lines for sending to payment hub
                 var invoiceRequests = await _iInvoiceRequestRepo.GetInvoiceRequestsForAzure(r.Id, ct);
 
                 int idx = 0;
+
                 List<string> approvals = [];
 
                 foreach (InvoiceRequestForAzure request in invoiceRequests)
@@ -87,14 +74,14 @@ namespace ApproveInvoice
                     else
                     {
                         // TODO: need to properly handle failure here
-                        if (!await _iServiceBusProvider.SendInvoiceRequestJson(invoiceRequestJson))
-                        {
-                            sb.AppendFormat("Error sending json for Invoice Request {0} to Payment Hub", request.InvoiceRequestId);
-                        }
-                        else
+                        if (await _iServiceBusProvider.SendInvoiceRequestJson(invoiceRequestJson))
                         {
                             approvals.Add(request.InvoiceRequestId);
                             idx++;
+                        }
+                        else
+                        {
+                            sb.AppendFormat("Error sending json for Invoice Request {0} to Payment Hub", request.InvoiceRequestId);
                         }
                     }
                 }
