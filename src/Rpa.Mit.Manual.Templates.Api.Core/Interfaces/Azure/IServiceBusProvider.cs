@@ -9,6 +9,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure
         /// </summary>
         /// <param name="msg"></param>
         /// <returns></returns>
-        Task SendInvoiceRequestJson(string msg);
+        Task<bool> SendInvoiceRequestJson(string msg);
     }
 }

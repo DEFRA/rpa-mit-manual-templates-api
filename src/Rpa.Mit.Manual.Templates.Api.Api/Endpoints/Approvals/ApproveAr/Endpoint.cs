@@ -90,9 +90,15 @@ namespace ApproveInvoiceAr
                     }
                     else
                     {
-                        await _iServiceBusProvider.SendInvoiceRequestJson(invoiceRequestJson);
-                        approvals.Add(request.InvoiceRequestId);
-                        idx++;
+                        if (!await _iServiceBusProvider.SendInvoiceRequestJson(invoiceRequestJson))
+                        {
+                            sb.AppendFormat("Error sending json for Invoice Request {0} to Payment Hub", request.InvoiceRequestId);
+                        }
+                        else
+                        {
+                            approvals.Add(request.InvoiceRequestId);
+                            idx++;
+                        }
                     }
                 }
 

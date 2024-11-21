@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using System.Net.Mime;
 
 using Azure.Messaging.ServiceBus;
 
@@ -15,19 +14,21 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.MitAzure
 
         public ServiceBusProvider(ServiceBusSender serviceBusSender) => _serviceBusSender = serviceBusSender;
 
-        public async Task SendInvoiceRequestJson(string msg)
+        public async Task<bool> SendInvoiceRequestJson(string msg)
         {
             ServiceBusMessage message = new ServiceBusMessage(msg);
 
             try
             {
                 await _serviceBusSender.SendMessageAsync(message);
+
+                return true;
             }
             catch (Exception ex) when (ex is ArgumentException ||
                                  ex is ServiceBusException ||
                                  ex is UnauthorizedAccessException)
             {
-                throw new Exception("Service Bus Exception occurred with sending message to Payment Hub", ex);
+                return false;
             }
         }
     }
