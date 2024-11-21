@@ -46,29 +46,29 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Admin.Approvers
             }
         }
 
-        public async Task<IEnumerable<AdminApprover>> GetByAll(string? email, string? deliverybody, string? schemecode, int? threshold, CancellationToken ct)
+        public async Task<IEnumerable<AdminApprover>> GetByAll(string? email, string? deliverybody, string? schemetype, int? threshold, CancellationToken ct)
         {
             using (var cn = new NpgsqlConnection(await DbConn()))
             {
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
 
-                const string findByAllQuery = "SELECT email,threshold,deliverybody,schemetype FROM lookup_approvers WHERE (@email IS NULL OR email = @email) AND (@deliverybody IS NULL OR deliverybody = @deliverybody) AND (@schemecode IS NULL OR schemecode = @schemecode) AND (@threshold IS NULL OR threshold = @threshold)";
-                var results = await cn.QueryAsync<AdminApprover>(findByAllQuery, new { email, deliverybody, schemecode, threshold });
+                const string findByAllQuery = "SELECT email,threshold,deliverybody,schemetype FROM lookup_approvers WHERE (@email IS NULL OR email = @email) AND (@deliverybody IS NULL OR deliverybody = @deliverybody) AND (@schemetype IS NULL OR schemetype = @schemetype) AND (@threshold IS NULL OR threshold = @threshold)";
+                var results = await cn.QueryAsync<AdminApprover>(findByAllQuery, new { email, deliverybody, schemetype, threshold });
                 return results;
             }
         }
 
-        public async Task<IEnumerable<AdminApprover>> GetByAny(string email, string deliverybody, string schemecode, int? threshold, CancellationToken ct)
+        public async Task<IEnumerable<AdminApprover>> GetByAny(string email, string deliverybody, string schemetype, int? threshold, CancellationToken ct)
         {
             using (var cn = new NpgsqlConnection(await DbConn()))
             {
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
 
-                const string findByAnyQuery = "SELECT email,threshold,deliverybody,schemetype FROM lookup_approvers WHERE (@email IS NOT NULL AND email = @email), (@deliverybody IS NOT NULL AND deliverybody = @deliverybody), (@schemecode IS NOT NULL AND schemecode = @schemecode), (@threshold IS NOT NULL AND threshold = @threshold)";
+                const string findByAnyQuery = "SELECT email,threshold,deliverybody,schemetype FROM lookup_approvers WHERE (@email IS NOT NULL AND email = @email), (@deliverybody IS NOT NULL AND deliverybody = @deliverybody), (@schemetype IS NOT NULL AND schemetype = @schemetype), (@threshold IS NOT NULL AND threshold = @threshold)";
                 
-                var results = await cn.QueryAsync<AdminApprover>(findByAnyQuery, new { email, deliverybody, schemecode, threshold });
+                var results = await cn.QueryAsync<AdminApprover>(findByAnyQuery, new { email, deliverybody, schemetype, threshold });
 
                 return results;
             }
@@ -81,7 +81,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Admin.Approvers
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
 
-                const string insertQuery = "INSERT INTO lookup_approvers (email, deliverybody, schemecode, threshold) VALUES (@Email, @DeliveryBody, @SchemeCode, @Threshold)";
+                const string insertQuery = "INSERT INTO lookup_approvers (email, deliverybody, schemetype, threshold) VALUES (@Email, @DeliveryBody, @SchemeType, @Threshold)";
                 var rowsAffected = await cn.ExecuteAsync(insertQuery, adminApprover);
                 return rowsAffected == 1;
             }
@@ -94,7 +94,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Admin.Approvers
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
 
-                const string updateQuery = "UPDATE lookup_approvers SET schemetype = @schemecode, threshold = @threshold WHERE email = @Email AND Deliverybody = @deliverybody";
+                const string updateQuery = "UPDATE lookup_approvers SET schemetype = @schemetype, threshold = @threshold WHERE email = @Email AND Deliverybody = @deliverybody";
                 
                 var rowsAffected = await cn.ExecuteAsync(updateQuery, adminApprover);
 
