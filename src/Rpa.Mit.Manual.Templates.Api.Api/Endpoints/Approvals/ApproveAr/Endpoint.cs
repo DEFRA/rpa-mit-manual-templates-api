@@ -53,11 +53,6 @@ namespace ApproveInvoiceAr
 
             try
             {
-                if (string.IsNullOrEmpty(_options.CONNECTION) || string.IsNullOrEmpty(_options.TOPIC))
-                {
-                    ThrowError("No values for Servicebus connection given.!");
-                }
-
                 // get the AR invoice requests and lines for sending to payment hub
                 var invoiceRequestsForAzure = await _iInvoiceRequestRepo.GetInvoiceRequestsArForAzure(r.Id, ct);
                 int idx = 0;
