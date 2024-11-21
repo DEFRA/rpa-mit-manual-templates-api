@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Text;
 
 using Microsoft.Extensions.Options;
 
@@ -46,11 +47,19 @@ namespace ApproveInvoice
 
         public override async Task HandleAsync(ApproveInvoiceRequest r, CancellationToken ct)
         {
+            var userEmail = User.Identity?.Name!;
 
+            if (string.IsNullOrEmpty(userEmail))
+            {
+                ThrowError("Unable to identify approver");
+            }
+                
             ApproveInvoiceResponse response = new()
             {
                 Result = true
             };
+
+            StringBuilder sb = new();
 
             try
             {
@@ -73,7 +82,7 @@ namespace ApproveInvoice
                     if (string.IsNullOrEmpty(invoiceRequestJson))
                     {
                         response.Result = false;
-                        response.Message += "Error creating payment hub json for invoice request " + request.InvoiceRequestId + "||";
+                        sb.AppendLine("Error creating payment hub json for invoice request " + request.InvoiceRequestId);
                     }
                     else
                     {
@@ -84,16 +93,18 @@ namespace ApproveInvoice
                 }
 
                 // now update our db with the results of approval
-                await _iInvoiceRequestRepo.UpdateInvoiceRequestApprovalStatus(approvals, r.Id, User.Identity?.Name!, ct);
+                await _iInvoiceRequestRepo.UpdateInvoiceRequestApprovalStatus(approvals, r.Id, userEmail, ct);
 
                 if (idx == invoiceRequests.Count())
                 {
-                    response.Message += "All invoices approved and data sent to Payment Hub.";
+                    sb.AppendLine("All invoices approved and data sent to Payment Hub.");
                 }
                 else
                 {
-                    response.Message += "Some invoices failed approval. The list of failures is here and the rest have been approved and sent to the Payment Hub.";
+                    sb.AppendLine("Some invoices failed approval. The list of failures is here and the rest have been approved and sent to the Payment Hub.");
                 }
+
+                response.Message = sb.ToString();   
 
                 await SendAsync(response, 200, cancellation: ct);
             }

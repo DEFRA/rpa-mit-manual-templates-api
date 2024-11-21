@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Text;
 
 using ApproveInvoice;
 
@@ -44,6 +45,14 @@ namespace ApproveInvoiceAr
 
         public override async Task HandleAsync(ApproveInvoiceArRequest r, CancellationToken ct)
         {
+            var userEmail = User.Identity?.Name!;
+
+            if (string.IsNullOrEmpty(userEmail))
+            {
+                ThrowError("Unable to identify approver");
+            }
+
+            StringBuilder sb = new();
 
             ApproveInvoiceArResponse response = new()
             {
@@ -77,7 +86,7 @@ namespace ApproveInvoiceAr
                     if (string.IsNullOrEmpty(invoiceRequestJson))
                     {
                         response.Result = false;
-                        response.Message += "Error creating payment hub json for invoice request " + request.InvoiceRequestId + "||";
+                        sb.AppendLine("Error creating payment hub json for invoice request " + request.InvoiceRequestId);
                     }
                     else
                     {
@@ -92,12 +101,14 @@ namespace ApproveInvoiceAr
 
                 if (idx == invoiceRequestsForAzure.Count())
                 {
-                    response.Message += "All invoices approved and data sent to Payment Hub.";
+                    sb.AppendLine("All invoices approved and data sent to Payment Hub.");
                 }
                 else
                 {
-                    response.Message += "Some invoices failed approval. The list of failures is here and the rest have been approved and sent to the Payment Hub.";
+                    sb.AppendLine("Some invoices failed approval. The list of failures is here and the rest have been approved and sent to the Payment Hub.");
                 }
+
+                response.Message = sb.ToString();
 
                 await SendAsync(response, 200, cancellation: ct);
             }
