@@ -52,7 +52,7 @@ namespace UpdateApprover
 
             adminApprover.Email = r.Email;
             adminApprover.DeliveryBody = r.DeliveryBody;
-            adminApprover.SchemeCode = r.SchemeCode;
+            adminApprover.SchemeType = r.SchemeCode;
             adminApprover.Threshold = r.Threshold;
 
             return adminApprover;

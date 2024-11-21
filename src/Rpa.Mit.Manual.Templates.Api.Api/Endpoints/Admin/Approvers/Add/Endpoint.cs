@@ -52,7 +52,7 @@ namespace AdminAdd
             var adminApprover = await Task.FromResult(new AdminApprover());
 
             adminApprover.Email = r.Email;
-            adminApprover.SchemeCode = r.SchemeCode;
+            adminApprover.SchemeType = r.SchemeCode;
             adminApprover.DeliveryBody = r.DeliveryBody;
             adminApprover.Threshold = r.Threshold;
 
