@@ -25,7 +25,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Admin.Approvers
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
 
-                const string getQuery = "SELECT email,threshold,deliverybody,schemecode FROM lookup_approvers WHERE email = @email, deliverybody = @deliverybody";
+                const string getQuery = "SELECT email,threshold,deliverybody,schemetype FROM lookup_approvers WHERE email = @email, deliverybody = @deliverybody";
                 
                 return await cn.QuerySingleAsync<AdminApprover>(getQuery, new { email, deliverybody });
             }
@@ -38,7 +38,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Admin.Approvers
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
 
-                const string findAllQuery = "SELECT email,threshold,deliverybody,schemecode FROM lookup_approvers";
+                const string findAllQuery = "SELECT email,threshold,deliverybody,schemetype FROM lookup_approvers";
 
                 var results = await cn.QueryAsync<AdminApprover>(findAllQuery);
 
@@ -53,7 +53,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Admin.Approvers
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
 
-                const string findByAllQuery = "SELECT email,threshold,deliverybody,schemecode FROM lookup_approvers WHERE (@email IS NULL OR email = @email) AND (@deliverybody IS NULL OR deliverybody = @deliverybody) AND (@schemecode IS NULL OR schemecode = @schemecode) AND (@threshold IS NULL OR threshold = @threshold)";
+                const string findByAllQuery = "SELECT email,threshold,deliverybody,schemetype FROM lookup_approvers WHERE (@email IS NULL OR email = @email) AND (@deliverybody IS NULL OR deliverybody = @deliverybody) AND (@schemecode IS NULL OR schemecode = @schemecode) AND (@threshold IS NULL OR threshold = @threshold)";
                 var results = await cn.QueryAsync<AdminApprover>(findByAllQuery, new { email, deliverybody, schemecode, threshold });
                 return results;
             }
@@ -66,7 +66,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Admin.Approvers
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
 
-                const string findByAnyQuery = "SELECT email,threshold,deliverybody,schemecode FROM lookup_approvers WHERE (@email IS NOT NULL AND email = @email), (@deliverybody IS NOT NULL AND deliverybody = @deliverybody), (@schemecode IS NOT NULL AND schemecode = @schemecode), (@threshold IS NOT NULL AND threshold = @threshold)";
+                const string findByAnyQuery = "SELECT email,threshold,deliverybody,schemetype FROM lookup_approvers WHERE (@email IS NOT NULL AND email = @email), (@deliverybody IS NOT NULL AND deliverybody = @deliverybody), (@schemecode IS NOT NULL AND schemecode = @schemecode), (@threshold IS NOT NULL AND threshold = @threshold)";
                 
                 var results = await cn.QueryAsync<AdminApprover>(findByAnyQuery, new { email, deliverybody, schemecode, threshold });
 
@@ -94,7 +94,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Admin.Approvers
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
 
-                const string updateQuery = "UPDATE lookup_approvers SET schemecode = @schemecode, threshold = @threshold WHERE email = @Email AND Deliverybody = @deliverybody";
+                const string updateQuery = "UPDATE lookup_approvers SET schemetype = @schemecode, threshold = @threshold WHERE email = @Email AND Deliverybody = @deliverybody";
                 
                 var rowsAffected = await cn.ExecuteAsync(updateQuery, adminApprover);
 
