@@ -1,12 +1,10 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using System.Net.Mail;
 
 using Microsoft.Extensions.Options;
 
 using Notify.Client;
 using Notify.Models.Responses;
 
-using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
@@ -28,21 +26,21 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
         }
 
 
-        public async Task<bool> EmailApprovers(IEnumerable<Approver> approvers, Guid invoiceId, CancellationToken ct)
+        public async Task<bool> EmailApprovers(IEnumerable<string> approvers, Guid invoiceId, CancellationToken ct)
         {
             var client = new NotificationClient(_options.APIKEY);
 
             Dictionary<string, dynamic> personalisation = new()
             {
-                {"invoiceId", invoiceId.ToString()},
-                {"value", "1234.99" },
+                { "invoiceId", invoiceId.ToString() },
+                { "value", "1234.99" },
                 { "link", "https://www.bbc.co.uk"}
             };
 
             foreach (var approver in approvers)
             {
                 await client.SendEmailAsync(
-                                            emailAddress: approver.Email,
+                                            emailAddress: approver,
                                             templateId: approverEmailTemplateId,
                                             personalisation: personalisation
                                         );

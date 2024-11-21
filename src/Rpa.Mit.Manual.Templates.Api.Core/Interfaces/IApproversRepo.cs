@@ -11,6 +11,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <param name="invoiceId"></param>
         /// <param name="ct"></param>
         /// <returns></returns>
-        Task<IEnumerable<Approver>> GetApproversForInvoice(Guid invoiceId, CancellationToken ct);
+        Task<IEnumerable<string>> GetApproversForInvoice(Guid invoiceId, CancellationToken ct);
     }
 }
