@@ -52,5 +52,16 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <param name="ct"></param>
         /// <returns></returns>
         Task<bool> EmailReport(string recipientEmail, string reportName, byte[] attachment, CancellationToken ct);
+
+
+        /// <summary>
+        /// emails an originator of a bulk upload that while their data has been approved, there have been issues sending the data to the payment hub.
+        /// this email will contain a list of invoice request id's which have failed during transmission.
+        /// </summary>
+        /// <param name="originator"></param>
+        /// <param name="failedInvoiceRequests"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        Task<bool> EmailTransmissionFailure(string originator, IEnumerable<string> failedInvoiceRequests, CancellationToken ct);
     }
 }

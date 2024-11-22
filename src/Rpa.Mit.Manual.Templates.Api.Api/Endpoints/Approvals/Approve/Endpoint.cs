@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
+using Rpa.Mit.Manual.Templates.Api.Api.Services;
 using Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
@@ -14,17 +15,20 @@ namespace ApproveInvoice
     internal sealed class ApproveInvoiceEndpoint : Endpoint<ApproveInvoiceRequest, ApproveInvoiceResponse>
     {
         private readonly IInvoiceRequestRepo _iInvoiceRequestRepo;
+        private readonly IEmailService _iEmailService;
         private readonly IServiceBusProvider _iServiceBusProvider;
         private readonly IPaymentHubJsonGenerator _iPaymentHubJsonGenerator;
         private readonly ILogger<ApproveInvoiceEndpoint> _logger;
 
         public ApproveInvoiceEndpoint(
             ILogger<ApproveInvoiceEndpoint> logger,
+            IEmailService iEmailService,
             IInvoiceRequestRepo iInvoiceRequestRepo,
             IServiceBusProvider iServiceBusProvider,
             IPaymentHubJsonGenerator iPaymentHubJsonGenerator)
         {
             _logger = logger;
+            _iEmailService = iEmailService;
             _iInvoiceRequestRepo = iInvoiceRequestRepo;
             _iServiceBusProvider = iServiceBusProvider;
             _iPaymentHubJsonGenerator = iPaymentHubJsonGenerator;
@@ -50,16 +54,15 @@ namespace ApproveInvoice
                 Result = true
             };
 
-            StringBuilder sb = new();
+            StringBuilder sbErrors = new();
 
             try
             {
                 // get the invoice requests and lines for sending to payment hub
                 var invoiceRequests = await _iInvoiceRequestRepo.GetInvoiceRequestsForAzure(r.Id, ct);
 
-                int idx = 0;
-
                 List<string> approvals = [];
+                List<string> failures = [];
 
                 foreach (InvoiceRequestForAzure request in invoiceRequests)
                 {
@@ -69,7 +72,9 @@ namespace ApproveInvoice
                     if (string.IsNullOrEmpty(invoiceRequestJson))
                     {
                         response.Result = false;
-                        sb.AppendLine("Error creating payment hub json for invoice request " + request.InvoiceRequestId);
+                        failures.Add(request.InvoiceRequestId);
+
+                        sbErrors.AppendLine("Error creating payment hub json for invoice request " + request.InvoiceRequestId);
                     }
                     else
                     {
@@ -77,11 +82,11 @@ namespace ApproveInvoice
                         if (await _iServiceBusProvider.SendInvoiceRequestJson(invoiceRequestJson))
                         {
                             approvals.Add(request.InvoiceRequestId);
-                            idx++;
                         }
                         else
                         {
-                            sb.AppendFormat("Error sending json for Invoice Request {0} to Payment Hub", request.InvoiceRequestId);
+                            failures.Add(request.InvoiceRequestId);
+                            sbErrors.AppendFormat("Error sending json for Invoice Request {0} to Payment Hub", request.InvoiceRequestId);
                         }
                     }
                 }
@@ -89,16 +94,19 @@ namespace ApproveInvoice
                 // now update our db with the results of approval
                 await _iInvoiceRequestRepo.UpdateInvoiceRequestApprovalStatus(approvals, r.Id, userEmail, ct);
 
-                if (idx == invoiceRequests.Count())
+                if (approvals.Count == invoiceRequests.Count())
                 {
-                    sb.AppendLine("All invoices approved and data sent to Payment Hub.");
+                    sbErrors.AppendLine("All invoices approved and data sent to Payment Hub.");
                 }
                 else
                 {
-                    sb.AppendLine("Some invoices failed approval. The list of failures is here and the rest have been approved and sent to the Payment Hub.");
+                    // TODO: email originator with this list of failed invoice requests. Note that failure is due to error(s) when sending to payment hub, not due to data errors.
+                    await _iEmailService.EmailTransmissionFailure("aylmer.carson.external@eviden.com", failures, ct);
+
+                    sbErrors.AppendLine("Some invoices failed approval. The list of failures is here and the rest have been approved and sent to the Payment Hub.");
                 }
 
-                response.Message = sb.ToString();   
+                response.Message = sbErrors.ToString();   
 
                 await SendAsync(response, 200, cancellation: ct);
             }

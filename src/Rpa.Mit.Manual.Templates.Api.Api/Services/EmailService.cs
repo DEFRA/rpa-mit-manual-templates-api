@@ -1,10 +1,12 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Text;
 
 using Microsoft.Extensions.Options;
 
 using Notify.Client;
 using Notify.Models.Responses;
 
+using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
@@ -14,11 +16,12 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
     public class EmailService : IEmailService
     {
         private readonly GovNotify _options;
-        private readonly string approverEmailTemplateId = "8b70257a-a41c-4260-b9ce-2c6596246fb0";
-        private readonly string invoiceRejectedEmailTemplateId = "69bba64c-e5a5-43a4-aab6-179041c21f13";
-        private readonly string bulkUploadSuccessEmailTemplateId = "88709ce9-b2b4-4175-a8fa-d0cf354e58b6";
-        private readonly string paymentHubErrorTemplateId = "731c5cf4-1cd4-4f07-b0ca-22ea24516bfc";
-        private readonly string reportTemplateId = "7b5a3cb8-273d-4da4-a1c4-36e072fb4d1c";
+        private readonly string _approverEmailTemplateId = "8b70257a-a41c-4260-b9ce-2c6596246fb0";
+        private readonly string _invoiceRejectedEmailTemplateId = "69bba64c-e5a5-43a4-aab6-179041c21f13";
+        private readonly string _bulkUploadSuccessEmailTemplateId = "88709ce9-b2b4-4175-a8fa-d0cf354e58b6";
+        private readonly string _paymentHubErrorTemplateId = "731c5cf4-1cd4-4f07-b0ca-22ea24516bfc";
+        private readonly string _reportTemplateId = "7b5a3cb8-273d-4da4-a1c4-36e072fb4d1c";
+        private readonly string _invoiceRequestTransmissionFailureTemplateId = "5622fc54-0dbd-4241-88b9-4774d98e4491";
 
         public EmailService(IOptions<GovNotify> options)
         {
@@ -41,7 +44,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
             {
                 await client.SendEmailAsync(
                                             emailAddress: approver,
-                                            templateId: approverEmailTemplateId,
+                                            templateId: _approverEmailTemplateId,
                                             personalisation: personalisation
                                         );
             }
@@ -62,7 +65,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
 
             EmailNotificationResponse response = await client.SendEmailAsync(
                                         emailAddress: invoiceCreatorEmail,
-                                        templateId: invoiceRejectedEmailTemplateId,
+                                        templateId: _invoiceRejectedEmailTemplateId,
                                         personalisation: personalisation
                                     );
 
@@ -82,7 +85,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
 
             EmailNotificationResponse response = await client.SendEmailAsync(
                                         emailAddress: invoiceCreatorEmail,
-                                        templateId: bulkUploadSuccessEmailTemplateId,
+                                        templateId: _bulkUploadSuccessEmailTemplateId,
                                         personalisation: personalisation
                                     );
 
@@ -103,7 +106,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
 
             EmailNotificationResponse response = await client.SendEmailAsync(
                                         emailAddress: invoiceCreatorEmail,
-                                        templateId: paymentHubErrorTemplateId,
+                                        templateId: _paymentHubErrorTemplateId,
                                         personalisation: personalisation
                                     );
 
@@ -122,11 +125,36 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
 
             EmailNotificationResponse response = await client.SendEmailAsync(
                                         emailAddress: recipientEmail,
-                                        templateId: reportTemplateId,
+                                        templateId: _reportTemplateId,
                                         personalisation: personalisation
                                     );
 
             return response.Equals(true);
+        }
+
+        public async Task<bool> EmailTransmissionFailure(string originator, IEnumerable<string> failedInvoiceRequests, CancellationToken ct)
+        {
+            var client = new NotificationClient(_options.APIKEY);
+
+            StringBuilder sb = new StringBuilder();
+
+            foreach (var request in failedInvoiceRequests)
+            {
+                sb.AppendLine(request);
+            }
+            
+            Dictionary<string, dynamic> personalisation = new()
+            {
+                { "invoiceRequestIds", sb.ToString() }
+            };
+
+            await client.SendEmailAsync(
+                                        emailAddress: originator,
+                                        templateId: _invoiceRequestTransmissionFailureTemplateId,
+                                        personalisation: personalisation
+                                    );
+
+            return true;
         }
     }
 }

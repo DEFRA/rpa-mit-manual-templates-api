@@ -44,7 +44,7 @@ namespace ApproveInvoiceAr
                 ThrowError("Unable to identify approver");
             }
 
-            StringBuilder sb = new();
+            StringBuilder sbErrors = new();
 
             ApproveInvoiceArResponse response = new()
             {
@@ -58,6 +58,7 @@ namespace ApproveInvoiceAr
                 int idx = 0;
 
                 List<string> approvals = [];
+                List<string> failures = [];
 
                 foreach (InvoiceRequestArForAzure request in invoiceRequestsForAzure)
                 {
@@ -67,7 +68,9 @@ namespace ApproveInvoiceAr
                     if (string.IsNullOrEmpty(invoiceRequestJson))
                     {
                         response.Result = false;
-                        sb.AppendLine("Error creating payment hub json for invoice request " + request.InvoiceRequestId);
+                        failures.Add(request.InvoiceRequestId);
+
+                        sbErrors.AppendLine("Error creating payment hub json for invoice request " + request.InvoiceRequestId);
                     }
                     else
                     {
@@ -78,7 +81,8 @@ namespace ApproveInvoiceAr
                         }
                         else
                         {
-                            sb.AppendFormat("Error sending json for Invoice Request {0} to Payment Hub", request.InvoiceRequestId);
+                            failures.Add(request.InvoiceRequestId);
+                            sbErrors.AppendFormat("Error sending json for Invoice Request {0} to Payment Hub", request.InvoiceRequestId);
                         }
                     }
                 }
@@ -88,14 +92,16 @@ namespace ApproveInvoiceAr
 
                 if (idx == invoiceRequestsForAzure.Count())
                 {
-                    sb.AppendLine("All invoices approved and data sent to Payment Hub.");
+                    sbErrors.AppendLine("All invoices approved and data sent to Payment Hub.");
                 }
                 else
                 {
-                    sb.AppendLine("Some invoices failed approval. The list of failures is here and the rest have been approved and sent to the Payment Hub.");
+                    // TODO: email originator with this list of failed invoice requests. Note that failure is due to error(s) when sending to payment hub, not due to data errors.
+
+                    sbErrors.AppendLine("Some invoices failed approval. The list of failures is here and the rest have been approved and sent to the Payment Hub.");
                 }
 
-                response.Message = sb.ToString();
+                response.Message = sbErrors.ToString();
 
                 await SendAsync(response, 200, cancellation: ct);
             }
