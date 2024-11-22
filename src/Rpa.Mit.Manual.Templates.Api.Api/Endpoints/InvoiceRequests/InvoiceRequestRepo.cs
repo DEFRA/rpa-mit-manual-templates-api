@@ -274,22 +274,27 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests
             }
         }
 
-        public async Task<IEnumerable<InvoiceRequestForAzure>> GetInvoiceRequestsForAzure(Guid invoiceId, CancellationToken ct)
+        public async Task<ApPayloadForPaymentHub> GetInvoiceRequestsApForAzure(Guid invoiceId, CancellationToken ct)
         {
             using (var cn = new NpgsqlConnection(await DbConn()))
             {
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
 
-                var invApSql = "SELECT schemetype,reference,deliverybody FROM invoices WHERE id = @invoiceId";
+                ApPayloadForPaymentHub payloadForPaymentHub = new();
+
+                var invApSql = "SELECT schemetype,reference,deliverybody,createdby FROM invoices WHERE id = @invoiceId";
                 var invApParameters = new { invoiceId };
                 var invoice = await cn.QuerySingleAsync<Invoice>(invApSql, invApParameters);
 
+                payloadForPaymentHub.CreatorEmailAddress = invoice.CreatedBy;
+
                 var prApSql = "SELECT invoicerequestid,ledger,frn,currency,marketingyear,claimreference AS invoiceNumber FROM invoicerequests WHERE invoiceid = @invoiceId";
                 var prApParameters = new { invoiceId };
-                var invoiceRequestsAp = await cn.QueryAsync<InvoiceRequestForAzure>(prApSql, prApParameters);
 
-                foreach (InvoiceRequestForAzure invoiceRequestAp in invoiceRequestsAp)
+                payloadForPaymentHub.InvoiceRequestsAp = await cn.QueryAsync<InvoiceRequestForAzure>(prApSql, prApParameters);
+
+                foreach (InvoiceRequestForAzure invoiceRequestAp in payloadForPaymentHub.InvoiceRequestsAp)
                 {
                     invoiceRequestAp.invoiceNumber = invoiceId.ToString();
                     invoiceRequestAp.deliveryBody = invoice.DeliveryBody;
@@ -304,26 +309,31 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests
                     invoiceRequestAp.value = invoiceRequestAp.invoiceLinesAp.Sum(x => x.value);
                 }
 
-                return invoiceRequestsAp;
+                return payloadForPaymentHub;
             }
         }
 
-        public async Task<IEnumerable<InvoiceRequestArForAzure>> GetInvoiceRequestsArForAzure(Guid invoiceId, CancellationToken ct)
+        public async Task<ArPayloadForPaymentHub> GetInvoiceRequestsArForAzure(Guid invoiceId, CancellationToken ct)
         {
             using (var cn = new NpgsqlConnection(await DbConn()))
             {
                 if (cn.State != ConnectionState.Open)
                     await cn.OpenAsync(ct);
 
-                var invSql = "SELECT schemetype,reference,deliverybody FROM invoices WHERE id = @invoiceId";
+                ArPayloadForPaymentHub payloadForPaymentHub = new();
+
+                var invSql = "SELECT schemetype,reference,deliverybody,createdby FROM invoices WHERE id = @invoiceId";
                 var invParameters = new { invoiceId };
                 var invoice = await cn.QuerySingleAsync<Invoice>(invSql, invParameters);
 
+                payloadForPaymentHub.CreatorEmailAddress = invoice.CreatedBy;
+
                 var prSql = "SELECT invoiceid,invoicerequestid,ledger,frn,currency,marketingyear,claimreference AS invoiceNumber,sbi,vendor,agreementnumber,description,value,duedate,claimreferencenumber,originalclaimreference,originalapinvoicesettlementdate,earliestdatepossiblerecovery,correctionreference FROM invoicerequests WHERE invoiceid = @invoiceId";
                 var prParameters = new { invoiceId };
-                var invoiceRequestsAr = await cn.QueryAsync<InvoiceRequestArForAzure>(prSql, prParameters);
 
-                foreach (InvoiceRequestArForAzure invoiceRequestAr in invoiceRequestsAr)
+                payloadForPaymentHub.InvoiceRequestsAr = await cn.QueryAsync<InvoiceRequestArForAzure>(prSql, prParameters);
+
+                foreach (InvoiceRequestArForAzure invoiceRequestAr in payloadForPaymentHub.InvoiceRequestsAr)
                 {
                     invoiceRequestAr.invoiceNumber = invoiceId.ToString();
                     invoiceRequestAr.deliveryBody = invoice.DeliveryBody;
@@ -338,7 +348,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.InvoiceRequests
                     invoiceRequestAr.value = invoiceRequestAr.invoiceLines.Sum(x => x.value);
                 }
 
-                return invoiceRequestsAr;
+                return payloadForPaymentHub;
             }
         }
     }

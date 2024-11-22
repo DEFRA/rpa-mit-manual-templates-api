@@ -102,14 +102,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         Task<IEnumerable<InvoiceRequest>> GetInvoiceRequestsThatHaveErroredInPaymentHub(CancellationToken ct);
 
         /// <summary>
-        /// get a list of AP invoice requests for a given invoice header, with all children, for publishing to azure servicebus
-        /// </summary>
-        /// <param name="invoiceId"></param>
-        /// <param name="ct"></param>
-        /// <returns></returns>
-        Task<IEnumerable<InvoiceRequestForAzure>> GetInvoiceRequestsForAzure(Guid invoiceId, CancellationToken ct);
-
-        /// <summary>
         /// update a list of invoice requests, together with the parent invoice table, with the fact that they have been approved
         /// </summary>
         /// <param name="approvals"></param>
@@ -119,11 +111,19 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         Task<bool> UpdateInvoiceRequestApprovalStatus(List<string> invoiceRequestIds, Guid invoiceId, string approver, CancellationToken ct);
 
         /// <summary>
+        /// get a list of AP invoice requests for a given invoice header, with all children, for publishing to azure servicebus
+        /// </summary>
+        /// <param name="invoiceId"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        Task<ApPayloadForPaymentHub> GetInvoiceRequestsApForAzure(Guid invoiceId, CancellationToken ct);
+
+        /// <summary>
         ///  get a list of AR invoice requests for a given invoice header, with all children, for publishing to azure servicebus
         /// </summary>
         /// <param name="invoiceId"></param>
         /// <param name="ct"></param>
         /// <returns></returns>
-        Task<IEnumerable<InvoiceRequestArForAzure>> GetInvoiceRequestsArForAzure(Guid invoiceId, CancellationToken ct);
+        Task<ArPayloadForPaymentHub> GetInvoiceRequestsArForAzure(Guid invoiceId, CancellationToken ct);
     }
 }

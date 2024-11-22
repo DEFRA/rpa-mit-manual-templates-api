@@ -59,12 +59,12 @@ namespace ApproveInvoice
             try
             {
                 // get the invoice requests and lines for sending to payment hub
-                var invoiceRequests = await _iInvoiceRequestRepo.GetInvoiceRequestsForAzure(r.Id, ct);
+                var paymentHubPayload = await _iInvoiceRequestRepo.GetInvoiceRequestsApForAzure(r.Id, ct);
 
                 List<string> approvals = [];
                 List<string> failures = [];
 
-                foreach (InvoiceRequestForAzure request in invoiceRequests)
+                foreach (InvoiceRequestForAzure request in paymentHubPayload.InvoiceRequestsAp)
                 {
                     // create the json
                     var invoiceRequestJson = _iPaymentHubJsonGenerator.GenerateInvoiceRequestJson<InvoiceRequestForAzure>(request, ct);
@@ -94,14 +94,14 @@ namespace ApproveInvoice
                 // now update our db with the results of approval
                 await _iInvoiceRequestRepo.UpdateInvoiceRequestApprovalStatus(approvals, r.Id, userEmail, ct);
 
-                if (approvals.Count == invoiceRequests.Count())
+                if (approvals.Count == paymentHubPayload.InvoiceRequestsAp.Count())
                 {
                     sbErrors.AppendLine("All invoices approved and data sent to Payment Hub.");
                 }
                 else
                 {
                     // TODO: email originator with this list of failed invoice requests. Note that failure is due to error(s) when sending to payment hub, not due to data errors.
-                    await _iEmailService.EmailTransmissionFailure("aylmer.carson.external@eviden.com", failures, ct);
+                    await _iEmailService.EmailTransmissionFailure(paymentHubPayload.CreatorEmailAddress, failures, ct);
 
                     sbErrors.AppendLine("Some invoices failed approval. The list of failures is here and the rest have been approved and sent to the Payment Hub.");
                 }

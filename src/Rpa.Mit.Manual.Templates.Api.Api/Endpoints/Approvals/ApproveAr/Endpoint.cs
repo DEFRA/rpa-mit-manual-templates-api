@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
+using Rpa.Mit.Manual.Templates.Api.Api.Services;
 using Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
@@ -15,16 +16,19 @@ namespace ApproveInvoiceAr
     {
         private readonly IServiceBusProvider _iServiceBusProvider;
         private readonly IInvoiceRequestRepo _iInvoiceRequestRepo;
+        private readonly IEmailService _iEmailService;
         private readonly ILogger<ApproveInvoiceArEndpoint> _logger;
         private readonly IPaymentHubJsonGenerator _iPaymentHubJsonGenerator;
 
         public ApproveInvoiceArEndpoint(
+            IEmailService iEmailService,
                                         IInvoiceRequestRepo iInvoiceRequestRepo,
                                         IServiceBusProvider iServiceBusProvider,
                                         ILogger<ApproveInvoiceArEndpoint> logger,
                                         IPaymentHubJsonGenerator iPaymentHubJsonGenerator)
         {
             _logger = logger;
+            _iEmailService = iEmailService;
             _iInvoiceRequestRepo = iInvoiceRequestRepo;
             _iPaymentHubJsonGenerator = iPaymentHubJsonGenerator;
             _iServiceBusProvider = iServiceBusProvider;
@@ -54,13 +58,12 @@ namespace ApproveInvoiceAr
             try
             {
                 // get the AR invoice requests and lines for sending to payment hub
-                var invoiceRequestsForAzure = await _iInvoiceRequestRepo.GetInvoiceRequestsArForAzure(r.Id, ct);
-                int idx = 0;
+                var paymentHubPayload = await _iInvoiceRequestRepo.GetInvoiceRequestsArForAzure(r.Id, ct);
 
                 List<string> approvals = [];
                 List<string> failures = [];
 
-                foreach (InvoiceRequestArForAzure request in invoiceRequestsForAzure)
+                foreach (InvoiceRequestArForAzure request in paymentHubPayload.InvoiceRequestsAr)
                 {
                     // create the json
                     var invoiceRequestJson = _iPaymentHubJsonGenerator.GenerateInvoiceRequestJson<InvoiceRequestArForAzure>(request, ct);
@@ -77,7 +80,6 @@ namespace ApproveInvoiceAr
                         if (await _iServiceBusProvider.SendInvoiceRequestJson(invoiceRequestJson))
                         {
                             approvals.Add(request.InvoiceRequestId);
-                            idx++;
                         }
                         else
                         {
@@ -90,13 +92,14 @@ namespace ApproveInvoiceAr
                 // now update our db with the results of approval
                 await _iInvoiceRequestRepo.UpdateInvoiceRequestApprovalStatus(approvals, r.Id, User.Identity?.Name!, ct);
 
-                if (idx == invoiceRequestsForAzure.Count())
+                if (approvals.Count == paymentHubPayload.InvoiceRequestsAr.Count())
                 {
                     sbErrors.AppendLine("All invoices approved and data sent to Payment Hub.");
                 }
                 else
                 {
                     // TODO: email originator with this list of failed invoice requests. Note that failure is due to error(s) when sending to payment hub, not due to data errors.
+                    await _iEmailService.EmailTransmissionFailure(paymentHubPayload.CreatorEmailAddress, failures, ct);
 
                     sbErrors.AppendLine("Some invoices failed approval. The list of failures is here and the rest have been approved and sent to the Payment Hub.");
                 }
