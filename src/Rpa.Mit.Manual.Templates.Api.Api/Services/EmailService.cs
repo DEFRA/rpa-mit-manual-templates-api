@@ -6,7 +6,6 @@ using Microsoft.Extensions.Options;
 using Notify.Client;
 using Notify.Models.Responses;
 
-using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
@@ -101,7 +100,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
                 { "invoicerequestid", invoiceRequest!.paymentRequest!.InvoiceRequestId },
                 { "error", invoiceRequest.error},
                 { "value", invoiceRequest.paymentRequest.invoiceLines!.Sum(x => x.value)}
-                //{"invoicedata", JsonSerializer.Serialize(invoiceRequest)}
             };
 
             EmailNotificationResponse response = await client.SendEmailAsync(

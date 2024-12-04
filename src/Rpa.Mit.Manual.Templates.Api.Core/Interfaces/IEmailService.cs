@@ -1,7 +1,4 @@
-﻿using System.Net.Mail;
-
-using Rpa.Mit.Manual.Templates.Api.Core.Entities;
-using Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure;
+﻿using Rpa.Mit.Manual.Templates.Api.Core.Entities.Azure;
 
 namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
 {
