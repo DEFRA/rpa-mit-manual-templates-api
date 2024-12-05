@@ -10,6 +10,7 @@ using Rpa.Mit.Manual.Templates.Api.Api.Services;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces.Azure;
 using Rpa.Mit.Manual.Templates.Api.Api.MitAzure;
 using Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Admin.Approvers;
+using Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Dropdowns;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Extensions;
 [ExcludeFromCodeCoverage]
@@ -23,6 +24,7 @@ public static class ServiceExtensions
         services.AddTransient<IApprovalsRepo, ApprovalsRepo>(); 
         services.AddTransient<IApproversRepo, ApproversRepo>();
         services.AddTransient<IBulkUploadRepo, BulkUploadRepo>();
+        services.AddTransient<IDropdownRepo, DropdownRepo>();
         services.AddTransient<IInvoiceLineRepo, InvoiceLineRepo>();
         services.AddTransient<IReferenceDataRepo, ReferenceDataRepo>();
         services.AddTransient<IInvoiceRepo, InvoiceRepo>(); 
