@@ -18,9 +18,10 @@ public static class ServiceExtensions
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
-        
-        services.AddTransient<IApproversAdminRepo, ApproversAdminRepo>();
+        services.AddSingleton<ICacheManager, CacheManager>();
+        services.AddSingleton<IServiceBusProvider, ServiceBusProvider>();
 
+        services.AddTransient<IApproversAdminRepo, ApproversAdminRepo>();
         services.AddTransient<IApprovalsRepo, ApprovalsRepo>(); 
         services.AddTransient<IApproversRepo, ApproversRepo>();
         services.AddTransient<IBulkUploadRepo, BulkUploadRepo>();
@@ -34,11 +35,10 @@ public static class ServiceExtensions
         services.AddTransient<IArImporterService, ArImporterService>();
         services.AddTransient<IValidationService, ValidationService>();
         services.AddTransient<IEmailService, EmailService>();
-        services.AddSingleton<ICacheManager, CacheManager>(); 
-        services.AddSingleton<IServiceBusProvider, ServiceBusProvider>();
         services.AddTransient<IPaymentHubJsonGenerator,PaymentHubJsonGenerator>();
 
         services.AddScoped<BusinessFeedbackHandler>();
+
 
         return services;
     }
