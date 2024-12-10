@@ -1,7 +1,4 @@
-﻿using System;
-
-using Rpa.Mit.Manual.Templates.Api.Core.Entities;
-using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
+﻿using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Services
 {
@@ -42,7 +39,32 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
 
         public string GetDeliveryBodyNamedRange(string org, string dBody)
         {
-            throw new NotImplementedException();
+            string deliveryBodyNamedRange;
+
+            switch (dBody.Right(2))
+            {
+                case "P1":
+                    deliveryBodyNamedRange = "P1DBs";
+                    break;
+                case "XQ":
+                    deliveryBodyNamedRange = "ExNRDPEDBs";
+                    break;
+                default:
+                    deliveryBodyNamedRange = org + "DBs";
+                    break;
+            }
+
+            switch (dBody)
+            {
+                case "OPA":
+                    deliveryBodyNamedRange = "OPADBs";
+                    break;
+                case "TR":
+                    deliveryBodyNamedRange = "TRDBs";
+                    break;
+            }
+
+            return deliveryBodyNamedRange;
         }
 
         public string GetAccountNamedRange(string org, string dBody, string invoiceType)
@@ -52,41 +74,41 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
 
         public string GetMarketingYearNamedRange(string org, string dBody)
         {
-            string marketingYear = "NSMY";
+            string marketingYearNamedRange = "NSMY"; // 2014 onwards plus an NA option for Exchequer invoices
 
             switch (dBody.Right(2))
             {
                 case "P1":
-                    marketingYear = "P1MY";
+                    marketingYearNamedRange = "P1MY";
                     break;
                 case "XQ":
-                    marketingYear = "ExNRDPEMY";
+                    marketingYearNamedRange = "ExNRDPEMY";
                     break;
             }
 
             if (dBody.Right(2) == "LS" || dBody.Right(5) == "LSDom")
             {
-                marketingYear = "LSMY";
+                marketingYearNamedRange = "LSMY";
             }
             else if (dBody.Right(2) == "CS" || dBody.Right(5) == "CSDom")
             {
-                marketingYear = "NAMY"; // a-VA02-02 request from NE to allow NA for EXQ lines (applies to FC as well)
+                marketingYearNamedRange = "NAMY"; // a-VA02-02 request from NE to allow NA for EXQ lines (applies to FC as well)
             }
 
             switch (dBody)
             {
                 case "SPS,TR":
-                    marketingYear = "LSMY";
+                    marketingYearNamedRange = "LSMY";
                     break;
                 case "XG":
-                    marketingYear = "XGMY";
+                    marketingYearNamedRange = "XGMY";
                     break;
                 case "OPA":
-                    marketingYear = "OPAMY";
+                    marketingYearNamedRange = "OPAMY";
                     break;
             }
 
-            return marketingYear;
+            return marketingYearNamedRange;
         }
 
         public string GetSchemeTypeNamedRange(string org, string dBody)
@@ -96,71 +118,71 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
 
         private string GetFundCodeForNonRPA(string dBody, string org, string invoiceType)
         {
-            string fundCode = "";
+            string fundCodeNamedRange = "";
 
             if (dBody.Right(2) == "P1")
             {
                 // What funds for NE, FC, RDT, RDPE schemes - LS or NS
-                fundCode = "P1Funds";
+                fundCodeNamedRange = "P1Funds";
             }
             else if (dBody.Right(2) == "XQ")
             {
-                fundCode = "ExNRDPEFunds";
+                fundCodeNamedRange = "ExNRDPEFunds";
             }
             else if (dBody.Right(2) == "LS" && invoiceType == "AR")
             {
                 if (org == "NE" || org == "FC" || org == "RDPE" || org == "RDT")
                 {
-                    fundCode = "AR_LS_FUNDS";
+                    fundCodeNamedRange = "AR_LS_FUNDS";
                 }
                 else
                 {
-                    fundCode = "LSFunds";
+                    fundCodeNamedRange = "LSFunds";
                 }
             }
             else if (dBody.Right(3) == "Dom" && invoiceType == "AR")
             {
                 if (org == "NE" || org == "FC" || org == "RDPE" || org == "RDT")
                 {
-                    fundCode = "AR_DOM_FUNDS";
+                    fundCodeNamedRange = "AR_DOM_FUNDS";
                 }
             }
             else if (org == "FC" && invoiceType == "AP") //    'v02-05 added to provide EXQ99 for FC AP (pv)
             {
-                fundCode = "FCAP";
+                fundCodeNamedRange = "FCAP";
             }
             else if (dBody.Right(2) == "EA")            // a-VA03-00 change to accomodate EA Invoices
             {
                 if (dBody.Right(5) == "CSDom" || invoiceType == "AP")
                 {
-                    fundCode = "EA_DOM_FUNDS";
+                    fundCodeNamedRange = "EA_DOM_FUNDS";
                 }
                 else
                 {
-                    fundCode = "EAFunds";
+                    fundCodeNamedRange = "EAFunds";
                 }
             }
             else
             {
                 if (org == "RDT" && invoiceType == "AP")
                 {
-                    fundCode = "RDTNSFunds";
+                    fundCodeNamedRange = "RDTNSFunds";
                 }
                 else if (dBody == "NECS" && invoiceType == "AP")
                 {
-                    fundCode = "NECSFunds";
+                    fundCodeNamedRange = "NECSFunds";
                 }
                 else if (invoiceType == "AR")
                 {
-                    fundCode = "NSARFunds";
+                    fundCodeNamedRange = "NSARFunds";
                 }
                 else
                 {
-                    fundCode = "NSFunds";
+                    fundCodeNamedRange = "NSFunds";
                 }
             }
 
-            return fundCode;
+            return fundCodeNamedRange;
         }
     }
 }
