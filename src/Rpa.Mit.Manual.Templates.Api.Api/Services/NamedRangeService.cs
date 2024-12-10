@@ -1,4 +1,7 @@
-﻿using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
+﻿using System;
+
+using Rpa.Mit.Manual.Templates.Api.Core.Entities;
+using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Services
 {
@@ -49,7 +52,41 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
 
         public string GetMarketingYearNamedRange(string org, string dBody)
         {
-            throw new NotImplementedException();
+            string marketingYear = "NSMY";
+
+            switch (dBody.Right(2))
+            {
+                case "P1":
+                    marketingYear = "P1MY";
+                    break;
+                case "XQ":
+                    marketingYear = "ExNRDPEMY";
+                    break;
+            }
+
+            if (dBody.Right(2) == "LS" || dBody.Right(5) == "LSDom")
+            {
+                marketingYear = "LSMY";
+            }
+            else if (dBody.Right(2) == "CS" || dBody.Right(5) == "CSDom")
+            {
+                marketingYear = "NAMY"; // a-VA02-02 request from NE to allow NA for EXQ lines (applies to FC as well)
+            }
+
+            switch (dBody)
+            {
+                case "SPS,TR":
+                    marketingYear = "LSMY";
+                    break;
+                case "XG":
+                    marketingYear = "XGMY";
+                    break;
+                case "OPA":
+                    marketingYear = "OPAMY";
+                    break;
+            }
+
+            return marketingYear;
         }
 
         public string GetSchemeTypeNamedRange(string org, string dBody)
