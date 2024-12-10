@@ -111,9 +111,31 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
             return marketingYearNamedRange;
         }
 
-        public string GetSchemeTypeNamedRange(string org, string dBody)
+        public string GetSchemeTypeNamedRange(string org, string dBody, string invoiceType)
         {
-            throw new NotImplementedException();
+            string schemeNamedRange;
+
+            if (dBody == "NEP1")
+            {
+                schemeNamedRange = "P1Schemes";
+            }
+            else if (org == "NE" && dBody.Right(2) == "LS")
+            {
+                if (invoiceType == "AR")
+                {
+                    schemeNamedRange = "NEARSchemes";
+                }
+                else
+                {
+                    schemeNamedRange = "NEAPSchemes";  // Excludes the AR Only Schemes for NE
+                }
+            }
+            else
+            {
+                schemeNamedRange = dBody + "Schemes";  // Simpler if you are not NE
+            }
+
+            return schemeNamedRange;
         }
 
         private string GetFundCodeForNonRPA(string dBody, string org, string invoiceType)

@@ -6,7 +6,7 @@
 
         string GetAccountNamedRange(string org, string dBody, string invoiceType);
 
-        string GetSchemeTypeNamedRange(string org, string dBody);
+        string GetSchemeTypeNamedRange(string org, string dBody, string invoiceType);
 
         string GetMarketingYearNamedRange(string org, string dBody);
 
