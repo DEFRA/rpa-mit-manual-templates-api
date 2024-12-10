@@ -69,7 +69,62 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
 
         public string GetAccountNamedRange(string org, string dBody, string invoiceType)
         {
-            throw new NotImplementedException();
+            string accountNamedRange = string.Empty;
+
+            if (org != "NE")
+            {
+                if (invoiceType == "AP")
+                {
+                    accountNamedRange = dBody + "APAccounts"; // Set the Main Account Named Ranges
+                }
+                else if (invoiceType == "AR")
+                {
+                    accountNamedRange = dBody + "ARAccounts";
+                }
+            }
+            else
+            {
+                if (dBody == "NEP1")
+                {
+                    if (invoiceType == "AP")
+                    {
+                        accountNamedRange = "NEP1APAccounts";
+                    }
+                    else
+                    {
+                        accountNamedRange = "NEP1ARAccounts";
+                    }
+                }
+                else if (dBody == "NECS" && invoiceType == "AP")
+                {
+                    accountNamedRange = "NECSAPAccounts";
+                }
+                else if (invoiceType == "AP")
+                {
+                    accountNamedRange = org + "APAccounts";
+                }
+                else
+                {
+                    if (dBody.Right(2) == "LS")
+                    {
+                        accountNamedRange = "NELSARAccounts";  // This accommodates the difference between LS AR Accounts and NS AR Accounts
+                    }
+                    else if (dBody.Right(5) == "LSDom")
+                    {
+                        accountNamedRange = "NELSDomARAccounts";
+                    }
+                    else if (dBody.Right(5) == "CSDom")
+                    {
+                        accountNamedRange = "NECSDomARAccounts";
+                    }
+                    else
+                    {
+                        accountNamedRange = "NEARAccounts"; // Not sure if we actually need a different naming convention now
+                    }
+                }
+            }
+
+            return accountNamedRange;
         }
 
         public string GetMarketingYearNamedRange(string org, string dBody)
