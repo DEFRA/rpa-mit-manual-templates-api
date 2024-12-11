@@ -104,5 +104,41 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Invoices
                 return await cn.QuerySingleAsync<string>(sql, parameters);
             }
         }
+
+        public async Task<DropdownsResponse> GetDropdowns(DropdownsRequest dropdownsRequest, CancellationToken ct)
+        {
+            using (var cn = new NpgsqlConnection(await DbConn()))
+            {
+                if (cn.State != ConnectionState.Open)
+                    await cn.OpenAsync(ct);
+
+                var dropdownsResponse = new DropdownsResponse();
+
+                var sql = @"
+                        SELECT values FROM lookup_dropdowns where name = @FundNamedRange;
+                        SELECT values FROM lookup_dropdowns where name = @AccountNamedRange;
+                        SELECT values FROM lookup_dropdowns where name = @SchemeTypeNamedRange;
+                        SELECT values FROM lookup_dropdowns where name = @MarketingYearNamedRange;
+                        SELECT values FROM lookup_dropdowns where name = @DeliveryBodyNamedRange;
+                        ";
+
+                using (var res = await cn.QueryMultipleAsync(sql,  new { 
+                                                                        dropdownsRequest.FundNamedRange, 
+                                                                        dropdownsRequest.AccountNamedRange,
+                                                                        dropdownsRequest.SchemeTypeNamedRange,
+                                                                        dropdownsRequest.MarketingYearNamedRange,
+                                                                        dropdownsRequest.DeliveryBodyNamedRange
+                                                                    }))
+                {
+                    dropdownsResponse.Funds = await res.ReadSingleAsync<string>();
+                    dropdownsResponse.Accounts = await res.ReadSingleAsync<string>();
+                    dropdownsResponse.SchemeTypes = await res.ReadSingleAsync<string>();
+                    dropdownsResponse.MarketingYears = await res.ReadSingleAsync<string>();
+                    dropdownsResponse.DeliveryBodies = await res.ReadSingleAsync<string>();
+
+                    return dropdownsResponse;
+                }
+            }
+        }
     }
 }

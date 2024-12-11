@@ -43,5 +43,13 @@ namespace Rpa.Mit.Manual.Templates.Api.Core.Interfaces
         /// <param name="ct"></param>
         /// <returns></returns>
         Task<string> GetInvoiceCreatorEmailAddress(Guid invoiceId, CancellationToken ct);
+
+        /// <summary>
+        /// gets a list of the various dropdown values once a user has made their initial selections
+        /// </summary>
+        /// <param name="dropdownsRequest"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        Task<DropdownsResponse> GetDropdowns(DropdownsRequest dropdownsRequest, CancellationToken ct);
     }
 }

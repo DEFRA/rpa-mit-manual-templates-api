@@ -55,6 +55,17 @@ namespace Invoices.Add
                     var marketingYearNamedRange = _iNamedRangeService.GetMarketingYearNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody);
                     var deliveryBodyNamedRange = _iNamedRangeService.GetDeliveryBodyNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody);
 
+                    DropdownsRequest dropdownsRequest = new DropdownsRequest
+                    {
+                        FundNamedRange = fundNamedRange,
+                        AccountNamedRange = accountNamedRange,
+                        SchemeTypeNamedRange = schemeTypeNamedRange,
+                        MarketingYearNamedRange = marketingYearNamedRange,
+                        DeliveryBodyNamedRange = deliveryBodyNamedRange
+                    };
+
+                    response.Dropdowns = await _iInvoiceDataRepo.GetDropdowns(dropdownsRequest, ct);
+
                     response.Invoice = invoice;
                     await SendAsync(response, 200,cancellation: ct);
                 }

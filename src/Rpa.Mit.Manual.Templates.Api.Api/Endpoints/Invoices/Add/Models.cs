@@ -58,5 +58,7 @@ namespace Invoices.Add
         public string Message { get; set; } = string.Empty;
 
         public Invoice? Invoice { get; set; }
+
+        public DropdownsResponse Dropdowns { get; set; } = new DropdownsResponse();
     }
 }
