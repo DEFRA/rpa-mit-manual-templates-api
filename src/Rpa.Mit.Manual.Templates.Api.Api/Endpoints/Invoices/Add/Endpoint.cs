@@ -12,13 +12,16 @@ namespace Invoices.Add
     internal sealed class AddInvoiceEndpoint : EndpointWithMapping<AddInvoiceRequest, AddInvoiceResponse, Invoice>
     {
         private readonly IInvoiceRepo _iInvoiceDataRepo;
+        private readonly INamedRangeService _iNamedRangeService;
         private readonly ILogger<AddInvoiceEndpoint> _logger;
 
         public AddInvoiceEndpoint(
             ILogger<AddInvoiceEndpoint> logger,
+            INamedRangeService iNamedRangeService,
             IInvoiceRepo iInvoiceDataRepo)
         {
             _logger = logger;
+            _iNamedRangeService = iNamedRangeService;
             _iInvoiceDataRepo = iInvoiceDataRepo;
         }
 
@@ -46,6 +49,12 @@ namespace Invoices.Add
 
                 if (await _iInvoiceDataRepo.AddInvoice(invoice, ct))
                 {
+                    var fundNamedRange = _iNamedRangeService.GetFundCodeNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody, invoiceRequest.AccountType);
+                    var accountNamedRange = _iNamedRangeService.GetAccountNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody, invoiceRequest.AccountType);
+                    var schemeTypeNamedRange = _iNamedRangeService.GetSchemeTypeNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody, invoiceRequest.AccountType);
+                    var marketingYearNamedRange = _iNamedRangeService.GetMarketingYearNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody);
+                    var deliveryBodyNamedRange = _iNamedRangeService.GetDeliveryBodyNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody);
+
                     response.Invoice = invoice;
                     await SendAsync(response, 200,cancellation: ct);
                 }

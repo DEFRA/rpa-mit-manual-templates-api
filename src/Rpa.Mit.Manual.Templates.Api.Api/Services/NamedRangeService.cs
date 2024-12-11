@@ -193,7 +193,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
             return schemeNamedRange;
         }
 
-        private string GetFundCodeForNonRPA(string dBody, string org, string invoiceType)
+        private static string GetFundCodeForNonRPA(string dBody, string org, string invoiceType)
         {
             string fundCodeNamedRange = "";
 

@@ -20,7 +20,7 @@ public static class ServiceExtensions
     {
         services.AddSingleton<ICacheManager, CacheManager>();
         services.AddSingleton<IServiceBusProvider, ServiceBusProvider>();
-
+        
         services.AddTransient<IApproversAdminRepo, ApproversAdminRepo>();
         services.AddTransient<IApprovalsRepo, ApprovalsRepo>(); 
         services.AddTransient<IApproversRepo, ApproversRepo>();
@@ -33,6 +33,7 @@ public static class ServiceExtensions
 
         services.AddTransient<IImporterService, ApImporterService>();
         services.AddTransient<IArImporterService, ArImporterService>();
+        services.AddTransient<INamedRangeService, NamedRangeService>();
         services.AddTransient<IValidationService, ValidationService>();
         services.AddTransient<IEmailService, EmailService>();
         services.AddTransient<IPaymentHubJsonGenerator,PaymentHubJsonGenerator>();
