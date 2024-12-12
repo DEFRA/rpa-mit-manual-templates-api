@@ -141,11 +141,11 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
                     break;
             }
 
-            if (dBody.Right(2) == "LS" || dBody.Right(5) == "LSDom")
+            if (dBody.Right(2) == "LS" || dBody == "LSDom") // can't blindly check the substring from pos 5 here like in the VBA
             {
                 marketingYearNamedRange = "LSMY";
             }
-            else if (dBody.Right(2) == "CS" || dBody.Right(5) == "CSDom")
+            else if (dBody.Right(2) == "CS" || dBody == "CSDom") // can't blindly check the substring from pos 5 here like in the VBA
             {
                 marketingYearNamedRange = "NAMY"; // a-VA02-02 request from NE to allow NA for EXQ lines (applies to FC as well)
             }
