@@ -109,11 +109,11 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
                     {
                         accountNamedRange = "NELSARAccounts";  // This accommodates the difference between LS AR Accounts and NS AR Accounts
                     }
-                    else if (dBody.Right(5) == "LSDom")
+                    else if (dBody == "LSDom")
                     {
                         accountNamedRange = "NELSDomARAccounts";
                     }
-                    else if (dBody.Right(5) == "CSDom")
+                    else if (dBody == "CSDom")
                     {
                         accountNamedRange = "NECSDomARAccounts";
                     }
