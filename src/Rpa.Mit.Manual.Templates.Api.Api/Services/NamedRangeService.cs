@@ -1,7 +1,10 @@
-﻿using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Services
 {
+    [ExcludeFromCodeCoverage]
     public class NamedRangeService : INamedRangeService
     {
         public string GetFundCodeNamedRange(string org, string dBody, string invoiceType)

@@ -1,2 +1,0 @@
-INSERT INTO rpa_mit_invoices.public.invoices (schemetype,reference,status,approverid,approveremail,approvedby,dateapproved,createdby,updatedby,created,updated,paymenttype,accounttype,deliverybody,secondaryquestion,approvalgroup,id,bulkuploadconfirmed,approved,approvalrejectionreason) VALUES
-	 ('10501',NULL,'new',NULL,NULL,NULL,NULL,'aylmer.carson',NULL,'2024-08-01 09:41:51.091852',NULL,NULL,'AP','RP00',NULL,'RP00','e1ec801e-e0f3-44bd-8c46-4a2108adc5d7',NULL,NULL,NULL);
