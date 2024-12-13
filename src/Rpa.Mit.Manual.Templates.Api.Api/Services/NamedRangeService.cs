@@ -76,27 +76,13 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
 
             if (org != "NE")
             {
-                if (invoiceType == "AP")
-                {
-                    accountNamedRange = dBody + "APAccounts"; // Set the Main Account Named Ranges
-                }
-                else if (invoiceType == "AR")
-                {
-                    accountNamedRange = dBody + "ARAccounts";
-                }
+                accountNamedRange = dBody + invoiceType + "Accounts"; // Set the Main Account Named Ranges
             }
             else
             {
                 if (dBody == "NEP1")
                 {
-                    if (invoiceType == "AP")
-                    {
-                        accountNamedRange = "NEP1APAccounts";
-                    }
-                    else
-                    {
-                        accountNamedRange = "NEP1ARAccounts";
-                    }
+                    accountNamedRange = "NEP1" + invoiceType + "Accounts"; // Set the Main Account Named Ranges
                 }
                 else if (dBody == "NECS" && invoiceType == "AP")
                 {
