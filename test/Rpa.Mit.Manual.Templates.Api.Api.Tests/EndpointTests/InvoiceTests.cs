@@ -7,6 +7,7 @@ using Invoices.Delete;
 
 using Microsoft.Extensions.Logging;
 
+using Rpa.Mit.Manual.Templates.Api.Api.Services;
 using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
@@ -28,10 +29,23 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
 
             var fakeRepo = A.Fake<IInvoiceRepo>();
             A.CallTo(() => fakeRepo.AddInvoice(A<Invoice>.Ignored, CancellationToken.None))
-                    .Returns(Task.FromResult(true));
+            .Returns(Task.FromResult(true));
+
+            var fakeNamedRangeService = A.Fake<INamedRangeService>();
+            A.CallTo(() => fakeNamedRangeService.GetAccountNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody, invoiceRequest.AccountType))
+                .Returns("QW");
+            A.CallTo(() => fakeNamedRangeService.GetSchemeTypeNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody, invoiceRequest.AccountType))
+                .Returns("QW");
+            A.CallTo(() => fakeNamedRangeService.GetDeliveryBodyNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody))
+                .Returns("QW");
+            A.CallTo(() => fakeNamedRangeService.GetMarketingYearNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody))
+                .Returns("QW");
+            A.CallTo(() => fakeNamedRangeService.GetFundCodeNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody, invoiceRequest.AccountType))
+                .Returns("QW");
 
             var ep = Factory.Create<AddInvoiceEndpoint>(
                            A.Fake<ILogger<AddInvoiceEndpoint>>(),
+                           fakeNamedRangeService,
                            fakeRepo);
 
             await ep.HandleAsync(invoiceRequest, default);
@@ -59,8 +73,21 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
             A.CallTo(() => fakeRepo.AddInvoice(A<Invoice>.Ignored, CancellationToken.None))
                     .Returns(Task.FromResult(false));
 
+            var fakeNamedRangeService = A.Fake<INamedRangeService>();
+            A.CallTo(() => fakeNamedRangeService.GetAccountNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody, invoiceRequest.AccountType))
+                .Returns("QW");
+            A.CallTo(() => fakeNamedRangeService.GetSchemeTypeNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody, invoiceRequest.AccountType))
+                .Returns("QW");
+            A.CallTo(() => fakeNamedRangeService.GetDeliveryBodyNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody))
+                .Returns("QW");
+            A.CallTo(() => fakeNamedRangeService.GetMarketingYearNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody))
+                .Returns("QW");
+            A.CallTo(() => fakeNamedRangeService.GetFundCodeNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody, invoiceRequest.AccountType))
+                .Returns("QW");
+
             var ep = Factory.Create<AddInvoiceEndpoint>(
                            A.Fake<ILogger<AddInvoiceEndpoint>>(),
+                           fakeNamedRangeService,
                            fakeRepo);
 
             await ep.HandleAsync(invoiceRequest, default);
@@ -85,8 +112,21 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
             A.CallTo(() => fakeRepo.AddInvoice(A<Invoice>.Ignored, CancellationToken.None))
                     .Throws<NullReferenceException>();
 
+            var fakeNamedRangeService = A.Fake<INamedRangeService>();
+            A.CallTo(() => fakeNamedRangeService.GetAccountNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody, invoiceRequest.AccountType))
+                .Returns("QW");
+            A.CallTo(() => fakeNamedRangeService.GetSchemeTypeNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody, invoiceRequest.AccountType))
+                .Returns("QW");
+            A.CallTo(() => fakeNamedRangeService.GetDeliveryBodyNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody))
+                .Returns("QW");
+            A.CallTo(() => fakeNamedRangeService.GetMarketingYearNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody))
+                .Returns("QW");
+            A.CallTo(() => fakeNamedRangeService.GetFundCodeNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody, invoiceRequest.AccountType))
+                .Returns("QW");
+
             var ep = Factory.Create<AddInvoiceEndpoint>(
                            A.Fake<ILogger<AddInvoiceEndpoint>>(),
+                           fakeNamedRangeService,
                            fakeRepo);
 
             await ep.HandleAsync(invoiceRequest, default);
