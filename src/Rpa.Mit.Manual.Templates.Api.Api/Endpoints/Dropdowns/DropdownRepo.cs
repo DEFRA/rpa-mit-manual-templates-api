@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Diagnostics.CodeAnalysis;
 
 using Dapper;
 
@@ -11,6 +12,7 @@ using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Endpoints.Dropdowns
 {
+    [ExcludeFromCodeCoverage]
     public class DropdownRepo : BaseData, IDropdownRepo
     {
         public DropdownRepo(IOptions<PostGres> options) : base(options)

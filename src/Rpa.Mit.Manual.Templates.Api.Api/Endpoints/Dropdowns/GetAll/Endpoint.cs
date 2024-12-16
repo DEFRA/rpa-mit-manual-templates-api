@@ -1,7 +1,10 @@
-﻿using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace Dropdowns.GetAll
 {
+    [ExcludeFromCodeCoverage]
     internal sealed class Endpoint : EndpointWithoutRequest<Response>
     {
         private readonly IDropdownRepo _iDropdownRepo;
