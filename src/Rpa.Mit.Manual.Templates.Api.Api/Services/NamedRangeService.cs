@@ -232,9 +232,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
             return fundCodeNamedRange;
         }
 
-        private static string FundCodeNamedRangeForLs(string invoiceType, string org)
-        {
-            return invoiceType == "AR" && (org == "NE" || org == "FC" || org == "RDPE" || org == "RDT") ? "AR_LS_FUNDS" : "LSFunds";
-        }
+        private static string FundCodeNamedRangeForLs(string invoiceType, string org) => 
+            invoiceType == "AR" && (org == "NE" || org == "FC" || org == "RDPE" || org == "RDT") ? "AR_LS_FUNDS" : "LSFunds";
     }
 }
