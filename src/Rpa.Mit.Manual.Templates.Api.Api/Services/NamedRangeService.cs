@@ -186,27 +186,23 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
         {
             string fundCodeNamedRange = "";
 
-            if (dBody.Right(2) == "P1")
+            switch (dBody.Right(2))
             {
-                // What funds for NE, FC, RDT, RDPE schemes - LS or NS
-                fundCodeNamedRange = "P1Funds";
+                case "P1":
+                    fundCodeNamedRange = "P1Funds";
+                    break;
+                case "XQ":
+                    fundCodeNamedRange = "ExNRDPEFunds";
+                    break;
+                case "EA":
+                    fundCodeNamedRange = dBody.Right(5) == "CSDom" || invoiceType == "AP" ? "EA_DOM_FUNDS" : "EAFunds";
+                    break;
+                case "LS":
+                    fundCodeNamedRange = FundCodeNamedRangeForLs(invoiceType, org);
+                    break;
             }
-            else if (dBody.Right(2) == "XQ")
-            {
-                fundCodeNamedRange = "ExNRDPEFunds";
-            }
-            else if (dBody.Right(2) == "LS" && invoiceType == "AR")
-            {
-                if (org == "NE" || org == "FC" || org == "RDPE" || org == "RDT")
-                {
-                    fundCodeNamedRange = "AR_LS_FUNDS";
-                }
-                else
-                {
-                    fundCodeNamedRange = "LSFunds";
-                }
-            }
-            else if (dBody.Right(3) == "Dom" && invoiceType == "AR")
+            
+            if (dBody.Right(3) == "Dom" && invoiceType == "AR")
             {
                 if (org == "NE" || org == "FC" || org == "RDPE" || org == "RDT")
                 {
@@ -216,17 +212,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
             else if (org == "FC" && invoiceType == "AP") //    'v02-05 added to provide EXQ99 for FC AP (pv)
             {
                 fundCodeNamedRange = "FCAP";
-            }
-            else if (dBody.Right(2) == "EA")            // a-VA03-00 change to accomodate EA Invoices
-            {
-                if (dBody.Right(5) == "CSDom" || invoiceType == "AP")
-                {
-                    fundCodeNamedRange = "EA_DOM_FUNDS";
-                }
-                else
-                {
-                    fundCodeNamedRange = "EAFunds";
-                }
             }
             else
             {
@@ -238,17 +223,18 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
                 {
                     fundCodeNamedRange = "NECSFunds";
                 }
-                else if (invoiceType == "AR")
-                {
-                    fundCodeNamedRange = "NSARFunds";
-                }
                 else
                 {
-                    fundCodeNamedRange = "NSFunds";
+                    fundCodeNamedRange = invoiceType == "AR" ? "NSARFunds" : "NSFunds";
                 }
             }
 
             return fundCodeNamedRange;
+        }
+
+        private static string FundCodeNamedRangeForLs(string invoiceType, string org)
+        {
+            return invoiceType == "AR" && (org == "NE" || org == "FC" || org == "RDPE" || org == "RDT") ? "AR_LS_FUNDS" : "LSFunds";
         }
     }
 }
