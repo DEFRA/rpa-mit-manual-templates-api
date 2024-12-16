@@ -215,21 +215,26 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
             }
             else
             {
-                if (org == "RDT" && invoiceType == "AP")
-                {
-                    fundCodeNamedRange = "RDTNSFunds";
-                }
-                else if (dBody == "NECS" && invoiceType == "AP")
-                {
-                    fundCodeNamedRange = "NECSFunds";
-                }
-                else
-                {
-                    fundCodeNamedRange = invoiceType == "AR" ? "NSARFunds" : "NSFunds";
-                }
+                fundCodeNamedRange = FundCodeNamedRangeForOrgAndInvoiceType(dBody, invoiceType, org);
             }
 
             return fundCodeNamedRange;
+        }
+
+        private static string FundCodeNamedRangeForOrgAndInvoiceType(string dBody, string invoiceType, string org)
+        {
+            if (org == "RDT" && invoiceType == "AP")
+            {
+               return "RDTNSFunds";
+            }
+            else if (dBody == "NECS" && invoiceType == "AP")
+            {
+                return "NECSFunds";
+            }
+            else
+            {
+                return invoiceType == "AR" ? "NSARFunds" : "NSFunds";
+            }
         }
 
         private static string FundCodeNamedRangeForLs(string invoiceType, string org) => 
