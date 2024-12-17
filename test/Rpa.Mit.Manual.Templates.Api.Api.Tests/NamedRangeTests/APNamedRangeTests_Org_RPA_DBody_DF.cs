@@ -1,19 +1,19 @@
 ﻿namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.NamedRangeTests
 {
     /// <summary>
-    /// AP tests for the org=RPA, dBody=IP combination
+    ///  AP tests for the org=RPA, dBody=DF combination
     /// </summary>
-    public class APNamedRangeTests_Org_RPA_DBody_IP : BaseAPTests
+    public class APNamedRangeTests_Org_RPA_DBody_DF : BaseAPTests
     {
         private readonly string _org = "RPA";
-        private readonly string _dBody = "IP";
+        private readonly string _dBody = "DF";
 
         [Fact]
         public void FundCode()
         {
             var namedRange = _namedRangeService.GetFundCodeNamedRange(_org, _dBody, _accountType);
 
-            Assert.Equal("RPAIPFunds", namedRange);
+            Assert.Equal("RPAFunds", namedRange);
         }
 
         [Fact]
@@ -21,7 +21,7 @@
         {
             var namedRange = _namedRangeService.GetAccountNamedRange(_org, _dBody, _accountType);
 
-            Assert.Equal("IPAPAccounts", namedRange);
+            Assert.Equal("DFAPAccounts", namedRange);
         }
 
         [Fact]
@@ -29,7 +29,7 @@
         {
             var namedRange = _namedRangeService.GetSchemeTypeNamedRange(_org, _dBody, _accountType);
 
-            Assert.Equal("IPSchemes", namedRange);
+            Assert.Equal("DFSchemes", namedRange);
         }
 
         [Fact]

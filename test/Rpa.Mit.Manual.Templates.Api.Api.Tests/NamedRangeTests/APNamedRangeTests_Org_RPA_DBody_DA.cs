@@ -1,7 +1,7 @@
 ﻿namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.NamedRangeTests
 {
     /// <summary>
-    /// AP tests for the org=EA, dBody=DA combination
+    /// AP tests for the org=RPA, dBody=DA combination
     /// </summary>
     public class APNamedRangeTests_Org_RPA_DBody_DA : BaseAPTests
     {
