@@ -6,7 +6,7 @@
     public class APNamedRangeTests_Org_RPA_DBody_BK : BaseAPTests
     {
         private readonly string _org = "RPA";
-        private readonly string _dBody = "DF";
+        private readonly string _dBody = "BK";
 
         [Fact]
         public void FundCode()
