@@ -5,12 +5,10 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.NamedRangeTests
     /// <summary>
     /// AP tests for the org=EA, dBody=EA combination
     /// </summary>
-    public class APNamedRangeTests_Org_EA_DBody_EA
+    public class APNamedRangeTests_Org_EA_DBody_EA : BaseAPTests
     {
         private readonly string _org = "EA";
         private readonly string _dBody = "EA";
-        private readonly string _accountType = "AP";
-        private readonly NamedRangeService _namedRangeService = new NamedRangeService();
 
         [Fact]
         public void StrOrg_EA_DBody_EA_FundCode()
