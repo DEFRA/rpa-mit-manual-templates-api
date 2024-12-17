@@ -7,7 +7,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api
     {
         public static string Right(this string str, int length)
         {
-            return str.Substring(str.Length - length, length);
+            return str.Length < length ? str : str.Substring(str.Length - length, length);
         }
     }
 }

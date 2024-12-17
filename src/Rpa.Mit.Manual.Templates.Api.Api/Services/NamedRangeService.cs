@@ -189,17 +189,13 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
             switch (dBody.Right(2))
             {
                 case "P1":
-                    fundCodeNamedRange = "P1Funds";
-                    break;
+                    return "P1Funds";
                 case "XQ":
-                    fundCodeNamedRange = "ExNRDPEFunds";
-                    break;
+                    return "ExNRDPEFunds";
                 case "EA":
-                    fundCodeNamedRange = dBody.Right(5) == "CSDom" || invoiceType == "AP" ? "EA_DOM_FUNDS" : "EAFunds";
-                    break;
+                    return dBody.Right(5) == "CSDom" || invoiceType == "AP" ? "EA_DOM_FUNDS" : "EAFunds";
                 case "LS":
-                    fundCodeNamedRange = FundCodeNamedRangeForLs(invoiceType, org);
-                    break;
+                    return FundCodeNamedRangeForLs(invoiceType, org);
             }
             
             if (dBody.Right(3) == "Dom" && invoiceType == "AR")
