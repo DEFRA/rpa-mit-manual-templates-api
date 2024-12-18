@@ -1,4 +1,6 @@
-﻿using FakeItEasy;
+﻿
+
+using FakeItEasy;
 
 using FastEndpoints;
 
