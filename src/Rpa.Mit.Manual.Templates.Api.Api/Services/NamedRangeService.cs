@@ -13,24 +13,14 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
 
             if (org == "RPA")
             {
-                switch (dBody)
+                fund = dBody switch
                 {
-                    case "XG,INT":
-                        fund = "EXQFund";
-                        break;
-                    case "IP":
-                        fund = "RPAIPFunds";
-                        break;
-                    case "OPA":
-                        fund = "OPAFunds";
-                        break;
-                    case "HE":
-                        fund = "HEFunds";
-                        break;
-                    default:
-                        fund = org + "Funds";
-                        break;
-                }
+                    string x when x == "XG" || x == "INT" => "EXQFund",
+                    string x when x == "IP" => "RPAIPFunds",
+                    string x when x == "OPA" => "OPAFunds",
+                    string x when x == "HE" => "HEFunds",
+                    _ => org + "Funds"
+                };
             }
             else
             {
