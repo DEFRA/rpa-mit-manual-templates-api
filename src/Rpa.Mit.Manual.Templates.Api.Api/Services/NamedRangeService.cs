@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
@@ -108,39 +109,32 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
 
         public string GetMarketingYearNamedRange(string org, string dBody)
         {
-            string marketingYearNamedRange = "NSMY"; // 2014 onwards plus an NA option for Exchequer invoices
+            // 2014 onwards plus an NA option for Exchequer invoices
 
             switch (dBody.Right(2))
             {
                 case "P1":
-                    marketingYearNamedRange = "P1MY";
-                    break;
+                    return "P1MY";
                 case "XQ":
-                    marketingYearNamedRange = "ExNRDPEMY";
-                    break;
+                    return "ExNRDPEMY";
             }
 
             if (dBody.Right(2) == "LS" || dBody == "LSDom") // can't blindly check the substring from pos 5 here like in the VBA
             {
-                marketingYearNamedRange = "LSMY";
+                return "LSMY";
             }
             else if (dBody.Right(2) == "CS" || dBody == "CSDom") // can't blindly check the substring from pos 5 here like in the VBA
             {
-                marketingYearNamedRange = "NAMY"; // a-VA02-02 request from NE to allow NA for EXQ lines (applies to FC as well)
+                return "NAMY"; // a-VA02-02 request from NE to allow NA for EXQ lines (applies to FC as well)
             }
 
-            switch (dBody)
+            string marketingYearNamedRange = dBody switch
             {
-                case "SPS,TR":
-                    marketingYearNamedRange = "LSMY";
-                    break;
-                case "XG":
-                    marketingYearNamedRange = "XGMY";
-                    break;
-                case "OPA":
-                    marketingYearNamedRange = "OPAMY";
-                    break;
-            }
+                string x when x == "SPS" || x == "TR" => "LSMY",
+                string x when x == "XG" => "XGMY",
+                string x when x == "OPA" => "OPAMY",
+                _ => "NSMY"
+            };
 
             return marketingYearNamedRange;
         }
