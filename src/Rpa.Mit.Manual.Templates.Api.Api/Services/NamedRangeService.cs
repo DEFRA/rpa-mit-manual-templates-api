@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 
+using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Services
@@ -31,7 +32,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
             return fund;
         }
 
-        public string GetDeliveryBodyNamedRange(string org, string dBody)
+        public string GetDeliveryBodyNamedRange(string org, string dBody, string invoiceType)
         {
             string deliveryBodyNamedRange;
 
@@ -55,6 +56,12 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
                     break;
                 case "TR":
                     deliveryBodyNamedRange = "TRDBs";
+                    break;
+                case "RDTDom":
+                    if (invoiceType == "AR")
+                    {
+                        deliveryBodyNamedRange = "RDTDomDBs";
+                    }
                     break;
             }
 
@@ -104,10 +111,19 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
                 }
             }
 
+            if (dBody == "RDTEXQ" && invoiceType == "AP")
+            {
+                accountNamedRange = "ExNRDPEAPAccounts";
+            }
+            else if (dBody == "RDTEXQ" && invoiceType == "AR")
+            {
+                accountNamedRange = "ExNRDPEARAccounts";
+            }
+
             return accountNamedRange;
         }
 
-        public string GetMarketingYearNamedRange(string org, string dBody)
+        public string GetMarketingYearNamedRange(string org, string dBody, string invoiceType)
         {
             // 2014 onwards plus an NA option for Exchequer invoices
 
@@ -131,6 +147,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
             string marketingYearNamedRange = dBody switch
             {
                 string x when x == "SPS" || x == "TR" => "LSMY",
+                string x when x == "RDTDom" && invoiceType == "AR" => "LSMY",
                 string x when x == "XG" => "XGMY",
                 string x when x == "OPA" => "OPAMY",
                 _ => "NSMY"
@@ -146,6 +163,10 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
             if (dBody == "NEP1")
             {
                 schemeNamedRange = "P1Schemes";
+            }
+            else if(dBody == "RDTEXQ")
+            {
+                schemeNamedRange = "ExNRDPESchemes";
             }
             else if (org == "NE" && dBody.Right(2) == "LS")
             {
@@ -184,7 +205,11 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
             
             if (dBody.Right(3) == "Dom" && invoiceType == "AR")
             {
-                if (org == "NE" || org == "FC" || org == "RDPE" || org == "RDT")
+                if (dBody == "RDTDom")
+                {
+                    fundCodeNamedRange = "RDTDomARFunds";
+                }
+                else if (org == "NE" || org == "FC" || org == "RDPE" || org == "RDT")
                 {
                     fundCodeNamedRange = "AR_DOM_FUNDS";
                 }

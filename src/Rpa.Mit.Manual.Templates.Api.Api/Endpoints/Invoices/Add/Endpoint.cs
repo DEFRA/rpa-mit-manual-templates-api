@@ -52,8 +52,8 @@ namespace Invoices.Add
                     var fundNamedRange = _iNamedRangeService.GetFundCodeNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody, invoiceRequest.AccountType);
                     var accountNamedRange = _iNamedRangeService.GetAccountNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody, invoiceRequest.AccountType);
                     var schemeTypeNamedRange = _iNamedRangeService.GetSchemeTypeNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody, invoiceRequest.AccountType);
-                    var marketingYearNamedRange = _iNamedRangeService.GetMarketingYearNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody);
-                    var deliveryBodyNamedRange = _iNamedRangeService.GetDeliveryBodyNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody);
+                    var marketingYearNamedRange = _iNamedRangeService.GetMarketingYearNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody, invoiceRequest.AccountType);
+                    var deliveryBodyNamedRange = _iNamedRangeService.GetDeliveryBodyNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody, invoiceRequest.AccountType);
 
                     DropdownsRequest dropdownsRequest = new DropdownsRequest
                     {

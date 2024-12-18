@@ -35,7 +35,7 @@
         /// <param name="org"></param>
         /// <param name="dBody"></param>
         /// <returns></returns>
-        string GetMarketingYearNamedRange(string org, string dBody);
+        string GetMarketingYearNamedRange(string org, string dBody, string invoiceType);
 
         /// <summary>
         /// calculate the named range for delivery bodies
@@ -43,6 +43,6 @@
         /// <param name="org"></param>
         /// <param name="dBody"></param>
         /// <returns></returns>
-        string GetDeliveryBodyNamedRange(string org, string dBody);
+        string GetDeliveryBodyNamedRange(string org, string dBody, string invoiceType);
     }
 }

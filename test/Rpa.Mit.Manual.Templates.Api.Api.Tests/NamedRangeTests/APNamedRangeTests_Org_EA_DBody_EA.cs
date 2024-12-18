@@ -35,7 +35,7 @@
         [Fact]
         public void StrOrg_EA_DBody_EA_MarketingYear()
         {
-            var range = _namedRangeService.GetMarketingYearNamedRange(_org, _dBody);
+            var range = _namedRangeService.GetMarketingYearNamedRange(_org, _dBody, _accountType);
 
             Assert.Equal("NSMY", range);
         }
@@ -43,7 +43,7 @@
         [Fact]
         public void StrOrg_EA_DBody_EA_DeliveryBody()
         {
-            var range = _namedRangeService.GetDeliveryBodyNamedRange(_org, _dBody);
+            var range = _namedRangeService.GetDeliveryBodyNamedRange(_org, _dBody, _accountType);
 
             Assert.Equal("EADBs", range);
         }

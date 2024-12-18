@@ -32,7 +32,7 @@
         [Fact]
         public void MarketingYear()
         {
-            var namedRange = _namedRangeService.GetMarketingYearNamedRange(_org, _dBody);
+            var namedRange = _namedRangeService.GetMarketingYearNamedRange(_org, _dBody, _accountType);
 
             Assert.Equal("NSMY", namedRange);
         }
@@ -40,7 +40,7 @@
         [Fact]
         public void DeliveryBody()
         {
-            var namedRange = _namedRangeService.GetDeliveryBodyNamedRange(_org, _dBody);
+            var namedRange = _namedRangeService.GetDeliveryBodyNamedRange(_org, _dBody, _accountType);
 
             Assert.Equal("RPADBs", namedRange);
         }

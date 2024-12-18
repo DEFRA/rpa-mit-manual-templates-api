@@ -36,9 +36,9 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
                 .Returns("QW");
             A.CallTo(() => fakeNamedRangeService.GetSchemeTypeNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody, invoiceRequest.AccountType))
                 .Returns("QW");
-            A.CallTo(() => fakeNamedRangeService.GetDeliveryBodyNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody))
+            A.CallTo(() => fakeNamedRangeService.GetDeliveryBodyNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody, invoiceRequest.AccountType))
                 .Returns("QW");
-            A.CallTo(() => fakeNamedRangeService.GetMarketingYearNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody))
+            A.CallTo(() => fakeNamedRangeService.GetMarketingYearNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody, invoiceRequest.AccountType))
                 .Returns("QW");
             A.CallTo(() => fakeNamedRangeService.GetFundCodeNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody, invoiceRequest.AccountType))
                 .Returns("QW");
@@ -78,9 +78,9 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
                 .Returns("QW");
             A.CallTo(() => fakeNamedRangeService.GetSchemeTypeNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody, invoiceRequest.AccountType))
                 .Returns("QW");
-            A.CallTo(() => fakeNamedRangeService.GetDeliveryBodyNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody))
+            A.CallTo(() => fakeNamedRangeService.GetDeliveryBodyNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody, invoiceRequest.AccountType))
                 .Returns("QW");
-            A.CallTo(() => fakeNamedRangeService.GetMarketingYearNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody))
+            A.CallTo(() => fakeNamedRangeService.GetMarketingYearNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody, invoiceRequest.AccountType))
                 .Returns("QW");
             A.CallTo(() => fakeNamedRangeService.GetFundCodeNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody, invoiceRequest.AccountType))
                 .Returns("QW");
@@ -117,9 +117,9 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.EndpointTests
                 .Returns("QW");
             A.CallTo(() => fakeNamedRangeService.GetSchemeTypeNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody, invoiceRequest.AccountType))
                 .Returns("QW");
-            A.CallTo(() => fakeNamedRangeService.GetDeliveryBodyNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody))
+            A.CallTo(() => fakeNamedRangeService.GetDeliveryBodyNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody, invoiceRequest.AccountType))
                 .Returns("QW");
-            A.CallTo(() => fakeNamedRangeService.GetMarketingYearNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody))
+            A.CallTo(() => fakeNamedRangeService.GetMarketingYearNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody, invoiceRequest.AccountType))
                 .Returns("QW");
             A.CallTo(() => fakeNamedRangeService.GetFundCodeNamedRange(invoiceRequest.SchemeType, invoiceRequest.DeliveryBody, invoiceRequest.AccountType))
                 .Returns("QW");
