@@ -167,10 +167,13 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
                     return "ExNRDPEFunds";
                 case "EA":
                     return dBody.Right(5) == "CSDom" || invoiceType == "AP" ? "EA_DOM_FUNDS" : "EAFunds";
-                case "LS":
-                    return FundCodeNamedRangeForLs(invoiceType, org);
             }
-            
+
+            if (dBody.Right(2) == "LS" && invoiceType == "AR")
+            {
+                fundCodeNamedRange = (org == "NE" || org == "FC" || org == "RDPE" || org == "RDT") ? "AR_LS_FUNDS" : "LSFunds";
+            }
+
             if (dBody.Right(3) == "Dom" && invoiceType == "AR")
             {
                 if (dBody == "RDTDom")
@@ -209,9 +212,6 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
                 return invoiceType == "AR" ? "NSARFunds" : "NSFunds";
             }
         }
-
-        private static string FundCodeNamedRangeForLs(string invoiceType, string org) => 
-            invoiceType == "AR" && (org == "NE" || org == "FC" || org == "RDPE" || org == "RDT") ? "AR_LS_FUNDS" : "LSFunds";
 
         private static string GetNonNEAccount( string org, string dBody, string invoiceType)
         {
