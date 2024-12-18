@@ -155,6 +155,13 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
             return schemeNamedRange;
         }
 
+        /// <summary>
+        /// this to pass SONAR anal complexity checks
+        /// </summary>
+        /// <param name="dBody"></param>
+        /// <param name="org"></param>
+        /// <param name="invoiceType"></param>
+        /// <returns></returns>
         private static string GetFundCodeForNonRPA(string dBody, string org, string invoiceType)
         {
             string fundCodeNamedRange = "";
@@ -174,6 +181,21 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
                 fundCodeNamedRange = (org == "NE" || org == "FC" || org == "RDPE" || org == "RDT") ? "AR_LS_FUNDS" : "LSFunds";
             }
 
+            fundCodeNamedRange = GetFundCodeForNonRPASub(dBody, org, invoiceType, fundCodeNamedRange);
+            
+            return fundCodeNamedRange;
+        }
+
+        /// <summary>
+        /// this to pass SONAR anal complexity checks
+        /// </summary>
+        /// <param name="dBody"></param>
+        /// <param name="org"></param>
+        /// <param name="invoiceType"></param>
+        /// <param name="fundCodeNamedRange"></param>
+        /// <returns></returns>
+        private static string GetFundCodeForNonRPASub(string dBody, string org, string invoiceType, string fundCodeNamedRange)
+        {
             if (dBody.Right(3) == "Dom" && invoiceType == "AR")
             {
                 if (dBody == "RDTDom")
@@ -185,18 +207,21 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
                     fundCodeNamedRange = "AR_DOM_FUNDS";
                 }
             }
-            else if (org == "FC" && invoiceType == "AP") //    'v02-05 added to provide EXQ99 for FC AP (pv)
-            {
-                fundCodeNamedRange = "FCAP";
-            }
             else
             {
-                fundCodeNamedRange = FundCodeNamedRangeForOrgAndInvoiceType(dBody, invoiceType, org);
+                fundCodeNamedRange = org == "FC" && invoiceType == "AP" ? "FCAP" : FundCodeNamedRangeForOrgAndInvoiceType(dBody, invoiceType, org);
             }
 
             return fundCodeNamedRange;
         }
 
+        /// <summary>
+        /// this to pass SONAR anal complexity checks
+        /// </summary>
+        /// <param name="dBody"></param>
+        /// <param name="invoiceType"></param>
+        /// <param name="org"></param>
+        /// <returns></returns>
         private static string FundCodeNamedRangeForOrgAndInvoiceType(string dBody, string invoiceType, string org)
         {
             if (org == "RDT" && invoiceType == "AP")
@@ -213,6 +238,13 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
             }
         }
 
+        /// <summary>
+        /// this to pass SONAR anal complexity checks
+        /// </summary>
+        /// <param name="org"></param>
+        /// <param name="dBody"></param>
+        /// <param name="invoiceType"></param>
+        /// <returns></returns>
         private static string GetNonNEAccount( string org, string dBody, string invoiceType)
         {
             if (dBody == "NEP1")
