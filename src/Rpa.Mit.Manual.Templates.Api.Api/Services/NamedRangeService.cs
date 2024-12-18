@@ -1,7 +1,5 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 
-using Rpa.Mit.Manual.Templates.Api.Core.Entities;
 using Rpa.Mit.Manual.Templates.Api.Core.Interfaces;
 
 namespace Rpa.Mit.Manual.Templates.Api.Api.Services
@@ -70,7 +68,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
 
         public string GetAccountNamedRange(string org, string dBody, string invoiceType)
         {
-            string accountNamedRange = string.Empty;
+            string accountNamedRange;
 
             if (org != "NE")
             {
@@ -78,37 +76,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
             }
             else
             {
-                if (dBody == "NEP1")
-                {
-                    accountNamedRange = "NEP1" + invoiceType + "Accounts"; // Set the Main Account Named Ranges
-                }
-                else if (dBody == "NECS" && invoiceType == "AP")
-                {
-                    accountNamedRange = "NECSAPAccounts";
-                }
-                else if (invoiceType == "AP")
-                {
-                    accountNamedRange = org + "APAccounts";
-                }
-                else
-                {
-                    if (dBody.Right(2) == "LS")
-                    {
-                        accountNamedRange = "NELSARAccounts";  // This accommodates the difference between LS AR Accounts and NS AR Accounts
-                    }
-                    else if (dBody == "LSDom")
-                    {
-                        accountNamedRange = "NELSDomARAccounts";
-                    }
-                    else if (dBody == "CSDom")
-                    {
-                        accountNamedRange = "NECSDomARAccounts";
-                    }
-                    else
-                    {
-                        accountNamedRange = "NEARAccounts"; // Not sure if we actually need a different naming convention now
-                    }
-                }
+                accountNamedRange = GetNonNEAccount(org, dBody, invoiceType);
             }
 
             if (dBody == "RDTEXQ" && invoiceType == "AP")
@@ -244,5 +212,40 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
 
         private static string FundCodeNamedRangeForLs(string invoiceType, string org) => 
             invoiceType == "AR" && (org == "NE" || org == "FC" || org == "RDPE" || org == "RDT") ? "AR_LS_FUNDS" : "LSFunds";
+
+        private static string GetNonNEAccount( string org, string dBody, string invoiceType)
+        {
+            if (dBody == "NEP1")
+            {
+                return "NEP1" + invoiceType + "Accounts"; // Set the Main Account Named Ranges
+            }
+            else if (dBody == "NECS" && invoiceType == "AP")
+            {
+                return "NECSAPAccounts";
+            }
+            else if (invoiceType == "AP")
+            {
+                return org + "APAccounts";
+            }
+            else
+            {
+                if (dBody.Right(2) == "LS")
+                {
+                    return "NELSARAccounts";  // This accommodates the difference between LS AR Accounts and NS AR Accounts
+                }
+                else if (dBody == "LSDom")
+                {
+                    return "NELSDomARAccounts";
+                }
+                else if (dBody == "CSDom")
+                {
+                    return "NECSDomARAccounts";
+                }
+                else
+                {
+                    return "NEARAccounts"; // Not sure if we actually need a different naming convention now
+                }
+            }
+        }
     }
 }
