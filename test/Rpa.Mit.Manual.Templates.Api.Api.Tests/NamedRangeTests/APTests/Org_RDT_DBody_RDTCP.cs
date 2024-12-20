@@ -1,19 +1,16 @@
-﻿namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.NamedRangeTests
+﻿namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.NamedRangeTests.APTests
 {
-    /// <summary>
-    /// AP tests for the org=RPA, dBody=IP combination
-    /// </summary>
-    public class APNamedRangeTests_Org_RPA_DBody_IP : BaseAPTests
+    public class Org_RDT_DBody_RDTCP : BaseAPTests
     {
-        private readonly string _org = "RPA";
-        private readonly string _dBody = "IP";
+        private readonly string _org = "RDT";
+        private readonly string _dBody = "RDTCP";
 
         [Fact]
         public void FundCode()
         {
             var namedRange = _namedRangeService.GetFundCodeNamedRange(_org, _dBody, _accountType);
 
-            Assert.Equal("RPAIPFunds", namedRange);
+            Assert.Equal("RDTNSFunds", namedRange);
         }
 
         [Fact]
@@ -21,7 +18,7 @@
         {
             var namedRange = _namedRangeService.GetAccountNamedRange(_org, _dBody, _accountType);
 
-            Assert.Equal("IPAPAccounts", namedRange);
+            Assert.Equal("RDTCPAPAccounts", namedRange);
         }
 
         [Fact]
@@ -29,7 +26,7 @@
         {
             var namedRange = _namedRangeService.GetSchemeTypeNamedRange(_org, _dBody, _accountType);
 
-            Assert.Equal("IPSchemes", namedRange);
+            Assert.Equal("RDTCPSchemes", namedRange);
         }
 
         [Fact]
@@ -45,7 +42,7 @@
         {
             var namedRange = _namedRangeService.GetDeliveryBodyNamedRange(_org, _dBody, _accountType);
 
-            Assert.Equal("RPADBs", namedRange);
+            Assert.Equal("RDTDBs", namedRange);
         }
     }
 }

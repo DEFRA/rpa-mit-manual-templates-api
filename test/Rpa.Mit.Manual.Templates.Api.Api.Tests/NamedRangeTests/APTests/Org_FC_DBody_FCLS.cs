@@ -1,6 +1,6 @@
-﻿namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.NamedRangeTests
+﻿namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.NamedRangeTests.APTests
 {
-    public class APNamedRangeTests_Org_FC_DBody_FCLS : BaseAPTests
+    public class Org_FC_DBody_FCLS : BaseAPTests
     {
         private readonly string _org = "FC";
         private readonly string _dBody = "FCLS";

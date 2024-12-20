@@ -1,12 +1,12 @@
-﻿namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.NamedRangeTests
+﻿namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.NamedRangeTests.APTests
 {
     /// <summary>
-    /// AP tests for the org=RPA, dBody=DA combination
+    /// AP tests for the org=RPA, dBody=BK combination
     /// </summary>
-    public class APNamedRangeTests_Org_RPA_DBody_DA : BaseAPTests
+    public class Org_RPA_DBody_BK : BaseAPTests
     {
         private readonly string _org = "RPA";
-        private readonly string _dBody = "DA";
+        private readonly string _dBody = "BK";
 
         [Fact]
         public void FundCode()
@@ -21,7 +21,7 @@
         {
             var namedRange = _namedRangeService.GetAccountNamedRange(_org, _dBody, _accountType);
 
-            Assert.Equal("DAAPAccounts", namedRange);
+            Assert.Equal("BKAPAccounts", namedRange);
         }
 
         [Fact]
@@ -29,7 +29,7 @@
         {
             var namedRange = _namedRangeService.GetSchemeTypeNamedRange(_org, _dBody, _accountType);
 
-            Assert.Equal("DASchemes", namedRange);
+            Assert.Equal("BKSchemes", namedRange);
         }
 
         [Fact]
@@ -47,5 +47,6 @@
 
             Assert.Equal("RPADBs", namedRange);
         }
+
     }
 }

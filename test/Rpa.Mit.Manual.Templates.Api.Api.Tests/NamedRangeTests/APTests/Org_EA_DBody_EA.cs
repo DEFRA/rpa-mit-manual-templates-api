@@ -1,9 +1,9 @@
-﻿namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.NamedRangeTests
+﻿namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.NamedRangeTests.APTests
 {
     /// <summary>
     /// AP tests for the org=EA, dBody=EA combination
     /// </summary>
-    public class APNamedRangeTests_Org_EA_DBody_EA : BaseAPTests
+    public class Org_EA_DBody_EA : BaseAPTests
     {
         private readonly string _org = "EA";
         private readonly string _dBody = "EA";

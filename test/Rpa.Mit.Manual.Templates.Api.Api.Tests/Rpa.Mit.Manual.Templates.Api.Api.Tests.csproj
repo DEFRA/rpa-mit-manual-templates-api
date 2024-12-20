@@ -43,6 +43,7 @@
 
   <ItemGroup>
     <Folder Include="ConfigTests\" />
+    <Folder Include="NamedRangeTests\ARTests\" />
   </ItemGroup>
 
 </Project>

@@ -1,16 +1,17 @@
-﻿namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.NamedRangeTests
+﻿namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.NamedRangeTests.APTests
 {
-    public class APNamedRangeTests_Org_RPA_DBody_SPS : BaseAPTests
+    public class Org_NE_DBody_NECS : BaseAPTests
     {
-        private readonly string _org = "RPA";
-        private readonly string _dBody = "SPS";
+        private readonly string _org = "NE";
+        private readonly string _dBody = "NECS";
+
 
         [Fact]
         public void FundCode()
         {
             var namedRange = _namedRangeService.GetFundCodeNamedRange(_org, _dBody, _accountType);
 
-            Assert.Equal("RPAFunds", namedRange);
+            Assert.Equal("NECSFunds", namedRange);
         }
 
         [Fact]
@@ -18,7 +19,7 @@
         {
             var namedRange = _namedRangeService.GetAccountNamedRange(_org, _dBody, _accountType);
 
-            Assert.Equal("SPSAPAccounts", namedRange);
+            Assert.Equal("NECSAPAccounts", namedRange);
         }
 
         [Fact]
@@ -26,7 +27,7 @@
         {
             var namedRange = _namedRangeService.GetSchemeTypeNamedRange(_org, _dBody, _accountType);
 
-            Assert.Equal("SPSSchemes", namedRange);
+            Assert.Equal("NECSSchemes", namedRange);
         }
 
         [Fact]
@@ -34,7 +35,7 @@
         {
             var namedRange = _namedRangeService.GetMarketingYearNamedRange(_org, _dBody, _accountType);
 
-            Assert.Equal("LSMY", namedRange);
+            Assert.Equal("NAMY", namedRange);
         }
 
         [Fact]
@@ -42,7 +43,7 @@
         {
             var namedRange = _namedRangeService.GetDeliveryBodyNamedRange(_org, _dBody, _accountType);
 
-            Assert.Equal("RPADBs", namedRange);
+            Assert.Equal("NEDBs", namedRange);
         }
     }
 }
