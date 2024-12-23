@@ -1,6 +1,6 @@
 ﻿using Rpa.Mit.Manual.Templates.Api.Api.Services;
 
-namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.NamedRangeTests
+namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.NamedRangeTests.APTests
 {
     public abstract class BaseAPTests
     {

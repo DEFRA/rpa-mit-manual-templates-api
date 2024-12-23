@@ -107,7 +107,7 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
             {
                 return "LSMY";
             }
-            else if (dBody.Right(2) == "CS" || dBody == "CSDom") // can't blindly check the substring from pos 5 here like in the VBA
+            else if (dBody.Right(2) == "CS" || dBody.Right(5) == "CSDom") // can't blindly check the substring from pos 5 here like in the VBA
             {
                 return "NAMY"; // a-VA02-02 request from NE to allow NA for EXQ lines (applies to FC as well)
             }
@@ -182,7 +182,37 @@ namespace Rpa.Mit.Manual.Templates.Api.Api.Services
             }
 
             fundCodeNamedRange = GetFundCodeForNonRPASub(dBody, org, invoiceType, fundCodeNamedRange);
-            
+
+
+
+            fundCodeNamedRange = GetFundCodeForNonRPASub2(dBody, invoiceType, fundCodeNamedRange);
+
+
+            return fundCodeNamedRange;
+        }
+
+        /// <summary>
+        /// a-VA03-00 change to accomodate EA Invoices
+        /// </summary>
+        /// <param name="dBody"></param>
+        /// <param name="org"></param>
+        /// <param name="invoiceType"></param>
+        /// <param name="fundCodeNamedRange"></param>
+        /// <returns></returns>
+        private static string GetFundCodeForNonRPASub2(string dBody, string invoiceType, string fundCodeNamedRange)
+        {
+            if (dBody.Left(2) == "EA")
+            {
+                if (dBody.Right(5) == "CSDom" || invoiceType == "AP")
+                {
+                    return "EA_DOM_FUNDS";
+                }
+                else
+                {
+                    return "EAFunds";
+                }
+            }
+
             return fundCodeNamedRange;
         }
 

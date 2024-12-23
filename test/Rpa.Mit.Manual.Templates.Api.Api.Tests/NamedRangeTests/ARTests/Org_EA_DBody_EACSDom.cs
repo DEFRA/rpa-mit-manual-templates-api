@@ -1,16 +1,16 @@
 ﻿namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.NamedRangeTests.ARTests
 {
-    public class Org_EA_DBody_EA : BaseARTests
+    public class Org_EA_DBody_EACSDom : BaseARTests
     {
         private readonly string _org = "EA";
-        private readonly string _dBody = "EA";
+        private readonly string _dBody = "EACSDom";
 
         [Fact]
         public void FundCode()
         {
             var fundNamedRange = _namedRangeService.GetFundCodeNamedRange(_org, _dBody, AccountType);
 
-            Assert.Equal("EAFunds", fundNamedRange);
+            Assert.Equal("EA_DOM_FUNDS", fundNamedRange);
         }
 
         [Fact]
@@ -18,7 +18,7 @@
         {
             var range = _namedRangeService.GetAccountNamedRange(_org, _dBody, AccountType);
 
-            Assert.Equal("EAARAccounts", range);
+            Assert.Equal("EACSDomARAccounts", range);
         }
 
         [Fact]
@@ -26,7 +26,7 @@
         {
             var range = _namedRangeService.GetSchemeTypeNamedRange(_org, _dBody, AccountType);
 
-            Assert.Equal("EASchemes", range);
+            Assert.Equal("EACSDomSchemes", range);
         }
 
         [Fact]
@@ -34,7 +34,7 @@
         {
             var range = _namedRangeService.GetMarketingYearNamedRange(_org, _dBody, AccountType);
 
-            Assert.Equal("NSMY", range);
+            Assert.Equal("NAMY", range);
         }
 
         [Fact]
