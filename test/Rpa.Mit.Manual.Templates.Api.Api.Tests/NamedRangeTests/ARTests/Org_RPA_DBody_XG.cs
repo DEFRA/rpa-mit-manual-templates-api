@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.NamedRangeTests.ARTests
+﻿namespace Rpa.Mit.Manual.Templates.Api.Api.Tests.NamedRangeTests.ARTests
 {
     public class Org_RPA_DBody_XG : BaseARTests
     {
